@@ -81,19 +81,19 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @ViewChild('hideCorrEmail', { static: false }) hideCorrEmail: HiddenComponent;
   @ViewChild('hideOccp_type', { static: false }) hideOccp_type: HiddenComponent;
   @ViewChild('hideCorrsAddress', { static: false }) hideCorrsAddress: HiddenComponent;
- // @ViewChild('AD_COUNTRY_CODE', { static: false }) AD_COUNTRY_CODE: ComboBoxComponent;
+  // @ViewChild('AD_COUNTRY_CODE', { static: false }) AD_COUNTRY_CODE: ComboBoxComponent;
   @ViewChild('ADD_ACCORD', { static: false }) ADD_ACCORD: RloUiAccordionComponent;
   @ViewChild('hidPrefferTime', { static: false }) hidPrefferTime: HiddenComponent;
   @ViewChild('hidCountryCode', { static: false }) hidCountryCode: HiddenComponent;
   @Output() addonblur: EventEmitter<any> = new EventEmitter<any>();
   @Output() updateStageValidation: EventEmitter<any> = new EventEmitter<any>();
   @Input() readOnly: boolean = false;
-  @Input() activeApplicantType=undefined; // canara changes
-  isCorporate:boolean=undefined;
+  @Input() activeApplicantType = undefined; // canara changes
+  isCorporate: boolean = undefined;
   AD_Address_Type = [];
   AD_OCCUP_TYPE = [];
   EmailCheck: string;
-  IsCorporateApplicant:boolean=undefined;
+  IsCorporateApplicant: boolean = undefined;
 
   // tslint:disable-next-line:member-ordering
   fieldDependencies = {
@@ -244,22 +244,22 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.hideOccType.setValue('OCCUPANCY_TYPE');
     this.hideCorrEmail.setValue('CORR_EMAIL');
     this.hidPrefferTime.setValue('PREF_TIME_CONTACT');
-    this.AddressGrid.activeApplicantType=this.activeApplicantType;
-    if(this.services.rloCommonData.globalApplicationDtls.CustomerType=='C' && this.activeApplicantType=='B'){
+    this.AddressGrid.activeApplicantType = this.activeApplicantType;
+    if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && this.activeApplicantType == 'B') {
       this.hidAddType.setValue('CORP_PRIM_ADDRESS_TYPE');  //changed for canara
-      this.IsCorporateApplicant=true;
-      }else{
-        this.hidAddType.setValue('ADDRESS_TYPE');  //changed for canara
-        this.IsCorporateApplicant=false;
-      }
-   
+      this.IsCorporateApplicant = true;
+    } else {
+      this.hidAddType.setValue('ADDRESS_TYPE');  //changed for canara
+      this.IsCorporateApplicant = false;
+    }
+
     // this.hidCountryCode.setValue('ISD_COUNTRY_CODE');
     // this.hidLandISDCode.setValue('ISD_COUNTRY_CODE');
-    this.isCorporate=this.services.rloCommonData.globalApplicationDtls.CustomerType=='C'?true:false;
+    this.isCorporate = this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' ? true : false;
     this.AD_EMAIL1_CHECKBOX.setValue(true);
     this.CORR_ADD_CHECKBOX.setHidden(true);
-   // this.AD_MAILING_ADDRESS.setValue('N',undefined,true);
-   //  this.AD_STATE.setHidden(true);
+    // this.AD_MAILING_ADDRESS.setValue('N',undefined,true);
+    //  this.AD_STATE.setHidden(true);
     const inputMap = new Map();
 
     await this.Handler.onFormLoad({
@@ -369,7 +369,6 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     const inputMap = new Map();
     // this.addonblur.emit({});
     //  await this.Handler.onAddTypeChange(); // removed for canara 
-
     this.onCanaraAddressTypeChange(); // called for the canara 
 
   }
@@ -419,7 +418,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
           setTimeout(() => {
             this.AD_PINCODE.onReset();
           }, 5000);
-         
+
           return 1;
 
         } else {
@@ -441,47 +440,17 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   //   }
   // }
 
-  requestParameterForAddressDetails() {
-    const inputMap = new Map();
-    inputMap.clear();
-    inputMap.set('PathParam.AddressDetailsSeq', this.AD_HIDE_ID.getFieldValue());
-    inputMap.set('Body.AddressDetails.AddressType', this.AD_ADD_TYPE.getFieldValue());
-    inputMap.set('Body.AddressDetails.ResidenceType', this.AD_OCCUPANCY_STATUS.getFieldValue());
-    inputMap.set('Body.AddressDetails.OccupancyType', this.AD_OCCUPANCY_TYPE.getFieldValue());
-    inputMap.set('Body.AddressDetails.PreferredTime', this.AD_PREF_TIME.getFieldValue());
-    inputMap.set('Body.AddressDetails.ResidenceDuration', this.AD_RES_DUR.getFieldValue());
-    inputMap.set('Body.AddressDetails.Period', this.AD_RES_DUR_UNIT.getFieldValue());
-    inputMap.set('Body.AddressDetails.AddressLine1', this.AD_ADDRESS_LINE1.getFieldValue());
-    inputMap.set('Body.AddressDetails.AddressLine2', this.AD_ADDRESS_LINE2.getFieldValue());
-    inputMap.set('Body.AddressDetails.AddressLine3', this.AD_ADDRESS_LINE3.getFieldValue());
-    inputMap.set('Body.AddressDetails.AddressLine4', this.AD_ADDRESS_LINE4.getFieldValue());
-    inputMap.set('Body.AddressDetails.PinCode', this.AD_PINCODE.getFieldValue());
-    inputMap.set('Body.AddressDetails.Region', this.AD_REGION.getFieldValue().toUpperCase());
-    inputMap.set('Body.AddressDetails.City', this.AD_CITY.getFieldValue().toUpperCase());
-    inputMap.set('Body.AddressDetails.Country', this.AD_COUNTRY.getFieldInfo().toUpperCase());
-    inputMap.set('Body.AddressDetails.State', this.AD_STATE.getFieldValue().toUpperCase());
-    inputMap.set('Body.AddressDetails.Landmark', this.AD_LANDMARK.getFieldValue());
-    inputMap.set('Body.AddressDetails.LandlineNumber', this.AD_LANDLINE_NUMBER.getFieldValue());
-    inputMap.set('Body.AddressDetails.UDF3', this.CORR_ADD_CHECKBOX.getFieldValue());
-    inputMap.set('Body.AddressDetails.EmailId2', this.AD_EMAIL_ID2.getFieldValue());
-    inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
-    // inputMap.set('Body.AddressDetails.MobileCountryCode', this.AD_COUNTRY_CODE.getFieldValue());
-    // inputMap.set('Body.AddressDetails.LandlineCountryCode', this.AD_LAND_COUNTRY_CODE.getFieldValue());
-    inputMap.set('Body.AddressDetails.BorrowerSeq', this.activeBorrowerSeq);
-    inputMap.set('Body.AddressDetails.CorrespondenceEmailAddress', this.EmailCheck);
-    return inputMap;
-  }
   async AD_SAVE_ADDRESS_click(event) {
     let serviceName;
     let method;
     const inputMap = new Map();
     const addGridData: any = this.AddressGrid.getAddressGridData();
     const noOfError: number = await this.revalidate();
-    if(this.AD_EMAIL1_CHECKBOX.getFieldValue() == false && this.AD_EMAIL2_CHECKBOX.getFieldValue() == false){
+    if (this.AD_EMAIL1_CHECKBOX.getFieldValue() == false && this.AD_EMAIL2_CHECKBOX.getFieldValue() == false) {
       this.AD_EMAIL1_CHECKBOX.setValue(true);
-      this.EmailCheck = this.AD_EMAIL1_CHECKBOX.getFieldValue()+ ',' + this.AD_EMAIL2_CHECKBOX.getFieldValue(); 
+      this.EmailCheck = this.AD_EMAIL1_CHECKBOX.getFieldValue() + ',' + this.AD_EMAIL2_CHECKBOX.getFieldValue();
     }
-    else{
+    else {
       this.EmailCheck = this.AD_EMAIL1_CHECKBOX.getFieldValue() + ',' + this.AD_EMAIL2_CHECKBOX.getFieldValue();
     }
 
@@ -501,15 +470,19 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
               this.services.alert.showAlert(2, 'rlo.error.permanent.address', -1);
               return;
             } else if (this.AD_ADD_TYPE.getFieldValue() == 'ML' && addGridData[i].AddressTypeId === 'ML') {
-              if(this.services.rloCommonData.globalApplicationDtls.CustomerType=='C' && this.activeApplicantType=='B'){
+              if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && this.activeApplicantType == 'B') {
                 this.services.alert.showAlert(2, 'rlo.error.canara-registered-address.exist', -1);
-              }else{
+              } else {
                 this.services.alert.showAlert(2, 'rlo.error.canara-mailing-address.exist', -1);
               }
-             
+
               return;
             } else if (this.AD_ADD_TYPE.getFieldValue() == 'PR' && addGridData[i].AddressTypeId === 'PR') {
+              if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && this.activeApplicantType == 'B') {
+                this.services.alert.showAlert(2, 'rlo.error.communication.address', -1);
+              }else{
               this.services.alert.showAlert(2, 'rlo.error.permanent.address', -1);
+              }
               return;
             }
             if (this.AD_ADD_TYPE.getFieldValue() === 'OF' && addGridData[i].AD_Address_Type.id === 'OF') {
@@ -656,7 +629,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
-        this.AD_ADD_TYPE.setValue(res['AddressDetails']['AddressType']); 
+        this.AD_ADD_TYPE.setValue(res['AddressDetails']['AddressType']);
         this.AD_RES_DUR.setValue(res['AddressDetails']['ResidenceDuration']);
         this.AD_RES_DUR_UNIT.setValue(res['AddressDetails']['Period']['id']);
         this.AD_OCCUPANCY_STATUS.setValue(res['AddressDetails']['ResidenceType']['id']);
@@ -674,21 +647,32 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         this.AD_LANDMARK.setValue(res['AddressDetails']['Landmark']);
         // this.AD_EMAIL_ID1.setValue(res['AddressDetails']['EmailId1']);
         this.AD_EMAIL_ID2.setValue(res['AddressDetails']['EmailId2']);
-        this.AD_ALTERNATE_MOB_NO.setComponentSpecificValue(res['AddressDetails']['AltMobileNo'],res['AddressDetails']['MobileCountryCode']);
+        // this.AD_ALTERNATE_MOB_NO.setValue(res['AddressDetails']['AltMobileNo']);
+        if (res['AddressDetails']['MobileCountryCode'] != undefined && res['AddressDetails']['MobileCountryCode'] != '') {
+          this.AD_ALTERNATE_MOB_NO.setComponentSpecificValue(res['AddressDetails']['AltMobileNo'], res['AddressDetails']['MobileCountryCode']);
+        } else {
+          this.AD_ALTERNATE_MOB_NO.setComponentSpecificValue(res['AddressDetails']['AltMobileNo'], this.services.rloui.getConfig('mob.default.country.code'));
+        }
         this.AD_HIDE_ID.setValue(res['AddressDetails']['AddressDetailsSeq']);
-        this.AD_LANDLINE_NUMBER.setComponentSpecificValue(res['AddressDetails']['LandlineNumber'],res['AddressDetails']['LandlineCountryCode']);
+        if (res['AddressDetails']['LandlineCountryCode'] != undefined && res['AddressDetails']['LandlineCountryCode'] != '') {
+          this.AD_LANDLINE_NUMBER.setComponentSpecificValue(res['AddressDetails']['LandlineNumber'], res['AddressDetails']['LandlineCountryCode']);
+        } else {
+          this.AD_LANDLINE_NUMBER.setComponentSpecificValue(res['AddressDetails']['LandlineNumber'], this.services.rloui.getConfig('mob.default.country.code'));
+        }
+        //  this.AD_LANDLINE_NUMBER.setValue(res['AddressDetails']['LandlineNumber']);
         const CorrsAdd = res['AddressDetails']['UDF3'];
-        const IsSameAdd = res['AddressDetails']['IsSameAddress']
         if (CorrsAdd == 'true') {
           this.CORR_ADD_CHECKBOX.setValue(true);
         } else {
           this.CORR_ADD_CHECKBOX.setValue(false);
         }
-        if (IsSameAdd == 'true') {
-          this.SAME_ADDRESS.setValue(true);
-        } else {
+
+       // const IsSameAdd = res['AddressDetails']['IsSameAddress'] //code commented for the canara. flag would be always false on Edit
+        // if (IsSameAdd == 'true') {
+        //   this.SAME_ADDRESS.setValue(true);
+        // } else {
           this.SAME_ADDRESS.setValue(false);
-        }
+       // }
         const array = res['AddressDetails']['CorrespondenceEmailAddress'].split(',');
         if (array[0] === 'true') {
           this.AD_EMAIL1_CHECKBOX.setValue(true);
@@ -718,7 +702,9 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       }
     );
   }
-
+  onCountrycodeChanged() {
+    //console.log('country code changed ', this.CD_COUNTRY_CODE);
+  }
   // AddressGrid_addressGridLoaded(event) {
   //   // console.log("Address grid Loaded");
   //   this.updateStageValidation.emit(event);

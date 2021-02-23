@@ -42,7 +42,7 @@ export class FinancialSummary implements IDeserializable {
     public TotalObligation: any = "NA";
     public TotalAssetValue: any = "NA";
     public DBR: any = "NA";
-
+    public LienAMT: any = "NA";
     public common: Common;
 
     deserialize(input: any): this {
@@ -102,6 +102,12 @@ export class FinancialSummary implements IDeserializable {
                 type: "basic",
                 modalSectionName: ""
             },
+            {
+                title: "Total FD Lien Amount",
+                subTitle: this.LienAMT,
+                type: "basic",
+                modalSectionName: ""
+            },
         ];
         const returnObj: IGeneralCardData = {
             name: "Financial Summary",
@@ -117,7 +123,7 @@ export class FinancialSummary implements IDeserializable {
     }
 
     isSectionAvaliable() {
-        if (this.TotalIncome == 'NA' && this.TotalLiabiity == 'NA' && this.TotalAssetValue == 'NA' && this.TotalObligation == 'NA' && this.NetIncomeMonthly == 'NA' && this.DBR == 'NA') {
+        if (this.TotalIncome == 'NA' && this.TotalLiabiity == 'NA' && this.TotalAssetValue == 'NA' && this.TotalObligation == 'NA' && this.NetIncomeMonthly == 'NA' && this.DBR == 'NA'&& this.LienAMT == 'NA') {
             return ""
         } else {
             return "OccupationDetails";

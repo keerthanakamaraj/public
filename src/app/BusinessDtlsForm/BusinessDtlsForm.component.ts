@@ -62,6 +62,7 @@ export class BusinessDtlsFormComponent extends FormComponent implements OnInit, 
       this.revalidateBasicField('FYNetProfit', false, showErrors),
       this.revalidateBasicField('OrgNature', false, showErrors),
       this.revalidateBasicField('Constitution', false, showErrors),
+      this.revalidateBasicField('Industry', false, showErrors),
       this.revalidateBasicField('FYTurnoverEq', false, showErrors),
       this.revalidateBasicField('FYNetProfitEq', false, showErrors),
       this.revalidateBasicField('CIN', false, showErrors)

@@ -105,7 +105,7 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
     tempObj['MobileCountryCode']=this.MainComponent.AD_ALTERNATE_MOB_NO.countryCode;
     tempObj['BorrowerSeq'] = this.MainComponent.activeBorrowerSeq;
     tempObj['CorrespondenceEmailAddress'] = this.MainComponent.EmailCheck;
-    tempObj['IsSameAddress'] = this.MainComponent.SAME_ADDRESS.getFieldValue();
+  //  tempObj['IsSameAddress'] = this.MainComponent.SAME_ADDRESS.getFieldValue(); // for Canara Is same address flag would not be saved in DB
 
 
 
@@ -180,7 +180,7 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
           AltMobileNo: this.MainComponent.AD_ALTERNATE_MOB_NO.getFieldValue(),
           BorrowerSeq: this.MainComponent.activeBorrowerSeq,
           CorrespondenceEmailAddress: this.MainComponent.EmailCheck,
-          IsSameAddress: this.MainComponent.SAME_ADDRESS.getFieldValue()
+     //     IsSameAddress: this.MainComponent.SAME_ADDRESS.getFieldValue() //for Canara Is same address flag would not be saved in DB
 
         });
     }

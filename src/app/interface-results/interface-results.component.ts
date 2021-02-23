@@ -110,13 +110,20 @@ export class InterfaceResultsComponent implements OnInit {
           }
         }
       }
-      let interfaceRsltData: IInterfaceResultData = {}
+      let interfaceRsltData: IInterfaceResultData = {};
+      //for customer type 'I' InterfaceId='EXPERIAN_CONSUMER' and for 'C' InterfaceId 'Experian';
+      //making changes in main json to avoid HTML changes
+      if (this.services.rloCommonData.globalApplicationDtls.CustomerType == "C") {
+        eachResult.InterfaceId = 'EXPERIAN_CONSUMER';
+      }
+      
       interfaceRsltData.InterfaceId = eachResult.InterfaceId;
-      interfaceRsltData.ResponseStatus = eachResult.ResponseStatus;
+      interfaceRsltData.ResponseStatus = eachResult.ResponseStatus == '' ? "disabled" : eachResult.ResponseStatus;
       interfaceRsltData.InterfaceResultId = eachResult.InterfaceResultId;
       interfaceRsltData.ResponseDate = eachResult.ResponseDate;
       interfaceRsltData.TriggerDate = eachResult.TriggerDate;
       interfaceRsltData.TriggerStage = eachResult.TriggerStage;
+      interfaceRsltData.isTriggered = false;
       if (CustomerDtls.InterfaceResultDataMap == undefined) {
         CustomerDtls.InterfaceResultDataMap = new Map<string, IInterfaceResultData>();
       }
@@ -128,11 +135,37 @@ export class InterfaceResultsComponent implements OnInit {
     
   }
 
-  getInterfaceData() {
+  getInterfaceData(interfaceType: "CIBIL" | "Experian") {
     if (!this.readOnly) {
       let appId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
-      this.services.rloCommonData.getInterfaceModalData(appId);
+      this.services.rloCommonData.getInterfaceModalData(appId, interfaceType);
     }
   }
 
+
+  triggerInterface(interfaceSection, interfaceType: 'cibil' | 'experian') {
+    console.log(interfaceSection);
+    if (!interfaceSection.isTriggered) {
+      interfaceSection.isTriggered = true;
+      const inputMap = new Map();
+      inputMap.set('Body.PrposalId', this.ApplicationId);
+      inputMap.set('Body.InterfaceId', interfaceSection.InterfaceId);
+
+      let url = '';
+      if (interfaceType == 'cibil') {
+        url = '/CibilApi';
+      } else {
+        url = '/experianConsumer';
+      }
+
+      this.services.http.fetchApi(url, 'POST', inputMap, '/rlo-de').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          this.services.alert.showAlert(1, 'rlo.success.trigger.interface', 3000);
+        },
+        async (httpError) => {
+          this.services.alert.showAlert(2, 'rlo.error.trigger.interface', 3000);
+        }
+      );
+    }
+  }
 }

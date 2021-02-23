@@ -150,7 +150,7 @@ export class CustGridComponent implements AfterViewInit {
       if (loopVar4) {
         for (var i = 0; i < loopVar4.length; i++) {
           var tempObj = {};
-          if(this.services.rloCommonData.globalApplicationDtls.CustomerType == 'B'){
+          if(this.services.rloCommonData.globalApplicationDtls.CustomerType == 'I' || loopVar4[i].CustomerType == 'A' ){
           tempObj['Cust_Name'] = loopVar4[i].FullName;
           tempObj['Cust_DOB'] = loopVar4[i].DOB;
           tempObj['Cust_ID'] = loopVar4[i].ICIFNumber; 

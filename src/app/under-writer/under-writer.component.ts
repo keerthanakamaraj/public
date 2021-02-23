@@ -418,7 +418,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
-    // this.applicationId = 8656; //6633
+    // this.applicationId = 8776; //6633
 
     if (this.userId === undefined || this.userId == '') {
       this.claimTask(this.taskId);
@@ -581,6 +581,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   selectedTabCardData(sectionType: string = "customer", borrowerSeq: number = 0) {
     let data: IGeneralCardData;
+    var lienAmount = 0;
 
     if (sectionType == "customer") {
       this.cCardDataWithFields = [];
@@ -596,7 +597,18 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       let singleCustomer = this.customerMasterJsonData.CustomerDetails[customerIndex];
       console.error(singleCustomer);
       console.warn(this.allSectionsCardData[0]);
-
+      //LienAmt validation
+      if (this.services.rloCommonData.globalApplicationDtls.CardType == 'SC') {
+        if (singleCustomer.hasOwnProperty('UWAsset')) {
+          if (singleCustomer.UWAsset.length) {
+            singleCustomer.UWAsset.forEach(element => {
+              if (element.hasOwnProperty('LienAMT')) {
+                lienAmount += Number(element.LienAMT);
+              }
+            });
+          }
+        }
+      }
       if (this.customerMasterJsonData.productCategory == 'CC' && this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
         if (singleCustomer.CustomerType == "A") {
           if (this.allSectionsCardData[0].cardList.length == 3)
@@ -680,6 +692,23 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             break;
 
           case "FinancialSummary":
+            // lienAmount
+            data = singleCustomer[element.className].getCardData();
+            if (this.services.rloCommonData.globalApplicationDtls.CardType == 'SC' && singleCustomer.CustomerType == "B") {
+              if (lienAmount > 0) {
+                console.log(data, lienAmount);
+                data.data[6].subTitle = this.services.formatAmount(lienAmount, null, null, false)
+              }
+            }
+            else {
+              data.data.pop();
+            }
+
+            data.applicationId = this.applicationId;
+            data.borrowerSeq = this.borrowerSeq;
+            data.componentCode = this.componentCode;
+            this.cCardDataWithFields.push(data);
+            break;
           case "FinancialDetails":
           case "CollateralDetails":
           case "BusinessDetails":
@@ -1126,19 +1155,9 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
           console.log("deep ===", modalObj);
           this.services.rloui.confirmationModal(modalObj).then((response) => {
-            console.log(response);
-            if (response != null) {
-              if (response.id === 1) {
-                this.services.router.navigate(['home', 'LANDING']);
-              }
-            }
+            this.services.router.navigate(['home', 'LANDING']);
           });
         });
-        // this.QDE_SUBMIT.setDisabled(true);
-        // this.QDE_WITHDRAW.setDisabled(true);
-        // this.services.alert.showAlert(1, alertMsg, 5000);
-        // // this.QDE_SUBMIT.setDisabled(false)
-        // this.services.router.navigate(['home', 'LANDING']);
       },
       async (httpError) => {
         const err = httpError['error'];
@@ -1313,10 +1332,30 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
           this.services.http.fetchApi('/acceptUW', 'POST', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
               const res = httpResponse.body;
-              if (res != null) {
-                this.services.router.navigate(['home', 'LANDING']);
-                // this.submitQDE(requestParams);
-              }
+              var mainMessage = this.services.rloui.getAlertMessage('rlo.success.sendback');
+              var button1 = this.services.rloui.getAlertMessage('', 'OK');
+
+              Promise.all([mainMessage, button1]).then(values => {
+                console.log(values);
+                let modalObj = {
+                  title: "Alert",
+                  mainMessage: values[0],
+                  modalSize: "modal-width-sm",
+                  buttons: [
+                    { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                  ]
+                }
+
+                console.log("deep ===", modalObj);
+                this.services.rloui.confirmationModal(modalObj).then((response) => {
+                  console.log(response);
+                  if (response != null) {
+                    if (response.id === 1) {
+                      this.services.router.navigate(['home', 'LANDING']);
+                    }
+                  }
+                });
+              });
             },
           );
         }

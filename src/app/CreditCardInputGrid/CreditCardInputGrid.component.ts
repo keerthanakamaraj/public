@@ -39,8 +39,8 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
   @ViewChild('TotalRequestedCardLimit', { static: false }) TotalRequestedCardLimit: RloUiCurrencyComponent;
   @ViewChild('TotalProposedCardLimit', { static: false }) TotalProposedCardLimit: RloUiCurrencyComponent;
   @ViewChild('TotalProposedCashLimit', { static: false }) TotalProposedCashLimit: RloUiCurrencyComponent;
-  @Input() parentData: IGlobalApllicationDtls = undefined;
-
+  @Input() CustomerType: string = this.services.rloCommonData.globalApplicationDtls.CustomerType;
+  
   @Input() MainComponent: CreditCardDetailsComponent;
   //@Input() MainComponent.AvailableLimit.getFieldValue() :any;
   firstLoadFlag:boolean=false;
@@ -50,6 +50,7 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
   showGrid = false;
   popupFlag:boolean=false;
   AppCardLimit :number = 0
+  
   constructor(services: ServiceStock, cdRef: ChangeDetectorRef) {
     super(services, cdRef);
     this.value = new CreditCardInputGridModel();

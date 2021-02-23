@@ -5,8 +5,10 @@
     <tr>
       <th [hidden]="isColumnHidden('SrNo')" width="5%" [ngStyle]="{display: 'none'}">
         {{ 'CostOfCourseGrid.SrNo' | translate }}</th>
-      <th [hidden]="isColumnHidden('MemberName')" width="isExpanded?12%:25%">
+      <th [hidden]="isColumnHidden('MemberName')" width="isExpanded?12%:25%"  [ngStyle]="{display: CustomerType=='C' ? '' : 'none'}">
         {{ 'CreditCardInputGrid.MemberName' | translate }}</th>
+        <th [hidden]="isColumnHidden('MemberName')" width="isExpanded?12%:25%"  [ngStyle]="{display: CustomerType=='I' ? '' : 'none'}">
+          {{ 'CreditCardInputGrid.AddOnName' | translate }}</th>
       <th [hidden]="isColumnHidden('CardNumber')" width="12%" [ngStyle]="{display: isExpanded ? '' : 'none'}">
         {{ 'CreditCardInputGrid.CardNumber' | translate }}</th>
       <th [hidden]="isColumnHidden('CardStatus')" width="12%" [ngStyle]="{display: isExpanded ? '' : 'none'}">
@@ -164,7 +166,7 @@
     </ng-container>
   </tbody>
   <tfoot>
-    <tr>
+    <tr [ngStyle]="{display: CustomerType=='C' ? '' : 'none'}">
       <td [ngStyle]="{display : 'none'}"></td>
       <td>{{ 'CreditCardInputGrid.Total' | translate }}</td>
       <td [ngStyle]="{display: isExpanded ? '' : 'none'}"></td>

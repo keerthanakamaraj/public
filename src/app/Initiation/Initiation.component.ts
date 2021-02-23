@@ -55,7 +55,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('BAD_CARD_NUMBER', { static: false }) BAD_CARD_NUMBER: TextBoxComponent;
   @ViewChild('BAD_CUSTOMER_TYPE', { static: false }) BAD_CUSTOMER_TYPE: RLOUIRadioComponent;
   @ViewChild('BAD_REQ_CARD_LIMIT', { static: false }) BAD_REQ_CARD_LIMIT: RloUiCurrencyComponent;
-  @ViewChild('BAD_CAM_TYPE', { static: false }) BAD_CAM_TYPE: ComboBoxComponent;
+ // @ViewChild('BAD_CAM_TYPE', { static: false }) BAD_CAM_TYPE: ComboBoxComponent;
 
   @ViewChild('BAD_DSA_ID', { static: false }) BAD_DSA_ID: TextBoxComponent;
   @ViewChild('BAD_BRANCH', { static: false }) BAD_BRANCH: ComboBoxComponent;
@@ -200,6 +200,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   UserBranch: string = 'Juhu';
   refferalValid: boolean = false;
   FilterOptions = [];
+  unique: boolean = true;
+  custSearchButton: string;
   async revalidateCustomers(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -209,7 +211,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       //this.revalidateBasicField('CD_EXISTING_CUST'),
       //this.revalidateBasicField('CD_STAFF'),
 
-      this.revalidateBasicField('CD_CIF'),
+      // this.revalidateBasicField('CD_CIF'),
       //this.revalidateBasicField('CD_STAFF_ID'),
       //this.revalidateBasicField('CD_CUSTOMER_ID'),
 
@@ -271,7 +273,17 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         });
       }
 
-    } else if (this.BAD_PROD_CAT.getFieldValue() != 'CC') {
+    } 
+    else if(this.custSearchButton == 'Y'){
+      await Promise.all([
+        this.revalidateBasicField('CD_CIF'),
+      ]).then((errorCounts) => {
+        errorCounts.forEach((errorCount) => {
+          totalErrors += errorCount;
+        });
+      });
+    }
+     else if (this.BAD_PROD_CAT.getFieldValue() != 'CC') {
       await Promise.all([
         this.revalidateBasicField('SRC_MOBILE_NO'),
         this.revalidateBasicField('SRC_TAX_ID'),
@@ -561,10 +573,30 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       });
     });
   }
+  // onCustomerTypeSelected(){
+  //   if(this.BAD_CARD_TYPE.getFieldValue() == 'SC' && this.BAD_CUSTOMER_TYPE.getFieldValue() == 'C' || this.BAD_CARD_TYPE.getFieldValue() == 'SC' && this.BAD_CUSTOMER_TYPE.getFieldValue() != 'I'){
+  //     this.services.alert.showAlert(2, '', -1, 'Secured Cards product will be available only to those applicants whose Customer Type is Individual');
+  //   }
+  // }
+
+  // onTypeSelection(){
+  //   if ((this.BAD_CUSTOMER_TYPE.getFieldValue() === 'C' && this.BAD_CARD_TYPE.getFieldValue() !== 'CORP') || (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'I' && this.BAD_CARD_TYPE.getFieldValue() !== 'ICNP') && (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'I' && this.BAD_CARD_TYPE.getFieldValue() !== 'ICP') && (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'I' && this.BAD_CARD_TYPE.getFieldValue() !== 'SC')) {
+  //     this.services.alert.showAlert(2, '', -1, 'Customer Type not match with Card Type');
+      
+  //     return;
+  //   }
+  // }
   BAD_CARD_TYPE_change() {
     this.Handler.CardNumberEnable();
   }
-
+ async BAD_CARD_TYPE_blur(){
+  if ((this.BAD_CUSTOMER_TYPE.getFieldValue() == 'C' && this.BAD_CARD_TYPE.getFieldValue() != 'CORP') ||
+     (this.BAD_CUSTOMER_TYPE.getFieldValue() == 'I' && this.BAD_CARD_TYPE.getFieldValue() == 'CORP')) {
+      this.services.alert.showAlert(2, '', -1, 'rlo.error.initiation.invalid-card-type');
+      this.BAD_CARD_TYPE.setError('rlo.error.invalid-card-type');
+      return 1;
+    }
+}
 
   async SEARCH_CUST_BTN_click(event) {
     this.searchbutton = 'Y';
@@ -585,6 +617,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
           // this.CBSProductCode(response);
           if (typeof response != "boolean")
             this.IsInitiationAllowedForBranch(response);
+            this.searchbutton = 'N';
           //  this.NoOfCardAllowed(response);
           // this.IsInitiationAllowedForBranch(response);
           this.toggleColumn();
@@ -602,8 +635,31 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       });
     }
     else {
-      this.services.alert.showAlert(2, '', -1, 'Please correct form errors');
+      this.services.alert.showAlert(2, '', -1, 'Please enter valid CBS Customer ID');
     }
+
+  }
+  BAD_PHYSICAL_FRM_NO_blur(){
+    let PhysicalFormNo = new Map();
+
+    PhysicalFormNo.set('QueryParam.form_number', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
+    this.services.http.fetchApi('/FetchPhysicalNumber', 'GET', PhysicalFormNo, '/initiation').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        if(res !== null){
+          this.unique = false;
+          this.services.alert.showAlert(2, '', -1, 'This Physical Form Number already exist please enter unique Physical Form No');
+          return;
+        }
+        else{
+          this.unique = true;
+
+        }
+        console.log("Physical Form No",res);
+        // let applicationStatus = res.Outputdata['status'];
+     
+      }
+    );
 
   }
 
@@ -752,6 +808,26 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     }
   }
 
+  
+onNewCustomerCall(){
+ // console.log("jfhfhgd customer data", this.Handler.customers.length)
+  let  customer = this.Handler.customers;
+  if(this.Handler.customers.length <= 0){
+  this.BAD_CARD_TYPE.onReset();
+  this.BAD_REQ_CARD_LIMIT.resetFieldAndDropDown();
+  this.BAD_PRODUCT.onReset();
+  this.BAD_SUB_PROD.onReset();
+  this.BAD_SCHEME.onReset();
+  this.BAD_PHYSICAL_FRM_NO.onReset();
+  this.BAD_DATE_OF_RCPT.onReset();
+  this.BAD_DSA_ID.onReset();
+  this.BAD_PRIME_USAGE.onReset();
+  this.RD_REFERRER_NAME.onReset();
+  this.RD_REFERRER_NO.onReset();
+  this.REF_CIF.onReset();
+}
+  }
+
   //called when a customer is selected for customer search
   setValuesOfCustomer(data) {
     
@@ -764,7 +840,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         return;
       }
     }
-   
+    // else if(this.CD_CARD_CUST_TYPE.getFieldValue() != 'A'){
+    // }
+    this.onNewCustomerCall();
     let tempVar: any = data;
     if(tempVar)
 
@@ -848,7 +926,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     //   this.BAD_BRANCH.onReset();
     // }
     // this.CBSProductCode(data);
-    this.searchbutton = 'N';
+   
+  
     if (tempVar != '' || tempVar != undefined)
       //this.CD_EXISTING_CUST.setValue('Y');
 
@@ -1133,6 +1212,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
 
   async SUBMIT_MAIN_BTN_click(event) {
+    if(!this.unique){
+      this.services.alert.showAlert(2, '', -1, 'This Physical Form Number already exist please enter unique Physical Form No');
+      return;
+    }
     // this.SUBMIT_MAIN_BTN.setDisabled(true);
     let inputMap = new Map();
 
@@ -1154,6 +1237,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         this.services.alert.showAlert(2, 'rlo.error.loanownership.invalid', -1);
         return;
       }
+     
       inputMap.clear();
       if (this.borrower == true) {
         // this.SUBMIT_MAIN_BTN.setDisabled(true);
@@ -1596,9 +1680,11 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         { paramKey: "ProductCd", depFieldID: "BAD_PRODUCT", paramType: "PathParam" },
         { paramKey: "BAD_PROD_CAT", depFieldID: "BAD_PROD_CAT", paramType: "QueryParam" },
         { paramKey: "BAD_CARD_TYPE", depFieldID: "BAD_CARD_TYPE", paramType: "QueryParam" },
-
       ],
-    
+      outDep: [
+        { paramKey: "MstProductDetails.MaxCredLimit", depFieldID: "MaxCredLimit" },
+        { paramKey: "MstProductDetails.MinCredLimit", depFieldID: "MinCredLimit" }
+      ]
     },
 
     BAD_SUB_PROD: {
@@ -1842,49 +1928,57 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   }
 
-  searchForCustomer(type: any) {
+  async searchForCustomer(type: any) {
+    this.custSearchButton = 'Y';
     let obj: ICustomSearchObject = {};
 
-    console.log("searchForCustomer()", type);
-    if (type.inputBtn == "CD_CUSTOMER_ID") {
-      obj.searchType = "Internal";
-    } else {
-      obj.searchType = "External";
-    }
-
-    obj.cifId = this.CD_CIF.getFieldValue();
-    obj.customerId = this.CD_CUSTOMER_ID.getFieldValue();
-    obj.staffId = this.CD_STAFF_ID.getFieldValue();
-
-    console.log(obj);
-    if ((obj.cifId != "" && obj.cifId != undefined)) {
-
-      // if ((obj.cifId != "" && obj.cifId != undefined) || (obj.customerId != "" && obj.customerId != undefined) || (obj.staffId != "" && obj.staffId != undefined)) {
-
-      this.services.rloui.openCustomerSearch(obj).then((response: any) => {
-        if (response != null) {
-          console.log(response);
-          if (typeof response != "boolean") {
-            // this.ApplicationStatus(response);
-            //this.CBSProductCode(response);
-            //  this.IsInitiationAllowedForBranch(response);
-            // this.setValuesOfCustomer(response);
-            // if (typeof response != "boolean")
-            this.IsInitiationAllowedForBranch(response);
-            // this.revalidateCustomers();
+    const errorCount = await this.revalidate();
+    if(errorCount == 0){
+      console.log("searchForCustomer()", type);
+      if (type.inputBtn == "CD_CUSTOMER_ID") {
+        obj.searchType = "Internal";
+      } else {
+        obj.searchType = "External";
+      }
+  
+      obj.cifId = this.CD_CIF.getFieldValue();
+      obj.customerId = this.CD_CUSTOMER_ID.getFieldValue();
+      obj.staffId = this.CD_STAFF_ID.getFieldValue();
+  
+      console.log(obj);
+      if ((obj.cifId != "" && obj.cifId != undefined)) {
+  
+        // if ((obj.cifId != "" && obj.cifId != undefined) || (obj.customerId != "" && obj.customerId != undefined) || (obj.staffId != "" && obj.staffId != undefined)) {
+  
+        this.services.rloui.openCustomerSearch(obj).then((response: any) => {
+          if (response != null) {
+            console.log(response);
+            if (typeof response != "boolean") {
+              // this.ApplicationStatus(response);
+              //this.CBSProductCode(response);
+              //  this.IsInitiationAllowedForBranch(response);
+              // this.setValuesOfCustomer(response);
+              // if (typeof response != "boolean")
+              this.IsInitiationAllowedForBranch(response);
+              this.custSearchButton = 'N';
+              // this.revalidateCustomers();
+            }
+            else {
+              if (response)
+                this.CD_RESET_click();
+            }
           }
           else {
-            if (response)
-              this.CD_RESET_click();
+            console.warn("DEEP | No customer selected");
           }
-        }
-        else {
-          console.warn("DEEP | No customer selected");
-        }
-      });
-    } else {
-      this.customerSearchGenericOnBlur(type.inputBtn, this.CD_CIF.getFieldValue())
+        });
+      } else {
+        this.customerSearchGenericOnBlur(type.inputBtn, this.CD_CIF.getFieldValue())
+      }
+    }else{
+      this.services.alert.showAlert(2, '', -1, 'Please enter valid CBS Customer ID');
     }
+   
   }
 
   validateCustomerId() {
@@ -1999,18 +2093,18 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
             this.BAD_MASK_CARD_NUMBER.setValue(res['outputdata']['PrepaidRefNumberSearch']['CardNum']);
             this.BAD_MASK_CARD_NUMBER.setHidden(true);
             this.BAD_PRODUCT.setValue(res['outputdata']['PrepaidRefNumberSearch']['ProductFranchise']);
-            this.BAD_PRODUCT.setReadOnly(true);
+           
             this.BAD_SUB_PROD.setValue(res['outputdata']['PrepaidRefNumberSearch']['ProdcutClass']);
-            this.BAD_SUB_PROD.setReadOnly(true);
+           
             this.BAD_SCHEME.setValue(res['outputdata']['PrepaidRefNumberSearch']['ProductCode']);
-            this.BAD_SCHEME.setReadOnly(true);
+           
           } else if (res.status === 'F') {
             this.BAD_PRODUCT.onReset();
             this.BAD_SUB_PROD.onReset();
             this.BAD_SCHEME.onReset();
-            this.BAD_PRODUCT.setReadOnly(false);
-            this.BAD_SUB_PROD.setReadOnly(false);
-            this.BAD_SCHEME.setReadOnly(false);
+            // this.BAD_PRODUCT.setReadOnly(false);
+            // this.BAD_SUB_PROD.setReadOnly(false);
+            // this.BAD_SCHEME.setReadOnly(false);
             this.services.alert.showAlert(2, 'rlo.error.ReferenceNumber.invalid', -1);
           }
         }

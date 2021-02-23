@@ -68,7 +68,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   @ViewChild('HideAppId', { static: false }) HideAppId: HiddenComponent;
   @ViewChild('hideDirection', { static: false }) hideDirection: HiddenComponent;
 
-  
+
   // public ProductCategory: String;
   ApplicationId: string = undefined;
   taskId: any;
@@ -83,9 +83,9 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   ActiveCustomerDtls: {} = undefined;
   disableEnableAccordian: any;
   disableAccordian: boolean = false;
-  isCorporateApplicant:boolean=undefined;
-  isCorporateProposal:boolean=undefined;
-  activeApplicantType:string=undefined;
+  isCorporateApplicant: boolean = undefined;
+  isCorporateProposal: boolean = undefined;
+  activeApplicantType: string = undefined;
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -204,12 +204,12 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
     this.FieldId_9.parentFormCode = this.componentCode;
-   
+
 
     await this.brodcastApplicationId();
 
     // await this.CUSTOMER_DETAILS.onFormLoad(event);
-    
+
     this.FieldId_9.doAPIForCustomerList({});
     //this.FieldId_10.fetchReferalDetails();
     this.CUSTOMER_DETAILS.parentFormCode = this.componentCode;
@@ -436,7 +436,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.BUSINESS_DETAILS.onReset();
 
     this.FieldId_6.activeBorrowerSeq = event.BorrowerSeq;
-    this.FieldId_6.activeApplicantType=this.activeApplicantType;
+    this.FieldId_6.activeApplicantType = this.activeApplicantType;
     this.FieldId_6.onReset();
 
     this.FieldId_5.activeBorrowerSeq = event.BorrowerSeq;
@@ -466,7 +466,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   async FieldId_9_resetCustForm(event) {
-    this.activeApplicantType=event.customerType;
+    this.activeApplicantType = event.customerType;
     this.CUSTOMER_DETAILS.setNewCustomerFrom(event);
     this.disableAccordian = true;
     this.UpdateAccordian();
@@ -480,14 +480,14 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   //when clicked on edit
   async FieldId_9_passArrayToCustomer(event) {
     //  setTimeout(() => {
-      if(this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' &&event.CustomerArray.CustomerType=='B'){
-        this.isCorporateApplicant=true;
-      }else{
-        this.isCorporateApplicant=false;
-      }
-      this.activeApplicantType=event.CustomerArray.CustomerType;
+    if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && event.CustomerArray.CustomerType == 'B') {
+      this.isCorporateApplicant = true;
+    } else {
+      this.isCorporateApplicant = false;
+    }
+    this.activeApplicantType = event.CustomerArray.CustomerType;
     this.CUSTOMER_DETAILS.LoadCustomerDetailsonFormLoad(event.CustomerArray);
-    
+
     this.disableAccordian = false
     this.UpdateAccordian();
     this.CustomerDetailsArray = event.CustomerArray;
@@ -598,7 +598,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     //  this.services.rloui.openDecisionAlert().then((response) => {
     //    console.log(response);
     //  });
-    
+
     // return;
     this.services.rloCommonData.isFormValid().then((dataObj) => {
       console.warn(dataObj);
@@ -609,7 +609,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         var mainMessage = this.services.rloui.getAlertMessage('rlo.submit.comfirmation');
         var button1 = this.services.rloui.getAlertMessage('', 'OK');
         var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
-    
+
         Promise.all([mainMessage, button1, button2]).then(values => {
           console.log(values);
           let modalObj = {
@@ -621,7 +621,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
               { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
             ]
           }
-    
+
           this.services.rloui.confirmationModal(modalObj).then((response) => {
             console.log(response);
             if (response != null) {
@@ -632,7 +632,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
             }
           });
         });
-       // this.submitQDE(requestParams);
+        // this.submitQDE(requestParams);
       } else {
         let errorMsg = "";
         dataObj.errorsList.forEach(element => {
@@ -680,10 +680,10 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     inputMap.set('Body.CurrentStage', this.HideCurrentStage.getFieldValue());
     inputMap.set('Body.ApplicationId', this.ApplicationId);
     inputMap.set('Body.SchemeId', this.services.rloCommonData.globalApplicationDtls.SchemeCode);
-  //  if (decisionResponse != null) {
-      // inputMap.set('Body.Decision', 'APRO');
-      // inputMap.set('Body.Remark', 'tefhfh123');
-  //  }
+    //  if (decisionResponse != null) {
+    // inputMap.set('Body.Decision', 'APRO');
+    // inputMap.set('Body.Remark', 'tefhfh123');
+    //  }
 
     if (requestParams) {
       requestParams.forEach((val, key) => {
@@ -716,25 +716,14 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
             modalSize: "modal-width-sm",
             buttons: [
               { id: 1, text: values[1], type: "success", class: "btn-primary" },
-              //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
             ]
           }
 
-          console.log("deep ===", modalObj);
           this.services.rloui.confirmationModal(modalObj).then((response) => {
             console.log(response);
-            if (response != null) {
-              if (response.id === 1) {
-                this.services.router.navigate(['home', 'LANDING']);
-              }
-            }
+            this.services.router.navigate(['home', 'LANDING']);
           });
         });
-        // this.QDE_SUBMIT.setDisabled(true);
-        // this.QDE_WITHDRAW.setDisabled(true);
-        // this.services.alert.showAlert(1, alertMsg, 5000);
-        // // this.QDE_SUBMIT.setDisabled(false)
-        // this.services.router.navigate(['home', 'LANDING']);
       },
       async (httpError) => {
         const err = httpError['error'];
@@ -768,15 +757,15 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.CUSTOMER_DETAILS.loanCategoryChanged(event.isLoanCategory);
     this.FieldId_9.isLoanCategory = event.isLoanCategory;
     this.FieldId_9.setApplicantLabelsAndTags();
-    if(this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C'){
-      this.isCorporateProposal=true;
-    }else{
-      this.isCorporateProposal=false;
+    if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
+      this.isCorporateProposal = true;
+    } else {
+      this.isCorporateProposal = false;
     }
-    if(this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' &&event.CustomerArray.CustomerType=='B'){
-      this.isCorporateApplicant=true;
-    }else{
-      this.isCorporateApplicant=false;
+    if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && event.CustomerArray.CustomerType == 'B') {
+      this.isCorporateApplicant = true;
+    } else {
+      this.isCorporateApplicant = false;
     }
     // this.services.rloCommonData.globalApplicationDtls = {
     //   isLoanCategory: event.isLoanCategory,
@@ -807,10 +796,10 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   updateCustomerTags(event) {
     const tags = [];
     if (event.fullName !== undefined && event.customerType !== undefined) {
-      if(event.customerType=='B' && !this.services.rloCommonData.globalApplicationDtls.isLoanCategory){
+      if (event.customerType == 'B' && !this.services.rloCommonData.globalApplicationDtls.isLoanCategory) {
         tags.push({ label: 'P', text: event.fullName });
-      }else{
-      tags.push({ label: event.customerType, text: event.fullName });
+      } else {
+        tags.push({ label: event.customerType, text: event.fullName });
       }
     }
     // if (this.CUSTOMER_DETAILS.CD_FULL_NAME.getFieldValue() !== undefined && this.CUSTOMER_DETAILS.CD_CUST_TYPE.getFieldValue() !== undefined) {

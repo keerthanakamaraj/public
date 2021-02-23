@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { RloUtilService } from './rloutil.service';
 import { CustomerDtlsComponent } from '../CustomerDtls/CustomerDtls.component';
 import { forkJoin } from 'rxjs';
@@ -73,7 +73,7 @@ export interface IGlobalApllicationDtls {
   CIF?: any;
   isAddedNewMember?: boolean;
   ActiveStage?: string;
-  ApprovedCardLimit?:any;
+  ApprovedCardLimit?: any;
   // #PR-38 - dev
   //MaxCredit?: any;
   //
@@ -99,7 +99,7 @@ export class RloCommonData {
 
   /////////////////////////////////////////////////////////
   masterDataMap = new Map();//contains customer and address data maps used in QDE and DDE
-  componentLvlDataSubject = new Subject<IComponentLvlData>();
+  componentLvlDataSubject = new Subject();
   currentRoute: string = "";
   globalApplicationDtls: IGlobalApllicationDtls = {};
 
@@ -116,6 +116,7 @@ export class RloCommonData {
   customerListForAddress = new Map();//need to change this
   initialBorrowerDetailsCallDone: boolean = false;
 
+  LienAmt: number = 0; // FD details lien amt for credit card calculation
   constructor(public rloutil: RloUtilService, public rloui: RlouiService, public router: Router, public http: ProvidehttpService) {
     this.resetMapData();
     console.log(this.masterDataMap);
@@ -292,6 +293,10 @@ export class RloCommonData {
           console.log(" DEEP | InterfaceResults", mapValue);
           functionalResponseObj = this.tabularOrNonTabularSectionValidation(mapValue[0].isValid).then(data => { return data });
           break;
+        case 'FDDetails':
+          mapValue = componentData.data;
+          functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+          break
       }
 
       tempStoreMap.get(mapName).set(mapKey, mapValue);
@@ -336,6 +341,13 @@ export class RloCommonData {
   //updateTags
   async updateAddressTags(event) {
     const tags = [];
+    let activeApplicantType = undefined;
+    if (event.data != undefined) {
+      let activeApplicant = await this.getCustomerDetails(parseInt(event.data[0].BorrowerSeq));
+      if (activeApplicant != undefined) {
+        activeApplicantType = activeApplicant['CustomerType'];
+      }
+    }
     event.data.forEach(address => {
       let tagText = '';
       // if (address.MailingAddress.id === 'Y') {
@@ -346,7 +358,7 @@ export class RloCommonData {
       //   }
       // }
       if (address.AddressType === 'ML') {
-        if (this.globalApplicationDtls.CustomerType == 'C') {
+        if (this.globalApplicationDtls.CustomerType == 'C' && activeApplicantType == 'B') {
           tagText = 'Registered; ';
         } else {
           tagText = 'Mailing; ';
@@ -414,6 +426,18 @@ export class RloCommonData {
     return this.trimTagsIfRequired(tags, 3);
   }
 
+  async getFdDetailsTags(event) {
+    const tags = [];
+    event.data.forEach(fdDetail => {
+      console.log('FD ', fdDetail);
+      if (typeof fdDetail.FDNumber == 'number') {
+        const formattedAmount = this.rloui.formatAmount(fdDetail.EquivalentAmt);
+        tags.push({ label: '', text: formattedAmount });
+      }
+    });
+    return this.trimTagsIfRequired(tags, 3);
+  }
+
   async asyncForEach(array, callback) {
     for (let index = 0; index < array.length; index++) {
       await callback(array[index], index, array);
@@ -455,7 +479,7 @@ export class RloCommonData {
     if (this.masterDataMap.has('customerMap')) {
       const customerMap = this.masterDataMap.get('customerMap');
       customerMap.forEach(entry => {
-        if (entry.has('CustomerDetails')) {
+        if ((entry instanceof Map) && entry.has('CustomerDetails')) {
           CustomerList.push(entry.get('CustomerDetails'));
         }
       });
@@ -522,14 +546,12 @@ export class RloCommonData {
         forkJoin(
           this.validateCustomerDetailSection(entry[1]),
           this.validateAddressDetailSection(entry[1]),
-          this.validateOccupationDetailsSection(entry[1]),
-          this.validateIncomeSummary(entry[1])
+          this.validateOccupationDetailsSection(entry[1])
         ).subscribe((data) => {
           console.error(data);
           isCustomerValid = data[0].isSectionValid;
           isAddressValid = data[1].isSectionValid;
           isOccupationValid = data[2].isSectionValid;
-          isIncomeSummaryValid = data[3].isSectionValid;
 
           let errorCounter = 1;
           for (let i = 0; i < data.length; i++) {
@@ -540,7 +562,7 @@ export class RloCommonData {
             }
           }
 
-          if (!(isCustomerValid && isAddressValid && isOccupationValid && isIncomeSummaryValid)) {
+          if (!(isCustomerValid && isAddressValid && isOccupationValid)) {
             let msg = "<p>The following details for " + custFullName + " need to be filled in order to submit: " + "</p>" + errorMessage + "<br>";
             dataObject.errorsList.push(msg);
             dataObject.isAppValid = false;
@@ -878,7 +900,7 @@ export class RloCommonData {
           commonObj.isSectionValid = false;
         } else if (!this.globalApplicationDtls.isAddedNewMember) {
           commonObj.isSectionValid = false;
-          commonObj.errorMessage = "For Memebr Card Approve Card Limit Cannot be Blank";
+          commonObj.errorMessage = "For Member Card Approve Card Limit Cannot be Blank";
         }
       } else {
         commonObj.isSectionValid = false;
@@ -1168,9 +1190,33 @@ export class RloCommonData {
     this.viewMode = data
   }
 
-  getInterfaceResposes(inputMap) {
+  getInterfaceResposes(applicationId, interfaceType: "CIBIL" | "Experian") {
+
+    let inputMap = new Map();
+    inputMap.clear();
+
+    let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+    if (applicationId) {
+      criteriaJson.FilterCriteria.push({
+        "columnName": "ProposalId",
+        "columnType": "String",
+        "conditions": {
+          "searchType": "equals",
+          "searchText": applicationId
+        }
+      });
+
+    }
+    inputMap.set('QueryParam.criteriaDetails', criteriaJson)
+
+    let url = '';
     const promise = new Promise((resolve, reject) => {
-      this.http.fetchApi('/CIBILResponse', 'GET', inputMap, "/rlo-de").subscribe(
+      if (interfaceType == 'CIBIL') {
+        url = '/CIBILResponse';
+      } else {
+        url = '/ExperianConsumer';
+      }
+      this.http.fetchApi(url, 'GET', inputMap, "/rlo-de").subscribe(
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
           console.log("Deep | Service - getInterfaceResposes()", res);
@@ -1184,16 +1230,19 @@ export class RloCommonData {
     return promise;
   }
 
-  getInterfaceModalData(appId: any) {
+  getInterfaceModalData(appId: any, interfaceType: "CIBIL" | "Experian") {
     console.log(appId);
-    let inputMap = new Map();
-    inputMap.set('Body.proposalId', appId);
 
-    this.getInterfaceResposes(inputMap).then((response: any) => {
-      let responseData = response.CIBILResponse.filter((data) => data.ProposalId == Number(appId));
+    this.getInterfaceResposes(appId, interfaceType).then((response: any) => {
+      let responseData;
+      if (interfaceType == "CIBIL") {
+        responseData = response.CIBILResponse.filter((data) => data.ProposalId == Number(appId));
+      } else if (interfaceType == "Experian") {
+        responseData = response.ExperianConsumer.filter((data) => data.ProposalId == Number(appId));
+      }
       //let rawHtml = window.atob(this.testCibilResponse);//testing
       console.log("DEEP | Interface modal response", responseData);
-      let rawHtml = window.atob(responseData[0].BureauResponseXml);
+      let rawHtml = responseData[0].BureauResponse;
 
       if (rawHtml.length) {
         const modalObj: IModalData = {

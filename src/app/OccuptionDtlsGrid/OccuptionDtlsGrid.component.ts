@@ -510,6 +510,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
     this.setColumnHidden('DEPARTMENT', !CorporateFlag);
     this.setColumnHidden('DESIGNATION', !CorporateFlag);
     this.setColumnHidden('DATE_OF_JOINING', !CorporateFlag);
+    this.hideLastColumnIcons(CorporateFlag);
   }
 
   //make edit and del icons hidden
@@ -539,7 +540,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
   // }
 
   //fn called from occupation to hide last col. edit del icons - i.e for "Total's" row  
-  hideLastColumnIcons() {
-    this.readonlyGrid.hideEditDelIcons = true;
+  hideLastColumnIcons(corporateFlag) {
+    this.readonlyGrid.hideEditDelIcons = !corporateFlag;
   }
 }

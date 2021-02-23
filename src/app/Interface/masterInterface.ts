@@ -141,6 +141,8 @@ export interface IInterfaceDataIndicator {
   title: string;
   subTitle: string;
   modalSectionName: string;
+  interfaceId?: number;
+  isTriggered?: boolean;
 }
 
 export interface IPopUpModalResponse {

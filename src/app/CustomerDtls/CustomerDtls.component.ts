@@ -37,6 +37,7 @@ const customCss = '';
 })
 export class CustomerDtlsComponent extends FormComponent implements OnInit, AfterViewInit {
   fieldArray: any[];
+  custSearchButton: string;
   constructor(services: ServiceStock) {
     super(services);
     this.value = new CustomerDtlsModel();
@@ -150,51 +151,63 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   async revalidate(showErrors: boolean = true): Promise<number> {
     let totalErrors = 0;
     super.beforeRevalidate();
-    await Promise.all([
-      // this.revalidateBasicField('CD_CUST_TYPE'),
-      // this.revalidateBasicField('CD_EXISTING_CUST', false, showErrors),
-      // this.revalidateBasicField('CD_STAFF', false, showErrors),
-      this.revalidateBasicField('CD_CIF', false, showErrors),
-      this.revalidateBasicField('CD_STAFF_ID', false, showErrors),
-      // this.revalidateBasicField('CD_CUST_ID', false, showErrors),
-      this.revalidateBasicField('CD_TITLE', false, showErrors),
-      this.revalidateBasicField('CD_FIRST_NAME', false, showErrors),
-      this.revalidateBasicField('CD_MIDDLE_NAME', false, showErrors),
-      this.revalidateBasicField('CD_THIRD_NAME', false, showErrors),
-      this.revalidateBasicField('CD_LAST_NAME', false, showErrors),
-      this.revalidateBasicField('CD_FULL_NAME', false, showErrors),
-      this.revalidateBasicField('CD_DOB', false, showErrors),
-      this.revalidateBasicField('CD_GENDER', false, showErrors),
-      this.revalidateBasicField('CD_MARITAL_STATUS', false, showErrors),
-      this.revalidateBasicField('CD_MOBILE_NO', false, showErrors),
-      this.revalidateBasicField('CD_EMAIL', false, showErrors),
-      this.revalidateBasicField('CD_NATIONALITY', false, showErrors),
-      this.revalidateBasicField('CD_CITIZENSHIP', false, showErrors),
-      this.revalidateBasicField('CD_PASSPORT_EXPIRY', false, showErrors),
-      this.revalidateBasicField('CD_PASSPORT_NO', false, showErrors),
-      this.revalidateBasicField('CD_VISA_VALID', false, showErrors),
-      this.revalidateBasicField('CD_DRIVING_LICENSE', false, showErrors),
-      this.revalidateBasicField('CD_DRVNG_LCNSE_EXP_DT', false, showErrors),
-      this.revalidateBasicField('CD_TAX_ID', false, showErrors),
-      this.revalidateBasicField('CD_DEBIT_SCORE', false, showErrors),
-      // this.revalidateBasicField('CD_NATIONAL_ID', false, showErrors),
-      this.revalidateBasicField('CD_CUST_SEGMENT', false, showErrors),
-      this.revalidateBasicField('CD_LOAN_OWN', false, showErrors),
-      //   this.revalidateBasicField('CD_PRIME_USAGE', false, showErrors),
-      this.revalidateBasicField('CD_PMRY_EMBSR_NAME', false, showErrors),
-      this.revalidateBasicField('CD_PREF_COM_CH', false, showErrors),
-      this.revalidateBasicField('CD_PREF_LANG', false, showErrors),
-      this.revalidateBasicField('MaidenName', false, showErrors),
-      this.revalidateBasicField('RequestedAmountLimit', false, showErrors),
-      this.revalidateBasicField('EmbLine4', false, showErrors),
-      //this.revalidateBasicField('CD_COUNTRY_CODE'),
-      // this.FieldId_29.revalidate(),
-      // this.FieldId_30.revalidate(),
-    ]).then((errorCounts) => {
-      errorCounts.forEach((errorCount) => {
-        totalErrors += errorCount;
+     if(this.custSearchButton == 'Y'){
+      await Promise.all([
+        this.revalidateBasicField('CD_CIF'),
+      ]).then((errorCounts) => {
+        errorCounts.forEach((errorCount) => {
+          totalErrors += errorCount;
+        });
       });
-    });
+    }
+    else{
+      await Promise.all([
+        // this.revalidateBasicField('CD_CUST_TYPE'),
+        // this.revalidateBasicField('CD_EXISTING_CUST', false, showErrors),
+        // this.revalidateBasicField('CD_STAFF', false, showErrors),
+        // this.revalidateBasicField('CD_CIF', false, showErrors),
+        this.revalidateBasicField('CD_STAFF_ID', false, showErrors),
+        // this.revalidateBasicField('CD_CUST_ID', false, showErrors),
+        this.revalidateBasicField('CD_TITLE', false, showErrors),
+        this.revalidateBasicField('CD_FIRST_NAME', false, showErrors),
+        this.revalidateBasicField('CD_MIDDLE_NAME', false, showErrors),
+        this.revalidateBasicField('CD_THIRD_NAME', false, showErrors),
+        this.revalidateBasicField('CD_LAST_NAME', false, showErrors),
+        this.revalidateBasicField('CD_FULL_NAME', false, showErrors),
+        this.revalidateBasicField('CD_DOB', false, showErrors),
+        this.revalidateBasicField('CD_GENDER', false, showErrors),
+        this.revalidateBasicField('CD_MARITAL_STATUS', false, showErrors),
+        this.revalidateBasicField('CD_MOBILE_NO', false, showErrors),
+        this.revalidateBasicField('CD_EMAIL', false, showErrors),
+        this.revalidateBasicField('CD_NATIONALITY', false, showErrors),
+        this.revalidateBasicField('CD_CITIZENSHIP', false, showErrors),
+        this.revalidateBasicField('CD_PASSPORT_EXPIRY', false, showErrors),
+        this.revalidateBasicField('CD_PASSPORT_NO', false, showErrors),
+        this.revalidateBasicField('CD_VISA_VALID', false, showErrors),
+        this.revalidateBasicField('CD_DRIVING_LICENSE', false, showErrors),
+        this.revalidateBasicField('CD_DRVNG_LCNSE_EXP_DT', false, showErrors),
+        this.revalidateBasicField('CD_TAX_ID', false, showErrors),
+        this.revalidateBasicField('CD_DEBIT_SCORE', false, showErrors),
+        // this.revalidateBasicField('CD_NATIONAL_ID', false, showErrors),
+        this.revalidateBasicField('CD_CUST_SEGMENT', false, showErrors),
+        this.revalidateBasicField('CD_LOAN_OWN', false, showErrors),
+        //   this.revalidateBasicField('CD_PRIME_USAGE', false, showErrors),
+        this.revalidateBasicField('CD_PMRY_EMBSR_NAME', false, showErrors),
+        this.revalidateBasicField('CD_PREF_COM_CH', false, showErrors),
+        this.revalidateBasicField('CD_PREF_LANG', false, showErrors),
+        this.revalidateBasicField('MaidenName', false, showErrors),
+        this.revalidateBasicField('RequestedAmountLimit', false, showErrors),
+        this.revalidateBasicField('EmbLine4', false, showErrors),
+        //this.revalidateBasicField('CD_COUNTRY_CODE'),
+        // this.FieldId_29.revalidate(),
+        // this.FieldId_30.revalidate(),
+      ]).then((errorCounts) => {
+        errorCounts.forEach((errorCount) => {
+          totalErrors += errorCount;
+        });
+      });
+    }
+   
     this.errors = totalErrors;
     super.afterRevalidate();
     return totalErrors;
@@ -975,8 +988,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     this.CD_REGISTERED_NAME.setValue(customer.RegisteredName);
     this.CD_INCORPORATE_DATE.setValue(customer.DateOfIncorporation);
-    this.CD_INCORPORATE_TYPE.setValue(customer.TypeOfIncorporation);
-
+    if (customer.TypeOfIncorporation == '') {
+      this.CD_INCORPORATE_TYPE.onReset();
+    }
+    else {
+      this.CD_INCORPORATE_TYPE.setValue(customer.TypeOfIncorporation);
+    }
 
     this.CD_TITLE.setValue(customer.Title.id);
     this.CD_FIRST_NAME.setValue(customer.FirstName);
@@ -1047,7 +1064,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_CIF.setValue(customer.CIF);
 
     this.CustSubSegment.setValue(customer.CustSubSegment.id);
-    this.RequestedAmountLimit.setComponentSpecificValue(customer.RequestedCreditLimit);
+    if (customer.RequestedCreditLimit == '') {
+      this.RequestedAmountLimit.resetFieldAndDropDown();
+    }
+    else {
+      this.RequestedAmountLimit.setComponentSpecificValue(customer.RequestedCreditLimit);
+    }
     this.CardDispatchMode.setValue(customer.PickUpInstruction);
 
 
@@ -1072,8 +1094,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
           "data": array,
           "BorrowerSeq": this.HidCustomerId.getFieldValue()
         };
-
+        console.warn("DEEP | CustomerDtls", obj);
         this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+      }
+      else {
+        console.error("DEEP | CustomerDtls ERROR");
       }
     });
     // this.passfullName.emit({
@@ -1528,10 +1553,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
   }
 
-  searchForCustomer(type: any) {
+ async searchForCustomer(type: any) {
+    this.custSearchButton = 'Y';
     let obj: ICustomSearchObject = {};
-
+    const errorCount = await this.revalidate();
     console.log("searchForCustomer()", type);
+    if(errorCount == 0){
     if (type.inputBtn == "CD_CUSTOMER_ID") {
       obj.searchType = "Internal";
     } else {
@@ -1546,8 +1573,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       // if ((obj.cifId != "" && obj.cifId != undefined) || (obj.customerId != "" && obj.customerId != undefined) || (obj.staffId != "" && obj.staffId != undefined)) {
 
       this.services.rloui.openCustomerSearch(obj).then((response: any) => {
-        if (response != null) {
 
+        if (response != null) {
+          this.custSearchButton = 'N';
           let applicationCustomerType = this.services.rloCommonData.globalApplicationDtls.CustomerType;
           console.error("applicationCustomerType", applicationCustomerType);
 
@@ -1575,6 +1603,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     } else {
       this.customerSearchGenericOnBlur(type.inputBtn, this.CD_CIF.getFieldValue())
     }
+  }else{
+    this.services.alert.showAlert(2, '', -1, 'Please enter valid CBS Customer ID');
+  }
   }
 
   setValuesOfCustomer(data) {
@@ -1610,12 +1641,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   }
 
   async RequestedAmountLimit_blur(fieldId, event) {
-      let amountToCompare:any;
-      amountToCompare=this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC'?
-      this.services.rloCommonData.globalApplicationDtls.ApprovedCardLimit:
+    let amountToCompare: any;
+    amountToCompare = this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC' ?
+      this.services.rloCommonData.globalApplicationDtls.ApprovedCardLimit :
       this.services.rloCommonData.globalApplicationDtls.ReqCardLimit;
-      
-      if (!this.RequestedAmountLimit.isAmountEmpty() && amountToCompare!=undefined) {
+
+    if (!this.RequestedAmountLimit.isAmountEmpty() && amountToCompare != undefined) {
       if (parseFloat(amountToCompare) < parseFloat(this.RequestedAmountLimit.getFieldValue())) {
         this.RequestedAmountLimit.setError(this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC' ? 'rlo.error.member.addon.req-amt-lmt' : 'rlo.error.addon.req-amt-lmt');
         return 1;

@@ -55,6 +55,7 @@ import { VehicleDetailsComponent } from '../VehicleDetails/VehicleDetails.compon
 import { GoldDetailsComponent } from '../GoldDetails/GoldDetails.component';
 import { InterfaceResultsComponent } from '../interface-results/interface-results.component';
 import { BusinessDtlsFormComponent } from '../BusinessDtlsForm/BusinessDtlsForm.component';
+import { FDDetailsComponent } from '../FDDetails/FDDetails.component';
 import * as _ from 'lodash';
 import { CreditCardInputGridComponent } from '../CreditCardInputGrid/CreditCardInputGrid.component';
 
@@ -214,6 +215,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       // { id: "GoldLoanDetails", name: "Gold Loan Details", completed: false, iconClass: "icon-Vehicle-Loan-Details", isActive: false, isOptional: true },
       // { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, iconClass: "icon-Education-Loan-Details", isActive: false, isOptional: true },
       // { id: "LoanDetails", name: "Loan Details", completed: false, iconClass: "icon-Loan-Details", isActive: false, isOptional: true },
+      { id: "FDDetails", name: "FD Details", completed: false, iconClass: "icon-Asset-Details", isActive: false, isOptional: false },
       { id: "CreditCardDetails", name: "Credit Card Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: false },
       //{ id: "BusinessDetails", name: "Business Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true },
     ],
@@ -562,7 +564,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   ngOnDestroy() {
     this.services.rloCommonData.initialBorrowerDetailsCallDone = false;
     this.services.rloCommonData.customerListForAddress.clear();
-
+    this.services.rloCommonData.LienAmt = 0; // resetting lien amt captured at Fd details
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
     var styleElement = document.getElementById('DDE_customCss');
@@ -1013,21 +1015,22 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   }
 
-  updateRoleBasedScore(action: string) {
+  updateRoleBasedScore(action: string, firstArrayIndex: number, SecondArrayIndex: number) {
+    console.error("DEEP | updateRoleBasedScore", action, this.CustomerType);
     if (this.formMenuObject.isCustomerTabSelected) {
       if (this.CustomerType == "B") {
-        this.calculateScore(action);
+        this.calculateScore(action, firstArrayIndex, SecondArrayIndex);
       }
       else if (this.CustomerType == "CB" && this.formMenuObject.validCoBorrowerId == this.formMenuObject.activeBorrowerSeq) {
         console.error("@@@@@@@@@@@@@@@@ CB with LO");
-        this.calculateScore(action);
+        this.calculateScore(action, firstArrayIndex, SecondArrayIndex);
       } else if (this.CustomerType == "A") {
         console.error("@@@@@@@@@@@@@@@@ Addon");
-        this.calculateScore(action);
+        this.calculateScore(action, firstArrayIndex, SecondArrayIndex);
       }
     }
     else {
-      this.calculateScore(action);
+      this.calculateScore(action, firstArrayIndex, SecondArrayIndex);
     }
 
     let CustomerList = [];
@@ -1123,6 +1126,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         break;
       case 'BusinessDetails':
         return new AddSpecificComponent(BusinessDtlsFormComponent);
+        break;
+      case 'FDDetails':
+        return new AddSpecificComponent(FDDetailsComponent);
         break;
       default:
         return new AddSpecificComponent(CustomerDtlsComponent);
@@ -1376,7 +1382,16 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             i--;
           }
         }
-
+        if (section.id == "FDDetails") {
+          // Hide FD Details for Loans Other than Secured Card
+          if (this.services.rloCommonData.globalApplicationDtls.CardType == "SC") {
+            section.isOptional = false;
+            this.progressStatusObject.manditorySection += 1;
+          } else {
+            element.splice(i, 1);
+            i--;
+          }
+        }
         // if ((section.id == "VehicalLoanDetails" || section.id == "GoldLoanDetails" || section.id == "EducationLoanDetails") && section.isOptional) {
         //   if (!this.isLoanCategory) {
         //     element.splice(i, 1);
@@ -1409,8 +1424,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
   }
 
-  calculateScore(action: string) {
-    let isSectionOptional = this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].isOptional;
+  calculateScore(action: string, firstArrayIndex: number, SecondArrayIndex: number) {
+    let isSectionOptional = this.formsMenuList[firstArrayIndex][SecondArrayIndex].isOptional;
     console.log(this.progressStatusObject);
     if (!isSectionOptional) {
       if (action == "add") {
@@ -1424,15 +1439,33 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
 
   //after adding and removing section from map
-  updateMenu(action: string, menuList: any, selectedSection: string, mapKey: string) {
+  updateMenu(action: string, menuList: any, selectedSection: string, mapKey: string, addedOrRemovedComponent: string) {
+    console.error("DEEP | updateMenu", action, menuList, selectedSection, mapKey, addedOrRemovedComponent);
     let state = action == "add" ? true : false;
     this.completedMenuSectionList[selectedSection].set(mapKey, menuList);
-    this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].completed = state;//change status
 
+    let isSectionOptional = false;
+    let firstArrayIndex = 0;
+    let SecondArrayIndex = 0;
+
+    for (let j = 0; j < this.formsMenuList.length; j++) {
+      const menuSectionList = this.formsMenuList[j];
+      let firstArrayIndex = j;
+      for (let i = 0; i < menuSectionList.length; i++) {
+        const element = menuSectionList[i];
+        if (element.id == addedOrRemovedComponent) {
+          let SecondArrayIndex = i;
+          element.completed = state;
+          isSectionOptional = element.isOptional;
+        }
+      }
+    }
+
+    // this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].completed = state;//change status
     console.log("deep ===", this.formMenuObject);
 
-    if (!this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].isOptional) {
-      this.updateRoleBasedScore(action);
+    if (!isSectionOptional) {
+      this.updateRoleBasedScore(action, firstArrayIndex, SecondArrayIndex);
     }
   }
 
@@ -1813,25 +1846,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             modalSize: "modal-width-sm",
             buttons: [
               { id: 1, text: values[1], type: "success", class: "btn-primary" },
-              //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
             ]
           }
 
-          console.log("deep ===", modalObj);
           this.services.rloui.confirmationModal(modalObj).then((response) => {
-            console.log(response);
-            if (response != null) {
-              if (response.id === 1) {
-                this.services.router.navigate(['home', 'LANDING']);
-              }
-            }
+            this.services.router.navigate(['home', 'LANDING']);
           });
         });
-        // this.QDE_SUBMIT.setDisabled(true);
-        // this.QDE_WITHDRAW.setDisabled(true);
-        // this.services.alert.showAlert(1, alertMsg, 5000);
-        // // this.QDE_SUBMIT.setDisabled(false)
-        // this.services.router.navigate(['home', 'LANDING']);
       },
       async (httpError) => {
         const err = httpError['error'];
@@ -1924,9 +1945,37 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   AssetDetails_SetTag(event) {
-    // console.log('update Asset Tags --- ', event);
+    console.log('update Asset Tags --- ', event);
     this.services.rloCommonData.getAssetTags(event).then(data => {
-      this.setTags(data);
+      if (data.length) {
+        for (let index = 0; index < data.length; index++) {
+          const element = data[index];
+          if (data[index] != data.length) {
+            if (element.label != undefined) {
+              this.setTags(data);
+            }
+          }
+        }
+      }
+      else {
+        this.setTags([]);
+      }
+    });
+  }
+
+  FDDetails_SetTag(event) {
+    console.log('update FD Tags --- ', event);
+    this.services.rloCommonData.getFdDetailsTags(event).then(data => {
+      if (data.length) {
+        for (let index = 0; index < data.length; index++) {
+          const element = data[index];
+          if (data[index] != data.length) {
+            this.setTags(data);
+          }
+        }
+      } else {
+        this.setTags([]);
+      }
     });
   }
 
@@ -1957,14 +2006,14 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         }
 
         data.push(componentLvlData.name);
-        this.updateMenu('add', data, selectedSection, mapKey);
+        this.updateMenu('add', data, selectedSection, mapKey, componentLvlData.name);
       }
       else {
         let dataList = this.completedMenuSectionList[selectedSection].get(mapKey);
         if (!dataList.includes(componentLvlData.name)) {
           console.error("SECTION COMPLETED | CALCULATE SCORE");
           dataList.push(componentLvlData.name);
-          this.updateMenu('add', dataList, selectedSection, mapKey);
+          this.updateMenu('add', dataList, selectedSection, mapKey, componentLvlData.name);
         }
       }
     } else {
@@ -1976,7 +2025,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       if (sectionAlreadyCompleted) {
         console.error("SECTION REMOVED | CALCULATE SCORE");
         dataList.splice(dataList.indexOf(mapKey), 1);
-        this.updateMenu('remove', dataList, selectedSection, mapKey);
+        this.updateMenu('remove', dataList, selectedSection, mapKey, componentLvlData.name);
       }
       else {
         console.error("SECTION NOT FOUND");

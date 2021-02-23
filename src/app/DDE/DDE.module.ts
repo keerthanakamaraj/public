@@ -38,6 +38,7 @@ import { GoldDetailsModule } from '../GoldDetails/GoldDetails.module';
 import { VehicleDetailsModule } from '../VehicleDetails/VehicleDetails.module';
 import { InterfaceResultsModule } from '../interface-results/interface-results.module';
 import { BusinessDtlsFormModule } from '../BusinessDtlsForm/BusinessDtlsForm.module';
+import { FDDetailsModule } from '../FDDetails/FDDetails.module';
 
 @NgModule({
     imports: [
@@ -82,7 +83,8 @@ import { BusinessDtlsFormModule } from '../BusinessDtlsForm/BusinessDtlsForm.mod
         VehicleDetailsModule,
         GoldDetailsModule,
         InterfaceResultsModule,
-        BusinessDtlsFormModule
+        BusinessDtlsFormModule,
+        FDDetailsModule
     ],
     declarations: [
         DDEComponent

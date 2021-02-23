@@ -25,11 +25,18 @@
                   </app-status-indicator>
                 </span> -->
                 <span class="d-flex">
-                  <div class="indicator-section" *ngIf="customer.value.InterfaceResultDataMap.has('Experian');else showDefault">
+                  <div class="indicator-section"
+                    *ngIf="customer.value.InterfaceResultDataMap.has('EXPERIAN_CONSUMER');else showDefault">
                     <app-status-indicator [iconType]="'basic'"
-                      [status]="customer.value.InterfaceResultDataMap.get('Experian').ResponseStatus!=undefined ? customer.value.InterfaceResultDataMap.get('Experian').ResponseStatus:'disabled'">
+                      [status]="customer.value.InterfaceResultDataMap.get('EXPERIAN_CONSUMER').ResponseStatus!=undefined ? customer.value.InterfaceResultDataMap.get('EXPERIAN_CONSUMER').ResponseStatus:'disabled'">
                     </app-status-indicator>
-                    <span class="icon-link interface-modal" *ngIf="customer.value.InterfaceResultDataMap.get('Experian').ResponseStatus == 'completed' || customer.value.InterfaceResultDataMap.get('Experian').ResponseStatus == 'Success'" (click)="getInterfaceData()"></span>
+                    <span class="icon-link interface-modal"
+                      *ngIf="customer.value.InterfaceResultDataMap.get('EXPERIAN_CONSUMER').ResponseStatus == 'completed' || customer.value.InterfaceResultDataMap.get('EXPERIAN_CONSUMER').ResponseStatus == 'Success'"
+                      (click)="getInterfaceData('Experian')"></span>
+                    <i class="icon-refresh trigger-interface"
+                    *ngIf="customer.value.InterfaceResultDataMap.get('EXPERIAN_CONSUMER').ResponseStatus == 'completed' || customer.value.InterfaceResultDataMap.get('EXPERIAN_CONSUMER').ResponseStatus == 'Success'"
+                      [ngClass]="customer.value.InterfaceResultDataMap.get('EXPERIAN_CONSUMER').isTriggered ? 'disabled' : ''"
+                      (click)="triggerInterface(customer.value.InterfaceResultDataMap.get('EXPERIAN_CONSUMER'),'experian')"></i>
                   </div>
                 </span>
               </td>
@@ -40,11 +47,17 @@
                   </app-status-indicator>
                 </span> -->
                 <span class="d-flex">
-                  <div class="indicator-section" *ngIf="customer.value.InterfaceResultDataMap.has('CIBIL001');else showDefault">
+                  <div class="indicator-section"
+                    *ngIf="customer.value.InterfaceResultDataMap.has('CIBIL001');else showDefault">
                     <app-status-indicator [iconType]="'basic'"
                       [status]="customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus!=undefined ? customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus:'disabled'">
                     </app-status-indicator>
-                    <span class="icon-link interface-modal" *ngIf="customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus == 'completed' || customer.value.InterfaceResultDataMap.get('Experian').ResponseStatus == 'Success'" (click)="getInterfaceData()"></span>
+                    <span class="icon-link interface-modal"
+                      *ngIf="customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus == 'completed' || customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus == 'Success'"
+                      (click)="getInterfaceData('CIBIL')"></span>
+                    <i class="icon-refresh trigger-interface"
+                    *ngIf="customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus == 'completed' || customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus == 'Success'"
+                      (click)="triggerInterface(customer.value.InterfaceResultDataMap.get('CIBIL001'),'cibil')"></i>
                   </div>
                 </span>
               </td>
@@ -57,11 +70,10 @@
 </div>
 
 <ng-template #showDefault>
-    <div class="indicator-section">
-  <app-status-indicator [iconType]="'basic'"
-  [status]="'disabled'">
-</app-status-indicator>
-</div>
+  <div class="indicator-section">
+    <app-status-indicator [iconType]="'basic'" [status]="'disabled'">
+    </app-status-indicator>
+  </div>
 </ng-template>
 
 <!-- <ng-template #showPrimary>

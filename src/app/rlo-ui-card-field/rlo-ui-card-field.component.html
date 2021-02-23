@@ -32,7 +32,10 @@
           <app-status-indicator [iconType]="'basic'" [status]="cardFieldMetaData.subTitle">
           </app-status-indicator>
         </div>
-        <span class="icon-link" *ngIf="cardFieldMetaData.subTitle == 'completed' || cardFieldMetaData.subTitle == 'Success'" (click)="getInterfaceData()"></span>
+        <span class="icon-link"
+          *ngIf="cardFieldMetaData.subTitle == 'completed' || cardFieldMetaData.subTitle == 'Success'"
+          (click)="getInterfaceData(cardFieldMetaData.title)"></span>
+        <i class="icon-refresh trigger-interface" (click)="interfaceRefeshed(cardFieldMetaData)" [ngClass]="cardFieldMetaData.isTriggered ? 'disabled' : ''"></i>
       </div>
     </ng-container>
 
