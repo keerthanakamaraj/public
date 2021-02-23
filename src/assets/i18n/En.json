@@ -249,7 +249,7 @@
     "rlo.error.greter.fd": " Lien Amount should be less than FD Amount",
     "rlo.success.delete.fd": "The FD Detail deleted successfully.",
     "rlo.error.delete.fd": "The FD Details could not be deleted. Please try again.",
-    "rlo.error.approvedlimit.lien.product" : "Approved Card Limit value cannot be increased",
+    "rlo.error.approvedlimit.lien.product" : "Approved Card Limit needs to be less than the Lien Amount",
     "rlo.success.trigger.interface":"Interface triggered successfully.",
     "rlo.error.trigger.interface":"Unable to trigger interface.",
     "rlo.error.initiation.invalid-card-type" : "Customer Type not match with Card Type",

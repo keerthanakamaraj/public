@@ -101,6 +101,9 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
   CreditCardSeq: string = undefined;
   SubCamType: string = undefined;
   CardType: any;
+  totalLienAmount: number = 0;
+  // totalLienAmount: string;
+  primaryBorrowerSeq: any;
   // isShow: boolean = this.services.rloCommonData.globalApplicationDtls.isCamType;
   async revalidate(showErrors: boolean = true): Promise<number> {
     var totalErrors = 0;
@@ -185,6 +188,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     //     }
 
     // }, 500);
+    this.getPrimaryApplicantSeq();
     console.log("camtype", this.services.rloCommonData.globalApplicationDtls.CamType);
     setTimeout(() => {
 
@@ -378,21 +382,70 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
   //     }
 
   // }
+  getPrimaryApplicantSeq() {
+    let customerList = this.services.rloCommonData.getCustomerList();
+    console.log("customer list", customerList);
+    for (let index = 0; index < customerList.length; index++) {
+      const element = customerList[index];
+      if (element.CustomerType == "B") {
+        this.primaryBorrowerSeq = element.BorrowerSeq;
+      }
+    }
+    console.log("customer list", this.primaryBorrowerSeq);
+    this.lienAmtCall();
+  }
+  lienAmtCall() {
+    let inputMap = new Map();
+    inputMap.clear();
+    // let applicationId: any = this.primaryBorrowerSeq;
+    let AssetId: any = this.primaryBorrowerSeq;
+    let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+    if (AssetId) {
+        criteriaJson.FilterCriteria.push({
+            "columnName": "BorrowerSeq",
+            "columnType": "String",
+            "conditions": {
+                "searchType": "equals",
+                "searchText": AssetId
+            }
+        });
+    }
+    inputMap.set('QueryParam.criteriaDetails.FilterCriteria', criteriaJson.FilterCriteria);
+    // inputMap.set('PathParam.AssetSeq', this.primaryBorrowerSeq);
+    this.services.http.fetchApi('/AssetDetails', 'GET', inputMap, '/rlo-de').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        console.log("asset details" ,res);
+        var loopVar4 = [];
+        loopVar4 = res['AssetDetails'];
+        if(loopVar4 != null){
+        for (var i = 0; i < loopVar4.length; i++) {
+        if (loopVar4[i].FDNumber !== null && loopVar4[i].FDNumber !== undefined && loopVar4[i].FDNumber !== '') {
+          this.totalLienAmount += Number(loopVar4[i].LienAmt);
+          // let sum: number = 0;
+          // loopVar4[i].forEach(a => sum += a.LienAmt);
+          // console.log(sum );
+        }
+      }
+    }
+      console.log("total lien amt", this.totalLienAmount);
+      });
+  }
+
   setApprovedCardLimit() {
     let MaxCardLimit: any;
     MaxCardLimit = Number(this.header.Product_max_credit);
-
     let LienAmount: any;
-    LienAmount = this.services.rloCommonData.LienAmt;
+    LienAmount = this.totalLienAmount;
     let LienAmt
     LienAmt = Number(this.services.rloui.getConfig('LIEN_AMT_LIMIT'));
     let NewApprovedCardLimit: any;
 
-    if (this.ApprovedLimit.getFieldValue() == undefined 
-        || this.ApprovedLimit.getFieldValue() == 0 
-        || this.ApprovedLimit.getFieldValue() == '') {
+    if (this.ApprovedLimit.getFieldValue() == undefined
+      || this.ApprovedLimit.getFieldValue() == 0
+      || this.ApprovedLimit.getFieldValue() == '') {
       // NewApprovedCardLimit = ((LienAmount/LienAmt)*100);
-      NewApprovedCardLimit = ( LienAmount * LienAmt );
+      NewApprovedCardLimit = (LienAmount * LienAmt);
       if (NewApprovedCardLimit < MaxCardLimit) {
         // return MaxCardLimit;
         this.ApprovedLimit.setComponentSpecificValue(NewApprovedCardLimit.toFixed(2), null);
@@ -670,12 +723,21 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
           }
         }
       }
+      if (this.services.rloCommonData.globalApplicationDtls.CardType == 'SC') {
+        if (this.ApprovedLimit.getFieldValue() != undefined || this.ApprovedLimit.getFieldValue() != null || this.ApprovedLimit.getFieldValue() != '') {
+          if (this.totalLienAmount < this.ApprovedLimit.getFieldValue()) {
+            this.services.alert.showAlert(2, 'rlo.error.approvedlimit.lien.product', -1);
+            return;
+          }
+        }
+      }
       this.services.rloCommonData.globalApplicationDtls.isAddedNewMember = true;
       this.doSaveCreditCardAPICall();
     }
     else {
       this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
     }
+
   }
 
 
