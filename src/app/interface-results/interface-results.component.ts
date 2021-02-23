@@ -110,9 +110,15 @@ export class InterfaceResultsComponent implements OnInit {
           }
         }
       }
-      let interfaceRsltData: IInterfaceResultData = {}
+      let interfaceRsltData: IInterfaceResultData = {};
+      //for customer type 'I' InterfaceId='EXPERIAN_CONSUMER' and for 'C' InterfaceId 'Experian';
+      //making changes in main json to avoid HTML changes
+      if (this.services.rloCommonData.globalApplicationDtls.CustomerType == "C") {
+        eachResult.InterfaceId = 'EXPERIAN_CONSUMER';
+      }
+      
       interfaceRsltData.InterfaceId = eachResult.InterfaceId;
-      interfaceRsltData.ResponseStatus = eachResult.ResponseStatus;
+      interfaceRsltData.ResponseStatus = eachResult.ResponseStatus == '' ? "disabled" : eachResult.ResponseStatus;
       interfaceRsltData.InterfaceResultId = eachResult.InterfaceResultId;
       interfaceRsltData.ResponseDate = eachResult.ResponseDate;
       interfaceRsltData.TriggerDate = eachResult.TriggerDate;
@@ -129,7 +135,7 @@ export class InterfaceResultsComponent implements OnInit {
     console.log("shweta :: Interface result", this.MstInterfaceResultMap);
   }
 
-  getInterfaceData(interfaceType:  "CIBIL" | "Experian") {
+  getInterfaceData(interfaceType: "CIBIL" | "Experian") {
     if (!this.readOnly) {
       let appId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
       this.services.rloCommonData.getInterfaceModalData(appId, interfaceType);

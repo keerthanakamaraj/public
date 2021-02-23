@@ -34,6 +34,7 @@
                       *ngIf="customer.value.InterfaceResultDataMap.get('EXPERIAN_CONSUMER').ResponseStatus == 'completed' || customer.value.InterfaceResultDataMap.get('EXPERIAN_CONSUMER').ResponseStatus == 'Success'"
                       (click)="getInterfaceData('Experian')"></span>
                     <i class="icon-refresh trigger-interface"
+                    *ngIf="customer.value.InterfaceResultDataMap.get('EXPERIAN_CONSUMER').ResponseStatus == 'completed' || customer.value.InterfaceResultDataMap.get('EXPERIAN_CONSUMER').ResponseStatus == 'Success'"
                       [ngClass]="customer.value.InterfaceResultDataMap.get('EXPERIAN_CONSUMER').isTriggered ? 'disabled' : ''"
                       (click)="triggerInterface(customer.value.InterfaceResultDataMap.get('EXPERIAN_CONSUMER'),'experian')"></i>
                   </div>
@@ -52,9 +53,10 @@
                       [status]="customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus!=undefined ? customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus:'disabled'">
                     </app-status-indicator>
                     <span class="icon-link interface-modal"
-                      *ngIf="customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus == 'completed' || customer.value.InterfaceResultDataMap.get('Experian').ResponseStatus == 'Success'"
+                      *ngIf="customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus == 'completed' || customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus == 'Success'"
                       (click)="getInterfaceData('CIBIL')"></span>
                     <i class="icon-refresh trigger-interface"
+                    *ngIf="customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus == 'completed' || customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus == 'Success'"
                       (click)="triggerInterface(customer.value.InterfaceResultDataMap.get('CIBIL001'),'cibil')"></i>
                   </div>
                 </span>
