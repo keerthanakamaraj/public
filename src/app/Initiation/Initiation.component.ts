@@ -55,7 +55,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('BAD_CARD_NUMBER', { static: false }) BAD_CARD_NUMBER: TextBoxComponent;
   @ViewChild('BAD_CUSTOMER_TYPE', { static: false }) BAD_CUSTOMER_TYPE: RLOUIRadioComponent;
   @ViewChild('BAD_REQ_CARD_LIMIT', { static: false }) BAD_REQ_CARD_LIMIT: RloUiCurrencyComponent;
- // @ViewChild('BAD_CAM_TYPE', { static: false }) BAD_CAM_TYPE: ComboBoxComponent;
+  // @ViewChild('BAD_CAM_TYPE', { static: false }) BAD_CAM_TYPE: ComboBoxComponent;
 
   @ViewChild('BAD_DSA_ID', { static: false }) BAD_DSA_ID: TextBoxComponent;
   @ViewChild('BAD_BRANCH', { static: false }) BAD_BRANCH: ComboBoxComponent;
@@ -273,8 +273,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         });
       }
 
-    } 
-    else if(this.custSearchButton == 'Y'){
+    }
+    else if (this.custSearchButton == 'Y') {
       await Promise.all([
         this.revalidateBasicField('CD_CIF'),
       ]).then((errorCounts) => {
@@ -283,7 +283,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         });
       });
     }
-     else if (this.BAD_PROD_CAT.getFieldValue() != 'CC') {
+    else if (this.BAD_PROD_CAT.getFieldValue() != 'CC') {
       await Promise.all([
         this.revalidateBasicField('SRC_MOBILE_NO'),
         this.revalidateBasicField('SRC_TAX_ID'),
@@ -435,6 +435,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
 
     this.EmbLine4.setHidden(true);
+    this.CD_CIF.setHidden(true);
+    this.CD_CARD_CUST_TYPE.setReadOnly(true);
 
     await this.Handler.onFormLoad({
     });
@@ -462,7 +464,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   //method added for Canara Bank functionality
   setCustomerTypeOptions() {
     //console.log("init:: 1", this.EmbLineFlag.isHidden());
-    this.CD_CARD_CUST_TYPE.dropDownOptions=new DropDown();
+    this.CD_CARD_CUST_TYPE.dropDownOptions = new DropDown();
     if (this.BAD_CUSTOMER_TYPE.getFieldValue() == 'C') {
       this.hideCardCustType.setValue('CORP_CUSTOMER_TYPE');
     } else if (this.BAD_CUSTOMER_TYPE.getFieldValue() == 'I') {
@@ -582,21 +584,21 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   // onTypeSelection(){
   //   if ((this.BAD_CUSTOMER_TYPE.getFieldValue() === 'C' && this.BAD_CARD_TYPE.getFieldValue() !== 'CORP') || (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'I' && this.BAD_CARD_TYPE.getFieldValue() !== 'ICNP') && (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'I' && this.BAD_CARD_TYPE.getFieldValue() !== 'ICP') && (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'I' && this.BAD_CARD_TYPE.getFieldValue() !== 'SC')) {
   //     this.services.alert.showAlert(2, '', -1, 'Customer Type not match with Card Type');
-      
+
   //     return;
   //   }
   // }
   BAD_CARD_TYPE_change() {
     this.Handler.CardNumberEnable();
   }
- async BAD_CARD_TYPE_blur(){
-  if ((this.BAD_CUSTOMER_TYPE.getFieldValue() == 'C' && this.BAD_CARD_TYPE.getFieldValue() != 'CORP') ||
-     (this.BAD_CUSTOMER_TYPE.getFieldValue() == 'I' && this.BAD_CARD_TYPE.getFieldValue() == 'CORP')) {
-     // this.services.alert.showAlert(2, 'rlo.error.initiation.invalid-card-type', -1);
+  async BAD_CARD_TYPE_blur() {
+    if ((this.BAD_CUSTOMER_TYPE.getFieldValue() == 'C' && this.BAD_CARD_TYPE.getFieldValue() != 'CORP') ||
+      (this.BAD_CUSTOMER_TYPE.getFieldValue() == 'I' && this.BAD_CARD_TYPE.getFieldValue() == 'CORP')) {
+      this.services.alert.showAlert(2, '', -1, 'rlo.error.initiation.invalid-card-type');
       this.BAD_CARD_TYPE.setError('rlo.error.invalid-card-type');
       return 1;
     }
-}
+  }
 
   async SEARCH_CUST_BTN_click(event) {
     this.searchbutton = 'Y';
@@ -617,7 +619,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
           // this.CBSProductCode(response);
           if (typeof response != "boolean")
             this.IsInitiationAllowedForBranch(response);
-            this.searchbutton = 'N';
+          this.searchbutton = 'N';
           //  this.NoOfCardAllowed(response);
           // this.IsInitiationAllowedForBranch(response);
           this.toggleColumn();
@@ -639,25 +641,25 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     }
 
   }
-  BAD_PHYSICAL_FRM_NO_blur(){
+  BAD_PHYSICAL_FRM_NO_blur() {
     let PhysicalFormNo = new Map();
 
     PhysicalFormNo.set('QueryParam.form_number', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
     this.services.http.fetchApi('/FetchPhysicalNumber', 'GET', PhysicalFormNo, '/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
-        if(res !== null){
+        if (res !== null) {
           this.unique = false;
           this.services.alert.showAlert(2, '', -1, 'This Physical Form Number already exist please enter unique Physical Form No');
           return;
         }
-        else{
+        else {
           this.unique = true;
 
         }
-        console.log("Physical Form No",res);
+        console.log("Physical Form No", res);
         // let applicationStatus = res.Outputdata['status'];
-     
+
       }
     );
 
@@ -693,40 +695,45 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
 
   // IsCustomerChangeAllowed(data){
-  
+
   // }
   IsInitiationAllowedForBranch(data) {
     let tempVar: any = data;
-    if (this.Handler.editId) {
+    if (this.Handler.customers.length == 0) {
+      if (this.UserBranch !== tempVar['Branch']) {
+        this.services.alert.showAlert(2, '', -1, 'Diffrent Branch user Cannot apply  Credit card for other Branch Customer');
+        return;
+      }
+      else {
+        this.DOBIsValid(data)
+      }
+
+    }
+    else if (this.Handler.editId) {
       this.Handler.customers.forEach(cust => {
-        if(cust => cust.tempId === this.Handler.editId){
-          if(cust.CUST_TYPE_LBL == 'Corporate' && data.CustomerType == 'I'){
+        if (cust => cust.tempId === this.Handler.editId && cust.customerType.value == 'B') {
+          if (cust.CUST_TYPE_LBL == 'Corporate' && data.CustomerType == 'I') {
             this.services.alert.showAlert(2, '', -1, 'You Cannot select Individual record for Corporate');
             return;
-          }else if(cust.CUST_TYPE_LBL == 'Primary' && data.CustomerType == 'C'){
+          } else if (cust.CUST_TYPE_LBL == 'Primary' && data.CustomerType == 'C') {
             this.services.alert.showAlert(2, '', -1, 'You Cannot select Corporate record for Individual');
             return;
-          }
-          else if (this.UserBranch !== tempVar['Branch']) {
-            this.services.alert.showAlert(2, '', -1, 'User Branch and Customer Branch Cannot be Different');
+          } else if (this.UserBranch !== tempVar['Branch']) {
+            this.services.alert.showAlert(2, '', -1, 'Diffrent Branch user Cannot apply  Credit card for other Branch Customer');
             return;
           }
           else {
-            // this.ApplicationStatus(data);
             this.DOBIsValid(data)
           }
-      
-      
+        }
+        else {
+          this.setValuesOfCustomer(data);
         }
       });
     }
-    else if(this.UserBranch !== tempVar['Branch']) {
-      this.services.alert.showAlert(2, '', -1, 'Diffrent Branch user Cannot apply  Credit card for other Branch Customer');
-      return;
-    }
     else {
-      // this.ApplicationStatus(data);
-      this.DOBIsValid(data)
+      this.CD_CARD_CUST_TYPE.setValue('A', undefined, true);
+      this.setValuesOfCustomer(data);
     }
 
   }
@@ -734,33 +741,28 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   CBSProductCode(data) {
     let tempVar: any = data;
     this.CustomerType = (tempVar['CustomerType']);
-    var primaryCheck = this.Handler.getBorrowerPostData();
+
 
     this.services.http.fetchApi('/fetchCBSProdDetails', 'GET', null, '/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         let CPBProductDetails = res.Outputdata;
-        if (primaryCheck.length == 0) {
-          for (let i = 0; i < CPBProductDetails.length; i++) {
-            if (CPBProductDetails[i].CBS_PRODUCT_CODE == tempVar['CBSProductCode']) {
-              if (CPBProductDetails[i].INITIATION_ALLOWED == 'N') {
-                this.services.alert.showAlert(2, '', -1, 'For Specified Product Code we cannot initiate the Proposal');
-                // this.SUBMIT_MAIN_BTN.setDisabled(true);
-                return;
-              }
-              else {
-                this.isInitiattionAllowedforAccount(data);
-                // this.SUBMIT_MAIN_BTN.setDisabled(false);
+        // if (primaryCheck.length == 0) {
+        for (let i = 0; i < CPBProductDetails.length; i++) {
+          if (CPBProductDetails[i].CBS_PRODUCT_CODE == tempVar['CBSProductCode']) {
+            if (CPBProductDetails[i].INITIATION_ALLOWED == 'N') {
+              this.services.alert.showAlert(2, '', -1, 'For Specified Product Code we cannot initiate the Proposal');
+              // this.SUBMIT_MAIN_BTN.setDisabled(true);
+              return;
+            }
+            else {
+              this.isInitiattionAllowedforAccount(data);
+              // this.SUBMIT_MAIN_BTN.setDisabled(false);
 
-              }
             }
           }
         }
-        else {
-          this.setValuesOfCustomer(data);
-        }
-
-
+        // }
       }
     );
   }
@@ -786,6 +788,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       return;
     }
     else {
+
       this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType'], undefined, true);
       this.setCustomerTypeOptions();
       console.log("init:: 2", this.BAD_CUSTOMER_TYPE.getFieldValue())
@@ -808,33 +811,33 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     }
   }
 
-  
-onNewCustomerCall(){
- // console.log("jfhfhgd customer data", this.Handler.customers.length)
-  let  customer = this.Handler.customers;
-  if(this.Handler.customers.length <= 0){
-  this.BAD_CARD_TYPE.onReset();
-  this.BAD_REQ_CARD_LIMIT.resetFieldAndDropDown();
-  this.BAD_PRODUCT.onReset();
-  this.BAD_SUB_PROD.onReset();
-  this.BAD_SCHEME.onReset();
-  this.BAD_PHYSICAL_FRM_NO.onReset();
-  this.BAD_DATE_OF_RCPT.onReset();
-  this.BAD_DSA_ID.onReset();
-  this.BAD_PRIME_USAGE.onReset();
-  this.RD_REFERRER_NAME.onReset();
-  this.RD_REFERRER_NO.onReset();
-  this.REF_CIF.onReset();
-}
+
+  onNewCustomerCall() {
+    // console.log("jfhfhgd customer data", this.Handler.customers.length)
+    let customer = this.Handler.customers;
+    if (this.Handler.customers.length <= 0) {
+      this.BAD_CARD_TYPE.onReset();
+      this.BAD_REQ_CARD_LIMIT.resetFieldAndDropDown();
+      this.BAD_PRODUCT.onReset();
+      this.BAD_SUB_PROD.onReset();
+      this.BAD_SCHEME.onReset();
+      this.BAD_PHYSICAL_FRM_NO.onReset();
+      this.BAD_DATE_OF_RCPT.onReset();
+      this.BAD_DSA_ID.onReset();
+      this.BAD_PRIME_USAGE.onReset();
+      this.RD_REFERRER_NAME.onReset();
+      this.RD_REFERRER_NO.onReset();
+      this.REF_CIF.onReset();
+    }
   }
 
   //called when a customer is selected for customer search
   setValuesOfCustomer(data) {
-    
+
     console.log('searched data =================', data);
 
     if (data.CustomerType == 'C') {
-      if(this.CD_CARD_CUST_TYPE.getFieldValue() == 'A'){
+      if (this.CD_CARD_CUST_TYPE.getFieldValue() == 'A') {
         // this.services.alert.showAlert(2, 'User Cannot add Corporate for Addon Customer', -1)
         this.services.alert.showAlert(2, '', -1, 'User Cannot Add Corporate Record For Addon Customer');
         return;
@@ -844,10 +847,10 @@ onNewCustomerCall(){
     // }
     this.onNewCustomerCall();
     let tempVar: any = data;
-    if(tempVar)
+    if (tempVar)
 
 
-    this.CD_DOB.setValue(tempVar['dob']);
+      this.CD_DOB.setValue(tempVar['dob']);
     this.CD_TAX_ID.setValue(tempVar['taxId']);
     this.CD_FULL_NAME.setValue(tempVar['custName']);
     this.CD_MOBILE.setValue(tempVar['mobileNum']);
@@ -860,7 +863,7 @@ onNewCustomerCall(){
     this.CD_CUSTOMER_ID.setValue(tempVar['icif']);
     this.CD_EMAIL_ID.setValue(tempVar['emailid']);
     this.CD_NAME_ON_CARD.setValue((tempVar['custName']).slice(0, 19));
-    
+
     // this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
     this.BAD_SRC_CHANNEL.setValue('BRANCH');
 
@@ -926,15 +929,15 @@ onNewCustomerCall(){
     //   this.BAD_BRANCH.onReset();
     // }
     // this.CBSProductCode(data);
-   
-  
+
+
     if (tempVar != '' || tempVar != undefined)
       //this.CD_EXISTING_CUST.setValue('Y');
 
       this.services.dataStore.setData('selectedData', undefined);
 
   }
-  
+
   async BAD_PROD_CAT_change(fieldID, value) {
     let inputMap = new Map();
     this.revalidateBasicField('BAD_PROD_CAT');
@@ -1014,16 +1017,16 @@ onNewCustomerCall(){
   async BAD_DATE_OF_RCPT_blur(event) {
     let inputMap = new Map();
 
-      const moment = require('moment');
-      let currentDate = moment();
-      currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
-      let date = moment(this.BAD_DATE_OF_RCPT.getFieldValue(), 'DD-MM-YYYY');
-      let day = currentDate.diff(date, 'days');
-      if (day > 30) {
-        let temp = false;
-      }
+    const moment = require('moment');
+    let currentDate = moment();
+    currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+    let date = moment(this.BAD_DATE_OF_RCPT.getFieldValue(), 'DD-MM-YYYY');
+    let day = currentDate.diff(date, 'days');
+    if (day > 30) {
+      let temp = false;
+    }
 
-    if ((day>30 || !this.isPastDate(this.BAD_DATE_OF_RCPT.getFieldValue())) && !(this.isTodaysDate(this.BAD_DATE_OF_RCPT.getFieldValue())))  {
+    if ((day > 30 || !this.isPastDate(this.BAD_DATE_OF_RCPT.getFieldValue())) && !(this.isTodaysDate(this.BAD_DATE_OF_RCPT.getFieldValue()))) {
       this.BAD_DATE_OF_RCPT.setError('rlo.error.DateOfRecipt.invalid');
       return 1;
     }
@@ -1087,7 +1090,7 @@ onNewCustomerCall(){
     if (parseFloat(this.BAD_REQ_CARD_LIMIT.getFieldValue()) > parseFloat(this.MaxCredLimit.getFieldValue())) {
       this.BAD_REQ_CARD_LIMIT.setError('rlo.error.amount.limit.max');
       return 1;
-    } else if (parseFloat(this.BAD_REQ_CARD_LIMIT.getFieldValue()) < parseFloat(this.MinCredLimit.getFieldValue())){
+    } else if (parseFloat(this.BAD_REQ_CARD_LIMIT.getFieldValue()) < parseFloat(this.MinCredLimit.getFieldValue())) {
       this.BAD_REQ_CARD_LIMIT.setError('rlo.error.amount.limit.min');
       return 1;
     }
@@ -1212,7 +1215,7 @@ onNewCustomerCall(){
   }
 
   async SUBMIT_MAIN_BTN_click(event) {
-    if(!this.unique){
+    if (!this.unique) {
       this.services.alert.showAlert(2, '', -1, 'This Physical Form Number already exist please enter unique Physical Form No');
       return;
     }
@@ -1237,7 +1240,7 @@ onNewCustomerCall(){
         this.services.alert.showAlert(2, 'rlo.error.loanownership.invalid', -1);
         return;
       }
-     
+
       inputMap.clear();
       if (this.borrower == true) {
         // this.SUBMIT_MAIN_BTN.setDisabled(true);
@@ -1703,11 +1706,11 @@ onNewCustomerCall(){
         { paramKey: "BAD_SUB_PROD", depFieldID: "BAD_SUB_PROD", paramType: "QueryParam" },
       ],
       outDep: [
-   
-          { paramKey: "NewSchemeDetails.MaxLoanVal", depFieldID: "MaxCredLimit" },
-          { paramKey: "NewSchemeDetails.MinLoanVal", depFieldID: "MinCredLimit" }
-          // { paramKey: "NewScemeDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE" },
-          // { paramKey: "NewSchemeDetails.AllowCoBorrower", depFieldID: "allowCoBorrower" }
+
+        { paramKey: "NewSchemeDetails.MaxLoanVal", depFieldID: "MaxCredLimit" },
+        { paramKey: "NewSchemeDetails.MinLoanVal", depFieldID: "MinCredLimit" }
+        // { paramKey: "NewScemeDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE" },
+        // { paramKey: "NewSchemeDetails.AllowCoBorrower", depFieldID: "allowCoBorrower" }
       ]
     },
     BAD_PROMOTION: {
@@ -1933,23 +1936,23 @@ onNewCustomerCall(){
     let obj: ICustomSearchObject = {};
 
     const errorCount = await this.revalidate();
-    if(errorCount == 0){
+    if (errorCount == 0) {
       console.log("searchForCustomer()", type);
       if (type.inputBtn == "CD_CUSTOMER_ID") {
         obj.searchType = "Internal";
       } else {
         obj.searchType = "External";
       }
-  
+
       obj.cifId = this.CD_CIF.getFieldValue();
       obj.customerId = this.CD_CUSTOMER_ID.getFieldValue();
       obj.staffId = this.CD_STAFF_ID.getFieldValue();
-  
+
       console.log(obj);
       if ((obj.cifId != "" && obj.cifId != undefined)) {
-  
+
         // if ((obj.cifId != "" && obj.cifId != undefined) || (obj.customerId != "" && obj.customerId != undefined) || (obj.staffId != "" && obj.staffId != undefined)) {
-  
+
         this.services.rloui.openCustomerSearch(obj).then((response: any) => {
           if (response != null) {
             console.log(response);
@@ -1975,10 +1978,10 @@ onNewCustomerCall(){
       } else {
         this.customerSearchGenericOnBlur(type.inputBtn, this.CD_CIF.getFieldValue())
       }
-    }else{
+    } else {
       this.services.alert.showAlert(2, '', -1, 'Please enter valid CBS Customer ID');
     }
-   
+
   }
 
   validateCustomerId() {
@@ -2093,11 +2096,11 @@ onNewCustomerCall(){
             this.BAD_MASK_CARD_NUMBER.setValue(res['outputdata']['PrepaidRefNumberSearch']['CardNum']);
             this.BAD_MASK_CARD_NUMBER.setHidden(true);
             this.BAD_PRODUCT.setValue(res['outputdata']['PrepaidRefNumberSearch']['ProductFranchise']);
-           
+
             this.BAD_SUB_PROD.setValue(res['outputdata']['PrepaidRefNumberSearch']['ProdcutClass']);
-           
+
             this.BAD_SCHEME.setValue(res['outputdata']['PrepaidRefNumberSearch']['ProductCode']);
-           
+
           } else if (res.status === 'F') {
             this.BAD_PRODUCT.onReset();
             this.BAD_SUB_PROD.onReset();

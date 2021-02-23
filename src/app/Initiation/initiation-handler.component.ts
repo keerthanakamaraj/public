@@ -221,6 +221,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.MainComponent.EmbLine4.onReset();
     this.MainComponent.EmbLineFlag.onReset();
     this.MainComponent.EmbLine4.setHidden(true);
+    this.MainComponent.CD_CARD_CUST_TYPE.onReset();
     // this.onProdCategoryChange({});
 
     //this.MainComponent.CD_EXISTING_CUST.setValue(this.MainComponent.CD_EXISTING_CUST.getDefault());
@@ -319,7 +320,8 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   // Edit Customer
   onEditCustomer(arg0: { 'id': any; }) {
     this.HideFieldBasedOnCorporate();
-    this.MainComponent.CD_CARD_CUST_TYPE.setReadOnly(true);
+   
+    // this.MainComponent.CD_CARD_CUST_TYPE.setReadOnly(true);
     // this.editId = undefined;
     this.editId = arg0.id;
     let customer = this.customers.find(cust => cust.tempId === arg0.id);
@@ -391,13 +393,52 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   // Delete Customer
   onDeleteCustomer(arg0: { 'id': any; }) {
 
-    let index = this.customers.findIndex(cust => cust.tempId === arg0.id);
-    this.customers.splice(index, 1);
 
-    this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
-    this.updateCustomerTags();
-    this.DisableLoanOwnerShip();
-    this.MainComponent.services.alert.showAlert(1, 'rlo.success.delete.customer', 1000);
+    let index = this.customers.findIndex(cust => cust.tempId === arg0.id);
+    this.customers.forEach(cust => {
+     if(cust.tempId === arg0.id){
+       if(cust.customerType.value == 'B'){
+         if(cust.CUST_TYPE_LBL == 'Primary'){
+          var successmessage = "Please note that Add-on/ Add-Ons added will also be deleted. Please click Ok to Proceed";
+         }else{
+          var successmessage = "Please note that Member-Card/ Member-Cards added will also be deleted. Please click Ok to Proceed";
+         }
+        //  var title = this.services.rloui.getAlertMessage('');
+        var mainMessage = this.MainComponent.services.rloui.getAlertMessage('', successmessage);
+        var button1 = this.MainComponent.services.rloui.getAlertMessage('', 'OK');
+        Promise.all([mainMessage, button1]).then(values => {
+          console.log(values);
+          let modalObj = {
+            title: "Alert",
+            mainMessage: values[0],
+            modalSize: "modal-width-sm",
+            buttons: [
+              { id: 1, text: values[1], type: "success", class: "btn-primary" },
+            ]
+          }
+
+          this.MainComponent.services.rloui.confirmationModal(modalObj).then((response) => {
+            console.log(response);
+            if (response != null) {
+              if (response.id === 1) {
+                this.customers = [];
+                this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
+                this.updateCustomerTags();
+                this.DisableLoanOwnerShip();
+                this.MainComponent.services.alert.showAlert(1, 'rlo.success.delete.customer', 1000);
+              }
+            }
+          });
+        });
+       }else{
+        this.customers.splice(index, 1);
+        this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
+        this.updateCustomerTags();
+        this.DisableLoanOwnerShip();
+        this.MainComponent.services.alert.showAlert(1, 'rlo.success.delete.customer', 1000);
+       }
+     }
+    });
   }
 
   // Add Customer
@@ -440,14 +481,14 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         let index = this.customers.findIndex(cust => cust.tempId === this.editId);
         this.customers[index] = customer;
         console.log("updating customers", this.customers);
-        this.MainComponent.CD_CARD_CUST_TYPE.setReadOnly(false);
+        // this.MainComponent.CD_CARD_CUST_TYPE.setReadOnly(false);
 
       } else {
 
         this.customers.push(customer);
         this.tempId = undefined;
         console.log("this.customers", this.customers);
-        this.MainComponent.CD_CARD_CUST_TYPE.setReadOnly(false);
+        // this.MainComponent.CD_CARD_CUST_TYPE.setReadOnly(false);
       }
 
       this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
