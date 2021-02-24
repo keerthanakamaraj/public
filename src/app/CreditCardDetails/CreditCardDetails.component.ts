@@ -566,16 +566,18 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
           this.revalidate(false).then((errors) => {
             //  let noOfError: number = await this.revalidate(false);
-            if (errors == 0) {
+           
+            let isGridValid:boolean =this.CreditCardInputGrid.CustomerDtlsMap.size > 0? this.CreditCardInputGrid.validateAmountColumn():true;
+          let isSectionValid:boolean=(errors == 0 && isGridValid) ?true:false;
+
               let array = [];
-              array.push({ isValid: true, sectionData: this.getFieldValue() });
+              array.push({ isValid: isSectionValid, sectionData: this.getFieldValue() });
               let obj = {
                 "name": "CreditCardDetails",
                 "data": array,
                 "sectionName": "CreditCardDetails"
               }
               this.services.rloCommonData.globalComponentLvlDataHandler(obj);
-            }
           });
 
         }

@@ -764,6 +764,15 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
               //    isAddedNewMember : false
               // }
               // console.log("AddedMember" , parentData.isAddedNewMember);
+              let array = [];
+              array.push({ isValid: false, sectionData:{} });
+              let obj = {
+                "name": "CreditCardDetails",
+                "data": array,
+                "sectionName": "CreditCardDetails",
+                "tabName":"A"
+              }
+              this.services.rloCommonData.globalComponentLvlDataHandler(obj);
             }
             this.CD_FULL_NAME_change(fullName, this.CD_CUST_TYPE.getFieldValue());
             this.services.rloCommonData.childToParentSubject.next({

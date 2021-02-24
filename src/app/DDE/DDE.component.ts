@@ -1114,8 +1114,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       this.formsMenuList = this.customerMenu;
       this.reCalculateMenuSections(this.ActiveBorrowerSeq, false);
       defaultSection = 'CustomerDetails';
-      let data = { 'borrowerSeq': this.ActiveBorrowerSeq }
-      this.CUSTOMER_GRID.doAPIForCustomerList(data);
+      // let data = { 'borrowerSeq': this.ActiveBorrowerSeq }
+      this.CUSTOMER_GRID.isFirstAPICall = true;
+      this.CUSTOMER_GRID.doAPIForCustomerList({});
       //this.injectDynamicComponent(defaultSection, false, 0, 0);
     }
     else {
@@ -1378,8 +1379,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
   }
 
-  calculateScore(action: string, firstArrayIndex: number, SecondArrayIndex: number) {
-    let isSectionOptional = this.formsMenuList[firstArrayIndex][SecondArrayIndex].isOptional;
+  calculateScore(action: string, firstArrayIndex: number, SecondArrayIndex: number, isSectionOptional?: boolean) {
+    if (isSectionOptional == undefined) {
+      isSectionOptional = this.formsMenuList[firstArrayIndex][SecondArrayIndex].isOptional;
+    }
     console.log(this.progressStatusObject);
     if (!isSectionOptional) {
       if (action == "add") {
@@ -1393,7 +1396,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
 
   //after adding and removing section from map
-  updateMenu(action: string, menuList: any, selectedSection: string, mapKey: string, addedOrRemovedComponent: string) {
+  updateMenu(action: string, menuList: any, selectedSection: string, mapKey: string, addedOrRemovedComponent: any) {
     console.error("DEEP | updateMenu", action, menuList, selectedSection, mapKey, addedOrRemovedComponent);
     let state = action == "add" ? true : false;
     this.completedMenuSectionList[selectedSection].set(mapKey, menuList);
@@ -1401,28 +1404,52 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     let isSectionOptional = false;
     let firstArrayIndex = 0;
     let SecondArrayIndex = 0;
-
-    for (let j = 0; j < this.formsMenuList.length; j++) {
-      const menuSectionList = this.formsMenuList[j];
-      let firstArrayIndex = j;
-      for (let i = 0; i < menuSectionList.length; i++) {
-        const element = menuSectionList[i];
-        if (element.id == addedOrRemovedComponent) {
-          let SecondArrayIndex = i;
-          element.completed = state;
-          isSectionOptional = element.isOptional;
+    if (addedOrRemovedComponent.tabName != undefined) {
+      if (addedOrRemovedComponent.tabName == 'A') {
+        for (let j = 0; j < this.applicationMenu.length; j++) {
+          const menuSectionList = this.applicationMenu[j];
+          let firstArrayIndex = j;
+          for (let i = 0; i < menuSectionList.length; i++) {
+            const element = menuSectionList[i];
+            if (element.id == addedOrRemovedComponent.name) {
+              let SecondArrayIndex = i;
+              element.completed = state;
+              isSectionOptional = element.isOptional;
+            }
+          }
+        }
+        if (!isSectionOptional) {
+          this.calculateScore(action, firstArrayIndex, SecondArrayIndex, isSectionOptional);
+        }
+        // this.progressStatusObject.completedSection -= 1; 
+        console.log("debug :: ", this.completedMenuSectionList);
+        //this.handleSectionValidation(action)
+      }
+    } else {
+      for (let j = 0; j < this.formsMenuList.length; j++) {
+        const menuSectionList = this.formsMenuList[j];
+        let firstArrayIndex = j;
+        for (let i = 0; i < menuSectionList.length; i++) {
+          const element = menuSectionList[i];
+          if (element.id == addedOrRemovedComponent.name) {
+            let SecondArrayIndex = i;
+            element.completed = state;
+            isSectionOptional = element.isOptional;
+          }
         }
       }
-    }
 
-    // this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].completed = state;//change status
-    console.log("deep ===", this.formMenuObject);
+      // this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].completed = state;//change status
+      console.log("deep ===", this.formMenuObject);
 
-    if (!isSectionOptional) {
-      this.updateRoleBasedScore(action, firstArrayIndex, SecondArrayIndex);
+      if (!isSectionOptional) {
+        this.updateRoleBasedScore(action, firstArrayIndex, SecondArrayIndex);
+      }
     }
   }
+  handleSectionValidation(action) {
 
+  }
   setInitialObjectData(data) {
     console.log("setInitialObjectData", data.data[0]);
     let customerData = data.data[0];
@@ -1927,15 +1954,23 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     console.log(this.formMenuObject.isCustomerTabSelected, this.formMenuObject, componentLvlData);
     let data = [];
     let selectedSection, mapKey;
-
-    if (this.formMenuObject.isCustomerTabSelected) {
-      selectedSection = "customerSection";
-      mapKey = componentLvlData.BorrowerSeq;
+    if (componentLvlData.tabName != undefined) {
+      if (componentLvlData.tabName == 'C') {
+        selectedSection = "customerSection";
+        mapKey = componentLvlData.BorrowerSeq;
+      } else {
+        selectedSection = "applicationSection";
+        mapKey = componentLvlData.sectionName;
+      }
     } else {
-      selectedSection = "applicationSection";
-      mapKey = componentLvlData.sectionName;
+      if (this.formMenuObject.isCustomerTabSelected) {
+        selectedSection = "customerSection";
+        mapKey = componentLvlData.BorrowerSeq;
+      } else {
+        selectedSection = "applicationSection";
+        mapKey = componentLvlData.sectionName;
+      }
     }
-
     if (sectionResponseObj.isSectionValid) {
       //first time loading data; customer not present
       if (this.completedMenuSectionList[selectedSection].get(mapKey) === undefined) {
@@ -1954,7 +1989,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         }
 
         data.push(componentLvlData.name);
-        this.updateMenu('add', data, selectedSection, mapKey, componentLvlData.name);
+        this.updateMenu('add', data, selectedSection, mapKey, componentLvlData);
         return true;
       }
       else {
@@ -1962,7 +1997,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         if (!dataList.includes(componentLvlData.name)) {
           console.error("SECTION COMPLETED | CALCULATE SCORE");
           dataList.push(componentLvlData.name);
-          this.updateMenu('add', dataList, selectedSection, mapKey, componentLvlData.name);
+          this.updateMenu('add', dataList, selectedSection, mapKey, componentLvlData);
         }
         return true;
       }
@@ -1975,7 +2010,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       if (sectionAlreadyCompleted) {
         console.error("SECTION REMOVED | CALCULATE SCORE");
         dataList.splice(dataList.indexOf(mapKey), 1);
-        this.updateMenu('remove', dataList, selectedSection, mapKey, componentLvlData.name);
+        this.updateMenu('remove', dataList, selectedSection, mapKey, componentLvlData);
         return true;
       }
       else {

@@ -24,6 +24,7 @@ export interface IComponentLvlData {
   data: any;//eg:when used in grid(address) data contains list of added addressed
   BorrowerSeq?: string;
   sectionName?: string;//used in components which comes under application section
+  tabName?: string;
 }
 
 
@@ -164,14 +165,16 @@ export class RloCommonData {
 
   async updateMasterDataMap(componentData: any, isCustomerTabSelected: boolean) {
     console.warn("------------------------------ deep ===", componentData, isCustomerTabSelected);
-
+    console.log("shweta:: masterDataMap :", this.masterDataMap);
     let mapValue = new Map();
     let tempStoreMap = new Map();
     let mapName = undefined;
     let mapKey = undefined;
     let functionalResponseObj: Promise<IComponentSectionValidationData>
-
-    if (isCustomerTabSelected) {
+    if (componentData.tabName != undefined) {
+      isCustomerTabSelected = componentData.tabName == 'C' ? true : false;
+    } 
+     if (isCustomerTabSelected) {
       mapName = "customerMap";
       mapKey = componentData.BorrowerSeq;
     } else {

@@ -198,9 +198,9 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
                 //eachBorrower.isValid = true;
               }
 
-              if(eachBorrower.CustomerType == 'A'){
-                eachBorrower.isValid = true;
-              }
+              // if(eachBorrower.CustomerType == 'A'){
+              //   eachBorrower.isValid = true;
+              // }
               
               let array = [];
               array.push(eachBorrower);
@@ -259,17 +259,17 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
 
 
             });
+            let isAddedNewMember:boolean=true;
             this.CustomerDetailsMap.forEach(element => {
               if (element.CustomerType !== 'B') {
                 if (element.ApprovedCardLimit = undefined || element.ApprovedCardLimit == "") {
-                  this.services.rloCommonData.globalApplicationDtls.isAddedNewMember = false
-                  return;
-                  // console.log("AddedMember" , parentData.isAddedNewMember);
+                //  this.services.rloCommonData.globalApplicationDtls.isAddedNewMember = false
+                isAddedNewMember=false;  
                 }
-
               }
 
             });
+            this.services.rloCommonData.globalApplicationDtls.isAddedNewMember = isAddedNewMember;
           }
 
           //customer deleted
