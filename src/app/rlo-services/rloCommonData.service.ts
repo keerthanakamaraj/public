@@ -12,6 +12,7 @@ import { HttpResponse } from '@angular/common/http';
 import { resolve } from 'dns';
 import { IModalData } from '../popup-alert/popup-interface';
 import { any } from '@amcharts/amcharts4/.internal/core/utils/Array';
+import { AlertsService } from '../AlertsService';
 
 export interface subjectParamsInterface {
   action: string;
@@ -117,7 +118,7 @@ export class RloCommonData {
   initialBorrowerDetailsCallDone: boolean = false;
 
   LienAmt: number = 0; // FD details lien amt for credit card calculation
-  constructor(public rloutil: RloUtilService, public rloui: RlouiService, public router: Router, public http: ProvidehttpService) {
+  constructor(public rloutil: RloUtilService, public rloui: RlouiService, public router: Router, public http: ProvidehttpService, public alert: AlertsService) {
     this.resetMapData();
     console.log(this.masterDataMap);
   }
@@ -1261,6 +1262,8 @@ export class RloCommonData {
             }
           }
         });
+      } else {
+        this.alert.showAlert(2, '', 3000, 'No data found for interface');
       }
     });
   }

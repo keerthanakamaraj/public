@@ -490,7 +490,7 @@ export class ProvidehttpService implements CanActivate {
     }
   }
 
-  fetchApi(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', inputMap: Map<string, any>, serverUrl: string = undefined) {
+  fetchApi(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', inputMap: Map<string, any>, serverUrl: string = undefined, JSONData: any = null) {
     var json = this.mapToJson(inputMap);
 
     let headers = {
@@ -541,6 +541,9 @@ export class ProvidehttpService implements CanActivate {
     if (method == 'GET') {
       return this.httpClient.get(url, httpOpts);
     } else if (method == 'POST') {
+      if (JSONData != null) {
+        return this.httpClient.post(url, JSONData, httpOpts);
+      }
       return this.httpClient.post(url, JSON.stringify(json['Body']), httpOpts);
     } else if (method == 'PUT') {
       return this.httpClient.put(url, JSON.stringify(json['Body']), httpOpts);

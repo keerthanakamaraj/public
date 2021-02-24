@@ -721,6 +721,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
           this.services.rloui.confirmationModal(modalObj).then((response) => {
             console.log(response);
+            this.cibilCallBackApi();
             this.services.router.navigate(['home', 'LANDING']);
           });
         });
@@ -825,4 +826,50 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.QDE_ACCORD1.disableAccordian('OCC_DETAILS', this.disableAccordian);
   }
 
+  cibilCallBackApi() {
+    // let url = "http://10.11.12.19:18180/olive/publisher/cibilCallback";
+    const inputMap = new Map();
+    inputMap.clear();
+
+    let json = {
+      "status": "S",
+      "interfaceId": "CIBIL001",
+      "outputdata": {
+        "Data": {
+          "enquiryPurpose": "Unsecured business loan",
+          "Additionalfields": [
+            {
+              "value": "0",
+              "key": "wilfulDefault"
+            },
+            {
+              "value": "1",
+              "key": "AmountOverdue"
+            },
+            {
+              "value": "1",
+              "key": "WrittenOffandSettledStatus"
+            }
+          ],
+          "PaymentHistoryEndDate": "01102018",
+          "DateOfEnquiryFields": "25092019",
+          "BureauResponse": "<p><br></p><p><br></p><p><br></p><h3 class='ql-align-center'><strong>Smart Bank Loan </strong></h3><p class='ql-align-center'>123 Bank Street, 7th Business District,</p><p class='ql-align-center'><br></p><h3 class='ql-align-center'>Sweden</h3><p><br></p><p><br></p><p>MS Lilly Abebe</p><p><br></p><p>@ADDR1</p><p><br></p><p>@COUNTRY,</p><p><br></p><p>10005.</p><p><br></p><p><strong>Subject : Issuance of Loan against your application no : 1110PER00000901</strong></p><p><br></p><p>Dear MS Lilly Abebe</p><p><br></p><p>We are very glad to inform you that in response to your request for a bank loan in order to meet</p><p>financial requirements, we have approved your request.</p><p><br></p><p>You requested a @PRODUCT_CODE of EUR 3000. Hence, the bank has decided to</p><p>approve your application of loan for EUR 3000.</p><p><br></p><p>The interest rate that you will have to pay on the loan will be 10 %. This interest rate has been</p><p>calculated with the help of standard formula used for calculating interest rate (PLR). We hope that this</p><p>interest rate will be good for you.</p><p><br></p><p>You will have to pay the loan back within 10 years. Moreover, the interest rate may change depending</p><p>on the duration of loan you choose. The repayment schedule is enclosed.</p><p><br></p><p>Please come to the bank and review the terms and conditions of the loan agreement with the bank. The terms have been completely outlined in the promissory note. You are requested to come and sign it. We have attached several related documents with this letter that are favorable for you. Please review the form thoroughly and return us so that the processing of loan can be done.&nbsp;</p><p><br></p><p>Sincerely,&nbsp;</p><p><br></p><p>Branch Manager</p>",
+          "icifNumber": "123",
+          "PaymentHistory1": "000000000XXX000000000000XXX000",
+          "Score": "00727",
+          "rankName": "CIBIL MSME Rank",
+          "EnquiringMemberShortName": "IVLFIN",
+          "ProposalId": this.ApplicationId,
+          "PaymentHistoryStartDate": "01072019",
+          "rankValue": "CMR-1",
+          "Content-Type": "html"
+        }
+      }
+    }
+
+    this.services.http.fetchApi('/cibilCallback', 'POST', inputMap, '/rlo-de', json).subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        console.log(httpResponse);
+      });
+  }
 }
