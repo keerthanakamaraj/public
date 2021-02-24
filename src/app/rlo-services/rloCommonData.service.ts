@@ -750,6 +750,8 @@ export class RloCommonData {
   }
 
   async validateApplicationSections(isCategoryTypeLoan: boolean) {
+    console.error(this.masterDataMap);
+
     let dataObject: IFormValidationData = {
       isAppValid: true,
       errorsList: []
@@ -765,12 +767,14 @@ export class RloCommonData {
       let isPropertyDetailsValid = true;
       let isScoreCardDetailsValid = true;
       let isPolicyCheckValid = true;
+      let isFDDetailsValid = true;
       let errorMessage = '';
 
       forkJoin(
         //this.validateGoNoGoSection(dataToValidate), //removed for canara
         this.validateLoanOrCreditCardSection(dataToValidate, isCategoryTypeLoan),
         this.validatePropertyDetailsSection(dataToValidate),
+        this.validateFDDetailsSection(dataToValidate),
         // this.validateScoreCard(dataToValidate),
         // this.validatePolicyCheck(dataToValidate)
       ).subscribe((data) => {
@@ -778,6 +782,7 @@ export class RloCommonData {
         //isGoNoGoSectionValid = data[0].isSectionValid;  //removed for canara
         isLoadOrCreditCardValid = data[0].isSectionValid;
         isPropertyDetailsValid = data[1].isSectionValid;
+        isFDDetailsValid = data[2].isSectionValid;
         // isScoreCardDetailsValid = data[3].isSectionValid;
         // isPolicyCheckValid = data[4].isSectionValid;
 
@@ -988,6 +993,22 @@ export class RloCommonData {
       }
       else {
         commonObj.errorMessage = "Please fill all the mandatory fields of property details";
+        commonObj.isSectionValid = false;
+      }
+    }
+    return commonObj;
+  }
+
+  async validateFDDetailsSection(applicationData: Map<any, any>) {
+    let commonObj: IComponentSectionValidationData = {
+      isSectionValid: true,
+      errorMessage: ''
+    }
+    console.log(this.globalApplicationDtls);
+
+    if (this.globalApplicationDtls.CardType == "SC") {
+      if (!applicationData.has("FDDetails")) {
+        commonObj.errorMessage = "Please add lien amount in FD Details.";
         commonObj.isSectionValid = false;
       }
     }
@@ -1240,14 +1261,16 @@ export class RloCommonData {
 
     this.getInterfaceResposes(appId, interfaceType).then((response: any) => {
       let responseData;
+      let rawHtml;
       if (interfaceType == "CIBIL") {
         responseData = response.CIBILResponse.filter((data) => data.ProposalId == Number(appId));
+        rawHtml = responseData[0].BureauResponseXml;
       } else if (interfaceType == "Experian") {
         responseData = response.ExperianConsumer.filter((data) => data.ProposalId == Number(appId));
+        rawHtml = responseData[0].BureauResponse;
       }
       //let rawHtml = window.atob(this.testCibilResponse);//testing
       console.log("DEEP | Interface modal response", responseData);
-      let rawHtml = responseData[0].BureauResponse;
 
       if (rawHtml.length) {
         const modalObj: IModalData = {

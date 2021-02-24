@@ -34,7 +34,7 @@
                       *ngIf="customer.value.InterfaceResultDataMap.get('EXPERIAN_CONSUMER').ResponseStatus == 'completed' || customer.value.InterfaceResultDataMap.get('EXPERIAN_CONSUMER').ResponseStatus == 'Success'"
                       (click)="getInterfaceData('Experian')"></span>
                     <i class="icon-refresh trigger-interface"
-                    *ngIf="customer.value.InterfaceResultDataMap.get('EXPERIAN_CONSUMER').ResponseStatus == 'completed' || customer.value.InterfaceResultDataMap.get('EXPERIAN_CONSUMER').ResponseStatus == 'Success'"
+                      *ngIf="customer.value.InterfaceResultDataMap.get('EXPERIAN_CONSUMER').ResponseStatus == 'completed' || customer.value.InterfaceResultDataMap.get('EXPERIAN_CONSUMER').ResponseStatus == 'Success'"
                       [ngClass]="customer.value.InterfaceResultDataMap.get('EXPERIAN_CONSUMER').isTriggered ? 'disabled' : ''"
                       (click)="triggerInterface(customer.value.InterfaceResultDataMap.get('EXPERIAN_CONSUMER'),'experian')"></i>
                   </div>
@@ -56,7 +56,8 @@
                       *ngIf="customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus == 'completed' || customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus == 'Success'"
                       (click)="getInterfaceData('CIBIL')"></span>
                     <i class="icon-refresh trigger-interface"
-                    *ngIf="customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus == 'completed' || customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus == 'Success'"
+                      *ngIf="customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus == 'completed' || customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus == 'Success'"
+                      [ngClass]="customer.value.InterfaceResultDataMap.get('CIBIL001').isTriggered ? 'disabled' : ''"
                       (click)="triggerInterface(customer.value.InterfaceResultDataMap.get('CIBIL001'),'cibil')"></i>
                   </div>
                 </span>

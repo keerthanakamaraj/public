@@ -331,7 +331,7 @@ export class CardComponent implements OnInit {
         inputMap.set('Body.InterfaceId', obj.interfaceId);
 
         let url = '';
-        if (obj.type == 'cibil') {
+        if (obj.type == 'CIBIL001') {
           url = '/CibilApi';
         } else {
           url = '/experianConsumer';
