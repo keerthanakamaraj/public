@@ -514,6 +514,8 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
     this.services.http.fetchApi('/CreditCardDetails', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
+        let OtherConditionsFlag:boolean=true;
+        
         var res = httpResponse.body;
         if (res != null && res != undefined && res['CreditCardDetails'] != undefined) {
           var CreditArray = res['CreditCardDetails'];
@@ -557,6 +559,9 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
           if (this.services.rloCommonData.globalApplicationDtls.CardType == 'SC') {
             this.setApprovedCardLimit();
+            if(this.totalLienAmount < this.ApprovedLimit.getFieldValue()){
+            OtherConditionsFlag = false;
+          }
           }
           // else {
           //   this.ApprovedLimit.setComponentSpecificValue(this.ApprovedLimit, null);
@@ -564,11 +569,12 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
 
 
-          this.revalidate(false).then((errors) => {
-            //  let noOfError: number = await this.revalidate(false);
-           
-            let isGridValid:boolean =this.CreditCardInputGrid.CustomerDtlsMap.size > 0? this.CreditCardInputGrid.validateAmountColumn():true;
-          let isSectionValid:boolean=(errors == 0 && isGridValid) ?true:false;
+          //  let noOfError: number = await this.revalidate(false);
+          
+          let isGridValid:boolean =this.CreditCardInputGrid.CustomerDtlsMap.size > 0? await this.CreditCardInputGrid.validateAmountColumn():true;
+          
+          let errors= await this.revalidate(false);
+           let isSectionValid:boolean =(errors == 0 && isGridValid && OtherConditionsFlag) ?true:false;
 
               let array = [];
               array.push({ isValid: isSectionValid, sectionData: this.getFieldValue() });
@@ -578,7 +584,6 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 "sectionName": "CreditCardDetails"
               }
               this.services.rloCommonData.globalComponentLvlDataHandler(obj);
-          });
 
         }
       },
