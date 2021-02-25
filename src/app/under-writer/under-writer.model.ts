@@ -1303,8 +1303,8 @@ export class CustomerDetails implements IDeserializable {
 
     getCustomerType(type: string) {
         switch (type) {
-            case "B":
-                return "Primary Applicant"
+            case "B"  :
+                return "Primary"
                 break;
 
             case "CB":

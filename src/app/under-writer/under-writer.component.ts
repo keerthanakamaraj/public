@@ -653,15 +653,19 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             if (this.customerMasterJsonData.productCategory == 'CC' && this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
               const moment = require('moment');
               let DOI = moment(singleCustomer.DateOfIncorporation).format('DD-MM-YYYY');
-
+              let fieldsArray = this.customerCardDataWithFields.data;
               if (singleCustomer.CustomerType == "B") {
-                let fieldsArray = this.customerCardDataWithFields.data;
-
                 fieldsArray[0].title = "Registered Name";
                 fieldsArray[0].subTitle = singleCustomer.RegisteredName;
 
                 fieldsArray[1].title = "Date Of Incorporation";
                 fieldsArray[1].subTitle = DOI;
+
+                fieldsArray[3].title = "Applicant Type";
+                fieldsArray[3].subTitle = "Corporate";
+              }else{
+                fieldsArray[3].title = "Applicant Type";
+                fieldsArray[3].subTitle = "Member";
               }
             }
 
