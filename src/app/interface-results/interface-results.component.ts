@@ -83,6 +83,7 @@ export class InterfaceResultsComponent implements OnInit {
     console.log("DEEP | CustomerList", CustomerList);
     tempInterfaceResultList.forEach(eachResult => {
       let CustomerDtls: IInterfaceResultCustomer = {};
+      let isActiveApplicant= true;
       if (this.MstInterfaceResultMap.has(eachResult.BorrowerSeq)) {
         CustomerDtls = this.MstInterfaceResultMap.get(eachResult.BorrowerSeq);
       }
@@ -108,8 +109,11 @@ export class InterfaceResultsComponent implements OnInit {
             CustomerDtls.CustomerType = staticCustData.CustomerType;
             CustomerDtls.FullName = staticCustData.FullName;
           }
+        }else{
+              isActiveApplicant=false;
         }
       }
+      if(isActiveApplicant){
       let interfaceRsltData: IInterfaceResultData = {};
       //for customer type 'I' InterfaceId='EXPERIAN_CONSUMER' and for 'C' InterfaceId 'Experian';
       //making changes in main json to avoid HTML changes
@@ -130,6 +134,7 @@ export class InterfaceResultsComponent implements OnInit {
       CustomerDtls.InterfaceResultDataMap.set(interfaceRsltData.InterfaceId, interfaceRsltData);
 
       this.MstInterfaceResultMap.set(eachResult.BorrowerSeq, CustomerDtls);
+    }
     });
 
     
