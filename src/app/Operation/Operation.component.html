@@ -56,8 +56,13 @@
 
       <div class="col-12 col-sm-12 col-md-12 res-pr-hide document-upload"
         [ngClass]="showExpandedHeader ? '' : 'header-expanded-op'">
-        <div class="view-dde-section" [hidden]="VIEW_DDE.isHidden()">
+        <div class="view-dde-section" [hidden]="VIEW_DDE.isHidden() || !this.isLoanCategory">
           <app-button #VIEW_DDE class="viewbutton" fieldName="{{ 'Operation.VIEW_DDE' | translate}}" fieldID="VIEW_DDE"
+            customClass="btn btn-primary" (click)="viewDDE()" [formCode]="formCode" style="margin-top: 36px;">
+          </app-button>
+        </div>
+        <div class="view-dde-section" [hidden]="VIEW_DDE_CARD.isHidden() || this.isLoanCategory">
+          <app-button #VIEW_DDE_CARD class="viewbutton" fieldName="{{ 'Operation.VIEW_DDE_CARD' | translate}}" fieldID="VIEW_DDE_CARD"
             customClass="btn btn-primary" (click)="viewDDE()" [formCode]="formCode" style="margin-top: 36px;">
           </app-button>
         </div>

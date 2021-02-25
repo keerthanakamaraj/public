@@ -272,7 +272,7 @@
               </label>
             </div>
             <app-date #NomineeDOB fieldID="NomineeDOB" [formCode]="formCode"
-              (blur)="genericOnBlur('NomineeDOB', $event)" (change)="NomineeDOB_change('NomineeDOB', $event)">
+              (blur)="genericOnBlur('NomineeDOB', $event)" >
             </app-date>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="GuardianName.isHidden()">

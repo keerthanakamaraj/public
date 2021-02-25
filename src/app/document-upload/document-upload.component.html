@@ -10,8 +10,8 @@
                     <label
                         [ngClass]="{ 'mandatory': isMandatory('trnDemographicId')}">{{getLabel('DOC_UP_OWNER')}}</label>
                     <ng-select [disabled]="ownerfield" class="ngselect" [(ngModel)]="docUploadObject.trnDemographicId"
-                        [items]="ownersName" bindValue="ID" bindLabel="DISPLAY_NAME" name="trnDemographicId"
-                        (blur)="validateField(docUploadObject.trnDemographicId, 'trnDemographicId')" [readonly]="readOnly"></ng-select>
+                        [items]="ownersName" bindValue="ID" bindLabel="DISPLAY_NAME" name="trnDemographicId" 
+                        (blur)="validateField(docUploadObject.trnDemographicId, 'trnDemographicId')"   (change)="getDocumentsType()" [readonly]="readOnly"></ng-select>
                 </div>
             </div>
             <div class="col-md-4 ">
@@ -20,7 +20,7 @@
                     <ng-select class="ngselect w-100 " [disabled]="ownerfield" [(ngModel)]="docDetailsObject.DocType"
                         [items]="lookupVariableOptions['IMG_DOCUMENT_TYPE']" bindValue="DocType" bindValue="id"
                         bindLabel="text" (blur)="validateField(docDetailsObject.DocType, 'DocType')"
-                        (change)="getDocuments()" [clearable]="false" [readonly]="readOnly">
+                        (change)="getDocuments()" [clearable]="false" [readonly]="readOnly" >
                     </ng-select>
                 </div>
             </div>

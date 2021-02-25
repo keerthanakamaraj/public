@@ -202,13 +202,13 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     if (!this.clearFieldsFlag) {
       this.fetchCreditCardDetails();
     }
-    setTimeout(() => {
-      this.NomineeName.setHidden(true);
-      this.NomineeRelationship.setHidden(true);
-      this.NomineeDOB.setHidden(true);
-      this.GuardianName.setHidden(true);
-      this.GuadianRelationship.setHidden(true);
-    }, 500);
+    // setTimeout(() => {
+    //   this.NomineeName.setHidden(true);
+    //   this.NomineeRelationship.setHidden(true);
+    //   this.NomineeDOB.setHidden(true);
+    //   this.GuardianName.setHidden(true);
+    //   this.GuadianRelationship.setHidden(true);
+    // }, 500);
     this.setDependencies();
   }
   setInputs(param: any) {
@@ -312,22 +312,8 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
   async NomineeRequired_change(event) {
     const inputMap = new Map();
     console.log("nominee", this.NomineeRequired.getFieldValue());
-    if (this.NomineeRequired.getFieldValue() == 'Y') {
-      this.NomineeName.setHidden(false);
-      this.NomineeRelationship.setHidden(false);
-      this.NomineeDOB.setHidden(false);
-      this.NomineeName.mandatory = true;
-      this.NomineeRelationship.mandatory = true;
-      this.NomineeDOB.mandatory = true;
-    }
-    else {
-      this.NomineeName.setHidden(true);
-      this.NomineeRelationship.setHidden(true);
-      this.NomineeDOB.setHidden(true);
-      this.NomineeName.mandatory = false;
-      this.NomineeRelationship.mandatory = false;
-      this.NomineeDOB.mandatory = false;
-    }
+    this.Handler.NomineeRequiredChange();
+    
   }
   isAgeValid(selectedDate) {
     const moment = require('moment');
@@ -344,24 +330,13 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
       return true;
     }
   }
-  async NomineeDOB_change(event) {
+  async NomineeDOB_blur(event) {
     const inputMap = new Map();
     if (!this.isPastDate(this.NomineeDOB.getFieldValue())) {
       this.NomineeDOB.setError('rlo.error.dob-invalid');
       return 1
     }
-    if (!this.isAgeValid(this.NomineeDOB.getFieldValue())) {
-      this.GuardianName.setHidden(false);
-      this.GuadianRelationship.setHidden(false);
-      this.GuardianName.mandatory = true;
-      this.GuadianRelationship.mandatory = true;
-    }
-    else {
-      this.GuardianName.setHidden(true);
-      this.GuadianRelationship.setHidden(true);
-      this.GuardianName.mandatory = false;
-      this.GuadianRelationship.mandatory = false;
-    }
+   this.Handler.NomineeDOBChange();
   }
   // async ApprovedCashLimitblur(event) {
   //     if (this.ApprovedCashLimit.getFieldValue() != undefined || this.ApprovedCashLimit.getFieldValue() != null) {
@@ -527,7 +502,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
           this.PaymentOption.setValue(CreditElement['PaymentOption']['id']);
           this.StmtDispatchMode.setValue(CreditElement['StmtDispatchMode']['id']);
           // this.ExistingCreditCard.setValue(CreditElement['ExistingCreditCard']['id']);
-          this.CardDispatchMode.setValue(CreditElement['CardDispatchMode']);
+          this.CardDispatchMode.setValue(CreditElement['CardDispatchMode']['id']);
           //     this.hidCreditSeq.setValue(CreditElement['CreditCardDetailSeq'])
           this.CreditCardSeq = CreditElement['CreditCardDetailSeq'];
           this.CustomerType.setValue(CreditElement['CustomerType']['text']);
@@ -552,6 +527,8 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
           //  this.CurrentCorporateCardLimit.setComponentSpecificValue(CreditElement['CurrentCorporateCardLimit'], null);
           this.CurrentCardLimit.setComponentSpecificValue(CreditElement['CurrentCardLimit'], null);
           this.MaskedCardNumber.setValue(CreditElement['MaskedCardNumber']);
+          this.Handler.NomineeRequiredChange();
+          this.Handler.NomineeDOBChange();
           if (!this.ApprovedLimit.isAmountEmpty() && this.ApprovedCashLimit.isAmountEmpty()) {
             this.ApprovedCashLimit.setComponentSpecificValue(this.setApproveCashLimit(this.ApprovedLimit.getFieldValue()), null);
           }
@@ -655,11 +632,11 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     this.RequestedCardLimit.setHidden(!isNewApplication);
     this.NomineeRequired.setHidden(!isNewApplication);
     this.NomineeRequired.mandatory = isNewApplication;
-    this.NomineeName.setHidden(!isNewApplication);
-    this.NomineeRelationship.setHidden(!isNewApplication);
-    this.NomineeDOB.setHidden(!isNewApplication);
-    this.GuardianName.setHidden(!isNewApplication);
-    this.GuadianRelationship.setHidden(!isNewApplication);
+    // this.NomineeName.setHidden(!isNewApplication);
+    // this.NomineeRelationship.setHidden(!isNewApplication);
+    // this.NomineeDOB.setHidden(!isNewApplication);
+    // this.GuardianName.setHidden(!isNewApplication);
+    // this.GuadianRelationship.setHidden(!isNewApplication);
     this.SettlementAccountNo.setHidden(!isNewApplication);
     this.SettlementAccountNo.mandatory = isNewApplication
     this.PaymentOption.setHidden(!isNewApplication);
