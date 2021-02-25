@@ -173,8 +173,8 @@ export class RloCommonData {
     let functionalResponseObj: Promise<IComponentSectionValidationData>
     if (componentData.tabName != undefined) {
       isCustomerTabSelected = componentData.tabName == 'C' ? true : false;
-    } 
-     if (isCustomerTabSelected) {
+    }
+    if (isCustomerTabSelected) {
       mapName = "customerMap";
       mapKey = componentData.BorrowerSeq;
     } else {
@@ -800,7 +800,7 @@ export class RloCommonData {
           }
         }
 
-        if (!(isGoNoGoSectionValid && isLoadOrCreditCardValid && isPropertyDetailsValid && isScoreCardDetailsValid && isPolicyCheckValid)) {
+        if (errorMessage != undefined && errorMessage.trim() != '') {
           // let msg = errorMessage + "\r\n";
           let msg = "<p>The following details of Application tab need to be filled in order to submit: " + "</p>" + errorMessage + "<br>";
           dataObject.errorsList.push(msg);
@@ -1010,6 +1010,17 @@ export class RloCommonData {
       if (!applicationData.has("FDDetails")) {
         commonObj.errorMessage = "Please add lien amount in FD Details.";
         commonObj.isSectionValid = false;
+      } else {
+        console.log("Debug :: FD Details", applicationData.get("FDDetails"));
+        let totalLienAmt = 0;
+        applicationData.get("FDDetails").forEach(element => {
+          totalLienAmt += parseFloat(element.LienAmt);
+        });
+
+  if(parseFloat(this.globalApplicationDtls.ApprovedCardLimit)>totalLienAmt){
+    commonObj.errorMessage = "Approved Card Limit needs to be less than the Lien Amount";
+    commonObj.isSectionValid = false;
+  }
       }
     }
     return commonObj;

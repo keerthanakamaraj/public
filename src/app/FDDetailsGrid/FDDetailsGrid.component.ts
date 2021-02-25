@@ -227,6 +227,7 @@ export class FDDetailsGridComponent implements AfterViewInit {
                 }
                 else {
                     this.fdRecord = false;
+                    
                 }
 
                 // if (res != null) {
@@ -264,6 +265,7 @@ export class FDDetailsGridComponent implements AfterViewInit {
                         "data": loopVar4,
                         "sectionName": 'FDDetails'
                     }
+                    this.services.rloCommonData.globalComponentLvlDataHandler(obj);
                 }
                 else {
                     obj = {
@@ -271,9 +273,10 @@ export class FDDetailsGridComponent implements AfterViewInit {
                         "data": [],
                         "sectionName": 'FDDetails'
                     }
-                }
+                    this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
-                this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+                  }
+               
 
                 this.readonlyGrid.apiSuccessCallback(params, this.loopDataVar4);
                 setTimeout(() => {

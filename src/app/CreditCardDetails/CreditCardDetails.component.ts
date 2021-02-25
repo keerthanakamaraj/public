@@ -800,7 +800,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             "sectionName": "CreditCardDetails"
           }
           this.services.rloCommonData.globalComponentLvlDataHandler(obj);
-
+          this.services.rloCommonData.globalApplicationDtls.ApprovedCardLimit=this.ApprovedLimit.getFieldValue();
           if (this.readOnly) {
             this.services.rloCommonData.reloadUWSections.next({
               data: { 'approvedLimit': this.ApprovedLimit.getTextBoxValue() }
