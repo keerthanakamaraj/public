@@ -83,7 +83,7 @@ export class InterfaceResultsComponent implements OnInit {
     console.log("DEEP | CustomerList", CustomerList);
     tempInterfaceResultList.forEach(eachResult => {
       let CustomerDtls: IInterfaceResultCustomer = {};
-      let isActiveApplicant= true;
+      let isActiveApplicant = true;
       if (this.MstInterfaceResultMap.has(eachResult.BorrowerSeq)) {
         CustomerDtls = this.MstInterfaceResultMap.get(eachResult.BorrowerSeq);
       }
@@ -109,35 +109,35 @@ export class InterfaceResultsComponent implements OnInit {
             CustomerDtls.CustomerType = staticCustData.CustomerType;
             CustomerDtls.FullName = staticCustData.FullName;
           }
-        }else{
-              isActiveApplicant=false;
+        } else {
+          isActiveApplicant = false;
         }
       }
-      if(isActiveApplicant){
-      let interfaceRsltData: IInterfaceResultData = {};
-      //for customer type 'I' InterfaceId='EXPERIAN_CONSUMER' and for 'C' InterfaceId 'Experian';
-      //making changes in main json to avoid HTML changes
-      if (this.services.rloCommonData.globalApplicationDtls.CustomerType == "C") {
-        eachResult.InterfaceId = 'EXPERIAN_CONSUMER';
-      }
-      
-      interfaceRsltData.InterfaceId = eachResult.InterfaceId;
-      interfaceRsltData.ResponseStatus = eachResult.ResponseStatus == '' ? "disabled" : eachResult.ResponseStatus;
-      interfaceRsltData.InterfaceResultId = eachResult.InterfaceResultId;
-      interfaceRsltData.ResponseDate = eachResult.ResponseDate;
-      interfaceRsltData.TriggerDate = eachResult.TriggerDate;
-      interfaceRsltData.TriggerStage = eachResult.TriggerStage;
-      interfaceRsltData.isTriggered = false;
-      if (CustomerDtls.InterfaceResultDataMap == undefined) {
-        CustomerDtls.InterfaceResultDataMap = new Map<string, IInterfaceResultData>();
-      }
-      CustomerDtls.InterfaceResultDataMap.set(interfaceRsltData.InterfaceId, interfaceRsltData);
+      if (isActiveApplicant) {
+        let interfaceRsltData: IInterfaceResultData = {};
+        //for customer type 'I' InterfaceId='EXPERIAN_CONSUMER' and for 'C' InterfaceId 'Experian';
+        //making changes in main json to avoid HTML changes
+        if (this.services.rloCommonData.globalApplicationDtls.CustomerType == "C") {
+          eachResult.InterfaceId = 'EXPERIAN_CONSUMER';
+        }
 
-      this.MstInterfaceResultMap.set(eachResult.BorrowerSeq, CustomerDtls);
-    }
+        interfaceRsltData.InterfaceId = eachResult.InterfaceId;
+        interfaceRsltData.ResponseStatus = eachResult.ResponseStatus == '' ? "disabled" : eachResult.ResponseStatus;
+        interfaceRsltData.InterfaceResultId = eachResult.InterfaceResultId;
+        interfaceRsltData.ResponseDate = eachResult.ResponseDate;
+        interfaceRsltData.TriggerDate = eachResult.TriggerDate;
+        interfaceRsltData.TriggerStage = eachResult.TriggerStage;
+        interfaceRsltData.isTriggered = false;
+        if (CustomerDtls.InterfaceResultDataMap == undefined) {
+          CustomerDtls.InterfaceResultDataMap = new Map<string, IInterfaceResultData>();
+        }
+        CustomerDtls.InterfaceResultDataMap.set(interfaceRsltData.InterfaceId, interfaceRsltData);
+
+        this.MstInterfaceResultMap.set(eachResult.BorrowerSeq, CustomerDtls);
+      }
     });
 
-    
+
   }
 
   getInterfaceData(interfaceType: "CIBIL" | "Experian") {
