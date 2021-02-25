@@ -472,6 +472,9 @@ export class MyTrayGridComponent implements AfterViewInit {
               else if(loopVar7[i].CAM_TYPE == "MEMC"){
                 tempObj['MT_APPLICATION_TYPE'] = 'M';
               }
+              else if(loopVar7[i].CAM_TYPE == "CHNL"){
+                tempObj['MT_APPLICATION_TYPE'] = 'CH';
+              }
               loopDataVar7.push(tempObj);
             }
           }

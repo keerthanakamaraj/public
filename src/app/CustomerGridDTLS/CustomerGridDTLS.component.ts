@@ -306,6 +306,11 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
     if (!this.customerTypeMap.has('A') && this.parentFormCode == 'QDE') {
       this.AddOnSectionFlag = false;
     }
+    setTimeout(() => {
+      if(this.services.rloCommonData.globalApplicationDtls.CamType == 'LE'){
+        this.AddOnSectionFlag = false;
+      }
+    }, 500);
   }
 
   categoriseCustomers(customerType: String, customer: {}) {

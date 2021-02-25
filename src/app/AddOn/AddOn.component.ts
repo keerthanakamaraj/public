@@ -316,6 +316,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     this.ADD_ApplicantType.setReadOnly(true);
     this.ADD_MaskedCardNumber.setReadOnly(true);
     this.ADD_CurrentCardLimit.setReadOnly(true);
+    this.ADD_AvailableLimit.setHidden(true);
     this.ADD_AvailableLimit.setReadOnly(true);
   }
   setCoroporateFields(data) {
