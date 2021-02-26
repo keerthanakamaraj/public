@@ -232,6 +232,8 @@ export class CardComponent implements OnInit {
           if (!element.InterfaceId.toLowerCase().includes("customer")) {
             if (element.InterfaceId == 'CIBIL001') {
               element.InterfaceId = "CIBIL";
+            }else if(element.InterfaceId=="EXPERIAN_CONSUMER"){
+              element.InterfaceId = "EXPERIAN";
             }
             obj.title = element.InterfaceId;
             if (element.Status == "S" || element.Status == "Success") {

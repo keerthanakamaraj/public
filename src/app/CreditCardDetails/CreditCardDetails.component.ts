@@ -261,8 +261,13 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
       this.onFormLoad();
       this.checkForHTabOverFlow();
 
-      if (this.readOnly)
+      if (this.readOnly) {
         this.setReadOnly(this.readOnly);
+        let ele = this.CreditCardInputGrid.ProposedCardLimit.toArray();
+        ele.forEach(element => {
+          element.setReadOnly(true);
+        });
+      }
     });
   }
   clearError() {
@@ -361,9 +366,9 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
   // }
   getPrimaryApplicantSeq() {
-   // let customerList = this.services.rloCommonData.getCustomerList();
+    // let customerList = this.services.rloCommonData.getCustomerList();
 
-   let customerList = this.uwCustomerList.length ? this.uwCustomerList : this.services.rloCommonData.getCustomerList();
+    let customerList = this.uwCustomerList.length ? this.uwCustomerList : this.services.rloCommonData.getCustomerList();
     console.log("customer list", customerList);
     for (let index = 0; index < customerList.length; index++) {
       const element = customerList[index];
