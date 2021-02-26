@@ -947,7 +947,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
           }
         }
       } else if (this.services.rloCommonData.globalApplicationDtls.CamType == 'NAPP') {
-        if (this.ApprovedLimit.getFieldValue() > this.header.Product_max_credit) {
+        if (Number(this.ApprovedLimit.getFieldValue()) > Number(this.header.Product_max_credit)) {
           this.services.alert.showAlert(2, 'rlo.error.approvedlimit.gt.product', 5000);
           return;
         }

@@ -1279,6 +1279,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'I') {
           if (this.services.rloCommonData.globalApplicationDtls.isChannelApplication && section.id == 'RmVisitDetails') {
             section.isOptional = false;
+            //  this.progressStatusObject.manditorySection += 1;
           }
         }
 
@@ -1521,7 +1522,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
           this.initiallyCustomersAdded = true;
 
           this.progressStatusObject.manditorySection += 1;
-          this.progressStatusObject.manditorySection += initialAllCustomerList.size * 2;
+
+          this.progressStatusObject.manditorySection += 
+          this.services.rloCommonData.globalApplicationDtls.isChannelApplication ? 
+          initialAllCustomerList.size * 3 : initialAllCustomerList.size * 2;
         }
         break;
 
@@ -1990,6 +1994,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
               this.progressStatusObject.manditorySection += 2;
             } else if (this.services.rloCommonData.globalApplicationDtls.CustomerType == "I") {
               this.progressStatusObject.manditorySection += 2;
+              if(this.services.rloCommonData.globalApplicationDtls.isChannelApplication){
+                this.progressStatusObject.manditorySection += 1;
+              }
             }
           }
         }
