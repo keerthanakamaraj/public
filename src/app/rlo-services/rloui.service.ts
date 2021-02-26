@@ -409,7 +409,7 @@ export class RlouiService {
         componentCode: cardMetaData.componentCode
       }
 
-      if (cardMetaData.modalSectionName == "InterfaceResults") {
+      if (cardMetaData.modalSectionName == "InterfaceResults" || cardMetaData.modalSectionName == "CreditCardDetails") {
         modalObj.customerList = cardMetaData.customerList;
       }
 

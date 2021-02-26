@@ -751,6 +751,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       let application = this.customerMasterJsonData.ApplicationDetails;
 
       this.allSectionsCardData[1].cardList.forEach(element => {
+        let customCustomerList = [];
         switch (element.className) {
           case "LoanDetails":
             this.loanDetailsCardData = application.LoanDetails.getCardData();
@@ -761,7 +762,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             break;
 
           case "InterfaceResults":
-            let customCustomerList = [];
+            customCustomerList = []
             this.interfaceResultCardData = application.InterfaceResults.getCardData();
             this.interfaceResultCardData.applicationId = this.applicationId;
             this.interfaceResultCardData.borrowerSeq = this.borrowerSeq;
@@ -810,7 +811,21 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             data.applicationId = this.applicationId;
             data.borrowerSeq = this.borrowerSeq;
             data.componentCode = this.componentCode;
+            customCustomerList = [];
+             if (this.customerList.length) {
+              this.customerList.forEach(element => {
+                let obj = {};
+                obj["BorrowerSeq"] = element.BorrowerSeq;
+                obj["CustomerType"] = element.CD_CUSTOMER_TYPE;
+                obj["FullName"] = element.CD_CUSTOMER_NAME;
+
+                customCustomerList.push(obj);
+              })
+            }
+            data.customerList = customCustomerList;
+           console.log("debug :: ",data);
             this.aCardDataWithFields.push(data);
+            console.log("debug 2:: ",this.aCardDataWithFields);
             break;
 
           case "ReferalDetails":

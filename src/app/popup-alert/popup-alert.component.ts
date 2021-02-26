@@ -144,6 +144,7 @@ export class PopupAlertComponent implements OnInit {
         this.dynamicallyLoadableComponent.parentFormCode = "DDE";//used in condition to check score acc. to stage
       } else if (this.modalObject.componentName == 'CreditCardDetails') {
         this.dynamicallyLoadableComponent.enableApproveLimit = true;
+        this.dynamicallyLoadableComponent.uwCustomerList = this.modalObject.customerList;
       } else if (this.modalObject.componentName == 'CustomerSearch') {
         //this.dynamicallyLoadableComponent.passedFieldData=this.dynamicallyLoadableComponent.parentData
       } else if (this.modalObject.componentName == 'InterfaceResults') {

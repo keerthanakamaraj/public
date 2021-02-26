@@ -97,7 +97,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
   isApproveLimitValid: boolean = true;
   custMinAge = 18;
   custMaxAge = 100;
-  // customerList: any;
+  uwCustomerList: any[];
   clearFieldsFlag: boolean = false;
   CreditCardSeq: string = undefined;
   SubCamType: string = undefined;
@@ -361,7 +361,9 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
   // }
   getPrimaryApplicantSeq() {
-    let customerList = this.services.rloCommonData.getCustomerList();
+   // let customerList = this.services.rloCommonData.getCustomerList();
+
+   let customerList = this.uwCustomerList.length ? this.uwCustomerList : this.services.rloCommonData.getCustomerList();
     console.log("customer list", customerList);
     for (let index = 0; index < customerList.length; index++) {
       const element = customerList[index];
