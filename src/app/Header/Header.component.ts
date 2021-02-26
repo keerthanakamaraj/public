@@ -543,9 +543,11 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       CBSProductCode: header.CBS_Product_Code,
       ApplicationPurposeName: header.ApplicationPurposeName,
       CIF: header.CIF,
-      ApprovedCardLimit:header.AppCreditLimit
+      ApprovedCardLimit: header.AppCreditLimit,
+      SourcingChannel: header.SourcingChannel,
+      isChannelApplication: (header.SourcingChannel == 'IB' || header.SourcingChannel == 'MB') ? true : false
     }
     this.services.rloCommonData.globalApplicationDtls = StoreObject;
-    
+
   }
 }

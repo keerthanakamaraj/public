@@ -818,28 +818,28 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         alreadyCompletedSectionList = this.completedMenuSectionList.customerSection.get(activeBorrowerSeq);
         let formsMenuList = this.customerMenu;
         if (this.services.rloCommonData.globalApplicationDtls.CustomerType == "C") {
-          if (this.CustomerType == "B" || this.CustomerType == "A") {
-            formsMenuList.forEach(element => {
-              for (let i = 0; i < element.length; i++) {
-                const section = element[i];
-                section.isActive = false;
+          formsMenuList.forEach(element => {
+            for (let i = 0; i < element.length; i++) {
+              const section = element[i];
+              section.isActive = false;
 
-                if (section.id == 'FamilyDetails' || section.id == 'LiabilityDetails' || section.id == 'AssetDetails' || section.id == 'IncomeSummary' || section.id == 'RmVisitDetails') {
-                  element.splice(i, 1);
-                  i--;
-                }
+              if (section.id == 'FamilyDetails' || section.id == 'LiabilityDetails' || section.id == 'AssetDetails' || section.id == 'IncomeSummary' || section.id == 'RmVisitDetails') {
+                element.splice(i, 1);
+                i--;
               }
-            });
-          }
+            }
+          });
         } else if (this.services.rloCommonData.globalApplicationDtls.CustomerType == "I") {
-          if (this.CustomerType == "B" || this.CustomerType == "A") {
-            formsMenuList.forEach(element => {
-              for (let i = 0; i < element.length; i++) {
-                const section = element[i];
-                section.isActive = false;
+          formsMenuList.forEach(element => {
+            for (let i = 0; i < element.length; i++) {
+              const section = element[i];
+              section.isActive = false;
+
+              if (this.services.rloCommonData.globalApplicationDtls.isChannelApplication && section.id == 'RmVisitDetails') {
+                section.isOptional = false;
               }
-            });
-          }
+            }
+          });
         }
         this.updateRoleBasedMenuData(alreadyCompletedSectionList);
       }
@@ -1273,6 +1273,12 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             section.isOptional = true;
             element.splice(i, 1);
             i--;
+          }
+        }
+
+        if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'I') {
+          if (this.services.rloCommonData.globalApplicationDtls.isChannelApplication && section.id == 'RmVisitDetails') {
+            section.isOptional = false;
           }
         }
 

@@ -76,6 +76,8 @@ export interface IGlobalApllicationDtls {
   isAddedNewMember?: boolean;
   ActiveStage?: string;
   ApprovedCardLimit?: any;
+  SourcingChannel?: string;
+  isChannelApplication?: boolean;
   // #PR-38 - dev
   //MaxCredit?: any;
   //
@@ -539,6 +541,7 @@ export class RloCommonData {
       let isAddressValid = true;
       let isOccupationValid = true;
       let isCustomerValid = true;
+      let isRMVisitValid = true;
       let isIncomeSummaryValid = true;
       let errorMessage = '';
       let custFullName = '';
@@ -550,13 +553,14 @@ export class RloCommonData {
         forkJoin(
           this.validateCustomerDetailSection(entry[1]),
           this.validateAddressDetailSection(entry[1]),
-          this.validateOccupationDetailsSection(entry[1])
+          this.validateOccupationDetailsSection(entry[1]),
+          this.validateRMVisitSection(entry[1])
         ).subscribe((data) => {
           console.error(data);
           isCustomerValid = data[0].isSectionValid;
           isAddressValid = data[1].isSectionValid;
           isOccupationValid = data[2].isSectionValid;
-
+          isRMVisitValid = data[3].isSectionValid;
           let errorCounter = 1;
           for (let i = 0; i < data.length; i++) {
             const element = data[i];
@@ -566,7 +570,7 @@ export class RloCommonData {
             }
           }
 
-          if (!(isCustomerValid && isAddressValid && isOccupationValid)) {
+          if (errorMessage != undefined && errorMessage.trim() != '') {
             let msg = "<p>The following details for " + custFullName + " need to be filled in order to submit: " + "</p>" + errorMessage + "<br>";
             dataObject.errorsList.push(msg);
             dataObject.isAppValid = false;
@@ -1017,10 +1021,10 @@ export class RloCommonData {
           totalLienAmt += parseFloat(element.LienAmt);
         });
 
-  if(parseFloat(this.globalApplicationDtls.ApprovedCardLimit)>totalLienAmt){
-    commonObj.errorMessage = "Approved Card Limit needs to be less than the Lien Amount";
-    commonObj.isSectionValid = false;
-  }
+        if (parseFloat(this.globalApplicationDtls.ApprovedCardLimit) > totalLienAmt) {
+          commonObj.errorMessage = "Approved Card Limit needs to be less than the Lien Amount";
+          commonObj.isSectionValid = false;
+        }
       }
     }
     return commonObj;
@@ -1404,5 +1408,17 @@ export class RloCommonData {
       this.customerListForAddress.set(element.BorrowerSeq, element.BorrowerSeq);
     });
 
+  }
+
+  async validateRMVisitSection(sectionData: Map<any, any>) {
+    let commonObj: IComponentSectionValidationData = {
+      isSectionValid: true,
+      errorMessage: ''
+    }
+    if (this.globalApplicationDtls.isChannelApplication && !sectionData.has('RmVisitDetails')) {
+      commonObj.isSectionValid = false;
+      commonObj.errorMessage = 'Atleast 1 visit report';
+    }
+    return commonObj;
   }
 }
