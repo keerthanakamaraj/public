@@ -14,12 +14,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PopupModalComponent } from '../popup-modal/popup-modal.component';
 import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse, HttpEvent } from '@angular/common/http';
 import { CreditCardHandlerComponent } from '../CreditCardDetails/creditcard-handler.component';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
 import { NonNullAssert } from '@angular/compiler';
 import { CreditCardInputGridComponent } from '../CreditCardInputGrid/CreditCardInputGrid.component';
+import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 
 
 const customCss: string = '';
@@ -190,17 +191,15 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     // }, 500);
     this.getPrimaryApplicantSeq();
     console.log("camtype", this.services.rloCommonData.globalApplicationDtls.CamType);
-    setTimeout(() => {
 
-    }, 500);
-    this.fetchHeaderDetails();
+    // this.fetchHeaderDetails();
     await this.Handler.onFormLoad({
     });
     this.CardDispatchMode.setHidden(false);
 
     // Sprint-6
     if (!this.clearFieldsFlag) {
-      this.fetchCreditCardDetails();
+      // this.fetchCreditCardDetails();
     }
     // setTimeout(() => {
     //   this.NomineeName.setHidden(true);
@@ -210,6 +209,10 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     //   this.GuadianRelationship.setHidden(true);
     // }, 500);
     this.setDependencies();
+
+    //calling header,asset and credit card details
+    this.getAllApiCallData();
+
   }
   setInputs(param: any) {
     let params = this.services.http.mapToJson(param);
@@ -313,7 +316,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     const inputMap = new Map();
     console.log("nominee", this.NomineeRequired.getFieldValue());
     this.Handler.NomineeRequiredChange();
-    
+
   }
   isAgeValid(selectedDate) {
     const moment = require('moment');
@@ -336,7 +339,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
       this.NomineeDOB.setError('rlo.error.dob-invalid');
       return 1
     }
-   this.Handler.NomineeDOBChange();
+    this.Handler.NomineeDOBChange();
   }
   // async ApprovedCashLimitblur(event) {
   //     if (this.ApprovedCashLimit.getFieldValue() != undefined || this.ApprovedCashLimit.getFieldValue() != null) {
@@ -367,8 +370,9 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
       }
     }
     console.log("customer list", this.primaryBorrowerSeq);
-    this.lienAmtCall();
+    // this.lienAmtCall();
   }
+
   lienAmtCall() {
     let inputMap = new Map();
     inputMap.clear();
@@ -376,34 +380,34 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     let AssetId: any = this.primaryBorrowerSeq;
     let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
     if (AssetId) {
-        criteriaJson.FilterCriteria.push({
-            "columnName": "BorrowerSeq",
-            "columnType": "String",
-            "conditions": {
-                "searchType": "equals",
-                "searchText": AssetId
-            }
-        });
+      criteriaJson.FilterCriteria.push({
+        "columnName": "BorrowerSeq",
+        "columnType": "String",
+        "conditions": {
+          "searchType": "equals",
+          "searchText": AssetId
+        }
+      });
     }
     inputMap.set('QueryParam.criteriaDetails.FilterCriteria', criteriaJson.FilterCriteria);
     // inputMap.set('PathParam.AssetSeq', this.primaryBorrowerSeq);
     this.services.http.fetchApi('/AssetDetails', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
-        console.log("asset details" ,res);
+        console.log("asset details", res);
         var loopVar4 = [];
         loopVar4 = res['AssetDetails'];
-        if(loopVar4 != null){
-        for (var i = 0; i < loopVar4.length; i++) {
-        if (loopVar4[i].FDNumber !== null && loopVar4[i].FDNumber !== undefined && loopVar4[i].FDNumber !== '') {
-          this.totalLienAmount += Number(loopVar4[i].LienAmt);
-          // let sum: number = 0;
-          // loopVar4[i].forEach(a => sum += a.LienAmt);
-          // console.log(sum );
+        if (loopVar4 != null) {
+          for (var i = 0; i < loopVar4.length; i++) {
+            if (loopVar4[i].FDNumber !== null && loopVar4[i].FDNumber !== undefined && loopVar4[i].FDNumber !== '') {
+              this.totalLienAmount += Number(loopVar4[i].LienAmt);
+              // let sum: number = 0;
+              // loopVar4[i].forEach(a => sum += a.LienAmt);
+              // console.log(sum );
+            }
+          }
         }
-      }
-    }
-      console.log("total lien amt", this.totalLienAmount);
+        console.log("total lien amt", this.totalLienAmount);
       });
   }
 
@@ -447,6 +451,16 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     // Validate if Approved Limit is greater than product Credit Limit
     if (+approvedLimit > +this.header.Product_max_credit) {
       this.services.alert.showAlert(2, 'rlo.error.approvedlimit.gt.product', 5000);
+
+      let array = [];
+      array.push({ isValid: false, sectionData: {} });
+      let obj = {
+        "name": "CreditCardDetails",
+        "data": array,
+        "sectionName": "CreditCardDetails",
+        "tabName": "A"
+      }
+      this.services.rloCommonData.globalComponentLvlDataHandler(obj);
       return;
     }
 
@@ -468,6 +482,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     }
     return 0;
   }
+
   fetchCreditCardDetails() {
     let inputMap = new Map();
     inputMap.clear();
@@ -489,8 +504,8 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
     this.services.http.fetchApi('/CreditCardDetails', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
-        let OtherConditionsFlag:boolean=true;
-        
+        let OtherConditionsFlag: boolean = true;
+
         var res = httpResponse.body;
         if (res != null && res != undefined && res['CreditCardDetails'] != undefined) {
           var CreditArray = res['CreditCardDetails'];
@@ -536,9 +551,9 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
           if (this.services.rloCommonData.globalApplicationDtls.CardType == 'SC') {
             this.setApprovedCardLimit();
-            if(this.totalLienAmount < this.ApprovedLimit.getFieldValue()){
-            OtherConditionsFlag = false;
-          }
+            if (this.totalLienAmount < this.ApprovedLimit.getFieldValue()) {
+              OtherConditionsFlag = false;
+            }
           }
           // else {
           //   this.ApprovedLimit.setComponentSpecificValue(this.ApprovedLimit, null);
@@ -547,20 +562,20 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
 
           //  let noOfError: number = await this.revalidate(false);
-          
-          let isGridValid:boolean =this.CreditCardInputGrid.CustomerDtlsMap.size > 0? await this.CreditCardInputGrid.validateAmountColumn():true;
-          
-          let errors= await this.revalidate(false);
-           let isSectionValid:boolean =(errors == 0 && isGridValid && OtherConditionsFlag) ?true:false;
 
-              let array = [];
-              array.push({ isValid: isSectionValid, sectionData: this.getFieldValue() });
-              let obj = {
-                "name": "CreditCardDetails",
-                "data": array,
-                "sectionName": "CreditCardDetails"
-              }
-              this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+          let isGridValid: boolean = this.CreditCardInputGrid.CustomerDtlsMap.size > 0 ? await this.CreditCardInputGrid.validateAmountColumn() : true;
+
+          let errors = await this.revalidate(false);
+          let isSectionValid: boolean = (errors == 0 && isGridValid && OtherConditionsFlag) ? true : false;
+
+          let array = [];
+          array.push({ isValid: isSectionValid, sectionData: this.getFieldValue() });
+          let obj = {
+            "name": "CreditCardDetails",
+            "data": array,
+            "sectionName": "CreditCardDetails"
+          }
+          this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
         }
       },
@@ -606,6 +621,223 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
       this.setDependencies();
     }
   }
+
+
+  // ###################################################
+  // ###################################################
+
+  getHeaderDetails() {
+    let inputMap = new Map();
+    inputMap.clear();
+
+    inputMap.set('PathParam.ApplicationId', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'));
+    console.log('inputmaap', inputMap);
+    return this.services.http.fetchApi('/proposal/{ApplicationId}/header', 'GET', inputMap, '/rlo-de')
+  }
+
+  getAssetDeatils() {
+    let serverHttpResponse: HttpResponse<any> = null;
+    let inputMap = new Map();
+    inputMap.clear();
+
+    let AssetId: any = this.primaryBorrowerSeq;
+    let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+    if (AssetId) {
+      criteriaJson.FilterCriteria.push({
+        "columnName": "BorrowerSeq",
+        "columnType": "String",
+        "conditions": {
+          "searchType": "equals",
+          "searchText": AssetId
+        }
+      });
+    }
+    inputMap.set('QueryParam.criteriaDetails.FilterCriteria', criteriaJson.FilterCriteria);
+    return this.services.http.fetchApi('/AssetDetails', 'GET', inputMap, '/rlo-de')
+  }
+
+  getCreditCardDetails() {
+    let serverHttpResponse: HttpResponse<any>;
+    let inputMap = new Map();
+    inputMap.clear();
+
+    let applicationId: any = this.ApplicationId;
+    let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+    if (applicationId) {
+      criteriaJson.FilterCriteria.push({
+        "columnName": "ApplicationId",
+        "columnType": "String",
+        "conditions": {
+          "searchType": "equals",
+          "searchText": applicationId
+        }
+      });
+    }
+    inputMap.set('QueryParam.criteriaDetails', criteriaJson)
+    return this.services.http.fetchApi('/CreditCardDetails', 'GET', inputMap, '/rlo-de')
+  }
+
+  testFn() {
+    let inputMap = new Map();
+    inputMap.clear();
+    let inputKey: any = "11211";
+    let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+    if (inputKey) {
+      criteriaJson.FilterCriteria.push({
+        "columnName": "BorrowerSeq",
+        "columnType": "String",
+        "conditions": {
+          "searchType": "equals",
+          "searchText": inputKey
+        }
+      });
+    }
+    inputMap.set('QueryParam.criteriaDetails', criteriaJson);
+
+    return this.services.http.fetchApi('/OccupationDetails', 'GET', inputMap, '/rlo-de')
+  }
+
+
+  //calling header,asset and credit card details
+  getAllApiCallData() {
+    forkJoin(
+      this.getHeaderDetails(),
+      this.getAssetDeatils(),
+      this.getCreditCardDetails()
+    ).subscribe((data) => {
+      console.error("FORK JOIN");
+      console.log(data);
+      this.headerDetailsSection(data[0]);
+      this.assetDetailsSection(data[1]);
+      this.getCreditCardDetailsSection(data[2]);
+    });
+  }
+
+  headerDetailsSection(httpResponse: any) {
+    console.log(httpResponse);
+    if (httpResponse.status == 200 && httpResponse.body != null) {
+      var res = httpResponse.body;
+      console.log("DEEP | header value", res);
+      this.header = res.Header;
+      this.services.rloCommonData.globalApplicationDtls.MaxCashLimit = this.header.Product_max_cash_limit;
+      this.services.rloCommonData.globalApplicationDtls.MaxCreditLimit = this.header.Product_max_credit;
+      this.services.rloCommonData.globalApplicationDtls.SubCamType = this.header.SubCamType;
+      this.SubCamType = this.header.SubCamType;
+      this.MaximumCardLimit.setComponentSpecificValue(this.header.Product_max_credit, null);
+      this.MaxCashLimit.setComponentSpecificValue(this.header.Product_max_cash_limit, null);
+      this.adjustFieldsBasedOnCamType();
+    }
+  }
+
+  assetDetailsSection(httpResponse: any) {
+    console.log(httpResponse);
+    if (httpResponse.status == 200 && httpResponse.body != null) {
+      var res = httpResponse.body;
+      console.log("asset details", res);
+      var loopVar4 = [];
+      loopVar4 = res['AssetDetails'];
+      if (loopVar4 != null) {
+        for (var i = 0; i < loopVar4.length; i++) {
+          if (loopVar4[i].FDNumber !== null && loopVar4[i].FDNumber !== undefined && loopVar4[i].FDNumber !== '') {
+            this.totalLienAmount += Number(loopVar4[i].LienAmt);
+            // let sum: number = 0;
+            // loopVar4[i].forEach(a => sum += a.LienAmt);
+            // console.log(sum );
+          }
+        }
+      }
+      console.log("total lien amt", this.totalLienAmount);
+    }
+  }
+
+  async getCreditCardDetailsSection(httpResponse: any) {
+    console.log(httpResponse);
+    if (httpResponse.status == 200 && httpResponse.body != null) {
+      let OtherConditionsFlag: boolean = true;
+
+      var res = httpResponse.body;
+      if (res != null && res != undefined && res['CreditCardDetails'] != undefined) {
+        var CreditArray = res['CreditCardDetails'];
+        // CreditArray.forEach(CreditElement => {
+        // this.FrontPageCategory.setValue(CreditElement['FrontPageCategory']['id']);
+        // this.SettlementAccountType.setValue(CreditElement['SettlementAccountType']['id']);
+        let CreditElement = CreditArray[0];
+        this.SettlementAccountNo.setValue(CreditElement['SettlementAccountNo']);
+        this.PaymentOption.setValue(CreditElement['PaymentOption']['id']);
+        this.StmtDispatchMode.setValue(CreditElement['StmtDispatchMode']['id']);
+        // this.ExistingCreditCard.setValue(CreditElement['ExistingCreditCard']['id']);
+        this.CardDispatchMode.setValue(CreditElement['CardDispatchMode']['id']);
+        //     this.hidCreditSeq.setValue(CreditElement['CreditCardDetailSeq'])
+        this.CreditCardSeq = CreditElement['CreditCardDetailSeq'];
+        this.CustomerType.setValue(CreditElement['CustomerType']['text']);
+        //this.MaxCashLimit.setValue(CreditElement['MaxCashLimit']);
+        // this.ApprovedCashLimit.setValue(CreditElement['ApprovedCashLimit']);
+        this.NomineeRequired.setValue(CreditElement['NomineeRequired']['id']);
+        this.NomineeName.setValue(CreditElement['NomineeDetails']['NomineeName']);
+        this.NomineeRelationship.setValue(CreditElement['NomineeDetails']['NomineeRelationship']['id']);
+        this.NomineeDOB.setValue(CreditElement['NomineeDetails']['NomineeDOB']);
+        this.GuardianName.setValue(CreditElement['NomineeDetails']['GuardianName']);
+        this.GuadianRelationship.setValue(CreditElement['NomineeDetails']['GuadianRelationship']['id']);
+        this.hidNomineeSeq.setValue(CreditElement['NomineeDetails']['NomineeSeq']);
+
+        //custom
+        this.RequestedCardLimit.setComponentSpecificValue(CreditElement['RequestedCardLimit'], null);//for LE
+        // this.ApprovedLimit.setComponentSpecificValue(CreditElement['ApprovedLimit'], null);  // commented as Approved card Limit is not comimg from AddOn- Initiated  json for now
+        // let tempApprovedCardLimit = (undefined != CreditElement['ApprovedLimit'] && '' != CreditElement['ApprovedLimit']) ? CreditElement['ApprovedLimit'] : CreditElement['CurrentCardLimit'];
+        this.ApprovedLimit.setComponentSpecificValue(CreditElement['ApprovedLimit'], null);
+        this.MaxCashLimit.setComponentSpecificValue(CreditElement['MaxCashLimit'], null);
+        this.ApprovedCashLimit.setComponentSpecificValue(CreditElement['ApprovedCashLimit'], null);
+        this.AvailableLimit.setComponentSpecificValue(CreditElement['AvailableLimit'], null);
+        //  this.CurrentCorporateCardLimit.setComponentSpecificValue(CreditElement['CurrentCorporateCardLimit'], null);
+        this.CurrentCardLimit.setComponentSpecificValue(CreditElement['CurrentCardLimit'], null);
+        this.MaskedCardNumber.setValue(CreditElement['MaskedCardNumber']);
+        this.Handler.NomineeRequiredChange();
+        this.Handler.NomineeDOBChange();
+        if (!this.ApprovedLimit.isAmountEmpty() && this.ApprovedCashLimit.isAmountEmpty()) {
+          this.ApprovedCashLimit.setComponentSpecificValue(this.setApproveCashLimit(this.ApprovedLimit.getFieldValue()), null);
+        }
+
+
+        if (this.services.rloCommonData.globalApplicationDtls.CardType == 'SC') {
+          this.setApprovedCardLimit();
+          if (this.totalLienAmount < this.ApprovedLimit.getFieldValue()) {
+            OtherConditionsFlag = false;
+          }
+        }
+        // else {
+        //   this.ApprovedLimit.setComponentSpecificValue(this.ApprovedLimit, null);
+        // }
+
+
+
+        //  let noOfError: number = await this.revalidate(false);
+
+        let isGridValid: boolean = this.CreditCardInputGrid.CustomerDtlsMap.size > 0 ? await this.CreditCardInputGrid.validateAmountColumn() : true;
+
+        let errors = await this.revalidate(false);
+        let isSectionValid: boolean = (errors == 0 && isGridValid && OtherConditionsFlag) ? true : false;
+
+        let array = [];
+        array.push({ isValid: isSectionValid, sectionData: this.getFieldValue() });
+        let obj = {
+          "name": "CreditCardDetails",
+          "data": array,
+          "sectionName": "CreditCardDetails"
+        }
+        this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+
+      }
+    }
+  }
+
+  testing(httpResponse: any) {
+    console.log(httpResponse);
+  }
+
+
+
+
+
 
   adjustFieldsBasedOnCamType() {
     let isNewApplication: boolean = true;
@@ -664,13 +896,13 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     this.onReset();
   }
 
-  approveLimitBlur(approveLimit) {
-    console.error("DEEP | approve limit", approveLimit);
-    this.isApproveLimitValid = true;
-    if (approveLimit == undefined || approveLimit == null || approveLimit == "") {
-      this.isApproveLimitValid = false;
-    }
-  }
+  // approveLimitBlur(approveLimit) {
+  //   console.error("DEEP | approve limit", approveLimit);
+  //   this.isApproveLimitValid = true;
+  //   if (approveLimit == undefined || approveLimit == null || approveLimit == "") {
+  //     this.isApproveLimitValid = false;
+  //   }
+  // }
   async CCD_Save_click(event) {
     let inputMap = new Map();
     let decisionsParamArray = [];
@@ -713,6 +945,11 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             this.services.alert.showAlert(2, 'rlo.error.approvedlimit.lien.product', -1);
             return;
           }
+        }
+      } else if (this.services.rloCommonData.globalApplicationDtls.CamType == 'NAPP') {
+        if (this.ApprovedLimit.getFieldValue() > this.header.Product_max_credit) {
+          this.services.alert.showAlert(2, 'rlo.error.approvedlimit.gt.product', 5000);
+          return;
         }
       }
       this.services.rloCommonData.globalApplicationDtls.isAddedNewMember = true;
@@ -777,7 +1014,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             "sectionName": "CreditCardDetails"
           }
           this.services.rloCommonData.globalComponentLvlDataHandler(obj);
-          this.services.rloCommonData.globalApplicationDtls.ApprovedCardLimit=this.ApprovedLimit.getFieldValue();
+          this.services.rloCommonData.globalApplicationDtls.ApprovedCardLimit = this.ApprovedLimit.getFieldValue();
           if (this.readOnly) {
             this.services.rloCommonData.reloadUWSections.next({
               data: { 'approvedLimit': this.ApprovedLimit.getTextBoxValue() }
