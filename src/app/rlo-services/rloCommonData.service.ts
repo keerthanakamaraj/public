@@ -1280,7 +1280,7 @@ export class RloCommonData {
       if (interfaceType == "CIBIL") {
         responseData = response.CIBILResponse.filter((data) => data.ProposalId == Number(appId));
         rawHtml = responseData[0].BureauResponseXml;
-      } else if (interfaceType == "Experian") {
+      } else if (interfaceType == "Experian" || interfaceType == "EXPERIAN") {
         responseData = response.ExperianConsumer.filter((data) => data.ProposalId == Number(appId));
         rawHtml = responseData[0].BureauResponse;
       }

@@ -117,7 +117,7 @@ export class InterfaceResultsComponent implements OnInit {
         let interfaceRsltData: IInterfaceResultData = {};
         //for customer type 'I' InterfaceId='EXPERIAN_CONSUMER' and for 'C' InterfaceId 'Experian';
         //making changes in main json to avoid HTML changes
-        if (this.services.rloCommonData.globalApplicationDtls.CustomerType == "C") {
+        if (eachResult.InterfaceId == 'Experian' || eachResult.InterfaceId == 'EXPERIAN') {
           eachResult.InterfaceId = 'EXPERIAN_CONSUMER';
         }
 
@@ -136,7 +136,7 @@ export class InterfaceResultsComponent implements OnInit {
         this.MstInterfaceResultMap.set(eachResult.BorrowerSeq, CustomerDtls);
       }
     });
-
+    console.error("DEEP | this.MstInterfaceResultMap", this.MstInterfaceResultMap);
 
   }
 
