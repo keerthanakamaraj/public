@@ -921,12 +921,10 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
       if (this.services.rloCommonData.globalApplicationDtls.CamType == 'LE' || this.SubCamType == 'LE') {
         if (this.ApprovedLimit.isAmountEmpty() || this.CurrentCardLimit.isAmountEmpty()) {
           this.services.alert.showAlert(2, 'rlo.error.limit-enhancement', -1);
-          this.ApprovedLimit.setError('rlo.error.approved-amount-empty');
           return 1;
         }
         if (this.ApprovedLimit.getFieldValue() < this.CurrentCardLimit.getFieldValue()) {
           this.services.alert.showAlert(2, 'rlo.error.limit-enhancement', -1);
-          this.ApprovedLimit.setError('rlo.error.approved-amount-empty');
           return;
         }
       }
@@ -953,11 +951,9 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             return;
           }
         }
-      } else if (this.services.rloCommonData.globalApplicationDtls.CamType == 'NAPP') {
-        if (Number(this.ApprovedLimit.getFieldValue()) > Number(this.header.Product_max_credit)) {
+      } else if (Number(this.ApprovedLimit.getFieldValue()) > Number(this.header.Product_max_credit)) {
           this.services.alert.showAlert(2, 'rlo.error.approvedlimit.gt.product', 5000);
           return;
-        }
       }
       this.services.rloCommonData.globalApplicationDtls.isAddedNewMember = true;
       this.doSaveCreditCardAPICall();
