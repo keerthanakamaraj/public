@@ -10,8 +10,9 @@
                     <label
                         [ngClass]="{ 'mandatory': isMandatory('trnDemographicId')}">{{getLabel('DOC_UP_OWNER')}}</label>
                     <ng-select [disabled]="ownerfield" class="ngselect" [(ngModel)]="docUploadObject.trnDemographicId"
-                        [items]="ownersName" bindValue="ID" bindLabel="DISPLAY_NAME" name="trnDemographicId" 
-                        (blur)="validateField(docUploadObject.trnDemographicId, 'trnDemographicId')"   (change)="getDocumentsType()" [readonly]="readOnly"></ng-select>
+                        [items]="ownersName" bindValue="ID" bindLabel="DISPLAY_NAME" name="trnDemographicId"
+                        (blur)="validateField(docUploadObject.trnDemographicId, 'trnDemographicId')"
+                        (change)="getDocumentsType()" [readonly]="readOnly"></ng-select>
                 </div>
             </div>
             <div class="col-md-4 ">
@@ -20,15 +21,16 @@
                     <ng-select class="ngselect w-100 " [disabled]="ownerfield" [(ngModel)]="docDetailsObject.DocType"
                         [items]="lookupVariableOptions['IMG_DOCUMENT_TYPE']" bindValue="DocType" bindValue="id"
                         bindLabel="text" (blur)="validateField(docDetailsObject.DocType, 'DocType')"
-                        (change)="getDocuments()" [clearable]="false" [readonly]="readOnly" >
+                        (change)="getDocuments()" [clearable]="false" [readonly]="readOnly">
                     </ng-select>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <label [ngClass]="{ 'mandatory': isMandatory('entityDocumentId')}">{{getLabel('DOCUMENT')}}</label>
-                    <ng-select class="ngselect w-100 " [disabled]="ownerfield" [(ngModel)]="docDetailsObject.entityDocumentId"
-                        [items]="documents" bindValue="docId" bindLabel="docDesc" name="entityDocumentId"
+                    <ng-select class="ngselect w-100 " [disabled]="ownerfield"
+                        [(ngModel)]="docDetailsObject.entityDocumentId" [items]="documents" bindValue="docId"
+                        bindLabel="docDesc" name="entityDocumentId"
                         (blur)="validateField(docDetailsObject.entityDocumentId, 'entityDocumentId')"
                         [clearable]="false" [readonly]="readOnly"></ng-select>
                 </div>
@@ -53,9 +55,10 @@
                     <label [ngClass]="{ 'mandatory': isMandatory('status')}">{{getLabel('DOC_STATUS')}}</label>
                     <ng-select class="ngselect" [(ngModel)]="docUploadObject.status" name="status"
                         [items]="lookupVariableOptions['STATUS']" bindValue="id" bindLabel="text"
-                        (change)="clearDependentfields()" (blur)="validateField(docUploadObject.status, 'status')" [readonly]="readOnly">
+                        (change)="clearDependentfields()" (blur)="validateField(docUploadObject.status, 'status')"
+                        [readonly]="readOnly">
                     </ng-select>
-                     <!-- #PR-38 Dev
+                    <!-- #PR-38 Dev
                     <ng-select class="ngselect" [disabled]="ownerfield" [(ngModel)]="docUploadObject.status" name="status" -->
                 </div>
             </div>
@@ -96,14 +99,14 @@
                     <label class="radio-container">
                         <input type="radio" name="mandatory"
                             (blur)="validateField(docUploadObject.mandatory, 'mandatory')"
-                            [(ngModel)]="docUploadObject.mandatory" value="1" [disabled]="readOnly"/>
+                            [(ngModel)]="docUploadObject.mandatory" value="1" [disabled]="readOnly" />
                         {{getLabel('YES')}}
                         <span class="checkmark"></span>
                     </label>
                     <label class="radio-container">
                         <input type="radio" name="mandatory"
                             (blur)="validateField(docUploadObject.mandatory, 'mandatory')"
-                            [(ngModel)]="docUploadObject.mandatory" value="0" [disabled]="readOnly"/>
+                            [(ngModel)]="docUploadObject.mandatory" value="0" [disabled]="readOnly" />
                         {{getLabel('NO')}}
                         <span class="checkmark"></span>
                     </label>
@@ -240,7 +243,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 res-pr-hide margin-btn" *ngIf="!readOnly">
+                <div class="col-md-4 res-pr-hide margin-btn">
                     <!-- <button *ngIf="checkStatus" class="btn-secondary"
                         (click)="addNewComment()">{{getLabel("ADD_NEW")}}</button> -->
                     <button *ngIf="UserId == checkUserId" (click)="onSubmit()" type="button"
@@ -350,7 +353,8 @@
                                     <td *ngIf="appService.viewMode">
                                         <span class="glyphicon glyphicon-eye-open"
                                             (click)="editDocumentDetails(imgDtl)"></span>
-                                        &nbsp; </td>
+                                        &nbsp;
+                                    </td>
 
                                 </tr>
 
@@ -384,7 +388,8 @@
                                 <div data-toggle="tooltip" [title]="item.fileName">{{item.fileName}}</div>
                             </div>
                             <div class="text-right">
-                                <span class="icon-file-download" (click)="downloadFile(item.seqId,item.fileName)"></span>
+                                <span class="icon-file-download"
+                                    (click)="downloadFile(item.seqId,item.fileName)"></span>
                                 <span class="icon-delete-bin" (click)="deleteImages(item.seqId)"></span>
                             </div>
                         </div>

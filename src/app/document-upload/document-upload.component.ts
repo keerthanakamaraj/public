@@ -245,6 +245,10 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     }
     // This methos is to submit the documents
     async onSubmit() {
+
+        if (this.readOnly)
+            return
+
         this.fileUploadErrorFlag = false;
         this.fileUploadErrorMsg = '';
         this.revalidation();
@@ -462,6 +466,9 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     }
     // This methos is to clear variables
     clearform(allFields?: boolean) {
+        if (this.readOnly)
+            return
+
         // @CLO-RLO-Merge - 
         // this.tooltipError.tooltipdestroy();
         // this.tooltipError.tooltiperrorhide('DocName');
