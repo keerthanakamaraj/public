@@ -464,7 +464,7 @@ export class RlouiService {
     });
   }
   sideMenuRouteConfirmation() {
-    var mainMessage = this.getAlertMessage("", 'Are you sure you want to leave the page? You might loose any unsaved changes.');
+    var mainMessage = this.getAlertMessage("", 'Are you sure you want to leave the page? You might lose any unsaved changes.');
     var button1 = this.getAlertMessage('', 'OK');
     var button2 = this.getAlertMessage('', 'CANCEL');
     let promise = new Promise<any>((resolve, reject) => {
