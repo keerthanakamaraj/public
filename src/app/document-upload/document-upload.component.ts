@@ -71,6 +71,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     selectedFileInvalid: boolean = false;//check if the selected doc. is valid
     ownerfield: boolean;
     DocumentBorrower: any;
+    allDocumentTypes = [];
 
     public showMessage(msg) {
         this.modalMessage = msg;
@@ -170,9 +171,9 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.utility.getCommonService().getOwnerNamesDetails(this.ApplicationId).subscribe(data => {
             console.log(data);
             this.ownersName = data['OwnerNames'];
-           
+
         });
-        this.DocumentBorrower =  this.lookupVariableOptions['IMG_DOCUMENT_TYPE'];
+        this.DocumentBorrower = this.lookupVariableOptions['IMG_DOCUMENT_TYPE'];
         // @CLO-RLO-Merge Access Entitlement
         // this.userAccessEntitle = UserAccessEntitlement.getInstance(this.taskName);
         // this.tooltipError.tooltipdestroy();
@@ -684,51 +685,58 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     }
 
     getDocumentsType() {
+        if (!this.allDocumentTypes.length) {
+            this.allDocumentTypes = this.lookupVariableOptions['IMG_DOCUMENT_TYPE'];
+        }
+
+        this.docDetailsObject.DocName = '';
+        this.docDetailsObject.DocType = '';
 
         let inputMap = new Map();
         console.log("DocumentType", this.lookupVariableOptions);
         if (this.ApplicationId != undefined) {
-          inputMap.clear();
-          let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
-          if (this.ApplicationId) {
-            criteriaJson.FilterCriteria.push({
-              "columnName": "ApplicationId",
-              "columnType": "String",
-              "conditions": {
-                "searchType": "equals",
-                "searchText": this.ApplicationId
-              }
-            });
-          }
-          inputMap.set('QueryParam.criteriaDetails', criteriaJson);
-          this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, "/initiation").subscribe(
-            async (httpResponse: HttpResponse<any>) => {
-              var res = httpResponse.body;  
-              let BorrowerDetail = res['BorrowerDetails'];
-              const DocumentType =  this.lookupVariableOptions['IMG_DOCUMENT_TYPE']
-              BorrowerDetail.forEach(CustomerDtls => {
-                  if(CustomerDtls.BorrowerSeq == this.docUploadObject.trnDemographicId){
-                      if(CustomerDtls.CustomerType == 'B'){
-                        this.lookupVariableOptions['IMG_DOCUMENT_TYPE'] = this.DocumentBorrower;
-                      }
-                      else{
-                        this.lookupVariableOptions['IMG_DOCUMENT_TYPE'] = DocumentType.filter(function (DocumentType) {
-                            return  DocumentType.id !== '5';
-                          });
-                      }
-                  }
-              });
-
-            
-            },
-            async (httpError) => {
-              var err = httpError['error']
-              if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-              }
-              this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+            inputMap.clear();
+            let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+            if (this.ApplicationId) {
+                criteriaJson.FilterCriteria.push({
+                    "columnName": "ApplicationId",
+                    "columnType": "String",
+                    "conditions": {
+                        "searchType": "equals",
+                        "searchText": this.ApplicationId
+                    }
+                });
             }
-          );
+            inputMap.set('QueryParam.criteriaDetails', criteriaJson);
+            this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, "/initiation").subscribe(
+                async (httpResponse: HttpResponse<any>) => {
+                    var res = httpResponse.body;
+                    let BorrowerDetail = res['BorrowerDetails'];
+                    const DocumentType = this.allDocumentTypes;
+
+                    BorrowerDetail.forEach(CustomerDtls => {
+                        if (CustomerDtls.BorrowerSeq == Number(this.docUploadObject.trnDemographicId)) {
+                            if (CustomerDtls.CustomerType == 'B') {
+                                this.lookupVariableOptions['IMG_DOCUMENT_TYPE'] = DocumentType;
+                            }
+                            else {
+                                this.lookupVariableOptions['IMG_DOCUMENT_TYPE'] = DocumentType.filter(function (DocumentType) {
+                                    return DocumentType.id !== '5';
+                                });
+                            }
+                        }
+                    });
+
+
+                },
+                async (httpError) => {
+                    var err = httpError['error']
+                    if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                    }
+                    this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+                }
+            );
         }
-    
-      }
+
+    }
 }
