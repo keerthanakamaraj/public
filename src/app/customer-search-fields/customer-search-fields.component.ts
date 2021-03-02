@@ -261,6 +261,12 @@ export class CustomerSearchFieldsComponent extends FormCommonComponent implement
 
         this.services.alert.showAlert(2, '', 3000, 'Minimum 10 characters are required');
         return;
+      } else {
+        const regex = new RegExp('^[0-9]*$');
+        if (!regex.test(this.searchParameters.customerId)) {
+          this.services.alert.showAlert(2, '', 3000, ' Please enter valid CBS Customer ID');
+          return;
+        }
       }
       this.SearchFormGrid.customSearchObj.mobileNumber = this.searchParameters.mobileNumber;
       this.SearchFormGrid.customSearchObj.taxId = this.searchParameters.taxId;
