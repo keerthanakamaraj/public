@@ -136,10 +136,10 @@ export var componentRoutes: Routes = [
 	// 	path: 'withdraw',
 	// 	loadChildren: 'src/app/pre-cpv/pre-cpv.module#PreCPVModule'
 	// },
-	{
-		path: 'customization-console',
-		loadChildren: 'src/app/CustomizationConsole/customization-console.module#CustomizationConsoleModule'
-	},
+	// {
+	// 	path: 'customization-console',
+	// 	loadChildren: 'src/app/CustomizationConsole/customization-console.module#CustomizationConsoleModule'
+	// },
 	// {
 	// 	path: 'withdraw',
 	// //loadChildren: 'src/app/PostCPV/PostCPV.module#PostCPVModule'
