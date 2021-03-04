@@ -6,7 +6,13 @@ import { retry } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class RloUtilService {
-
+  periodConverterParameters:any={
+    DaysInYear : 365,
+    WeeksInYear : 52,
+    FortnightsInYear : 26,
+    MonthsInYear : 12,
+    QuartersInYear : 4,
+ };
   constructor() {
     // console.log("Util Service .. constructor --------------------------------");
   }
