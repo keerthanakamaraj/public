@@ -602,7 +602,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   async SEARCH_CUST_BTN_click(event) {
     this.searchbutton = 'Y';
     var noofErrors: number = await this.revalidate();
-    if (noofErrors == 0) {
+    if (noofErrors == 0 && this.SRC_CIF_NO.getFieldValue() != undefined) {
+      if (!this.SRC_CIF_NO.getFieldValue().length) {
+        this.services.alert.showAlert(2, '', -1, 'Please enter valid CBS Customer ID');
+        return;
+      }
+
       let obj: ICustomSearchObject = {
         mobileNumber: this.SRC_MOBILE_NO.getFieldValue(),
         taxId: this.SRC_TAX_ID.getFieldValue(),
@@ -638,8 +643,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     else {
       this.services.alert.showAlert(2, '', -1, 'Please enter valid CBS Customer ID');
     }
-
   }
+
   BAD_PHYSICAL_FRM_NO_blur() {
     let PhysicalFormNo = new Map();
 

@@ -246,9 +246,9 @@
                 <div class="col-md-4 res-pr-hide margin-btn">
                     <!-- <button *ngIf="checkStatus" class="btn-secondary"
                         (click)="addNewComment()">{{getLabel("ADD_NEW")}}</button> -->
-                    <button *ngIf="UserId == checkUserId" (click)="onSubmit()" type="button"
+                    <button (click)="onSubmit()" type="button"
                         class="btn btn-primary">{{getLabel('DOC_UP_UPLOAD')}}</button>
-                    <button *ngIf="UserId == checkUserId" (click)="clearform(true)" type="button"
+                    <button (click)="clearform(true)" type="button"
                         class="btn-secondary">{{getLabel('RESET')}}</button>
                 </div>
             </div>
