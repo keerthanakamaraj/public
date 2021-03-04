@@ -32,7 +32,7 @@ export class MyTrayGridComponent implements AfterViewInit {
   componentCode: string = 'MyTrayGrid';
   openedFilterForm: string = '';
   hidden: boolean = false;
-  CamType : any;
+  CamType: any;
   gridConsts: any = {
     paginationPageSize: 10,
     gridCode: "MyTrayGrid",
@@ -397,7 +397,7 @@ export class MyTrayGridComponent implements AfterViewInit {
             case "hiddenInstanceId": obj[i].columnName = "INSTANCE_ID"; break;
             case "hiddenStageId": obj[i].columnName = "STAGE_ID"; break;
             case "MT_APPLICATION_TYPE": obj[i].columnName = "CTP.CAM_TYPE_ID"; break;
-            
+
             default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
           }
         }
@@ -463,16 +463,16 @@ export class MyTrayGridComponent implements AfterViewInit {
               tempObj['hiddenInstanceId'] = loopVar7[i].INSTANCE_ID;
               tempObj['hiddenStageId'] = loopVar7[i].STAGE_ID;
               // tempObj['MT_APPLICATION_TYPE'] = loopVar7[i].CAM_TYPE;
-              if(loopVar7[i].CAM_TYPE == "LE"){
-              tempObj['MT_APPLICATION_TYPE'] = 'LE';
+              if (loopVar7[i].CAM_TYPE == "LE") {
+                tempObj['MT_APPLICATION_TYPE'] = 'LE';
               }
-              else if(loopVar7[i].CAM_TYPE == "NAPP"){
+              else if (loopVar7[i].CAM_TYPE == "NAPP") {
                 tempObj['MT_APPLICATION_TYPE'] = 'NEW';
               }
-              else if(loopVar7[i].CAM_TYPE == "MEMC"){
+              else if (loopVar7[i].CAM_TYPE == "MEMC") {
                 tempObj['MT_APPLICATION_TYPE'] = 'M';
               }
-              else if(loopVar7[i].CAM_TYPE == "CHNL"){
+              else if (loopVar7[i].CAM_TYPE == "CHNL") {
                 tempObj['MT_APPLICATION_TYPE'] = 'CH';
               }
               loopDataVar7.push(tempObj);
@@ -598,7 +598,7 @@ export class MyTrayGridComponent implements AfterViewInit {
     navPath = navPath.slice(1);
     inputMap.clear();
     const selectedData2 = this.readonlyGrid.getSelectedData();
-    if (selectedData2) {
+    if (selectedData2 != undefined) {
       let stageId = selectedData2['hiddenStageId'];
 
       // if(stageId !== "QDE" && stageId !== "DDE"){ // Restrict navigation other than QDE - Sprint -2
@@ -610,7 +610,10 @@ export class MyTrayGridComponent implements AfterViewInit {
       // if(stageId== "PRE-CPV"){
       //   stageId = "Underwriter";
       // }
-
+      //Approved Queue
+      if (stageId == "ApprovedQueue") {
+        return;
+      }
       if (stageId == "Underwriter") {
         stageId = "Underwriter";
       }
@@ -626,7 +629,7 @@ export class MyTrayGridComponent implements AfterViewInit {
     } else {
       // console.warn("Selected data not found");
       // this.services.alert.showAlert(4, 'rlo.error.feature.unavailable', 5000);
-      // return;
+      return;
     }
     this.services.dataStore.setRouteParams(this.services.routing.currModal, inputMap);
     if (this.services.routing.currModal > 0) {
@@ -689,23 +692,23 @@ export class MyTrayGridComponent implements AfterViewInit {
       return '-';
     }
   }
-  appType(type : string) {
-      switch (this.CamType) {
-          case "NAPP":
-              return "New"
-              break;
+  appType(type: string) {
+    switch (this.CamType) {
+      case "NAPP":
+        return "New"
+        break;
 
-          case "LE":
-              return "LE"
-              break;
+      case "LE":
+        return "LE"
+        break;
 
-          case "MEMC":
-              return "Member"
-              break;
+      case "MEMC":
+        return "Member"
+        break;
 
-          default:
-              break;
-  }
+      default:
+        break;
+    }
   }
 
 }
