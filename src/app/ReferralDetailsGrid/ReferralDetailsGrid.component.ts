@@ -56,7 +56,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
     // },
   },
   {
-    field: "RD_CIF",
+    field: "RD_REFERRER_RELATION",
     width: 30,
     sortable: true,
     resizable: true,
@@ -231,7 +231,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
             var tempObj = {};
             tempObj['Referrer_ID'] = loopVar10[i].BorrowerSeq;
             tempObj['RD_REFERRER_NAME'] = loopVar10[i].ReferrerName;
-            tempObj['RD_CIF'] = loopVar10[i].CIFNo;
+            tempObj['RD_REFERRER_RELATION'] = loopVar10[i].ReferrerRelation;
             tempObj['RD_REFERRER_MOBILE_NO'] = loopVar10[i].ReferrerMobileNumber;
             this.referredetails.push(tempObj);
           }
@@ -272,26 +272,22 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
     let inputMap = new Map();
     inputMap.clear();
     inputMap.set('PathParam.BorrowerSeq', event.Referrer_ID);
-
-    await this.services.rloCommonData.deleteConfirmationAlert('rlo.delete.comfirmation').then((response: any) => {
-      if (response.id == 1) {
-        this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
-          async (httpResponse: HttpResponse<any>) => {
-            var res = httpResponse.body;
-            this.services.alert.showAlert(1, 'rlo.success.delete.referrer', 5000);
-            this.readonlyGrid.refreshGrid();
-          },
-          async (httpError) => {
-            var err = httpError['error']
-            if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-            }
-            this.services.alert.showAlert(2, 'rlo.error.delete.referrer', -1);
+    if (confirm("Are you sure you want to Delete?")) {
+      this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          var res = httpResponse.body;
+          this.services.alert.showAlert(1, 'rlo.success.delete.referrer', 5000);
+          this.readonlyGrid.refreshGrid();
+        },
+        async (httpError) => {
+          var err = httpError['error']
+          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
           }
-        );
-      }
-    });
+          this.services.alert.showAlert(2, 'rlo.error.delete.referrer', -1);
+        }
+      );
+    }
   }
-
   loadSpinner = false;
   showSpinner() {
     this.loadSpinner = true;
