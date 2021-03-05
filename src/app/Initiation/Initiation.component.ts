@@ -440,8 +440,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
     await this.Handler.onFormLoad({
     });
-    this.BAD_PROD_CAT.setDefault('CC');
-    this.Handler.onProdCategoryChange({});
+    // this.BAD_PROD_CAT.setDefault('CC');
+    // this.Handler.onProdCategoryChange({});
     //this.CD_EXISTING_CUST.setDefault('N');
     // this.Handler.existingCustomer({});
     //this.CD_STAFF.setDefault('N');
@@ -832,6 +832,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   //called when a customer is selected for customer search
   setValuesOfCustomer(data) {
+    if(data.CustomerType == 'C'){
+      this.BAD_PROD_CAT.setValue('CC');
+      this.Handler.onProdCategoryChange({
+      }
+      );
+    }
 
     console.log('searched data =================', data);
 
@@ -943,6 +949,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     await this.Handler.onProdCategoryChange({
     }
     );
+    this.Handler.HideFieldBasedOnCorporate(null , 'B')
+    this.Handler.onResetCustomer({});
     this.Handler.updateLoanTag();
     this.setDependency(fieldID, value);
     this.BAD_PRODUCT.onReset();
@@ -1681,7 +1689,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
         { paramKey: "ProductCd", depFieldID: "BAD_PRODUCT", paramType: "PathParam" },
         { paramKey: "BAD_PROD_CAT", depFieldID: "BAD_PROD_CAT", paramType: "QueryParam" },
-        { paramKey: "BAD_CARD_TYPE", depFieldID: "BAD_CARD_TYPE", paramType: "QueryParam" },
+        // { paramKey: "BAD_CARD_TYPE", depFieldID: "BAD_CARD_TYPE", paramType: "QueryParam" },
       ],
       outDep: [
         { paramKey: "MstProductDetails.MaxCredLimit", depFieldID: "MaxCredLimit" },
@@ -1707,9 +1715,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       outDep: [
 
         { paramKey: "NewSchemeDetails.MaxLoanVal", depFieldID: "MaxCredLimit" },
-        { paramKey: "NewSchemeDetails.MinLoanVal", depFieldID: "MinCredLimit" }
-        // { paramKey: "NewScemeDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE" },
-        // { paramKey: "NewSchemeDetails.AllowCoBorrower", depFieldID: "allowCoBorrower" }
+        { paramKey: "NewSchemeDetails.MinLoanVal", depFieldID: "MinCredLimit" },
+        { paramKey: "NewSchemeDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE" },
+        { paramKey: "NewSchemeDetails.AllowCoBorrower", depFieldID: "allowCoBorrower" }
       ]
     },
     BAD_PROMOTION: {

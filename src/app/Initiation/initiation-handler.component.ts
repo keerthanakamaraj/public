@@ -47,7 +47,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
   // onChangeOfProduct Category
   onProdCategoryChange({ }) {
-    if ((this.MainComponent.BAD_PROD_CAT.getFieldValue() == undefined && this.MainComponent.BAD_PROD_CAT.getDefault() == 'CC') || (this.MainComponent.BAD_PROD_CAT.getFieldValue() == 'CC')) {
+    if (this.MainComponent.BAD_PROD_CAT.getFieldValue() == 'CC') {
       this.MainComponent.isLoanCategory = false;
       //  this.MainComponent.CD_CUST_TYPE.setValue('B');
       //  this.MainComponent.CD_LOAN_OWNERSHIP.setValue(100);
@@ -63,7 +63,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       // this.MainComponent.BAD_SRC_CHANNEL.setValue("BRANCH");
       // this.MainComponent.BAD_CUSTOMER_TYPE.setValue("I");
       // this.MainComponent.CD_DEBIT_SCORE.isHidden
-    } else if (this.MainComponent.BAD_PROD_CAT.getDefault() == 'CC' && this.MainComponent.BAD_PROD_CAT.getFieldValue() !== 'CC') {
+    } else {
       this.MainComponent.isLoanCategory = true;
       this.MainComponent.CD_CUST_TYPE.setReadOnly(false);
       this.MainComponent.CD_CUST_TYPE.onReset();
@@ -495,7 +495,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.updateCustomerTags();
       this.MainComponent.isReferrer = false;
       this.customers.forEach(element => {
-        if(element.CUST_TYPE_LBL == 'Primary'){
+        if(element.CUST_TYPE_LBL != 'Corporate'){
           this.MainComponent.isReferrer = true;
           return;
         }
@@ -907,7 +907,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       Borrower = this.MainComponent.CD_CARD_CUST_TYPE.getFieldValue();
     }
     //if(this.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue() == 'C' && this.MainComponent.CD_CARD_CUST_TYPE.getFieldValue() == 'B'){
-    if (customerType == 'C' && Borrower == 'B') {
+    if (customerType == 'C' && Borrower == 'B' && this.MainComponent.BAD_PROD_CAT.getFieldValue()  == 'CC') {
       this.MainComponent.CD_REGISTERED_NAME.setHidden(false);
       this.MainComponent.CD_TYPE_OF_INCORPORATION.setHidden(false);
       this.MainComponent.CD_DATE_OF_INCORPORATION.setHidden(false);
@@ -923,11 +923,11 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.CD_DOB.setValue(undefined);
       this.MainComponent.CD_FULL_NAME.setValue(undefined);
       this.MainComponent.CD_GENDER.setValue(undefined);
-      // this.MainComponent.CD_FIRST_NAME.mandatory = false;
-      // this.MainComponent.CD_LAST_NAME.mandatory = false;
-      // this.MainComponent.CD_GENDER.mandatory = false;
-      // this.MainComponent.CD_REGISTERED_NAME.mandatory = true;
-      // this.MainComponent.CD_DATE_OF_INCORPORATION.mandatory = true;
+      this.MainComponent.CD_FIRST_NAME.mandatory = false;
+      this.MainComponent.CD_LAST_NAME.mandatory = false;
+      this.MainComponent.CD_GENDER.mandatory = false;
+      this.MainComponent.CD_REGISTERED_NAME.mandatory = true;
+      this.MainComponent.CD_DATE_OF_INCORPORATION.mandatory = true;
       this.MainComponent.CD_STAFF_ID.setHidden(true);
       this.MainComponent.CD_NAME_ON_CARD.setHidden(true);
       this.MainComponent.CD_NAME_ON_CARD.mandatory = false;
@@ -951,11 +951,11 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.CD_REGISTERED_NAME.setValue(undefined);
       this.MainComponent.CD_TYPE_OF_INCORPORATION.setValue(undefined);
       this.MainComponent.CD_DATE_OF_INCORPORATION.setValue(undefined);
-      // this.MainComponent.CD_FIRST_NAME.mandatory = true;
-      // this.MainComponent.CD_LAST_NAME.mandatory = true;
-      // this.MainComponent.CD_GENDER.mandatory = true;
-      // this.MainComponent.CD_REGISTERED_NAME.mandatory = false;
-      // this.MainComponent.CD_DATE_OF_INCORPORATION.mandatory = false;
+      this.MainComponent.CD_FIRST_NAME.mandatory = true;
+      this.MainComponent.CD_LAST_NAME.mandatory = true;
+      this.MainComponent.CD_GENDER.mandatory = true;
+      this.MainComponent.CD_REGISTERED_NAME.mandatory = false;
+      this.MainComponent.CD_DATE_OF_INCORPORATION.mandatory = false;
       this.MainComponent.CD_NAME_ON_CARD.setHidden(false);
       this.MainComponent.CD_NAME_ON_CARD.mandatory = true;
       this.MainComponent.EmbLineFlag.setHidden(true);
