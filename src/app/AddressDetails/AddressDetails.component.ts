@@ -20,7 +20,7 @@ import { AddressDetailsGridComponent } from '../AddressDetailsGrid/AddressDetail
 import { AddressHandlerComponent } from '../AddressDetails/address-handler.component';
 import { RloUiAccordionComponent } from 'src/app/rlo-ui-accordion/rlo-ui-accordion.component';
 import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
-
+import * as _ from 'lodash';
 const customCss = '';
 
 @Component({
@@ -89,12 +89,12 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @Output() updateStageValidation: EventEmitter<any> = new EventEmitter<any>();
   @Input() readOnly: boolean = false;
   @Input() activeApplicantType = undefined; // canara changes
-  isCorporate: boolean = undefined;
   AD_Address_Type = [];
   AD_OCCUP_TYPE = [];
   EmailCheck: string;
   IsCorporateApplicant: boolean = undefined;
-
+  isLoanCategory:boolean = undefined;
+  populatingDataFlag: boolean = true;
   // tslint:disable-next-line:member-ordering
   fieldDependencies = {
     AD_ADD_TYPE: {
@@ -245,6 +245,11 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.hideCorrEmail.setValue('CORR_EMAIL');
     this.hidPrefferTime.setValue('PREF_TIME_CONTACT');
     this.AddressGrid.activeApplicantType = this.activeApplicantType;
+    if(this.services.rloCommonData.globalApplicationDtls.isLoanCategory){
+      this.hidAddType.setValue('PROD_ADDRESS_TYPE');
+      this.isLoanCategory=true;
+    }
+    else{
     if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && this.activeApplicantType == 'B') {
       this.hidAddType.setValue('CORP_PRIM_ADDRESS_TYPE');  //changed for canara
       this.IsCorporateApplicant = true;
@@ -252,12 +257,13 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       this.hidAddType.setValue('ADDRESS_TYPE');  //changed for canara
       this.IsCorporateApplicant = false;
     }
-
+    this.isLoanCategory=false;
+  }
+    
     // this.hidCountryCode.setValue('ISD_COUNTRY_CODE');
     // this.hidLandISDCode.setValue('ISD_COUNTRY_CODE');
-    this.isCorporate = this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' ? true : false;
     this.AD_EMAIL1_CHECKBOX.setValue(true);
-    this.CORR_ADD_CHECKBOX.setHidden(true);
+    //this.CORR_ADD_CHECKBOX.setHidden(true);
     // this.AD_MAILING_ADDRESS.setValue('N',undefined,true);
     //  this.AD_STATE.setHidden(true);
     const inputMap = new Map();
@@ -368,26 +374,106 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   async AD_ADD_TYPE_change(fieldID, value) {
     const inputMap = new Map();
     // this.addonblur.emit({});
-    //  await this.Handler.onAddTypeChange(); // removed for canara 
-    this.onCanaraAddressTypeChange(); // called for the canara 
+      await this.Handler.onAddressTypeChange(); // removed for canara 
+    //this.onCanaraAddressTypeChange(); // called for the canara 
 
   }
 
-  onCanaraAddressTypeChange() {
+  // onCanaraAddressTypeChange() {
 
-    let readOnlyFlag = this.AD_ADD_TYPE.getFieldValue() == 'ML' ? true : false;
-    // if(this.AD_ADD_TYPE.getFieldValue() != this.AD_ADD_TYPE.getOldValue()){
-    //   this.AD_ADD_TYPE.updateOldValue();
-    //   this.AD_HIDE_ID.onReset();
-    // }
-    this.AD_ADDRESS_LINE1.setReadOnly(readOnlyFlag);
-    this.AD_ADDRESS_LINE1.mandatory = !readOnlyFlag;
-    this.AD_ADDRESS_LINE2.setReadOnly(readOnlyFlag);
-    this.AD_ADDRESS_LINE3.setReadOnly(readOnlyFlag);
-    this.AD_ADDRESS_LINE4.setReadOnly(readOnlyFlag);
-    this.AD_PINCODE.setReadOnly(readOnlyFlag);
-    this.AD_PINCODE.mandatory = !readOnlyFlag;
-    this.SAME_ADDRESS.setHidden(!readOnlyFlag);
+    
+  //   let readOnlyFlag = this.AD_ADD_TYPE.getFieldValue() == 'ML' ? true : false;
+    
+  //   this.AD_ADDRESS_LINE1.setReadOnly(readOnlyFlag);
+  //   this.AD_ADDRESS_LINE1.mandatory = !readOnlyFlag;
+  //   this.AD_ADDRESS_LINE2.setReadOnly(readOnlyFlag);
+  //   this.AD_ADDRESS_LINE3.setReadOnly(readOnlyFlag);
+  //   this.AD_ADDRESS_LINE4.setReadOnly(readOnlyFlag);
+  //   this.AD_PINCODE.setReadOnly(readOnlyFlag);
+  //   this.AD_PINCODE.mandatory = !readOnlyFlag;
+  //   this.SAME_ADDRESS.setHidden(!readOnlyFlag);
+  // }
+
+  onCanaraAddressTypeChange() {
+   
+switch(this.AD_ADD_TYPE.getFieldValue()){
+  case 'ML':    
+  this.AD_OCCUPANCY_STATUS.setHidden(true);
+  this.AD_OCCUPANCY_TYPE.setHidden(true);
+  this.AD_OCCUPANCY_STATUS.mandatory=false;
+  this.AD_OCCUPANCY_TYPE.mandatory=false;
+    this.AD_ADDRESS_LINE1.setReadOnly(true);
+    this.AD_ADDRESS_LINE1.mandatory = false;
+    this.AD_ADDRESS_LINE2.setReadOnly(true);
+    this.AD_ADDRESS_LINE3.setReadOnly(true);
+    this.AD_ADDRESS_LINE4.setReadOnly(true);
+    this.AD_PINCODE.setReadOnly(true);
+    this.AD_PINCODE.mandatory = false;
+    this.SAME_ADDRESS.setHidden(false);
+    this.AD_RES_DUR.setHidden(true);
+    this.AD_RES_DUR.mandatory=false;
+    this.AD_RES_DUR_UNIT.setHidden(true);
+    this.AD_RES_DUR_UNIT.mandatory=false;
+    this.AD_PREF_TIME.mandatory=false;
+    break;
+    case 'PR':     
+    this.AD_OCCUPANCY_STATUS.setHidden(true);
+    this.AD_OCCUPANCY_TYPE.setHidden(true);
+    this.AD_OCCUPANCY_STATUS.mandatory=false;
+    this.AD_OCCUPANCY_TYPE.mandatory=false;
+    this.AD_ADDRESS_LINE1.setReadOnly(false);
+    this.AD_ADDRESS_LINE1.mandatory = true;
+    this.AD_ADDRESS_LINE2.setReadOnly(false);
+    this.AD_ADDRESS_LINE3.setReadOnly(false);
+    this.AD_ADDRESS_LINE4.setReadOnly(false);
+    this.AD_PINCODE.setReadOnly(false);
+    this.AD_PINCODE.mandatory = false;
+    this.SAME_ADDRESS.setHidden(true);
+    this.AD_RES_DUR.setHidden(true);
+    this.AD_RES_DUR.mandatory=false;
+    this.AD_RES_DUR_UNIT.setHidden(true);
+    this.AD_RES_DUR_UNIT.mandatory=false;
+    this.AD_PREF_TIME.mandatory=false;
+    break;
+  case 'RS':
+  this.AD_OCCUPANCY_STATUS.setHidden(false);
+  this.AD_OCCUPANCY_TYPE.setHidden(false);
+  this.AD_OCCUPANCY_STATUS.mandatory=true;
+  this.AD_OCCUPANCY_TYPE.mandatory=true;
+  this.AD_ADDRESS_LINE1.setReadOnly(false);
+    this.AD_ADDRESS_LINE1.mandatory = true;
+    this.AD_ADDRESS_LINE2.setReadOnly(false);
+    this.AD_ADDRESS_LINE3.setReadOnly(false);
+    this.AD_ADDRESS_LINE4.setReadOnly(false);
+    this.AD_PINCODE.setReadOnly(false);
+    this.AD_PINCODE.mandatory = true;
+    this.SAME_ADDRESS.setHidden(false);
+    this.AD_RES_DUR.setHidden(false);
+    this.AD_RES_DUR.mandatory=true;
+    this.AD_RES_DUR_UNIT.setHidden(false);
+    this.AD_RES_DUR_UNIT.mandatory=true;
+    this.AD_PREF_TIME.mandatory=true;
+    break;
+    case 'OF':
+    this.AD_OCCUPANCY_STATUS.setHidden(true);
+    this.AD_OCCUPANCY_TYPE.setHidden(true);
+    this.AD_OCCUPANCY_STATUS.mandatory=false;
+    this.AD_OCCUPANCY_TYPE.mandatory=false;
+    this.AD_ADDRESS_LINE1.setReadOnly(false);
+      this.AD_ADDRESS_LINE1.mandatory = true;
+      this.AD_ADDRESS_LINE2.setReadOnly(false);
+      this.AD_ADDRESS_LINE3.setReadOnly(false);
+      this.AD_ADDRESS_LINE4.setReadOnly(false);
+      this.AD_PINCODE.setReadOnly(false);
+      this.AD_PINCODE.mandatory = true;
+      this.SAME_ADDRESS.setHidden(true);
+      this.AD_RES_DUR.setHidden(true);
+      this.AD_RES_DUR.mandatory=false;
+      this.AD_RES_DUR_UNIT.setHidden(true);
+      this.AD_RES_DUR.mandatory=false;
+      this.AD_PREF_TIME.mandatory=true;
+      break;
+}
   }
   // async AD_ADDRESS_LINE1_blur(event) {
   //   let inputMap = new Map();
@@ -629,12 +715,13 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
+        this.populatingDataFlag = true;
         this.AD_ADD_TYPE.setValue(res['AddressDetails']['AddressType']);
         this.AD_RES_DUR.setValue(res['AddressDetails']['ResidenceDuration']);
-        this.AD_RES_DUR_UNIT.setValue(res['AddressDetails']['Period']['id']);
-        this.AD_OCCUPANCY_STATUS.setValue(res['AddressDetails']['ResidenceType']['id']);
-        this.AD_OCCUPANCY_TYPE.setValue(res['AddressDetails']['OccupancyType']['id']);
-        this.AD_PREF_TIME.setValue(res['AddressDetails']['PreferredTime']['id']);
+        this.AD_RES_DUR_UNIT.setValue(!_.isEmpty(res['AddressDetails']['Period'])?res['AddressDetails']['Period']['id']:undefined);
+        this.AD_OCCUPANCY_STATUS.setValue(!_.isEmpty(res['AddressDetails']['ResidenceType'])?res['AddressDetails']['ResidenceType']['id']:undefined);
+        this.AD_OCCUPANCY_TYPE.setValue(!_.isEmpty(res['AddressDetails']['OccupancyType'])?res['AddressDetails']['OccupancyType']['id']:undefined);
+        this.AD_PREF_TIME.setValue(!_.isEmpty(res['AddressDetails']['PreferredTime'])?res['AddressDetails']['PreferredTime']['id']:undefined);
         this.AD_ADDRESS_LINE1.setValue(res['AddressDetails']['AddressLine1']);
         this.AD_ADDRESS_LINE2.setValue(res['AddressDetails']['AddressLine2']);
         this.AD_ADDRESS_LINE3.setValue(res['AddressDetails']['AddressLine3']);
@@ -687,9 +774,9 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
           this.AD_EMAIL2_CHECKBOX.setValue(false);
         }
         this.hideSpinner();
-        // await this.Handler.onAddTypeChange(); // removed for canara 
+        await this.Handler.onAddressTypeChange(res['AddressDetails']['AddressType']); // removed for canara 
         this.AD_ADD_TYPE.setReadOnly(true); // changes to adjust canara requirements loop hole
-        this.onCanaraAddressTypeChange(); // called for canara
+      //  this.onCanaraAddressTypeChange(); // called for canara
 
       },
       async (httpError) => {

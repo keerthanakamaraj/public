@@ -283,7 +283,9 @@ export class AddressDetailsGridComponent implements AfterViewInit {
             var tempObj = {};
             tempObj['AD_ADD_ID'] = address[i].AddressDetailsSeq;
             tempObj['AddressTypeId'] = address[i].AddressType;
-            if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && this.activeApplicantType == 'B') {
+            tempObj['AD_MAILING_ADDRESS'] = address[i].UDF3;
+
+            if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && this.activeApplicantType == 'B' && !this.services.rloCommonData.globalApplicationDtls.isLoanCategory) {
               if (address[i].AddressType == 'ML') {
                 tempObj['AD_Address_Type'] = 'Registered Address';
               } else if (address[i].AddressType == 'PR') {
@@ -294,16 +296,15 @@ export class AddressDetailsGridComponent implements AfterViewInit {
                 tempObj['AD_Address_Type'] = 'Mailing Address';
               } else if (address[i].AddressType == 'PR') {
                 tempObj['AD_Address_Type'] = 'Permanent Address';
+              }else if (address[i].AddressType == 'RS') {
+                tempObj['AD_Address_Type'] = 'Residence Address';
+                tempObj['AD_OCCUP_TYPE'] = address[i].OccupancyType.text;
+                tempObj['AD_OCC_STATUS'] = address[i].ResidenceType.text;
+              } else if (address[i].AddressType == 'OF') {
+                tempObj['AD_Address_Type'] = 'Office Address';
               }
             }
-
-
-            tempObj['AD_MAILING_ADDRESS'] = address[i].UDF3;
-            tempObj['AD_OCCUP_TYPE'] = address[i].OccupancyType.text;
-            tempObj['AD_OCC_STATUS'] = address[i].ResidenceType.text;
-
-
-
+            
             let fullAddressArr = [];
             fullAddressArr.push(address[i].AddressLine1);
             fullAddressArr.push(address[i].AddressLine2);

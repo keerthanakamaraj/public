@@ -349,7 +349,8 @@ export class RloCommonData {
     const tags = [];
     let activeApplicantType = undefined;
     if (event.data != undefined) {
-      let activeApplicant = await this.getCustomerDetails(parseInt(event.data[0].BorrowerSeq));
+    ///  let activeApplicant = await this.getCustomerDetails(parseInt(event.data[0].BorrowerSeq));
+    let activeApplicant = await this.getCustomerDetails(parseInt(event.BorrowerSeq));
       if (activeApplicant != undefined) {
         activeApplicantType = activeApplicant['CustomerType'];
       }
