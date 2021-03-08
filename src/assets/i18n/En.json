@@ -72,7 +72,7 @@
     "rlo.success.withdraw": "The application has been successfully withdrawn.",
     "rlo.success.reject": "The application has been successfully rejected.",
     "rlo.success.refer": "The application has been successfully referred.",
-    "rlo.success.sendback" : "The application has been successfully sendback.",
+    "rlo.success.sendback": "The application has been successfully sendback.",
     "rlo.error.code.address": "Please select the country code.",
     "rlo.error.landline.address": "Please enter a landline number.",
     "rlo.error.mobile.address": "Please enter a mobile number.",
@@ -237,10 +237,10 @@
     "rlo.error.address.delete-restrict": "This address can not be deleted.",
     "rlo.error.credit-card-grid.empty-column": "Please fill the mandatory data in member cards grid properly.",
     "rlo.delete.comfirmation": "Are you sure you want to delete?",
-    "rlo.error.approve.amount.empty" : "For Member Card Approve Card Limit Cannot be Blank",
-    "rlo.error.credit-card-grid.greater-value" : "Value should be less than Primary Card limit",
-    "rlo.error.addon.req-amt-lmt":"Value must be less than Primary Requested Amount.",
-    "rlo.error.member.addon.req-amt-lmt":"Value must be less than Primary Approved Amount.",
+    "rlo.error.approve.amount.empty": "For Member Card Approve Card Limit Cannot be Blank",
+    "rlo.error.credit-card-grid.greater-value": "Value should be less than Primary Card limit",
+    "rlo.error.addon.req-amt-lmt": "Value must be less than Primary Requested Amount.",
+    "rlo.error.member.addon.req-amt-lmt": "Value must be less than Primary Approved Amount.",
     "rlo.error.exits.fd": "FD already added",
     "rlo.success.update.fd": "FD Details Updated Successfully",
     "rlo.error.update.fd": "Failed to update FD Details",
@@ -249,13 +249,12 @@
     "rlo.error.greter.fd": " Lien Amount should be less than FD Amount",
     "rlo.success.delete.fd": "The FD Detail deleted successfully.",
     "rlo.error.delete.fd": "The FD Details could not be deleted. Please try again.",
-    "rlo.error.approvedlimit.lien.product" : "Approved Card Limit needs to be less than the Lien Amount",
-    "rlo.success.trigger.interface":"Interface triggered successfully.",
-    "rlo.error.trigger.interface":"Unable to trigger interface.",
-    "rlo.error.initiation.invalid-card-type" : "Customer Type not match with Card Type",
+    "rlo.error.approvedlimit.lien.product": "Approved Card Limit needs to be less than the Lien Amount",
+    "rlo.success.trigger.interface": "Interface triggered successfully.",
+    "rlo.error.trigger.interface": "Unable to trigger interface.",
+    "rlo.error.initiation.invalid-card-type": "Customer Type not match with Card Type",
     "rlo.error.invalid-card-type": "Invalid Card Type",
-    "rlo.error.cmsdetails.invalid" : "CMS Details not present for selected record",
-
+    "rlo.error.cmsdetails.invalid": "CMS Details not present for selected record",
     "999": "Unspecified error",
     "MANDATORY": "Value can not be Empty.",
     "DUPLICATE": "This has already been added. Please add other details.",
@@ -1515,7 +1514,8 @@
     "Mobile": "Mobile No.",
     "Branch": "Branch",
     "CreditCard": "Credit Card",
-    "CmsDetails": "CMS Details"
+    "CmsDetails": "CMS Details",
+    "LmsDetails": "LMS Details"
   },
   "CustomerAvaliableCardGrid": {
     "CardSubProduct": "Card Sub Product",
@@ -2290,7 +2290,7 @@
     "ApplicationInfo": "Application Information",
     "FormTitle": "Operation",
     "VIEW_DDE": "View Loan Application",
-    "VIEW_DDE_CARD" : "View Card Application",
+    "VIEW_DDE_CARD": "View Card Application",
     "CustomerInfo": "Customer Infomation",
     "FieldId_3": "Loan Information",
     "OPERATION_APPROVE": "APPROVE",
@@ -2674,7 +2674,7 @@
   },
   "CreditCardInputGrid": {
     "MemberName": "Member Name",
-    "AddOnName":"Add On Name",
+    "AddOnName": "Add On Name",
     "CardNumber": "Card Number",
     "CardStatus": "Card Status",
     "LatestLimitDate": "Latest Limit Date",
@@ -2695,28 +2695,28 @@
     "RealignmentSection": "Realignment Section",
     "LimitEnhacement": "Limit Enhacement"
   },
-  "FDDetails" : {
-    "FormTitle" : "FDDetails",
-    "FDNumber" : "FD Number",
-    "FDAmount" : "FD Amount",
-    "DateofMaturity" : "Date of Maturity",
-    "FDAmountLCE" : "FD Amount(Local Currency Equivalent)",
-    "AutoRenewal" : "Auto Renewal",
-    "MaturityAmount" : "Maturity Amount",
-    "IncludeInDBR" : "Include in DBR",
-    "LienAmount" : "Lien Amount"
-    },
-    "FDDetailsGrid" : {
-      "FDNumber" : "FD Number",
-      "toolbar_FDDetailsGrid" : "null",
-      "EDIT_ButtonName" : "EDIT",
-      "DELETE" : "DELETE",
-      "DateofMaturity" : "Date of Maturity ",
-      "GridTitle" : "FDDetailsGrid",
-      "DELETE_ButtonName" : "DELETE",
-      "EDIT" : "EDIT",
-      "LienAmount" : "Lien Amount",
-      "FieldId_5" : "Edit",
-      "FDAmount" : "FD Amount"
-      }
+  "FDDetails": {
+    "FormTitle": "FDDetails",
+    "FDNumber": "FD Number",
+    "FDAmount": "FD Amount",
+    "DateofMaturity": "Date of Maturity",
+    "FDAmountLCE": "FD Amount(Local Currency Equivalent)",
+    "AutoRenewal": "Auto Renewal",
+    "MaturityAmount": "Maturity Amount",
+    "IncludeInDBR": "Include in DBR",
+    "LienAmount": "Lien Amount"
+  },
+  "FDDetailsGrid": {
+    "FDNumber": "FD Number",
+    "toolbar_FDDetailsGrid": "null",
+    "EDIT_ButtonName": "EDIT",
+    "DELETE": "DELETE",
+    "DateofMaturity": "Date of Maturity ",
+    "GridTitle": "FDDetailsGrid",
+    "DELETE_ButtonName": "DELETE",
+    "EDIT": "EDIT",
+    "LienAmount": "Lien Amount",
+    "FieldId_5": "Edit",
+    "FDAmount": "FD Amount"
+  }
 }

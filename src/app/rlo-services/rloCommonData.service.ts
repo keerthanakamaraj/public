@@ -120,6 +120,8 @@ export class RloCommonData {
   customerListForAddress = new Map();//need to change this
   initialBorrowerDetailsCallDone: boolean = false;
 
+  userInvokeInterfacev2: boolean = true;//temp fix to make interface apis work
+
   LienAmt: number = 0; // FD details lien amt for credit card calculation
   constructor(public rloutil: RloUtilService, public rloui: RlouiService, public router: Router, public http: ProvidehttpService, public alert: AlertsService) {
     this.resetMapData();
@@ -349,8 +351,8 @@ export class RloCommonData {
     const tags = [];
     let activeApplicantType = undefined;
     if (event.data != undefined) {
-    ///  let activeApplicant = await this.getCustomerDetails(parseInt(event.data[0].BorrowerSeq));
-    let activeApplicant = await this.getCustomerDetails(parseInt(event.BorrowerSeq));
+      ///  let activeApplicant = await this.getCustomerDetails(parseInt(event.data[0].BorrowerSeq));
+      let activeApplicant = await this.getCustomerDetails(parseInt(event.BorrowerSeq));
       if (activeApplicant != undefined) {
         activeApplicantType = activeApplicant['CustomerType'];
       }
@@ -1213,7 +1215,7 @@ export class RloCommonData {
           }
         );
       } else {
-        this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+        this.http.fetchApi(this.userInvokeInterfacev2 ? '/api/invokeInterface/v2' : '/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
             console.log("Deep | Service - getSearchedCustomerData() EXTERNAL SEARCH RESPONSE:", res);
@@ -1333,7 +1335,7 @@ export class RloCommonData {
     inputMap.set('Body.prposalid', '1234');
 
     const promise = new Promise((resolve, reject) => {
-      this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+      this.http.fetchApi(this.userInvokeInterfacev2 ? '/api/invokeInterface/v2' : '/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
           console.log("Deep | Service - getInterfaceResposes()", res);
@@ -1358,7 +1360,7 @@ export class RloCommonData {
     inputMap.set('Body.prposalid', '3322');
 
     const promise = new Promise((resolve, reject) => {
-      this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+      this.http.fetchApi(this.userInvokeInterfacev2 ? '/api/invokeInterface/v2' : '/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
           console.log("Deep | Service - getMemberCardDetail()", res);

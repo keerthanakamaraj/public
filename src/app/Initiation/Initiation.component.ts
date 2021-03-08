@@ -516,7 +516,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       //  this.toggleColumn();
     });
 
-    this.tempUnableCustId()
+    this.tempUnableCustId();
+
+    // //testing
+    // this.SRC_MOBILE_NO.setValue(700000000);
+    // this.SRC_TAX_ID.setValue(111111 - 1111);
+    // this.SRC_CIF_NO.setValue(1111111111)
   }
   clearError() {
     super.clearBasicFieldsError();
@@ -603,40 +608,44 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.searchbutton = 'Y';
     var noofErrors: number = await this.revalidate();
     if (noofErrors == 0) {
-      let obj: ICustomSearchObject = {
-        mobileNumber: this.SRC_MOBILE_NO.getFieldValue(),
-        taxId: this.SRC_TAX_ID.getFieldValue(),
-        cifId: this.SRC_CIF_NO.getFieldValue(),
-        searchType: "External"
-      }
-      this.services.rloui.openCustomerSearch(obj).then((response: any) => {
-        this.toggleColumn();
-        if (response != null) {
-          console.log(response);
-          //  this.ApplicationStatus(response);
-          //  this.setValuesOfCustomer(response);
-          // this.CBSProductCode(response);
-          if (typeof response != "boolean")
-            this.IsInitiationAllowedForBranch(response);
-          this.searchbutton = 'N';
-          //  this.NoOfCardAllowed(response);
-          // this.IsInitiationAllowedForBranch(response);
+      if (this.SRC_MOBILE_NO.getFieldValue() == undefined || this.SRC_TAX_ID.getFieldValue() == undefined || this.SRC_CIF_NO.getFieldValue() == undefined) {
+        this.services.alert.showAlert(2, '', 3500, 'Please enter valid details');
+      } else {
+        let obj: ICustomSearchObject = {
+          mobileNumber: this.SRC_MOBILE_NO.getFieldValue(),
+          taxId: this.SRC_TAX_ID.getFieldValue(),
+          cifId: this.SRC_CIF_NO.getFieldValue(),
+          searchType: "External"
+        }
+        this.services.rloui.openCustomerSearch(obj).then((response: any) => {
           this.toggleColumn();
+          if (response != null) {
+            console.log(response);
+            //  this.ApplicationStatus(response);
+            //  this.setValuesOfCustomer(response);
+            // this.CBSProductCode(response);
+            if (typeof response != "boolean")
+              this.IsInitiationAllowedForBranch(response);
+            this.searchbutton = 'N';
+            //  this.NoOfCardAllowed(response);
+            // this.IsInitiationAllowedForBranch(response);
+            this.toggleColumn();
 
-          /* PR-38 dev
-          // this.ApplicationStatus(response);
-           this.setValuesOfCustomer(response);
-           this.SRC_CIF_NO.onReset();
-          */
-        }
-        else {
-          console.warn("DEEP | No customer selected");
-          this.SRC_CIF_NO.onReset();
-        }
-      });
+            /* PR-38 dev
+            // this.ApplicationStatus(response);
+             this.setValuesOfCustomer(response);
+             this.SRC_CIF_NO.onReset();
+            */
+          }
+          else {
+            console.warn("DEEP | No customer selected");
+            this.SRC_CIF_NO.onReset();
+          }
+        });
+      }
     }
     else {
-      this.services.alert.showAlert(2, '', -1, 'Please enter valid CBS Customer ID');
+      this.services.alert.showAlert(2, '', 3500, 'Please enter valid details');
     }
 
   }
@@ -750,7 +759,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         for (let i = 0; i < CPBProductDetails.length; i++) {
           if (CPBProductDetails[i].CBS_PRODUCT_CODE == tempVar['CBSProductCode']) {
             if (CPBProductDetails[i].INITIATION_ALLOWED == 'N') {
-              this.services.alert.showAlert(2, '', -1, 'For Specified Product Code we cannot initiate the Proposal');
+              this.services.alert.showAlert(2, '', 3500, 'For Specified Product Code we cannot initiate the Proposal');
               // this.SUBMIT_MAIN_BTN.setDisabled(true);
               return;
             }
@@ -832,7 +841,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   //called when a customer is selected for customer search
   setValuesOfCustomer(data) {
-    if(data.CustomerType == 'C'){
+    if (data.CustomerType == 'C') {
       this.BAD_PROD_CAT.setValue('CC');
       this.Handler.onProdCategoryChange({
       }
@@ -949,7 +958,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     await this.Handler.onProdCategoryChange({
     }
     );
-    this.Handler.HideFieldBasedOnCorporate(null , 'B')
+    this.Handler.HideFieldBasedOnCorporate(null, 'B')
     this.Handler.onResetCustomer({});
     this.Handler.updateLoanTag();
     this.setDependency(fieldID, value);
@@ -1186,7 +1195,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
     console.error("DEEP | LD_CHK_ELGBTY_BTN_click", inputMap);
 
-    this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+    this.services.http.fetchApi(this.services.rloCommonData.userInvokeInterfacev2 ? '/api/invokeInterface/v2' : '/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
 
@@ -2096,7 +2105,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       let inputMap = new Map();
       inputMap.set('Body.interfaceId', 'REF_SEARCH');
       inputMap.set('Body.inputdata.RefNumber', refnum);
-      this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+      this.services.http.fetchApi(this.services.rloCommonData.userInvokeInterfacev2 ? '/api/invokeInterface/v2' : '/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
           if (res.status === 'S') {
