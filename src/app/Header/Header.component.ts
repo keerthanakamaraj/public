@@ -507,7 +507,9 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   }
 
   async broadcastApplicationData(header) {
-
+    header.TypeOfLoan='AL';
+    this.isLoanCategory=true;
+    header.CardCustType='I';
     let StoreObject: IGlobalApllicationDtls = {
       isLoanCategory: this.isLoanCategory,
       TypeOfLoanCode: header.TypeOfLoan,

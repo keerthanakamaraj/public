@@ -40,7 +40,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @ViewChild('AD_OCCUPANCY_TYPE', { static: false }) AD_OCCUPANCY_TYPE: RLOUIRadioComponent;
   @ViewChild('AD_OCCUPANCY_STATUS', { static: false }) AD_OCCUPANCY_STATUS: RLOUIRadioComponent;
   @ViewChild('AD_CUST_TYPE', { static: false }) AD_CUST_TYPE: RLOUIRadioComponent;
-  @ViewChild('AD_MAILING_ADDRESS', { static: false }) AD_MAILING_ADDRESS: RLOUIRadioComponent;
+  //@ViewChild('AD_MAILING_ADDRESS', { static: false }) AD_MAILING_ADDRESS: RLOUIRadioComponent;
   @ViewChild('AD_ADDRESS_LINE1', { static: false }) AD_ADDRESS_LINE1: TextBoxComponent;
   @ViewChild('AD_ADDRESS_LINE2', { static: false }) AD_ADDRESS_LINE2: TextBoxComponent;
   @ViewChild('AD_ADDRESS_LINE3', { static: false }) AD_ADDRESS_LINE3: TextBoxComponent;
@@ -92,8 +92,8 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   AD_Address_Type = [];
   AD_OCCUP_TYPE = [];
   EmailCheck: string;
-  IsCorporateApplicant: boolean = undefined;
-  isLoanCategory:boolean = undefined;
+  // IsCorporateApplicant: boolean = undefined;
+  // isLoanCategory:boolean = undefined;
   populatingDataFlag: boolean = true;
   // tslint:disable-next-line:member-ordering
   fieldDependencies = {
@@ -245,21 +245,21 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.hideCorrEmail.setValue('CORR_EMAIL');
     this.hidPrefferTime.setValue('PREF_TIME_CONTACT');
     this.AddressGrid.activeApplicantType = this.activeApplicantType;
-    if(this.services.rloCommonData.globalApplicationDtls.isLoanCategory){
-      this.hidAddType.setValue('PROD_ADDRESS_TYPE');
-      this.isLoanCategory=true;
-    }
-    else{
-    if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && this.activeApplicantType == 'B') {
-      this.hidAddType.setValue('CORP_PRIM_ADDRESS_TYPE');  //changed for canara
-      this.IsCorporateApplicant = true;
-    } else {
-      this.hidAddType.setValue('ADDRESS_TYPE');  //changed for canara
-      this.IsCorporateApplicant = false;
-    }
-    this.isLoanCategory=false;
-  }
-    
+    //if(this.services.rloCommonData.globalApplicationDtls.isLoanCategory){
+    this.hidAddType.setValue('PROD_ADDRESS_TYPE');
+    //  this.isLoanCategory=true;
+    // }
+    //   else{
+    //   if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && this.activeApplicantType == 'B') {
+    //     this.hidAddType.setValue('CORP_PRIM_ADDRESS_TYPE');  //changed for canara
+    //     this.IsCorporateApplicant = true;
+    //   } else {
+    //     this.hidAddType.setValue('ADDRESS_TYPE');  //changed for canara
+    //     this.IsCorporateApplicant = false;
+    //   }
+    //   this.isLoanCategory=false;
+    // }
+
     // this.hidCountryCode.setValue('ISD_COUNTRY_CODE');
     // this.hidLandISDCode.setValue('ISD_COUNTRY_CODE');
     this.AD_EMAIL1_CHECKBOX.setValue(true);
@@ -374,16 +374,16 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   async AD_ADD_TYPE_change(fieldID, value) {
     const inputMap = new Map();
     // this.addonblur.emit({});
-      await this.Handler.onAddressTypeChange(); // removed for canara 
+    await this.Handler.onAddressTypeChange(); // removed for canara 
     //this.onCanaraAddressTypeChange(); // called for the canara 
 
   }
 
   // onCanaraAddressTypeChange() {
 
-    
+
   //   let readOnlyFlag = this.AD_ADD_TYPE.getFieldValue() == 'ML' ? true : false;
-    
+
   //   this.AD_ADDRESS_LINE1.setReadOnly(readOnlyFlag);
   //   this.AD_ADDRESS_LINE1.mandatory = !readOnlyFlag;
   //   this.AD_ADDRESS_LINE2.setReadOnly(readOnlyFlag);
@@ -395,85 +395,85 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   // }
 
   onCanaraAddressTypeChange() {
-   
-switch(this.AD_ADD_TYPE.getFieldValue()){
-  case 'ML':    
-  this.AD_OCCUPANCY_STATUS.setHidden(true);
-  this.AD_OCCUPANCY_TYPE.setHidden(true);
-  this.AD_OCCUPANCY_STATUS.mandatory=false;
-  this.AD_OCCUPANCY_TYPE.mandatory=false;
-    this.AD_ADDRESS_LINE1.setReadOnly(true);
-    this.AD_ADDRESS_LINE1.mandatory = false;
-    this.AD_ADDRESS_LINE2.setReadOnly(true);
-    this.AD_ADDRESS_LINE3.setReadOnly(true);
-    this.AD_ADDRESS_LINE4.setReadOnly(true);
-    this.AD_PINCODE.setReadOnly(true);
-    this.AD_PINCODE.mandatory = false;
-    this.SAME_ADDRESS.setHidden(false);
-    this.AD_RES_DUR.setHidden(true);
-    this.AD_RES_DUR.mandatory=false;
-    this.AD_RES_DUR_UNIT.setHidden(true);
-    this.AD_RES_DUR_UNIT.mandatory=false;
-    this.AD_PREF_TIME.mandatory=false;
-    break;
-    case 'PR':     
-    this.AD_OCCUPANCY_STATUS.setHidden(true);
-    this.AD_OCCUPANCY_TYPE.setHidden(true);
-    this.AD_OCCUPANCY_STATUS.mandatory=false;
-    this.AD_OCCUPANCY_TYPE.mandatory=false;
-    this.AD_ADDRESS_LINE1.setReadOnly(false);
-    this.AD_ADDRESS_LINE1.mandatory = true;
-    this.AD_ADDRESS_LINE2.setReadOnly(false);
-    this.AD_ADDRESS_LINE3.setReadOnly(false);
-    this.AD_ADDRESS_LINE4.setReadOnly(false);
-    this.AD_PINCODE.setReadOnly(false);
-    this.AD_PINCODE.mandatory = false;
-    this.SAME_ADDRESS.setHidden(true);
-    this.AD_RES_DUR.setHidden(true);
-    this.AD_RES_DUR.mandatory=false;
-    this.AD_RES_DUR_UNIT.setHidden(true);
-    this.AD_RES_DUR_UNIT.mandatory=false;
-    this.AD_PREF_TIME.mandatory=false;
-    break;
-  case 'RS':
-  this.AD_OCCUPANCY_STATUS.setHidden(false);
-  this.AD_OCCUPANCY_TYPE.setHidden(false);
-  this.AD_OCCUPANCY_STATUS.mandatory=true;
-  this.AD_OCCUPANCY_TYPE.mandatory=true;
-  this.AD_ADDRESS_LINE1.setReadOnly(false);
-    this.AD_ADDRESS_LINE1.mandatory = true;
-    this.AD_ADDRESS_LINE2.setReadOnly(false);
-    this.AD_ADDRESS_LINE3.setReadOnly(false);
-    this.AD_ADDRESS_LINE4.setReadOnly(false);
-    this.AD_PINCODE.setReadOnly(false);
-    this.AD_PINCODE.mandatory = true;
-    this.SAME_ADDRESS.setHidden(false);
-    this.AD_RES_DUR.setHidden(false);
-    this.AD_RES_DUR.mandatory=true;
-    this.AD_RES_DUR_UNIT.setHidden(false);
-    this.AD_RES_DUR_UNIT.mandatory=true;
-    this.AD_PREF_TIME.mandatory=true;
-    break;
-    case 'OF':
-    this.AD_OCCUPANCY_STATUS.setHidden(true);
-    this.AD_OCCUPANCY_TYPE.setHidden(true);
-    this.AD_OCCUPANCY_STATUS.mandatory=false;
-    this.AD_OCCUPANCY_TYPE.mandatory=false;
-    this.AD_ADDRESS_LINE1.setReadOnly(false);
-      this.AD_ADDRESS_LINE1.mandatory = true;
-      this.AD_ADDRESS_LINE2.setReadOnly(false);
-      this.AD_ADDRESS_LINE3.setReadOnly(false);
-      this.AD_ADDRESS_LINE4.setReadOnly(false);
-      this.AD_PINCODE.setReadOnly(false);
-      this.AD_PINCODE.mandatory = true;
-      this.SAME_ADDRESS.setHidden(true);
-      this.AD_RES_DUR.setHidden(true);
-      this.AD_RES_DUR.mandatory=false;
-      this.AD_RES_DUR_UNIT.setHidden(true);
-      this.AD_RES_DUR.mandatory=false;
-      this.AD_PREF_TIME.mandatory=true;
-      break;
-}
+
+    switch (this.AD_ADD_TYPE.getFieldValue()) {
+      case 'ML':
+        this.AD_OCCUPANCY_STATUS.setHidden(true);
+        this.AD_OCCUPANCY_TYPE.setHidden(true);
+        this.AD_OCCUPANCY_STATUS.mandatory = false;
+        this.AD_OCCUPANCY_TYPE.mandatory = false;
+        this.AD_ADDRESS_LINE1.setReadOnly(true);
+        this.AD_ADDRESS_LINE1.mandatory = false;
+        this.AD_ADDRESS_LINE2.setReadOnly(true);
+        this.AD_ADDRESS_LINE3.setReadOnly(true);
+        this.AD_ADDRESS_LINE4.setReadOnly(true);
+        this.AD_PINCODE.setReadOnly(true);
+        this.AD_PINCODE.mandatory = false;
+        this.SAME_ADDRESS.setHidden(false);
+        this.AD_RES_DUR.setHidden(true);
+        this.AD_RES_DUR.mandatory = false;
+        this.AD_RES_DUR_UNIT.setHidden(true);
+        this.AD_RES_DUR_UNIT.mandatory = false;
+        this.AD_PREF_TIME.mandatory = false;
+        break;
+      case 'PR':
+        this.AD_OCCUPANCY_STATUS.setHidden(true);
+        this.AD_OCCUPANCY_TYPE.setHidden(true);
+        this.AD_OCCUPANCY_STATUS.mandatory = false;
+        this.AD_OCCUPANCY_TYPE.mandatory = false;
+        this.AD_ADDRESS_LINE1.setReadOnly(false);
+        this.AD_ADDRESS_LINE1.mandatory = true;
+        this.AD_ADDRESS_LINE2.setReadOnly(false);
+        this.AD_ADDRESS_LINE3.setReadOnly(false);
+        this.AD_ADDRESS_LINE4.setReadOnly(false);
+        this.AD_PINCODE.setReadOnly(false);
+        this.AD_PINCODE.mandatory = false;
+        this.SAME_ADDRESS.setHidden(true);
+        this.AD_RES_DUR.setHidden(true);
+        this.AD_RES_DUR.mandatory = false;
+        this.AD_RES_DUR_UNIT.setHidden(true);
+        this.AD_RES_DUR_UNIT.mandatory = false;
+        this.AD_PREF_TIME.mandatory = false;
+        break;
+      case 'RS':
+        this.AD_OCCUPANCY_STATUS.setHidden(false);
+        this.AD_OCCUPANCY_TYPE.setHidden(false);
+        this.AD_OCCUPANCY_STATUS.mandatory = true;
+        this.AD_OCCUPANCY_TYPE.mandatory = true;
+        this.AD_ADDRESS_LINE1.setReadOnly(false);
+        this.AD_ADDRESS_LINE1.mandatory = true;
+        this.AD_ADDRESS_LINE2.setReadOnly(false);
+        this.AD_ADDRESS_LINE3.setReadOnly(false);
+        this.AD_ADDRESS_LINE4.setReadOnly(false);
+        this.AD_PINCODE.setReadOnly(false);
+        this.AD_PINCODE.mandatory = true;
+        this.SAME_ADDRESS.setHidden(false);
+        this.AD_RES_DUR.setHidden(false);
+        this.AD_RES_DUR.mandatory = true;
+        this.AD_RES_DUR_UNIT.setHidden(false);
+        this.AD_RES_DUR_UNIT.mandatory = true;
+        this.AD_PREF_TIME.mandatory = true;
+        break;
+      case 'OF':
+        this.AD_OCCUPANCY_STATUS.setHidden(true);
+        this.AD_OCCUPANCY_TYPE.setHidden(true);
+        this.AD_OCCUPANCY_STATUS.mandatory = false;
+        this.AD_OCCUPANCY_TYPE.mandatory = false;
+        this.AD_ADDRESS_LINE1.setReadOnly(false);
+        this.AD_ADDRESS_LINE1.mandatory = true;
+        this.AD_ADDRESS_LINE2.setReadOnly(false);
+        this.AD_ADDRESS_LINE3.setReadOnly(false);
+        this.AD_ADDRESS_LINE4.setReadOnly(false);
+        this.AD_PINCODE.setReadOnly(false);
+        this.AD_PINCODE.mandatory = true;
+        this.SAME_ADDRESS.setHidden(true);
+        this.AD_RES_DUR.setHidden(true);
+        this.AD_RES_DUR.mandatory = false;
+        this.AD_RES_DUR_UNIT.setHidden(true);
+        this.AD_RES_DUR.mandatory = false;
+        this.AD_PREF_TIME.mandatory = true;
+        break;
+    }
   }
   // async AD_ADDRESS_LINE1_blur(event) {
   //   let inputMap = new Map();
@@ -546,13 +546,13 @@ switch(this.AD_ADD_TYPE.getFieldValue()){
 
         for (let i = 0; i < addGridData.length; i++) {
           if (addGridData[i].AD_ADD_ID !== this.AD_HIDE_ID.getFieldValue()) { // Check if Editing Existing Address
-            if ((this.CORR_ADD_CHECKBOX.getFieldValue() === true && addGridData[i].AD_MAILING_ADDRESS === 'true')) {
+            if ((this.CORR_ADD_CHECKBOX.getFieldValue() === true && addGridData[i].AD_IS_MAILING_ADDRESS_ID == 'Y')) {
               this.services.alert.showAlert(2, 'rlo.error.mailing.address', -1);
               return;
-            } else if (this.AD_OCCUPANCY_TYPE.getFieldValue() === 'CR' && addGridData[i].AD_OCCUP_TYPE === 'CR') {
+            } else if (this.AD_OCCUPANCY_TYPE.getFieldValue() === 'CR' && addGridData[i].AD_OCC_TYPE_ID === 'CR') {
               this.services.alert.showAlert(2, 'rlo.error.current.address', -1);
               return;
-            } else if (this.AD_OCCUPANCY_TYPE.getFieldValue() === 'PR' && addGridData[i].AD_OCCUP_TYPE === 'PR') {
+            } else if (this.AD_OCCUPANCY_TYPE.getFieldValue() === 'PR' && addGridData[i].AD_OCC_TYPE_ID === 'PR') {
               this.services.alert.showAlert(2, 'rlo.error.permanent.address', -1);
               return;
             } else if (this.AD_ADD_TYPE.getFieldValue() == 'ML' && addGridData[i].AddressTypeId === 'ML') {
@@ -561,13 +561,12 @@ switch(this.AD_ADD_TYPE.getFieldValue()){
               } else {
                 this.services.alert.showAlert(2, 'rlo.error.canara-mailing-address.exist', -1);
               }
-
               return;
             } else if (this.AD_ADD_TYPE.getFieldValue() == 'PR' && addGridData[i].AddressTypeId === 'PR') {
               if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && this.activeApplicantType == 'B') {
                 this.services.alert.showAlert(2, 'rlo.error.communication.address', -1);
-              }else{
-              this.services.alert.showAlert(2, 'rlo.error.permanent.address', -1);
+              } else {
+                this.services.alert.showAlert(2, 'rlo.error.permanent.address', -1);
               }
               return;
             }
@@ -580,36 +579,7 @@ switch(this.AD_ADD_TYPE.getFieldValue()){
           }
         }
       }
-      if (this.AD_ADD_TYPE.getFieldValue() === 'OF') {
-        // tslint:disable-next-line:max-line-length
-        if (this.AD_RES_DUR.getFieldValue() !== undefined && this.AD_RES_DUR.getFieldValue() !== '' && this.AD_RES_DUR_UNIT.getFieldValue() === undefined) {
-          this.services.alert.showAlert(2, 'rlo.error.duration.not.exist', -1);
-          return;
-          // tslint:disable-next-line:max-line-length
-        } else if ((this.AD_RES_DUR.getFieldValue() === undefined || this.AD_RES_DUR.getFieldValue() === '') && this.AD_RES_DUR_UNIT.getFieldValue() !== undefined) {
-          this.services.alert.showAlert(2, 'rlo.error.period.not.exist', -1);
-          return;
-        }
-      }
-      // tslint:disable-next-line:max-line-length
-      // if ((this.AD_LANDLINE_NUMBER.getFieldValue() !== undefined && this.AD_LANDLINE_NUMBER.getFieldValue() !== '' && this.AD_LAND_COUNTRY_CODE.getFieldValue() === undefined) || (this.AD_ALTERNATE_MOB_NO.getFieldValue() !== undefined && this.AD_ALTERNATE_MOB_NO.getFieldValue() !== '' && this.AD_COUNTRY_CODE.getFieldValue() === undefined)) {
-      //   this.services.alert.showAlert(2, 'rlo.error.code.address', -1);
-      //   return;
-      //   // tslint:disable-next-line:max-line-length
-      // } else if ((this.AD_LANDLINE_NUMBER.getFieldValue() === undefined || this.AD_LANDLINE_NUMBER.getFieldValue() === '') && this.AD_LAND_COUNTRY_CODE.getFieldValue() !== undefined) {
-      //   this.services.alert.showAlert(2, 'rlo.error.landline.address', -1);
-      //   return;
-      //   // tslint:disable-next-line:max-line-length
-      // } else if ((this.AD_ALTERNATE_MOB_NO.getFieldValue() === undefined || this.AD_ALTERNATE_MOB_NO.getFieldValue() === '') && this.AD_COUNTRY_CODE.getFieldValue() !== undefined) {
-      //   this.services.alert.showAlert(2, 'rlo.error.mobile.address', -1);
-      //   return;
-      // if (this.AD_EMAIL1_CHECKBOX.getFieldValue() === false && this.AD_EMAIL2_CHECKBOX.getFieldValue() === false) {
-      //   this.services.alert.showAlert(2, 'rlo.error.emailcheckbox.address', -1);
-      //   return;
-      // } else if (this.AD_EMAIL_ID2.getFieldValue() === undefined && this.AD_EMAIL2_CHECKBOX.getFieldValue() === true) {
-      //   this.services.alert.showAlert(2, 'rlo.error.email.address', -1);
-      //   return;
-      // }
+
       inputMap.set('Body.AddressDetails', this.Handler.getAddressPostData());
       // const requestdata = this.requestParameterForAddressDetails();
       this.AD_SAVE_ADDRESS.setDisabled(true);
@@ -718,10 +688,10 @@ switch(this.AD_ADD_TYPE.getFieldValue()){
         this.populatingDataFlag = true;
         this.AD_ADD_TYPE.setValue(res['AddressDetails']['AddressType']);
         this.AD_RES_DUR.setValue(res['AddressDetails']['ResidenceDuration']);
-        this.AD_RES_DUR_UNIT.setValue(!_.isEmpty(res['AddressDetails']['Period'])?res['AddressDetails']['Period']['id']:undefined);
-        this.AD_OCCUPANCY_STATUS.setValue(!_.isEmpty(res['AddressDetails']['ResidenceType'])?res['AddressDetails']['ResidenceType']['id']:undefined);
-        this.AD_OCCUPANCY_TYPE.setValue(!_.isEmpty(res['AddressDetails']['OccupancyType'])?res['AddressDetails']['OccupancyType']['id']:undefined);
-        this.AD_PREF_TIME.setValue(!_.isEmpty(res['AddressDetails']['PreferredTime'])?res['AddressDetails']['PreferredTime']['id']:undefined);
+        this.AD_RES_DUR_UNIT.setValue(!_.isEmpty(res['AddressDetails']['Period']) ? res['AddressDetails']['Period']['id'] : undefined);
+        this.AD_OCCUPANCY_STATUS.setValue(!_.isEmpty(res['AddressDetails']['ResidenceType']) ? res['AddressDetails']['ResidenceType']['id'] : undefined);
+        this.AD_OCCUPANCY_TYPE.setValue(!_.isEmpty(res['AddressDetails']['OccupancyType']) ? res['AddressDetails']['OccupancyType']['id'] : undefined);
+        this.AD_PREF_TIME.setValue(!_.isEmpty(res['AddressDetails']['PreferredTime']) ? res['AddressDetails']['PreferredTime']['id'] : undefined);
         this.AD_ADDRESS_LINE1.setValue(res['AddressDetails']['AddressLine1']);
         this.AD_ADDRESS_LINE2.setValue(res['AddressDetails']['AddressLine2']);
         this.AD_ADDRESS_LINE3.setValue(res['AddressDetails']['AddressLine3']);
@@ -747,19 +717,18 @@ switch(this.AD_ADD_TYPE.getFieldValue()){
           this.AD_LANDLINE_NUMBER.setComponentSpecificValue(res['AddressDetails']['LandlineNumber'], this.services.rloui.getConfig('mob.default.country.code'));
         }
         //  this.AD_LANDLINE_NUMBER.setValue(res['AddressDetails']['LandlineNumber']);
-        const CorrsAdd = res['AddressDetails']['UDF3'];
-        if (CorrsAdd == 'true') {
+        if (res['AddressDetails']['IsMailingAddress']['id'] == 'Y') {
           this.CORR_ADD_CHECKBOX.setValue(true);
         } else {
           this.CORR_ADD_CHECKBOX.setValue(false);
         }
 
-       // const IsSameAdd = res['AddressDetails']['IsSameAddress'] //code commented for the canara. flag would be always false on Edit
+        // const IsSameAdd = res['AddressDetails']['IsSameAddress'] //code commented for the canara. flag would be always false on Edit
         // if (IsSameAdd == 'true') {
         //   this.SAME_ADDRESS.setValue(true);
         // } else {
-          this.SAME_ADDRESS.setValue(false);
-       // }
+        this.SAME_ADDRESS.setValue(false);
+        // }
         const array = res['AddressDetails']['CorrespondenceEmailAddress'].split(',');
         if (array[0] === 'true') {
           this.AD_EMAIL1_CHECKBOX.setValue(true);
@@ -776,7 +745,7 @@ switch(this.AD_ADD_TYPE.getFieldValue()){
         this.hideSpinner();
         await this.Handler.onAddressTypeChange(res['AddressDetails']['AddressType']); // removed for canara 
         this.AD_ADD_TYPE.setReadOnly(true); // changes to adjust canara requirements loop hole
-      //  this.onCanaraAddressTypeChange(); // called for canara
+        //  this.onCanaraAddressTypeChange(); // called for canara
 
       },
       async (httpError) => {

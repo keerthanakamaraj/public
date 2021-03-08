@@ -349,35 +349,20 @@ export class RloCommonData {
   //updateTags
   async updateAddressTags(event) {
     const tags = [];
-    let activeApplicantType = undefined;
     if (event.data != undefined) {
-      ///  let activeApplicant = await this.getCustomerDetails(parseInt(event.data[0].BorrowerSeq));
-      let activeApplicant = await this.getCustomerDetails(parseInt(event.BorrowerSeq));
-      if (activeApplicant != undefined) {
-        activeApplicantType = activeApplicant['CustomerType'];
-      }
-    }
-    event.data.forEach(address => {
-      let tagText = '';
-      // if (address.MailingAddress.id === 'Y') {
-      //   if (address.AddressType === 'OF') {
-      //     tagText = 'Office; ';
-      //   } else if (address.AddressType === 'RS') {
-      //     tagText = 'Residence; ';
-      //   }
-      // }
-      if (address.AddressType === 'ML') {
-        if (this.globalApplicationDtls.CustomerType == 'C' && activeApplicantType == 'B') {
-          tagText = 'Registered; ';
-        } else {
-          tagText = 'Mailing; ';
+      event.data.forEach(address => {
+        let tagText = '';
+        if (address.IsMailingAddress.id == 'Y') {
+          if (address.AddressType === 'OF') {
+            tagText = 'Office; ';
+          } else if (address.AddressType === 'RS') {
+            tagText = 'Residence; ';
+          }
+          tagText = tagText + this.rloutil.concatenate([address.AddressLine1, address.Region, address.City, address.State, address.PinCode], ', ');
+          tags.push({ text: tagText });
         }
-
-
-        tagText = tagText + this.rloutil.concatenate([address.AddressLine1, address.Region, address.City, address.State, address.PinCode], ', ');
-        tags.push({ text: tagText });
-      }
-    });
+      });
+    }
     return this.trimTagsIfRequired(tags, 2);
   }
 
@@ -662,66 +647,46 @@ export class RloCommonData {
 
     const LoanOwnership = customerData.LoanOwnership;
     const applicantType = customerData.CustomerType;
+    if (applicantType == 'G' || applicantType == 'OP') {
+      commonObj.isSectionValid = true;
+    }
+    else if (!sectionData.has('AddressDetails')) {
+      commonObj.isSectionValid = false;
+    } else {
+      if (sectionData.has('AddressDetails')) {
+        const addressList = sectionData.get('AddressDetails');
 
+        const addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };
+        for (const eachAddress of addressList) {
+          if (eachAddress.IsMailingAddress.id == 'Y') {
+            addrValidationObj.isMailing = true;
+          }
+          if ('CR' === ('' + eachAddress.OccupancyType.id)) {
+            addrValidationObj.isCurrent = true;
+          }
+          if ('PR' === ('' + eachAddress.OccupancyType.id)) {
+            addrValidationObj.isPermenet = true;
+          }
+          if ('OF' === ('' + eachAddress.AddressType)) {
+            addrValidationObj.isOffice = true;
+          }
+        }
 
-    // if (!sectionData.has('AddressDetails')) { //added for canara
-    //     commonObj.isSectionValid = false;
-    // } else {
-    if (sectionData.has('AddressDetails')) {
-      const addressList = sectionData.get('AddressDetails');
-      const addrValidationObj = { isMailing: false, isPermenet: true };
-      for (const eachAddress of addressList) {
-        if ('ML' === ('' + eachAddress.AddressType)) {
-          addrValidationObj.isMailing = true;
-        }
-        // if ('PR' === ('' + eachAddress.AddressType)) {
-        //   addrValidationObj.isPermenet = true;
-        // }
-      }
-      // if (applicantType == 'A' && this.globalApplicationDtls.CustomerType == 'C') {
-      //   addrValidationObj.isMailing = true;
-      // }
-      // commented for Canara
-      /*const addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };  
-      for (const eachAddress of addressList) {
-        if (eachAddress.MailingAddress.id && eachAddress.MailingAddress.id === 'Y') {
-          addrValidationObj.isMailing = true;
-        }
-        if ('CR' === ('' + eachAddress.OccupancyType.id) ) {
-          addrValidationObj.isCurrent = true;
-        }
-        if ('PR' === ('' + eachAddress.OccupancyType.id)) {
-          addrValidationObj.isPermenet = true;
-        }
-        if ('OF' === ('' + eachAddress.AddressType.id)) {
+        if ((LoanOwnership == undefined || LoanOwnership == 0)) {
           addrValidationObj.isOffice = true;
         }
-      }
 
-      if ((LoanOwnership == undefined || LoanOwnership == 0) && custType !== 'B' && custType !== 'CB') {
-        addrValidationObj.isOffice = true;
-      }*/
-
-      for (const flag in addrValidationObj) {
-        if (!addrValidationObj[flag]) {
-          commonObj.isSectionValid = false;
+        for (const flag in addrValidationObj) {
+          if (!addrValidationObj[flag]) {
+            commonObj.isSectionValid = false;
+          }
         }
       }
     }
-    // commented for canara
-    /*if (!commonObj.isSectionValid) {
-      commonObj.errorMessage += ((LoanOwnership == undefined || LoanOwnership == 0) && custType !== 'B' && custType !== 'CB') ?
-        '1 correspondence address'
-        : '1 permanent and 1 current residence address, at least 1 office address and 1 correspondence address';
-    }*/
     if (!commonObj.isSectionValid) {
-      if (this.globalApplicationDtls.CustomerType == 'C' && applicantType == 'B') {
-        commonObj.errorMessage += '1 Registered';
-      }
-      else {
-        commonObj.errorMessage += '1 Mailing';
-      }
-
+      commonObj.errorMessage += (LoanOwnership == undefined || LoanOwnership == 0) ?
+        '1 permanent, 1 current residence address and 1 correspondence address'
+        : '1 permanent, 1 current residence address, at least 1 office address and 1 correspondence address';
     }
     return commonObj;
   }

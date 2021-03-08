@@ -1763,7 +1763,7 @@
     "AD_Residence_Duration": "Duration of Occupancy",
     "AD_DELETE_BTN_ButtonName": "Delete",
     "AD_DELETE_BTN": "",
-    "AD_MAILING_ADDRESS": "Correspondence Address",
+    "AD_IS_MAILING_ADDRESS": "Correspondence Address",
     "toolbar_AddressDetailsGrid": "null",
     "AD_Address": "Address",
     "AD_OCC_STATUS": "Occupancy Status",

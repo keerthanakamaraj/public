@@ -71,36 +71,36 @@ export class AddressDetailsGridComponent implements AfterViewInit {
     // 	caseSensitive: true,
     // },
   },
-  // {
-  // 	field: "AD_OCC_STATUS",
-  // 	width: 15,
-  // 	sortable: false,
-  // 	resizable: true,
-  // 	cellStyle: { 'text-align': 'left' },
-  // 	// filter: "agTextColumnFilter",
-  // 	// filterParams: {
-  // 	// 	suppressAndOrCondition: true,
-  // 	// 	applyButton: true,
-  // 	// 	clearButton: true,
-  // 	// 	filterOptions: ["contains"],
-  // 	// 	caseSensitive: true,
-  // 	// },
-  // },
-  // {
-  // 	field: "AD_MAILING_ADDRESS",
-  // 	width: 15,
-  // 	sortable: false,
-  // 	resizable: true,
-  // 	cellStyle: { 'text-align': 'left' },
-  // 	// filter: "agTextColumnFilter",
-  // 	// filterParams: {
-  // 	// 	suppressAndOrCondition: true,
-  // 	// 	applyButton: true,
-  // 	// 	clearButton: true,
-  // 	// 	filterOptions: ["contains"],
-  // 	// 	caseSensitive: true,
-  // 	// },
-  // },
+  {
+    field: "AD_OCC_STATUS",
+    width: 15,
+    sortable: false,
+    resizable: true,
+    cellStyle: { 'text-align': 'left' },
+    // filter: "agTextColumnFilter",
+    // filterParams: {
+    // 	suppressAndOrCondition: true,
+    // 	applyButton: true,
+    // 	clearButton: true,
+    // 	filterOptions: ["contains"],
+    // 	caseSensitive: true,
+    // },
+  },
+  {
+    field: "AD_IS_MAILING_ADDRESS",
+    width: 15,
+    sortable: false,
+    resizable: true,
+    cellStyle: { 'text-align': 'left' },
+    // filter: "agTextColumnFilter",
+    // filterParams: {
+    // 	suppressAndOrCondition: true,
+    // 	applyButton: true,
+    // 	clearButton: true,
+    // 	filterOptions: ["contains"],
+    // 	caseSensitive: true,
+    // },
+  },
   {
     field: "AD_Residence_Duration",
     width: 15,
@@ -234,7 +234,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
           // case "MailingAddress":obj[i].columnName =  "MailingAddress";break;
           case "AD_OCC_STATUS": obj[i].columnName = "ResidenceType"; break;
           case "AD_CORR_ADD": obj[i].columnName = "MailingAddress"; break;
-          case "AD_MAILING_ADDRESS": obj[i].columnName = "MailingAddress"; break;
+          case "AD_IS_MAILING_ADDRESS": obj[i].columnName = "MailingAddress"; break;
           case "AD_OCCUP_TYPE": obj[i].columnName = "OccupancyType"; break;
           default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
         }
@@ -252,7 +252,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
           case "AD_OCC_STATUS": obj[i].columnName = "ResidenceType"; break;
           case "AD_OCCUP_TYPE": obj[i].columnName = "OccupancyType"; break;
           case "AD_CORR_ADD": obj[i].columnName = "MailingAddress"; break;
-          case "AD_MAILING_ADDRESS": obj[i].columnName = "MailingAddress"; break;
+          case "AD_IS_MAILING_ADDRESS": obj[i].columnName = "MailingAddress"; break;
           default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
         }
       }
@@ -283,28 +283,19 @@ export class AddressDetailsGridComponent implements AfterViewInit {
             var tempObj = {};
             tempObj['AD_ADD_ID'] = address[i].AddressDetailsSeq;
             tempObj['AddressTypeId'] = address[i].AddressType;
-            tempObj['AD_MAILING_ADDRESS'] = address[i].UDF3;
+            tempObj['AD_IS_MAILING_ADDRESS'] = address[i].IsMailingAddress.text;
+            tempObj['AD_IS_MAILING_ADDRESS_ID'] = address[i].IsMailingAddress.id;
 
-            if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && this.activeApplicantType == 'B' && !this.services.rloCommonData.globalApplicationDtls.isLoanCategory) {
-              if (address[i].AddressType == 'ML') {
-                tempObj['AD_Address_Type'] = 'Registered Address';
-              } else if (address[i].AddressType == 'PR') {
-                tempObj['AD_Address_Type'] = 'Communication Address';
-              }
-            } else {
-              if (address[i].AddressType == 'ML') {
-                tempObj['AD_Address_Type'] = 'Mailing Address';
-              } else if (address[i].AddressType == 'PR') {
-                tempObj['AD_Address_Type'] = 'Permanent Address';
-              }else if (address[i].AddressType == 'RS') {
-                tempObj['AD_Address_Type'] = 'Residence Address';
-                tempObj['AD_OCCUP_TYPE'] = address[i].OccupancyType.text;
-                tempObj['AD_OCC_STATUS'] = address[i].ResidenceType.text;
-              } else if (address[i].AddressType == 'OF') {
-                tempObj['AD_Address_Type'] = 'Office Address';
-              }
+            if (address[i].AddressType == 'RS') {
+              tempObj['AD_Address_Type'] = 'Residence Address';
+              tempObj['AD_OCCUP_TYPE'] = address[i].OccupancyType.text;
+              tempObj['AD_OCC_TYPE_ID'] = address[i].OccupancyType.id;
+              tempObj['AD_OCC_STATUS'] = address[i].ResidenceType.text;
+              tempObj['AD_OCC_STATUS_ID'] = address[i].ResidenceType.id;
+            } else if (address[i].AddressType == 'OF') {
+              tempObj['AD_Address_Type'] = 'Office Address';
             }
-            
+
             let fullAddressArr = [];
             fullAddressArr.push(address[i].AddressLine1);
             fullAddressArr.push(address[i].AddressLine2);
@@ -376,10 +367,10 @@ export class AddressDetailsGridComponent implements AfterViewInit {
     // }
   }
   async AD_DELETE_BTN_click(event) {
-    if ('ML' == event.AddressTypeId) {  // changes for canara
-      this.services.alert.showAlert(2, 'rlo.error.address.delete-restrict', -1);
-      return;
-    }
+    // if ('ML' == event.AddressTypeId) {  // changes for canara
+    //   this.services.alert.showAlert(2, 'rlo.error.address.delete-restrict', -1);
+    //   return;
+    // }
 
     await this.services.rloCommonData.deleteConfirmationAlert('rlo.delete.comfirmation').then((response: any) => {
       if (response.id == 1) {

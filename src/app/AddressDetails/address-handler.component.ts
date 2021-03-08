@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AddressDetailsComponent } from './AddressDetails.component';
 import { FieldComponent } from '../field/field.component';
 import { RLOUIHandlerComponent } from '../rlouihandler/rlouihandler.component';
+import { string } from '@amcharts/amcharts4/core';
 
 @Component({
   selector: 'app-address-handler',
@@ -11,8 +12,8 @@ import { RLOUIHandlerComponent } from '../rlouihandler/rlouihandler.component';
 export class AddressHandlerComponent extends RLOUIHandlerComponent implements OnInit {
   @Input() MainComponent: AddressDetailsComponent;
   formName: string = "AddressDetails";
-  fieldArray2 =[];
-  fieldArray1=[];
+  fieldArray2 = [];
+  fieldArray1 = [];
   ngOnInit() {
     // ngOnInit
   }
@@ -27,38 +28,38 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
 
 
 
-  onAddressTypeChange(AddressType?:string) {
-    if(AddressType==undefined){
-      AddressType=this.MainComponent.AD_ADD_TYPE.getFieldValue();
+  onAddressTypeChange(AddressType?: string) {
+    if (AddressType == undefined) {
+      AddressType = this.MainComponent.AD_ADD_TYPE.getFieldValue();
     }
-    switch(AddressType){
-      case 'ML':    
-      this.doBasicFieldSetting(true,true);
-     // this.doBasicFieldsReadOnly(true);
+    switch (AddressType) {
+      case 'ML':
+        this.doBasicFieldSetting(true, true);
+        // this.doBasicFieldsReadOnly(true);
         this.MainComponent.SAME_ADDRESS.setHidden(false);
-        this.MainComponent.AD_PREF_TIME.mandatory=false;
+        this.MainComponent.AD_PREF_TIME.mandatory = false;
         break;
-        case 'PR':     
-        this.doBasicFieldSetting(true,false);
-      //  this.doBasicFieldsReadOnly(false);
-        this.MainComponent.AD_PREF_TIME.mandatory=false;
+      case 'PR':
+        this.doBasicFieldSetting(true, false);
+        //  this.doBasicFieldsReadOnly(false);
+        this.MainComponent.AD_PREF_TIME.mandatory = false;
         break;
-        case 'OF':
-        this.doBasicFieldSetting(true,false);
-        this.MainComponent.AD_PREF_TIME.mandatory=true;
-        this.MainComponent.AD_PINCODE.mandatory=true;
-        this.MainComponent.AD_ADDRESS_LINE1.mandatory=true;
+      case 'OF':
+        this.doBasicFieldSetting(true, false);
+        this.MainComponent.AD_PREF_TIME.mandatory = true;
+        this.MainComponent.AD_PINCODE.mandatory = true;
+        this.MainComponent.AD_ADDRESS_LINE1.mandatory = true;
         break;
-        default: //case 'RS'
-        this.doBasicFieldSetting(false,false);
-      //  this.doBasicFieldsReadOnly(false);
-        this.MainComponent.AD_OCCUPANCY_STATUS.mandatory=true;
-        this.MainComponent.AD_OCCUPANCY_TYPE.mandatory=true;
-        this.MainComponent.AD_RES_DUR.mandatory=true;
-        this.MainComponent.AD_RES_DUR_UNIT.mandatory=true;
-        this.MainComponent.AD_PREF_TIME.mandatory=true;
-        this.MainComponent.AD_PINCODE.mandatory=true;
-        this.MainComponent.AD_ADDRESS_LINE1.mandatory=true;
+      default: //case 'RS'
+        this.doBasicFieldSetting(false, false);
+        //  this.doBasicFieldsReadOnly(false);
+        this.MainComponent.AD_OCCUPANCY_STATUS.mandatory = true;
+        this.MainComponent.AD_OCCUPANCY_TYPE.mandatory = true;
+        this.MainComponent.AD_RES_DUR.mandatory = true;
+        this.MainComponent.AD_RES_DUR_UNIT.mandatory = true;
+        this.MainComponent.AD_PREF_TIME.mandatory = true;
+        this.MainComponent.AD_PINCODE.mandatory = true;
+        this.MainComponent.AD_ADDRESS_LINE1.mandatory = true;
     }
   }
 
@@ -83,7 +84,9 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
   public getAddressPostData() {
     const GridAddress = this.MainComponent.AddressGrid.getAddressGridData();
     var AddressData = [];
-    var AddType: string;
+    let sameCode: string;
+    let duplicateAddressType: string;
+    let duplicateOccupancyType: string;
     var GridAddSeq: string;
 
 
@@ -108,7 +111,7 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
     tempObj['Landmark'] = this.MainComponent.AD_LANDMARK.getFieldValue();
     tempObj['LandlineNumber'] = this.MainComponent.AD_LANDLINE_NUMBER.getFieldValue();
     tempObj['LandlineCountryCode'] = this.MainComponent.AD_LANDLINE_NUMBER.countryCode;
-    tempObj['UDF3'] = this.MainComponent.CORR_ADD_CHECKBOX.getFieldValue();
+    tempObj['IsMailingAddress'] = this.MainComponent.CORR_ADD_CHECKBOX.getFieldValue() == true ? 'Y' : 'N';
     // tempObj['LoanOwnership'] = this.customers[i].loanOwnership;
     tempObj['EmailId2'] = this.MainComponent.AD_EMAIL_ID2.getFieldValue();
     tempObj['AltMobileNo'] = this.MainComponent.AD_ALTERNATE_MOB_NO.getFieldValue();
@@ -126,37 +129,37 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
 
     if (this.MainComponent.SAME_ADDRESS.getFieldValue() == true) {
       if (this.MainComponent.AD_OCCUPANCY_TYPE.getFieldValue() == 'PR') {
-        AddType = 'CR'
+        duplicateOccupancyType = 'CR'
       } else if (this.MainComponent.AD_OCCUPANCY_TYPE.getFieldValue() == 'CR') {
-        AddType = 'PR'
+        duplicateOccupancyType = 'PR'
       } else if (this.MainComponent.AD_ADD_TYPE.getFieldValue() == 'PR') {
-        AddType = 'ML'
+        duplicateAddressType = 'ML'
       } else if (this.MainComponent.AD_ADD_TYPE.getFieldValue() == 'ML') {
-        AddType = 'PR'
+        duplicateAddressType = 'PR'
       }
       if (GridAddress.length > 0) {
         GridAddress.forEach(GridData => {
           if (this.MainComponent.AD_OCCUPANCY_TYPE.getFieldValue() == 'PR') {
-            if (GridData.AD_OCCUP_TYPE == 'CR') {
-              AddType = GridData.AD_OCCUP_TYPE
+            if (GridData.AD_OCCUP_TYPE_ID == 'CR') {
+              duplicateOccupancyType = GridData.AD_OCCUP_TYPE
               GridAddSeq = GridData.AD_ADD_ID;
             }
           }
           else if (this.MainComponent.AD_OCCUPANCY_TYPE.getFieldValue() == 'CR') {
-            if (GridData.AD_OCCUP_TYPE == 'PR') {
-              AddType = GridData.AD_OCCUP_TYPE
+            if (GridData.AD_OCCUP_TYPE_ID == 'PR') {
+              duplicateOccupancyType = GridData.AD_OCCUP_TYPE
               GridAddSeq = GridData.AD_ADD_ID;
             }
           }
           else if (this.MainComponent.AD_ADD_TYPE.getFieldValue() == 'PR') {
             if (GridData.AddressTypeId == 'ML') {
-              AddType = GridData.AddressTypeId
+              duplicateAddressType = GridData.AddressTypeId
               GridAddSeq = GridData.AD_ADD_ID;
             }
           }
           else if (this.MainComponent.AD_ADD_TYPE.getFieldValue() == 'ML') {
             if (GridData.AddressTypeId == 'PR') {
-              AddType = GridData.AddressTypeId
+              duplicateAddressType = GridData.AddressTypeId
               GridAddSeq = GridData.AD_ADD_ID;
             }
           }
@@ -166,10 +169,10 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
       AddressData.push(
         {
           AddressDetailsSeq: GridAddSeq,
-          // AddressType: this.MainComponent.AD_ADD_TYPE.getFieldValue(),  //removed for canara
-          AddressType: AddType, //added for canara
+          AddressType: this.MainComponent.AD_ADD_TYPE.getFieldValue(),  //removed for canara
+          // AddressType: AddType, //added for canara
           ResidenceType: this.MainComponent.AD_OCCUPANCY_STATUS.getFieldValue(),
-          //  OccupancyType: AddType, //removed for canara
+          OccupancyType: duplicateOccupancyType, //removed for canara
           PreferredTime: this.MainComponent.AD_PREF_TIME.getFieldValue(),
           ResidenceDuration: this.MainComponent.AD_RES_DUR.getFieldValue(),
           Period: this.MainComponent.AD_RES_DUR_UNIT.getFieldValue(),
@@ -184,7 +187,7 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
           State: this.MainComponent.AD_STATE.getFieldValue(),
           Landmark: this.MainComponent.AD_LANDMARK.getFieldValue(),
           LandlineNumber: this.MainComponent.AD_LANDLINE_NUMBER.getFieldValue(),
-          UDF3: this.MainComponent.CORR_ADD_CHECKBOX.getFieldValue(),
+          IsMailingAddress: 'false',
           // LoanOwnership: this.customers[i].loanOwnership,
           EmailId2: this.MainComponent.AD_EMAIL_ID2.getFieldValue(),
           AltMobileNo: this.MainComponent.AD_ALTERNATE_MOB_NO.getFieldValue(),
@@ -198,7 +201,7 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
 
     return AddressData;
   }
- 
+
 
   // doBasicFieldsReadOnly(readOnlyFlag){
   //   this.MainComponent.AD_ADDRESS_LINE1.setReadOnly(readOnlyFlag);
@@ -209,45 +212,45 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
   //   this.MainComponent.AD_PINCODE.setReadOnly(readOnlyFlag);
   //   this.MainComponent.AD_PINCODE.mandatory=!readOnlyFlag;
   // }
-  fieldArrayFunction(){
-    this.fieldArray2 =[];
-  this.fieldArray1=[];
-    this.fieldArray2 =[
-      this.MainComponent.AD_ADDRESS_LINE1,
-      this.MainComponent.AD_ADDRESS_LINE2,
-      this.MainComponent.AD_ADDRESS_LINE3,
-      this.MainComponent.AD_ADDRESS_LINE4,
-      this.MainComponent.AD_PINCODE];
-    this.fieldArray1=[
+  fieldArrayFunction() {
+    this.fieldArray2 = [];
+    this.fieldArray1 = [];
+    this.fieldArray1 = [
       this.MainComponent.AD_OCCUPANCY_STATUS,
       this.MainComponent.AD_OCCUPANCY_TYPE,
       this.MainComponent.SAME_ADDRESS,
       this.MainComponent.AD_RES_DUR,
-      this.MainComponent.AD_RES_DUR_UNIT,
-      this.MainComponent.CORR_ADD_CHECKBOX
+      this.MainComponent.AD_RES_DUR_UNIT
     ];
+    // this.fieldArray2 =[
+    //   this.MainComponent.AD_ADDRESS_LINE1,
+    //   this.MainComponent.AD_ADDRESS_LINE2,
+    //   this.MainComponent.AD_ADDRESS_LINE3,
+    //   this.MainComponent.AD_ADDRESS_LINE4,
+    //   this.MainComponent.AD_PINCODE];
+
   }
-  doBasicFieldSetting(hiddenFlag,readOnlyFlag){
+  doBasicFieldSetting(hiddenFlag: boolean, readOnlyFlag?: boolean) {
     this.fieldArrayFunction();
-    this.fieldArray1.forEach(eachField=> {
-      if(!this.MainComponent.populatingDataFlag){
+    this.fieldArray1.forEach(eachField => {
+      if (!this.MainComponent.populatingDataFlag) {
         eachField.onReset();
-      }   
+      }
       eachField.setHidden(hiddenFlag);
-      if(hiddenFlag){
-        eachField.mandatory=false;
+      if (hiddenFlag) {
+        eachField.mandatory = false;
       }
     });
-    this.fieldArray2.forEach(eachField=> {
-      if(!this.MainComponent.populatingDataFlag){
-        eachField.onReset();
-      }   
-      eachField.setReadOnly(readOnlyFlag);
-      if(readOnlyFlag){
-        eachField.mandatory=false;
-      }
-    });
-      this.MainComponent.populatingDataFlag=false;
+    // this.fieldArray2.forEach(eachField=> {
+    //   if(!this.MainComponent.populatingDataFlag){
+    //     eachField.onReset();
+    //   }   
+    //   eachField.setReadOnly(readOnlyFlag);
+    //   if(readOnlyFlag){
+    //     eachField.mandatory=false;
+    //   }
+    // });
+    this.MainComponent.populatingDataFlag = false;
   }
 }
 
