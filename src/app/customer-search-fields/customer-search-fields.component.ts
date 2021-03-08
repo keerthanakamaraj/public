@@ -186,7 +186,7 @@ export class CustomerSearchFieldsComponent extends FormCommonComponent implement
           data['fieldData'].forEach(element => {
             if (element.attributeName != "middleName") {
               if (element.attributeName == "customerId") {
-                element['placeholder'] = "Min 5";
+                element['placeholder'] = "Min 5 chars";
                 if (this.customerSearchType == "Internal") {
                   element.fieldName = "Customer Id"
                 }

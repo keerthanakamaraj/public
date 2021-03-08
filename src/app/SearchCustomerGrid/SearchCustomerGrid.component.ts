@@ -483,10 +483,14 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                 element['CMS'] = 'N';
                 element['LMS'] = 'N';
                 element['CMSDetailsList'] = [];
-
+                element['showCardDetailsModal'] = false;
                 if (index < 5) {
                   element['CMSDetailsList'] = this.cmsDetails;
                   element['CMS'] = 'Y';
+
+                  if (this.services.rloCommonData.getActiveRouteName() == "AddOn" || this.services.rloCommonData.getActiveRouteName() == "LimitEnhancement") {
+                    element['showCardDetailsModal'] = true;
+                  }
                 }
               });
               // this.getMultipleCifId(loopVar7, params); // Addon and limit enhance
@@ -538,6 +542,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                   tempObj['ExistingCardType'] = loopVar7[i].ExistingCardType;
                   tempObj['LmsDetails'] = loopVar7[i].LMS;
                   tempObj['CMSDetailsList'] = loopVar7[i].CMSDetailsList;
+                  tempObj['showCardDetailsModal'] = loopVar7[i].showCardDetailsModal;
                   loopDataVar7.push(tempObj);
                 }
               }
@@ -619,6 +624,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       tempVar['ExistingCardType'] = selectedData0['ExistingCardType'];
       tempVar['CmsDetails'] = selectedData0['CmsDetails'];
       tempVar['CmsDetailsList'] = selectedData0['CMSDetailsList'];
+      tempVar['showCardDetailsModal'] = selectedData0['showCardDetailsModal'];
 
       console.log("DEEP| Selcted customer,", tempVar);
 

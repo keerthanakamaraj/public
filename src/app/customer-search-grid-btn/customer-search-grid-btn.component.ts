@@ -8,12 +8,18 @@ import { Component, OnInit } from '@angular/core';
 export class CustomerSearchGridBtnComponent implements OnInit {
 
   params;
+  showCardDetailsModal: boolean = false;
 
   constructor() {
   }
 
   agInit(params): void {
     this.params = params;
+    if (params.value === 'Y' && params.data.hasOwnProperty("showCardDetailsModal") && params.data.showCardDetailsModal) {
+      this.showCardDetailsModal = true;
+    }
+
+    console.log(params);
   }
 
   onClick(): void {
