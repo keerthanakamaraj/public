@@ -4062,7 +4062,14 @@ rlo-ui-card-field {
 /*input grid css start*/
 // .lyt-ip-grid {
 //   padding: 0px;
-
+.withscroll {
+  //	width: 800px;
+    overflow-x: scroll;
+  //	white-space: nowrap;
+  }
+  .cpv-ip-tbl{
+    width: 1850px;
+  }
 .rlo-ip-table {
   thead:first-child {
     tr:first-child {

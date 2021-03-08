@@ -150,7 +150,7 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
   VerificationType_blur(selectedCode, $event, rowNo) {
     this.Details.toArray()[selectedCode.rowNo].onReset();
     let customerId = this.CustomerName.toArray()[selectedCode.rowNo].getFieldValue();
-    
+    console.log("shweta :: selected cust ", this.MstDataMap.get(customerId).verificationList);
     let tempVeification = this.MstDataMap.get(customerId).verificationList.find(element => element.verificationCode == selectedCode.value);
     if (tempVeification == undefined) {
       this.VerificationType.toArray()[selectedCode.rowNo].setError('rlo.error.vrfndtls-not-found');
@@ -172,11 +172,11 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
         inputMap.set('PathParam.verification-type', 'CPV');
         inputMap.set('QueryParam.ProposalId', this.ApplicationId);
         inputMap.set('QueryParam.verificationtype', 'CPV');
-        this.services.http.fetchApi('/v1/proposal/{proposal-id}/CPV/verification', 'GET', inputMap, "/los-verification").subscribe(
+        this.services.http.fetchApi('/v1/proposal/{proposal-id}/CPV/verification', 'GET', inputMap, "/common-de").subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
             let defaultData = res['CPVResp'];
-            
+            console.log("shweta :: verification data", defaultData);
             // this.parseDefaultData(defaultData);
             this.parseVerificationResp(defaultData);
           },
@@ -247,7 +247,7 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
         element.setStaticListOptions(this.customerDropDownList);
       });
       this.loadRecords();
-      
+      console.log("shweta :: mstDataMap", this.MstDataMap);
     }
   }
 
@@ -353,9 +353,9 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
       // this.checkDuplicates(rowNo);
       inputMap = this.generateInitiateReqJSON(inputMap, rowNo);
 
-      
+      console.log("shweta :: intiation req json", inputMap)
       inputMap.set('PathParam.proposal-id', this.ApplicationId);
-      this.services.http.fetchApi('/v1/proposal/{proposal-id}/verification/CPV/initiate', 'POST', inputMap, '/los-verification').subscribe(
+      this.services.http.fetchApi('/v1/proposal/{proposal-id}/verification/CPV/initiate', 'POST', inputMap,"/common-de").subscribe(
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
           this.services.alert.showAlert(1, 'rlo.success.precpv-initiate', 5000);
@@ -385,12 +385,12 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
     let duplicateList = this.MstDataMap.get(customerSeq).verificationList.filter(eachVrfn =>
       eachVrfn.verificationCode == vrfnCode && eachVrfn.AgencyCode != undefined
     );
-    
+    console.log('shweta ::: checking duplicates', duplicateList != undefined ? duplicateList.length : undefined);
     return duplicateList != undefined && duplicateList.length != 0 ? duplicateList.length : undefined;
   }
-  getAddressSequence(rowNo){
+  getAddressSequence(rowNo,vrfnCode){
     let customerSeq = this.CustomerName.toArray()[rowNo].getFieldValue();
-    let vrfnCode = this.VerificationType.toArray()[rowNo].getFieldValue();
+    // vrfnCode = this.VerificationType.toArray()[rowNo].getFieldValue();
     let tempVrfnObj = this.MstDataMap.get(customerSeq).verificationList.find(eachVrfn =>
       eachVrfn.verificationCode == vrfnCode 
     );
@@ -400,6 +400,14 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
     inputMap.clear();
     inputMap.set('Body.ProposalVerfnHolder.ProposalId', this.ApplicationId);
     inputMap.set('Body.ProposalVerfnHolder.AppRefNum', this.services.rloCommonData.globalApplicationDtls.ARN);
+    
+    inputMap.set('Body.ProposalVerfnHolder.TaskId', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId'));
+    inputMap.set('Body.ProposalVerfnHolder.TenantId', 'SB1');
+    inputMap.set('Body.ProposalVerfnHolder.UserId', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId'));
+    inputMap.set('Body.ProposalVerfnHolder.Direction', 'AP');
+    inputMap.set('Body.ProposalVerfnHolder.CPVDirection', 'Ap');
+    inputMap.set('Body.ProposalVerfnHolder.ProcessUniqueId', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId'));
+    inputMap.set('Body.ProposalVerfnHolder.EventType', 'InitiateCPV');
     // inputMap.set('Body.ProposalVerfnHolder.CreatedBy', this.TotalLocalCurEq.getFieldValue());
     inputMap.set('Body.ProposalVerfnHolder.ProposalVerfn', this.GenerateProposalVrfnJson(rowNo));
     return inputMap;
@@ -414,8 +422,10 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
     vrfnSummObj['AgencyName'] = this.Agency.toArray()[rowNo].getFieldValue();
     vrfnSummObj['SpecificInstructions'] = this.RemarksForAgency.toArray()[rowNo].getFieldValue();
     vrfnSummObj['VerificationWaived'] = this.WaiveOff.toArray()[rowNo].getFieldValue();
-    if( this.VerificationType.toArray()[rowNo].getFieldValue()!='MOBVR'){
-    vrfnSummObj['ADDRESS_DETAILS_SEQ'] = this.getAddressSequence(rowNo);
+    if(this.VerificationType.toArray()[rowNo].getFieldValue()=='MOBVR'){
+      vrfnSummObj['ADDRESS_DETAILS_SEQ'] = this.getAddressSequence(rowNo,'RVR');
+    }else{
+    vrfnSummObj['ADDRESS_DETAILS_SEQ'] = this.getAddressSequence(rowNo,vrfnSummObj['CpvType']);
     }
     vrfnSummObj['ProposalVerificationID'] = '';
     vrfnSummObj['AppRefNum'] = this.services.rloCommonData.globalApplicationDtls.ARN;
@@ -423,7 +433,7 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
     vrfnSummObj['VerificationType'] = 'CpvReq';
     vrfnSummObj['VerificationStatus'] = 'Initiated';
     vrfnSummObj['RedoVerification'] = this.checkDuplicates(rowNo);
-
+    vrfnSummObj['PRIORITY'] = 'NORMAL';
     // vrfnSummObj['CpvReq'] = CPVReqObj;
 
     verificationSummList.push(vrfnSummObj);
@@ -431,7 +441,7 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
   }
 
   City_blur(City, event, rowNo) {
-   
+    console.log("Shweta : City", City);
   }
 
   fieldDependencies = {
