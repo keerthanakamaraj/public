@@ -77,6 +77,13 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.BAD_REQ_CARD_LIMIT.mandatory = false;
       this.MainComponent.CD_LOAN_OWNERSHIP.setValue(100);
       this.MainComponent.CD_CUST_TYPE.setValue('B');
+      this.MainComponent.BAD_CARD_TYPE.setValue(undefined)
+      this.MainComponent.BAD_CARD_TYPE.setValue(undefined)
+      this.MainComponent.BAD_REQ_CARD_LIMIT.setValue(undefined)
+      this.MainComponent.BAD_PRIME_USAGE.setValue(undefined)
+      this.MainComponent.BAD_CBS_PROD_CD.setValue(undefined)
+
+
     }
   }
 

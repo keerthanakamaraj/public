@@ -206,7 +206,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     var totalErrors = 0;
     super.beforeRevalidate();
     await Promise.all([
-      // this.revalidateBasicField('CD_CUST_TYPE'),
+      this.revalidateBasicField('CD_CUST_TYPE'),
       // this.revalidateBasicField('CD_CARD_CUST_TYPE'),
       //this.revalidateBasicField('CD_EXISTING_CUST'),
       //this.revalidateBasicField('CD_STAFF'),
@@ -313,7 +313,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         // this.revalidateBasicField('CD_LAST_NAME'),
         // this.revalidateBasicField('CD_FULL_NAME'),
         // this.revalidateBasicField('CD_GENDER'),
-        this.revalidateBasicField('CD_TAX_ID'),
+        // this.revalidateBasicField('CD_TAX_ID'),
         // this.revalidateBasicField('CD_MOBILE'),
         // this.revalidateBasicField('CD_DOB'),
         // this.revalidateBasicField('CD_CUST_SGMT'),
@@ -783,7 +783,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       return
     }
     else {
-      this.CBSProductCode(data);
+      // this.CBSProductCode(data);
+      this.NoOfCardAllowed(data);
     }
   }
 
@@ -954,12 +955,15 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   async BAD_PROD_CAT_change(fieldID, value) {
     let inputMap = new Map();
-    this.revalidateBasicField('BAD_PROD_CAT');
+    // this.revalidateBasicField('BAD_PROD_CAT');
     await this.Handler.onProdCategoryChange({
     }
     );
     this.Handler.HideFieldBasedOnCorporate(null, 'B')
-    this.Handler.onResetCustomer({});
+    if(this.BAD_PROD_CAT.getFieldValue() !== 'CC' && this.CD_CARD_CUST_TYPE.getFieldInfo() == 'Corporate' ){
+      this.Handler.onResetCustomer({});
+     }
+   
     this.Handler.updateLoanTag();
     this.setDependency(fieldID, value);
     this.BAD_PRODUCT.onReset();
@@ -1204,8 +1208,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
           return;
         }
         if (res.status == 'S') {
-          this.eligeData = res.outputdata.LOAN_ELIGIBILITY;
-          this.EligibilityDecision = res.outputdata.OVERALLDECISION;
+          this.eligeData = res.ouputdata.LOAN_ELIGIBILITY;
+          this.EligibilityDecision = res.ouputdata.OVERALLDECISION;
           // for (let i = 0; i < res.ouputdata.LOAN_ELIGIBILITY.length; i++) {
           //   const Data = res.ouputdata.LOAN_ELIGIBILITY[i];
           //   if (Data.DECISION == 'Reject') {
