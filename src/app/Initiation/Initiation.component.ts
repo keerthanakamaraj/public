@@ -877,7 +877,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.CD_TITLE.setValue(tempVar['title']);
     this.CD_CUSTOMER_ID.setValue(tempVar['icif']);
     this.CD_EMAIL_ID.setValue(tempVar['emailid']);
-    this.CD_NAME_ON_CARD.setValue((tempVar['custName']).slice(0, 19));
+    this.CD_NAME_ON_CARD.setValue(tempVar['custName']);
 
     // this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
     this.BAD_SRC_CHANNEL.setValue('BRANCH');
@@ -1199,7 +1199,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
     console.error("DEEP | LD_CHK_ELGBTY_BTN_click", inputMap);
 
-    this.services.http.fetchApi(this.services.rloCommonData.userInvokeInterfacev2 ? '/api/invokeInterface/v2' : '/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+    this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
 

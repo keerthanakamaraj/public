@@ -945,7 +945,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.EmbLine4.mandatory = false;
       //this.embLineFlagselected();
     }
-    else {
+    else if(customerType == 'I' && Borrower == 'B' && this.MainComponent.BAD_PROD_CAT.getFieldValue()  == 'CC'){
       this.MainComponent.CD_REGISTERED_NAME.setHidden(true);
       this.MainComponent.CD_TYPE_OF_INCORPORATION.setHidden(true);
       this.MainComponent.CD_DATE_OF_INCORPORATION.setHidden(true);
@@ -965,6 +965,30 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.CD_DATE_OF_INCORPORATION.mandatory = false;
       this.MainComponent.CD_NAME_ON_CARD.setHidden(false);
       this.MainComponent.CD_NAME_ON_CARD.mandatory = true;
+      this.MainComponent.EmbLineFlag.setHidden(true);
+      this.MainComponent.EmbLineFlag.mandatory = false;
+      this.MainComponent.EmbLine4.setHidden(true);
+      this.MainComponent.EmbLine4.mandatory = false;
+    }else{
+      this.MainComponent.CD_REGISTERED_NAME.setHidden(true);
+      this.MainComponent.CD_TYPE_OF_INCORPORATION.setHidden(true);
+      this.MainComponent.CD_DATE_OF_INCORPORATION.setHidden(true);
+      this.MainComponent.CD_FIRST_NAME.setHidden(false);
+      this.MainComponent.CD_MIDDLE_NAME.setHidden(false);
+      this.MainComponent.CD_LAST_NAME.setHidden(false);
+      this.MainComponent.CD_DOB.setHidden(false);
+      this.MainComponent.CD_FULL_NAME.setHidden(false);
+      this.MainComponent.CD_GENDER.setHidden(false);
+      this.MainComponent.CD_REGISTERED_NAME.setValue(undefined);
+      this.MainComponent.CD_TYPE_OF_INCORPORATION.setValue(undefined);
+      this.MainComponent.CD_DATE_OF_INCORPORATION.setValue(undefined);
+      this.MainComponent.CD_FIRST_NAME.mandatory = true;
+      this.MainComponent.CD_LAST_NAME.mandatory = true;
+      this.MainComponent.CD_GENDER.mandatory = true;
+      this.MainComponent.CD_REGISTERED_NAME.mandatory = false;
+      this.MainComponent.CD_DATE_OF_INCORPORATION.mandatory = false;
+      this.MainComponent.CD_NAME_ON_CARD.setHidden(true);
+      this.MainComponent.CD_NAME_ON_CARD.mandatory = false;
       this.MainComponent.EmbLineFlag.setHidden(true);
       this.MainComponent.EmbLineFlag.mandatory = false;
       this.MainComponent.EmbLine4.setHidden(true);
