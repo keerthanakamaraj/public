@@ -33,7 +33,7 @@ export class GridComponent implements OnInit {
   @ViewChildren(HiddenComponent) hiddenComponent: QueryList<HiddenComponent>;
   @ViewChildren(ButtonComponent) buttonComponent: ButtonComponent;
   @ViewChildren(ReadOnlyComponent) readOnlyComponent: ReadOnlyComponent;
-  @ViewChildren(ReadOnlyComponent) rloUiCurrencyComponent:RloUiCurrencyComponent;
+  @ViewChildren(ReadOnlyComponent) rloUiCurrencyComponent: RloUiCurrencyComponent;
   @Input('formCode') formCode: string;
   @Input('displayTitle') displayTitle: boolean = true;
   readOnly: boolean = false;
@@ -46,7 +46,7 @@ export class GridComponent implements OnInit {
   errorCode: string;
   value: any = undefined;
   fieldDependencies = {};
-  showDelete:boolean=false;
+  showDelete: boolean = false;
 
   isCellReadOnly: {
     [key: string]: boolean
@@ -71,24 +71,24 @@ export class GridComponent implements OnInit {
 
   private hidden: boolean = false;
 
-  private colHidden : {
+  private colHidden: {
     [key: string]: boolean
   } = {};
 
-  setColumnHidden(columnId: string, isHidden: boolean){
+  setColumnHidden(columnId: string, isHidden: boolean) {
     this.colHidden[columnId] = isHidden;
   }
 
-  isColumnHidden(columnId){
+  isColumnHidden(columnId) {
     return this.colHidden[columnId];
   }
 
   private changeValue = new Subject<any>();
-  public valueChangeUpdates(): Observable<any>{
+  public valueChangeUpdates(): Observable<any> {
     return this.changeValue.asObservable();
   }
 
-  protected passNewValue(value: any){
+  protected passNewValue(value: any) {
     this.changeValue.next(value);
   }
 
@@ -116,8 +116,8 @@ export class GridComponent implements OnInit {
     var totalErrors = 0;
 
     var thisField = this[columnId].toArray()[rowNo];
-    if(thisField.componentName='RloUiCurrencyComponent'){
-      value=value.textFieldValue;
+    if (thisField.componentName == 'RloUiCurrencyComponent') {
+      value = value.textFieldValue;
     }
     thisField.clearError();
 
@@ -125,13 +125,13 @@ export class GridComponent implements OnInit {
     gridModelObject[columnId] = value;
     this.setDependency(columnId, value, rowNo);
 
-  
+
     if (value != undefined && value.toString() != "") {
       await thisField.validateValue(value).then((errors) => { totalErrors += errors });
       if (totalErrors > 0) { return totalErrors }
     }
 
-    if(thisField.componentName='RloUiCurrencyComponent' && thisField.isMandatory() && thisField.isAmountEmpty()){
+    if (thisField.componentName == 'RloUiCurrencyComponent' && thisField.isMandatory() && thisField.isAmountEmpty()) {
       thisField.setError('MANDATORY');
       return ++totalErrors;
     }
@@ -156,18 +156,18 @@ export class GridComponent implements OnInit {
         },
         (httpError) => {
           var err = httpError['error'];
-          if(err!=null){
+          if (err != null) {
             thisField.setError(err['ErrorDescription']);
-          }else{
+          } else {
             thisField.setError("Error while field validation");
-          }          
+          }
           return ++totalErrors;
         }
       );
     }
 
     if (this[columnId + "_blur"]) {
-      this[columnId + "_blur"]({rowNo: rowNo, columnId: columnId, value: value}, rowNo);
+      this[columnId + "_blur"]({ rowNo: rowNo, columnId: columnId, value: value }, rowNo);
     }
 
     return totalErrors;
@@ -233,7 +233,7 @@ export class GridComponent implements OnInit {
     });
   }
 
-  initDependency(key, paramType){}
+  initDependency(key, paramType) { }
 
   getDependency(key) {
     return this.dependencyMap.get(key);
@@ -281,16 +281,16 @@ export class GridComponent implements OnInit {
   }
 
   protected unsubscribeRow$ = new Array<Subject<void>>();
-  subsToFieldValuesRowWise(rowNo){
+  subsToFieldValuesRowWise(rowNo) {
     for (let colId in this.value.rowData[rowNo]) {
       this[colId].toArray()[rowNo].valueChangeUpdates()
-      .pipe(takeUntil(this.unsubscribeRow$[rowNo]))
-      .subscribe(
-        (value) => {
-          this.value.rowData[rowNo][colId] = value;
-          this.setDependency(colId, value, rowNo);
-        }
-      );
+        .pipe(takeUntil(this.unsubscribeRow$[rowNo]))
+        .subscribe(
+          (value) => {
+            this.value.rowData[rowNo][colId] = value;
+            this.setDependency(colId, value, rowNo);
+          }
+        );
     }
   }
 
@@ -337,7 +337,7 @@ export class GridComponent implements OnInit {
     }
   }
 
-  onRowDelete(rowNo){}
+  onRowDelete(rowNo) { }
   deleteRow(rowNo) {
     this.onRowDelete(rowNo);
     this.value.deleteRecord(rowNo);
@@ -474,7 +474,7 @@ export class GridComponent implements OnInit {
     return totalErrors;
   }
 
-  onRowAdd(rowNo: number){}
+  onRowAdd(rowNo: number) { }
   addEmptyRow(rowNo?: number) {
     let newRowNo = this.value.addRecord(rowNo);
     this.rowError.splice(newRowNo, 0, { hasError: false, errorCode: "" });
@@ -488,7 +488,7 @@ export class GridComponent implements OnInit {
     return newRowNo;
   }
 
-  addRow(rowData, rowDesc = undefined): number{ //changed --added new
+  addRow(rowData, rowDesc = undefined): number { //changed --added new
     this.addEmptyRow();
     var i: number = this.getRowsCount() - 1;
     this.setRowData(rowData, rowDesc, i);
@@ -501,7 +501,7 @@ export class GridComponent implements OnInit {
     // if (inputValue.footerData) {
     //   this["setFooterData"](inputValue.footerData);
     // }
-    if (inputValue && inputValue.length>0) {
+    if (inputValue && inputValue.length > 0) {
       inputDesc = (inputDesc || new Array(inputValue.length).fill(undefined));
       for (var i = 0; i < inputValue.length; i++) {
         this.addRow(inputValue[i], inputDesc[i]);
@@ -517,9 +517,9 @@ export class GridComponent implements OnInit {
     this.error = false;
     var totalErrors = 0;
 
-    if(this.isMandatory() && this.getRowsCount() == 0){
+    if (this.isMandatory() && this.getRowsCount() == 0) {
       this.setError('GRID_MANDATORY');
-      return ++totalErrors;      
+      return ++totalErrors;
     }
 
     for (var i = 0; i < this.getRowsCount(); i++) {
@@ -542,16 +542,16 @@ export class GridComponent implements OnInit {
     for (let colId in this.value.rowData[rowNo]) {
       this.value.rowData[rowNo][colId] = rowData[colId];
       //if currency component then use currency method
-     
-     if('RloUiCurrencyComponent'==this[colId].toArray()[rowNo].componentName){
-      this[colId].toArray()[rowNo].setComponentSpecificValue(rowData[colId], rowDesc[colId + '_desc'])
-     }
+
+      if ('RloUiCurrencyComponent' == this[colId].toArray()[rowNo].componentName) {
+        this[colId].toArray()[rowNo].setComponentSpecificValue(rowData[colId], rowDesc[colId + '_desc'])
+      }
       this[colId].toArray()[rowNo].setValue(rowData[colId], undefined, rowDesc[colId + '_desc']);
     }
     if (this.gridType == 2) { this.setRowReadOnly(rowNo, true); }
   }
   showHideDeleteIcon(rowlimit) {
-    
+
     if (this.value.rowData.length <= rowlimit) {
       this.showDelete = false;
     } else {

@@ -1934,9 +1934,9 @@
     "SANCTION_CASH_LIMIT": "Approved Cash Limit",
     "REQ_CARD_LIMIT": "Requested Card Limit",
     "CC_CAMPTYPE": "Application Type",
-    "HD_PROD_LOAN" : "Product",
-    "REAL_PROD_NAME_LOAN" :"Scheme",
-    "HD_SUB_PROD_LOAN" : "Sub Product"
+    "HD_PROD_LOAN": "Product",
+    "REAL_PROD_NAME_LOAN": "Scheme",
+    "HD_SUB_PROD_LOAN": "Sub Product"
   },
   "CustomerDtlsGrid": {
     "CD_CUSTOMER_TYPE": "Customer Type",
@@ -2498,22 +2498,6 @@
     "ED_SAVE_BTN": "SAVE",
     "ED_CLEAR_BTN": "CLEAR"
   },
-  "PreCPVInputGrid": {
-    "SelectCity": "Select City",
-    "RetriggerStatus": "Retrigger Status",
-    "Details": "Details",
-    "VerificationType": "Verification Type",
-    "GridTitle": "pre cpv input grid",
-    "SrNo": "Sr. No",
-    "RemarksForAgency": "Remarks for Agency",
-    "SelectAgency": "Select Agency",
-    "CustomerName": "Customer Name",
-    "WaiveOff": "Waive Off",
-    "AddVerificationType": "Add Verification Type",
-    "Plus": "+",
-    "Initiate": "Initiate",
-    "INITIATE": "INITIATE"
-  },
   "VehicleIPGrid": {
     "VehicleCostBreakup": "Vehicle Cost Breakup",
     "GridTitle": "VehicleIPGrid",
@@ -2570,6 +2554,22 @@
     "AdditionalRemarks": "Additional Remarks",
     "Value": "Value"
   },
+  "PreCPVInputGrid": {
+    "SelectCity": "Select City",
+    "RetriggerStatus": "Retrigger Status",
+    "Details": "Details",
+    "VerificationType": "Verification Type",
+    "GridTitle": "pre cpv input grid",
+    "SrNo": "Sr. No",
+    "RemarksForAgency": "Remarks for Agency",
+    "SelectAgency": "Select Agency",
+    "CustomerName": "Customer Name",
+    "WaiveOff": "Waive Off",
+    "AddVerificationType": "Add Verification Type",
+    "Plus": "+",
+    "Initiate": "Initiate",
+    "INITIATE": "INITIATE"
+  },
   "PostCPVInputGrid": {
     "AgencyName": "Agency Name",
     "VerificationType": "Verification Type",
@@ -2587,8 +2587,8 @@
   },
   "PostCPV": {
     "FormTitle": "PostCPV",
-    "PostCPV_Cancel": "CANCEL",
-    "PostCPV_Reset": "RESET",
+    "PostCPV_Reject": "Reject",
+    "PostCPV_Withdraw": "Withdraw",
     "PostCPV_Submit": "SUBMIT"
   },
   "DecisionAlert": {
