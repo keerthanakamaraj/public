@@ -234,11 +234,11 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         this.HD_PROD.setValue(header.Product);
         this.HD_SUB_PROD.setValue(this.SUB_PRODUCT);
         // this.HD_SCHEME.setValue(this.SCHEME);
-        if (this.HD_PROMOTION.getFieldValue() == undefined || this.HD_PROMOTION.getFieldValue() == null) {
-          this.HD_PROMOTION.setValue("NA");
+        if (header.Promotion == undefined || header.Promotion == null || header.Promotion == "") {
+          this.HD_PROMOTION_NAME.setValue("NA");
         }
         else {
-          this.HD_PROMOTION.setValue(header.Promotion);
+          this.HD_PROMOTION_NAME.setValue(header.Promotion);
         }
         // if (this.HD_SCHEME.getFieldValue() == undefined || this.HD_SCHEME.getFieldValue() == null) {
         //   this.HD_SCHEME.setValue("NA");
