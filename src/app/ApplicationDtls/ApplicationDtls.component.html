@@ -36,7 +36,7 @@
 									<rlo-ui-radio #BAD_CUSTOMER_TYPE fieldID="BAD_CUSTOMER_TYPE" [formCode]="formCode"
 										(blur)="genericOnBlur('BAD_CUSTOMER_TYPE', $event)"></rlo-ui-radio>
                 </div> -->
-                <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="BAD_CUSTOMER_TYPE.isHidden()">
+                <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="BAD_CUSTOMER_TYPE.isHidden()">
                   <div class="clr-brown fieldLegend">
                     <label class="clr-brown" [ngClass]="{'mandatory': BAD_CUSTOMER_TYPE.mandatory}">
                       {{ 'ApplicationDtls.BAD_CUSTOMER_TYPE' | translate}}
@@ -46,8 +46,8 @@
                     domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" reverseFlag="true"
                     domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_CUSTOMER_TYPE', $event)"
                     (change)="BAD_CUSTOMER_TYPE_change('BAD_CUSTOMER_TYPE', $event)"></rlo-ui-radio>
-                </div>
-								<div class="col-12  col-sm-4 col-md-4 res-pr-hide"
+                </div> -->
+								<!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide"
 									[hidden]="BAD_CARD_TYPE.isHidden()  ">
 									<div class="clr-brown fieldLegend">
 										<label class="clr-brown" [ngClass]="{'mandatory': BAD_CARD_TYPE.mandatory}">
@@ -56,8 +56,8 @@
 									</div>
 									<app-text-box #BAD_CARD_TYPE fieldID="BAD_CARD_TYPE" [formCode]="formCode"
 										(blur)="genericOnBlur('BAD_CARD_TYPE', $event)"></app-text-box>
-								</div>	
-								<div class="col-12  col-sm-4 col-md-4 res-pr-hide"
+								</div>	 -->
+								<!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide"
 									[hidden]="BAD_REQ_CARD_LIMIT.isHidden()  ">
 									<div class="clr-brown fieldLegend">
 										<label class="clr-brown"
@@ -69,8 +69,8 @@
 										[currencyReadOnly]="true" [componentFieldId]="'BAD_REQ_CARD_LIMIT'"
 										(onBlurEvent)="customGenericOnBlur($event)" [formCode]="formCode">
 									</app-rlo-ui-currency>
-								</div>
-								<div class="col-12  col-sm-4 col-md-4 res-pr-hide"
+								</div> -->
+								<!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide"
 									[hidden]="BAD_CBS_PROD_CD.isHidden()  ">
 									<div class="clr-brown fieldLegend">
 										<label class="clr-brown" [ngClass]="{'mandatory': BAD_CBS_PROD_CD.mandatory}">
@@ -78,8 +78,8 @@
 									</div>
 									<app-text-box #BAD_CBS_PROD_CD fieldID="BAD_CBS_PROD_CD" [formCode]="formCode"
 										(blur)="genericOnBlur('BAD_CBS_PROD_CD', $event)"></app-text-box>
-								</div>
-								<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]=" BAD_PRODUCT_APP.isHidden()">
+								</div> -->
+								<!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]=" BAD_PRODUCT_APP.isHidden()">
 									<div class="clr-brown fieldLegend">
 										<label class="clr-brown" [ngClass]="{'mandatory':  BAD_PRODUCT_APP.mandatory}">
 											{{ 'ApplicationDtls.BAD_PRODUCT_APP' | translate}}
@@ -87,8 +87,8 @@
 									</div>
 									<app-text-box #BAD_PRODUCT_APP fieldID=" BAD_PRODUCT_APP" [formCode]="formCode"
 										(blur)="genericOnBlur(' BAD_PRODUCT_APP', $event)"></app-text-box>
-								</div>
-								<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="BAD_SUB_PROD_APP.isHidden()">
+								</div> -->
+								<!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="BAD_SUB_PROD_APP.isHidden()">
 									<div class="clr-brown fieldLegend">
 										<label class="clr-brown" [ngClass]="{'mandatory': BAD_SUB_PROD_APP.mandatory}">
 											{{ 'ApplicationDtls.BAD_SUB_PROD_APP' | translate}}
@@ -96,8 +96,8 @@
 									</div>
 									<app-text-box #BAD_SUB_PROD_APP fieldID="BAD_SUB_PROD_APP" [formCode]="formCode"
 										(blur)="genericOnBlur('BAD_SUB_PROD_APP', $event)"></app-text-box>
-								</div>
-								<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="BAD_PROD_CLASS.isHidden()">
+								</div> -->
+								<!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="BAD_PROD_CLASS.isHidden()">
 									<div class="clr-brown fieldLegend">
 										<label class="clr-brown" [ngClass]="{'mandatory': BAD_PROD_CLASS.mandatory}">
 											{{ 'ApplicationDtls.BAD_PROD_CLASS' | translate}}
@@ -105,10 +105,10 @@
 									</div>
 									<app-text-box #BAD_PROD_CLASS fieldID="BAD_PROD_CLASS" [formCode]="formCode"
 										(blur)="genericOnBlur('BAD_PROD_CLASS', $event)"></app-text-box>
-								</div>
+								</div> -->
 							</div>
 
-							<div class="form-group pb10 ">
+							<div class="form-group pb10">
 								<div class="col-12  col-sm-4 col-md-4 res-pr-hide"
 									[hidden]="AD_PHYSICAL_FORM_NO.isHidden()">
 									<div class="clr-brown fieldLegend">
@@ -176,7 +176,7 @@
 										(blur)="genericOnBlur('BAD_BRANCH', $event)">
 									</app-combo-box>
 								</div>
-								<div class="col-12  col-sm-4 col-md-4 res-pr-hide"
+								<!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide"
 									[hidden]="BAD_PRIME_USAGE.isHidden()  ">
 									<div class="clr-brown fieldLegend">
 										<label class="clr-brown" [ngClass]="{'mandatory': BAD_PRIME_USAGE.mandatory}">
@@ -185,7 +185,7 @@
 									</div>
 									<app-text-box #BAD_PRIME_USAGE fieldID="BAD_PRIME_USAGE" [formCode]="formCode"
 										(blur)="genericOnBlur('BAD_PRIME_USAGE', $event)"></app-text-box>
-								</div>
+								</div> -->
 								<div class="col-12  col-sm-10 col-md-10 res-pr-hide"></div>
 								<!-- <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="AD_Save.isHidden()">
 									<app-button #AD_Save fieldName="{{ 'ApplicationDtls.AD_Save' | translate}}" fieldID="AD_Save" [formCode]="formCode" (buttonClick)="AD_Save_click($event)"></app-button>

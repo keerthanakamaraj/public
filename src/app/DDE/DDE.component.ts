@@ -199,10 +199,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       { id: "LiabilityDetails", name: "Liability Details", completed: false, iconClass: "icon-Liability-Details", isActive: false, isOptional: true },
       { id: "AssetDetails", name: "Asset Details", completed: false, iconClass: "icon-Asset-Details", isActive: false, isOptional: true },
       { id: "IncomeSummary", name: "Income Summary", completed: false, iconClass: "icon-Income-Summary", isActive: false, isOptional: true },
-      // { id: "CollateralDetails", name: "Collateral Details", completed: false, iconClass: "icon-Collateral-Details", isActive: false, isOptional: true }
+      { id: "CollateralDetails", name: "Collateral Details", completed: false, iconClass: "icon-Collateral-Details", isActive: false, isOptional: true }
     ],
     [
-      // { id: "PersonalInterviewDetails", name: "PI Details", completed: false, iconClass: "icon-Personal-Interview-Details", isActive: false, isOptional: true },
+      { id: "PersonalInterviewDetails", name: "PI Details", completed: false, iconClass: "icon-Personal-Interview-Details", isActive: false, isOptional: true },
       { id: "RmVisitDetails", name: "RM Visit Details", completed: false, iconClass: "icon-RM-Visit-Details", isActive: false, isOptional: true },
     ]
   ];
@@ -210,24 +210,24 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   applicationMenu = [
     [
       { id: "ApplicationDetails", name: "Application Details", completed: false, iconClass: "icon-Application-Details", isActive: false, isOptional: false },
-      // { id: "PropertyDetails", name: "Property Details", completed: false, iconClass: "icon-property", isActive: false, isOptional: true },
-      // { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: false, iconClass: "icon-Vehicle-Loan-Details", isActive: false, isOptional: true },
-      // { id: "GoldLoanDetails", name: "Gold Loan Details", completed: false, iconClass: "icon-Vehicle-Loan-Details", isActive: false, isOptional: true },
+      { id: "PropertyDetails", name: "Property Details", completed: false, iconClass: "icon-property", isActive: false, isOptional: true },
+      { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: false, iconClass: "icon-Vehicle-Loan-Details", isActive: false, isOptional: true },
+      { id: "GoldLoanDetails", name: "Gold Loan Details", completed: false, iconClass: "icon-Gold-Loan-Details", isActive: false, isOptional: true },
       // { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, iconClass: "icon-Education-Loan-Details", isActive: false, isOptional: true },
-      // { id: "LoanDetails", name: "Loan Details", completed: false, iconClass: "icon-Loan-Details", isActive: false, isOptional: true },
+      { id: "LoanDetails", name: "Loan Details", completed: false, iconClass: "icon-Loan-Details", isActive: false, isOptional: true },
       { id: "FDDetails", name: "FD Details", completed: false, iconClass: "icon-Asset-Details", isActive: false, isOptional: false },
       { id: "CreditCardDetails", name: "Credit Card Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: false },
       //{ id: "BusinessDetails", name: "Business Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true },
     ],
     [
-      { id: "InterfaceResults", name: "Interface Results", completed: false, iconClass: "icon-Interface-Results", isActive: false, isOptional: true },
-      // { id: "ScorecardResults", name: "Scorecard Results", completed: false, iconClass: "icon-Scorecard-Results", isActive: false, isOptional: false },
-      // { id: "PolicyCheckResults", name: "Policy Check Results", completed: false, iconClass: "icon-Policy-Check-Results", isActive: false, isOptional: false },
-      //{ id: "GoNoGoDetails", name: "Go/No-Go Details", completed: false, iconClass: "icon-No-Go-Details", isActive: false, isOptional: false },
+      { id: "InterfaceResults", name: "Interface Results", completed: false, iconClass: "icon-Interface-Results", isActive: false, isOptional: false },
+      { id: "ScorecardResults", name: "Scorecard Results", completed: false, iconClass: "icon-Scorecard-Results", isActive: false, isOptional: false },
+      { id: "PolicyCheckResults", name: "Policy Check Results", completed: false, iconClass: "icon-Policy-Check-Results", isActive: false, isOptional: false },
+      { id: "GoNoGoDetails", name: "Go/No-Go Details", completed: false, iconClass: "icon-No-Go-Details", isActive: false, isOptional: false },
     ],
     [
       { id: "ReferrerDetails", name: "Referral Details", completed: false, iconClass: "icon-Referrer-Details", isActive: false, isOptional: true },
-      // { id: "Notes", name: "Notes", completed: false, iconClass: "icon-Notes", isActive: false, isOptional: true }
+      { id: "Notes", name: "Notes", completed: false, iconClass: "icon-Notes", isActive: false, isOptional: true }
     ]
   ];
 
@@ -1261,13 +1261,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       for (let i = 0; i < element.length; i++) {
         const section = element[i];
         section.isActive = false;
-        // if (section.id == "CollateralDetails" && section.isOptional) {
-        //   //Hide Collateral details for Personal loan
-        //   if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == "CC") {
-        //     element.splice(i, 1);
-        //     i--;
-        //   }
-        // }
+        if (section.id == "CollateralDetails") {
+          //Hide Collateral details for Personal loan
+          if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == "CC") {
+            element.splice(i, 1);
+            i--;
+          }
+        }
         if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
           if (section.id == 'FamilyDetails' || section.id == 'LiabilityDetails' || section.id == 'AssetDetails' || section.id == 'IncomeSummary' || section.id == 'PersonalInterviewDetails' || section.id == 'RmVisitDetails') {
             section.isOptional = true;
@@ -1308,16 +1308,15 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         const section = element[i];
         section.isActive = false;
         // if (!this.isLoanCategory) {//ie. loan type credit card
-        // if (section.id == "CreditCardDetails" && section.isOptional) {
-        //   if (this.isLoanCategory) {
-        //     element.splice(i, 1);
-        //     i--;
-        //   }
-        //   else {
-        //     section.isOptional = false;
-        //     this.progressStatusObject.manditorySection += 1;
-        //   }
-        // }
+        if (section.id == "CreditCardDetails") {
+          if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == "CC") {
+            section.isOptional = false;
+            this.progressStatusObject.manditorySection += 1;
+          } else {
+            element.splice(i, 1);
+            i--;
+          }
+        }
         if (section.id == "LoanDetails" && section.isOptional) {
           if (this.isLoanCategory) {
             section.isOptional = false;
@@ -1327,16 +1326,16 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             i--;
           }
         }
-        // if (section.id == "PropertyDetails" && section.isOptional) {
-        //   // Hide Propert Details for Loans Other than Propery ( Mortage) Loan
-        //   if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == "ML") {
-        //     section.isOptional = false;
-        //     this.progressStatusObject.manditorySection += 1;
-        //   } else {
-        //     element.splice(i, 1);
-        //     i--;
-        //   }
-        // }
+        if (section.id == "PropertyDetails" && section.isOptional) {
+          // Hide Propert Details for Loans Other than Propery ( Mortage) Loan
+          if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == "ML") {
+            section.isOptional = false;
+            this.progressStatusObject.manditorySection += 1;
+          } else {
+            element.splice(i, 1);
+            i--;
+          }
+        }
         if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
           if (section.id == 'ReferrerDetails') {
             section.isOptional = true;
@@ -1354,12 +1353,28 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             i--;
           }
         }
-        // if ((section.id == "VehicalLoanDetails" || section.id == "GoldLoanDetails" || section.id == "EducationLoanDetails") && section.isOptional) {
-        //   if (!this.isLoanCategory) {
-        //     element.splice(i, 1);
-        //     i--;
-        //   }
-        // }
+
+        if (section.id == "VehicalLoanDetails" && section.isOptional) {
+          // Hide Propert Details for Loans Other than Propery ( Mortage) Loan
+          if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == "AL") {
+            section.isOptional = false;
+            this.progressStatusObject.manditorySection += 1;
+          } else {
+            element.splice(i, 1);
+            i--;
+          }
+        }
+
+        if (section.id == "GoldLoanDetails" && section.isOptional) {
+          // Hide Propert Details for Loans Other than Propery ( Mortage) Loan
+          if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == "GL") {
+            section.isOptional = false;
+            this.progressStatusObject.manditorySection += 1;
+          } else {
+            element.splice(i, 1);
+            i--;
+          }
+        }
       }
     });
 
@@ -1523,9 +1538,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
           this.progressStatusObject.manditorySection += 1;
 
-          this.progressStatusObject.manditorySection += 
-          this.services.rloCommonData.globalApplicationDtls.isChannelApplication ? 
-          initialAllCustomerList.size * 3 : initialAllCustomerList.size * 2;
+          this.progressStatusObject.manditorySection +=
+            this.services.rloCommonData.globalApplicationDtls.isChannelApplication ?
+              initialAllCustomerList.size * 3 : initialAllCustomerList.size * 2;
         }
         break;
 
@@ -1994,7 +2009,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
               this.progressStatusObject.manditorySection += 2;
             } else if (this.services.rloCommonData.globalApplicationDtls.CustomerType == "I") {
               this.progressStatusObject.manditorySection += 2;
-              if(this.services.rloCommonData.globalApplicationDtls.isChannelApplication){
+              if (this.services.rloCommonData.globalApplicationDtls.isChannelApplication) {
                 this.progressStatusObject.manditorySection += 1;
               }
             }

@@ -69,11 +69,11 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         // { className: "GoldDetails" },
         // { className: "EducationDetails" },
         { className: "PropertyDetails" },
-        // { className: "GoNoGoDetails" },
+        { className: "GoNoGoDetails" },
         { className: "ApplicationDetails" },
 
         { className: "ReferalDetails" },
-        // { className: "Notes" }, // changes for canara bank
+        { className: "Notes" }, // changes for canara bank
       ]
     }
   ];
@@ -364,11 +364,11 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
     this.isLoanCategory = event.isLoanCategory;
     //changes for canara
-    // if (globlaObj.TypeOfLoanCode == "CC") {
-    //   if (globlaObj.LoanAmount != undefined) {
-    //     this.maxCardLimit = globlaObj.LoanAmount;
-    //   }
-    // }
+    if (globlaObj.TypeOfLoanCode == "CC") {
+      if (globlaObj.LoanAmount != undefined) {
+        this.maxCardLimit = globlaObj.LoanAmount;
+      }
+    }
     //changes for canara
     this.getUnderWriterData();
   }
