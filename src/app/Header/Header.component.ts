@@ -302,7 +302,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
           else {
             this.CARD_NUMBER.setValue("NA");
           }
-          
+
           if (header.hasOwnProperty("SchemeName") || header.SchemeName != null || header.SchemeName.length) {
             if (header.SchemeName.length) {
               this.REAL_PROD_NAME.setValue(header.SchemeName);
@@ -517,9 +517,11 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   }
 
   async broadcastApplicationData(header) {
-    header.TypeOfLoan='AL';
-    this.isLoanCategory=true;
-    header.CardCustType='I';
+    // header.TypeOfLoan = 'CC';
+    // this.isLoanCategory = false;
+    // header.CardCustType = 'I';
+    // header.CardType = "SC";
+
     let StoreObject: IGlobalApllicationDtls = {
       isLoanCategory: this.isLoanCategory,
       TypeOfLoanCode: header.TypeOfLoan,
@@ -560,6 +562,6 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       isChannelApplication: (header.SourcingChannel == 'IB' || header.SourcingChannel == 'MB') ? true : false
     }
     this.services.rloCommonData.globalApplicationDtls = StoreObject;
-
+    console.log("globalApplicationDtls", this.services.rloCommonData.globalApplicationDtls);
   }
 }
