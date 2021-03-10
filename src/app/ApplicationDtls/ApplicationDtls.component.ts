@@ -334,15 +334,15 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
       outDep: [
       ]
     },
-    BAD_CUSTOMER_TYPE: {
-      inDep: [
-        { paramKey: "VALUE1", depFieldID: "BAD_CUSTOMER_TYPE", paramType: "PathParam" },
-        { paramKey: "KEY1", depFieldID: "hidCustType", paramType: "QueryParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    }
+    // BAD_CUSTOMER_TYPE: {
+    //   inDep: [
+    //     { paramKey: "VALUE1", depFieldID: "BAD_CUSTOMER_TYPE", paramType: "PathParam" },
+    //     { paramKey: "KEY1", depFieldID: "hidCustType", paramType: "QueryParam" },
+    //     { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
+    //   ]
+    // }
 
     // BAD_PRIME_USAGE: {
     //   inDep: [
