@@ -398,7 +398,17 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
 
   setApplicantLabelsAndTags() {
     this.MstDynamicData = {};
-    if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && !this.isLoanCategory) {
+    if(this.isLoanCategory){
+      this.MstDynamicData['PrimaryLabel'] = 'Borrower';
+      this.MstDynamicData['PrimaryTag'] = 'B';
+      this.MstDynamicData['SecondaryLabel'] = 'Co-Borrower';
+      this.MstDynamicData['SecondaryTag'] = 'CO'; 
+      this.MstDynamicData['TertiaryLabel'] = 'Guarantor';
+      this.MstDynamicData['TertiaryTag'] = 'G';
+      this.MstDynamicData['QuaternaryLabel'] = 'OtherParty';
+      this.MstDynamicData['QuaternaryTag'] = 'OP'; 
+    }
+    else if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && !this.isLoanCategory) {
       this.MstDynamicData['PrimaryLabel'] = 'Corporate';
       this.MstDynamicData['SecondaryLabel'] = 'Member';
       this.MstDynamicData['PrimaryTag'] = 'C';
