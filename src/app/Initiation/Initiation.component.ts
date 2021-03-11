@@ -865,7 +865,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     if (tempVar)
 
 
-      this.CD_DOB.setValue(tempVar['dob']);
+    this.CD_DOB.setValue(tempVar['dob']);
     this.CD_TAX_ID.setValue(tempVar['taxId']);
     this.CD_FULL_NAME.setValue(tempVar['custName']);
     this.CD_MOBILE.setValue(tempVar['mobileNum']);
@@ -1023,15 +1023,15 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.Handler.isStaff({});
 
   }
-  // async CD_DOB_blur(event) {
-  //   if (!this.isPastDate(this.CD_DOB.getFieldValue())) {
-  //     this.CD_DOB.setError('rlo.error.DOB.invalid');
-  //     return 1;
-  //   } else if (!this.isAgeValid(this.CD_DOB.getFieldValue())) {
-  //     this.CD_DOB.setError('rlo.error.Age.invalid');
-  //     return 1
-  //   }
-  // }
+  async CD_DOB_blur(event) {
+    if (!this.isPastDate(this.CD_DOB.getFieldValue())) {
+      this.CD_DOB.setError('rlo.error.DOB.invalid');
+      return 1;
+    } else if (!this.isAgeValid(this.CD_DOB.getFieldValue())) {
+      this.CD_DOB.setError('rlo.error.Age.invalid');
+      return 1
+    }
+  }
 
 
   async BAD_DATE_OF_RCPT_blur(event) {
