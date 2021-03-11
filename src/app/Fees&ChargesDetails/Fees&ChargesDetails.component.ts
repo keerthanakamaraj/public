@@ -474,8 +474,8 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
           this.PartyName.setValue(res['ChargeDetails']['PartyName']);
         }
         else {
-          this.hidePartyType.setValue(res['ChargeDetails']['PartyType']);
           this.PartyNames.setValue(res['ChargeDetails']['PartyName']);
+          this.hidePartyType.setValue(res['ChargeDetails']['PartyType']);
         }
         this.ChargeBasis.setValue(res['ChargeDetails']['ChargeBasis']);
         //this.Currency.setValue(res['ChargeDetails']['Currency']);

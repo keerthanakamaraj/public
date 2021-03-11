@@ -158,9 +158,10 @@
                 {{ 'VehicleDetails.FundsbyCustomer' | translate}}
               </label>
             </div>
-            <app-rlo-ui-currency #FundsbyCustomer fieldID="FundsbyCustomer" [currencyReadOnly]="true"
-              [componentFieldId]="FundsbyCustomer" (onBlurEvent)="customGenericOnBlur($event)"
-              [inputReadOnly]="readOnly" [formCode]="formCode"></app-rlo-ui-currency>
+            <!-- <app-text-box #FundsbyCustomer fieldID="FundsbyCustomer" [formCode]="formCode"
+            (blur)="genericOnBlur('FundsbyCustomer', $event)"></app-text-box> -->
+            <app-amount #FundsbyCustomer fieldID="FundsbyCustomer" [formCode]="formCode"
+              (blur)="genericOnBlur('FundsbyCustomer', $event)"></app-amount>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LocalCurrencyEquivalent.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -168,9 +169,10 @@
                 {{ 'VehicleDetails.LocalCurrencyEquivalent' | translate}}
               </label>
             </div>
-            <app-rlo-ui-currency #LocalCurrencyEquivalent fieldID="LocalCurrencyEquivalent" [currencyReadOnly]="true"
-              [componentFieldId]="LocalCurrencyEquivalent" (onBlurEvent)="customGenericOnBlur($event)"
-              [inputReadOnly]="true" [formCode]="formCode"></app-rlo-ui-currency>
+            <!-- <app-text-box #LocalCurrencyEquivalent fieldID="LocalCurrencyEquivalent" [formCode]="formCode"
+            (blur)="genericOnBlur('LocalCurrencyEquivalent', $event)"></app-text-box> -->
+            <app-amount #LocalCurrencyEquivalent fieldID="LocalCurrencyEquivalent" [formCode]="formCode"
+              (blur)="genericOnBlur('LocalCurrencyEquivalent', $event)"></app-amount>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LoanRequired.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -178,9 +180,10 @@
                 {{ 'VehicleDetails.LoanRequired' | translate}}
               </label>
             </div>
-            <app-rlo-ui-currency #LoanRequired fieldID="LoanRequired" [currencyReadOnly]="true"
-              [componentFieldId]="LoanRequired" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="true"
-              [formCode]="formCode"></app-rlo-ui-currency>
+            <!-- <app-text-box #LoanRequired fieldID="LoanRequired" [formCode]="formCode"
+              (blur)="genericOnBlur('LoanRequired', $event)"></app-text-box> -->
+              <app-amount #LoanRequired fieldID="LoanRequired" [formCode]="formCode"
+              (blur)="genericOnBlur('LoanRequired', $event)"></app-amount>
           </div>
           <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
           <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
