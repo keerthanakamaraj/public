@@ -204,29 +204,57 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
 
   async Pincode_blur(event) {
     let inputMap = new Map();
-    inputMap.set('PathParam.PinCd', event.value)
+    inputMap.set('PathParam.PinCd', event.value);
+    inputMap.set('QueryParam.CountryCode', this.services.rloui.getConfig('country.code.default'));
     this.services.http.fetchApi('/MasterPincodeDtls/{PinCd}', 'GET', inputMap, '/masters').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         console.log("res", res);
-        this.Region.setValue(res['MasterPincodeDtls']['UDF1'])
-        this.State.setValue(res['MasterPincodeDtls']['StateCd']['StateName'])
-        this.City.setValue(res['MasterPincodeDtls']['CityCd']['CityName'])
+        if (res == null) {
+          this.Pincode.setError('rlo.error.pincode.invalid');
+          this.Region.onReset();
+          this.City.onReset();
+          this.State.onReset();
+          setTimeout(() => {
+            this.Pincode.onReset();
+          }, 5000);
 
+          return 1;
+
+        } else {
+          this.Region.setValue(res['MasterPincodeDtls']['UDF1']);
+          this.State.setValue(res['MasterPincodeDtls']['StateCd']['StateName']);
+          this.City.setValue(res['MasterPincodeDtls']['CityCd']['CityName']);
+        }
       },
     );
   }
 
   async SellerPincode_blur(event) {
     let inputMap = new Map();
-    inputMap.set('PathParam.PinCd', event.value)
+    inputMap.set('PathParam.PinCd', event.value);
+    inputMap.set('QueryParam.CountryCode', this.services.rloui.getConfig('country.code.default'));
     this.services.http.fetchApi('/MasterPincodeDtls/{PinCd}', 'GET', inputMap, '/masters').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         console.log("res", res);
-        this.SellerRegion.setValue(res['MasterPincodeDtls']['UDF1'])
-        this.SellerState.setValue(res['MasterPincodeDtls']['StateCd']['StateName'])
-        this.SellerCity.setValue(res['MasterPincodeDtls']['CityCd']['CityName'])
+        if (res == null) {
+          this.SellerPincode.setError('rlo.error.pincode.invalid');
+          this.SellerRegion.onReset();
+          this.SellerCity.onReset();
+          this.SellerState.onReset();
+          setTimeout(() => {
+            this.SellerPincode.onReset();
+          }, 5000);
+
+          return 1;
+
+        } else {
+          this.SellerRegion.setValue(res['MasterPincodeDtls']['UDF1']);
+          this.SellerState.setValue(res['MasterPincodeDtls']['StateCd']['StateName']);
+          this.SellerCity.setValue(res['MasterPincodeDtls']['CityCd']['CityName']);
+        }
+
 
       },
     );
@@ -349,9 +377,9 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
             this.PropoertyPurchaseNameOf.setValue(PropertyElement['NewLegalOwner']);
             this.CostOfProperty.setValue(PropertyElement['PropertyCost']);
             this.PropertyInsuranceCost.setValue(PropertyElement['PropertyInsuranceCost']);
-            this.SelectToCapitalizeProperty.setValue(PropertyElement['PropertyInsuranceAdjFlag']=='true'?true:false);
+            this.SelectToCapitalizeProperty.setValue(PropertyElement['PropertyInsuranceAdjFlag'] == 'true' ? true : false);
             this.PersonalInsuranceCost.setValue(PropertyElement['PersonInsuranceCost']);
-            this.SelectToCapitalizePersonal.setValue(PropertyElement['PersonInsuranceAdjFlag']=='true'?true:false);
+            this.SelectToCapitalizePersonal.setValue(PropertyElement['PersonInsuranceAdjFlag'] == 'true' ? true : false);
             this.SellerType.setValue(PropertyElement['SellerType']['id']);
             this.NameOfSeller.setValue(PropertyElement['SellerName']);
             this.NameOfRegisteredOwner.setValue(PropertyElement['CurrentOwnerName']);
@@ -668,7 +696,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
         inputMap.set('Body.PropertyDetails.TotalFinanceAmount', this.AmountToBeFinanced.getFieldValue());
         inputMap.set('Body.PropertyDetails.ApplicationId', this.ApplicationId);
         inputMap.set('Body.PropertyDetails.MoratoriamPeriodFlag', this.MoratoriamPeriodCheck.getFieldValue());
-      //  this.MoratoriamPeriodCheck.setValue(PropertyElement['MoratoriamPeriodFlag']);
+        //  this.MoratoriamPeriodCheck.setValue(PropertyElement['MoratoriamPeriodFlag']);
         this.services.http.fetchApi('/PropertyDetails', 'POST', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
