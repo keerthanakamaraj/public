@@ -2130,7 +2130,7 @@
     "RD_DELETE_ButtonName": "Delete",
     "GridTitle": "ReferralDetailsGrid",
     "toolbar_ReferralDetailsGrid": "null",
-    "RD_REFERRER_RELATION": "Referrer Relation",
+    "RD_REFERRER_RELATION_TEXT": "Referrer Relation",
     "RD_DELETE": "Delete",
     "RD_REFERRER_NAME": "Referrer Name",
     "RD_EDIT_ButtonName": "Edit",

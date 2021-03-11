@@ -56,7 +56,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
     // },
   },
   {
-    field: "RD_REFERRER_RELATION",
+    field: "RD_REFERRER_RELATION_TEXT",
     width: 30,
     sortable: true,
     resizable: true,
@@ -232,6 +232,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
             tempObj['Referrer_ID'] = loopVar10[i].BorrowerSeq;
             tempObj['RD_REFERRER_NAME'] = loopVar10[i].ReferrerName;
             tempObj['RD_REFERRER_RELATION'] = loopVar10[i].ReferrerRelation;
+            tempObj['RD_REFERRER_RELATION_TEXT'] = loopVar10[i].ReferrerRelation.text;
             tempObj['RD_REFERRER_MOBILE_NO'] = loopVar10[i].ReferrerMobileNumber;
             this.referredetails.push(tempObj);
           }
