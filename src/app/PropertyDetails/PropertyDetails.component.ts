@@ -331,8 +331,8 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
         if (res != null && res != undefined && res['PropertyDetails'] != undefined) {
           var PropertyArray = res['PropertyDetails'];
           PropertyArray.forEach(async PropertyElement => {
-            this.PropertyType.setValue(PropertyElement['PropertyType']);
-            this.PurchaseType.setValue(PropertyElement['PurchaseType']);
+            this.PropertyType.setValue(PropertyElement['PropertyType']['id']);
+            this.PurchaseType.setValue(PropertyElement['PurchaseType']['id']);
             this.BuilderName.setValue(PropertyElement['BuilderId']);
             this.ProjectName.setValue(PropertyElement['ProjectName']);
             this.BuildingName.setValue(PropertyElement['BuildingName']);
@@ -352,13 +352,13 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
             this.SelectToCapitalizeProperty.setValue(PropertyElement['PropertyInsuranceAdjFlag']=='true'?true:false);
             this.PersonalInsuranceCost.setValue(PropertyElement['PersonInsuranceCost']);
             this.SelectToCapitalizePersonal.setValue(PropertyElement['PersonInsuranceAdjFlag']=='true'?true:false);
-            this.SellerType.setValue(PropertyElement['SellerType']);
+            this.SellerType.setValue(PropertyElement['SellerType']['id']);
             this.NameOfSeller.setValue(PropertyElement['SellerName']);
             this.NameOfRegisteredOwner.setValue(PropertyElement['CurrentOwnerName']);
             this.DownPaymentAmount.setValue(PropertyElement['DownPayAmount']);
             this.DownPayment.setValue(PropertyElement['DownPayPercent']);
             this.AmountToBeFinanced.setValue(PropertyElement['TotalFinanceAmount']);
-            this.MoratoriumPeriod.setValue(PropertyElement['MoratoriumPeriod']);
+            this.MoratoriumPeriod.setValue(PropertyElement['MoratoriumPeriod']['id']);
             this.Address1.setValue(PropertyElement['PRAddressLine1']);
             this.Address2.setValue(PropertyElement['PRAddressLine2']);
             this.Address3.setValue(PropertyElement['PRAddressLine3']);
