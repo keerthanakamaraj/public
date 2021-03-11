@@ -220,6 +220,12 @@ export class GoldDetailsGridComponent implements AfterViewInit {
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 var loopDataVar10 = [];
+                let serviceObj = {
+                    "name": "GoldLoanDetails",
+                    "data": [],
+                    "sectionName": "GoldLoanDetails"
+                }
+
                 if (res !== null) {
                     this.goldRecord = true
                     var loopVar10 = res['GoldDetails'];
@@ -253,15 +259,19 @@ export class GoldDetailsGridComponent implements AfterViewInit {
                     }
                     loopDataVar10.push(totalValue);
                     console.log("new object", totalValue);
+
+                    serviceObj.data = loopDataVar10;
                 }
+                this.services.rloCommonData.globalComponentLvlDataHandler(serviceObj);
+
                 this.readonlyGrid.apiSuccessCallback(params, loopDataVar10);
                 console.log("newwwwwww", this.readonlyGrid);
                 console.log(this.readonlyGrid.getAllRows());
 
                 setTimeout(() => {
-                    this.hideLastColCells(); 
+                    this.hideLastColCells();
                 }, 100);
-                
+
             },
             async (httpError) => {
                 var err = httpError['error']
@@ -326,8 +336,8 @@ export class GoldDetailsGridComponent implements AfterViewInit {
 
         console.error(tableRow);
         console.error("last", lastRow);
-        lastRow[lastRow.length-1].classList.add("d-none");
-        lastRow[lastRow.length-2].classList.add("d-none");
+        lastRow[lastRow.length - 1].classList.add("d-none");
+        lastRow[lastRow.length - 2].classList.add("d-none");
     }
     getGoldDetails() {
         return this.loopDataVar10;

@@ -268,12 +268,10 @@ export class RloCommonData {
           break;
         case 'LoanDetails':
           mapValue = componentData.data;
-
           functionalResponseObj = this.tabularOrNonTabularSectionValidation(mapValue[0].isValid).then(data => { return data });
           break;
         case 'CreditCardDetails':
           mapValue = componentData.data;
-
           functionalResponseObj = this.tabularOrNonTabularSectionValidation(mapValue[0].isValid).then(data => { return data });
           break;
         case 'ReferrerDetails':
@@ -304,7 +302,11 @@ export class RloCommonData {
         case 'FDDetails':
           mapValue = componentData.data;
           functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
-          break
+          break;
+        case 'GoldLoanDetails':
+          mapValue = componentData.data;
+          functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+          break;
       }
 
       tempStoreMap.get(mapName).set(mapKey, mapValue);
