@@ -418,7 +418,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
-    // this.applicationId = 5689; //5689(tony stark) 5694(raj)
+    // this.applicationId = 5694; //5689(tony stark) 5694(raj)
 
     if (this.userId === undefined || this.userId == '') {
       this.claimTask(this.taskId);
@@ -651,10 +651,12 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
               this.customerCardDataWithFields.accountDetails = [];
             }
 
+            let typeOfLoan = this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode;
+            let fieldsArray = this.customerCardDataWithFields.data;
+
             if (this.customerMasterJsonData.productCategory == 'CC' && this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
               const moment = require('moment');
               let DOI = moment(singleCustomer.DateOfIncorporation).format('DD-MM-YYYY');
-              let fieldsArray = this.customerCardDataWithFields.data;
               if (singleCustomer.CustomerType == "B") {
                 fieldsArray[0].title = "Registered Name";
                 fieldsArray[0].subTitle = singleCustomer.RegisteredName;
@@ -668,6 +670,8 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
                 fieldsArray[3].title = "Applicant Type";
                 fieldsArray[3].subTitle = "Member";
               }
+            } else if (typeOfLoan == 'AL' || typeOfLoan == 'GL' || typeOfLoan == 'ML' || typeOfLoan == 'PL') {
+              fieldsArray[3].title = "Customer Type";
             }
 
             console.error(this.customerCardDataWithFields);
