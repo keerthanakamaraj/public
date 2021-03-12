@@ -32,7 +32,7 @@ export class MyTrayGridComponent implements AfterViewInit {
   componentCode: string = 'MyTrayGrid';
   openedFilterForm: string = '';
   hidden: boolean = false;
-  CamType : any;
+  CamType: any;
   gridConsts: any = {
     paginationPageSize: 10,
     gridCode: "MyTrayGrid",
@@ -397,7 +397,7 @@ export class MyTrayGridComponent implements AfterViewInit {
             case "hiddenInstanceId": obj[i].columnName = "INSTANCE_ID"; break;
             case "hiddenStageId": obj[i].columnName = "STAGE_ID"; break;
             case "MT_APPLICATION_TYPE": obj[i].columnName = "CTP.CAM_TYPE_ID"; break;
-            
+
             default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
           }
         }
@@ -463,16 +463,16 @@ export class MyTrayGridComponent implements AfterViewInit {
               tempObj['hiddenInstanceId'] = loopVar7[i].INSTANCE_ID;
               tempObj['hiddenStageId'] = loopVar7[i].STAGE_ID;
               // tempObj['MT_APPLICATION_TYPE'] = loopVar7[i].CAM_TYPE;
-              if(loopVar7[i].CAM_TYPE == "LE"){
-              tempObj['MT_APPLICATION_TYPE'] = 'LE';
+              if (loopVar7[i].CAM_TYPE == "LE") {
+                tempObj['MT_APPLICATION_TYPE'] = 'LE';
               }
-              else if(loopVar7[i].CAM_TYPE == "NAPP"){
+              else if (loopVar7[i].CAM_TYPE == "NAPP") {
                 tempObj['MT_APPLICATION_TYPE'] = 'NEW';
               }
-              else if(loopVar7[i].CAM_TYPE == "MEMC"){
+              else if (loopVar7[i].CAM_TYPE == "MEMC") {
                 tempObj['MT_APPLICATION_TYPE'] = 'M';
               }
-              else if(loopVar7[i].CAM_TYPE == "CHNL"){
+              else if (loopVar7[i].CAM_TYPE == "CHNL") {
                 tempObj['MT_APPLICATION_TYPE'] = 'CH';
               }
               loopDataVar7.push(tempObj);
@@ -616,7 +616,7 @@ export class MyTrayGridComponent implements AfterViewInit {
       }
 
       //testing
-      //stageId = "Underwriter";
+      // stageId = "Underwriter";
 
       navPath.push(stageId);
       inputMap.set('appId', selectedData2['MT_PROPOSAL_ID']);
@@ -689,23 +689,23 @@ export class MyTrayGridComponent implements AfterViewInit {
       return '-';
     }
   }
-  appType(type : string) {
-      switch (this.CamType) {
-          case "NAPP":
-              return "New"
-              break;
+  appType(type: string) {
+    switch (this.CamType) {
+      case "NAPP":
+        return "New"
+        break;
 
-          case "LE":
-              return "LE"
-              break;
+      case "LE":
+        return "LE"
+        break;
 
-          case "MEMC":
-              return "Member"
-              break;
+      case "MEMC":
+        return "Member"
+        break;
 
-          default:
-              break;
-  }
+      default:
+        break;
+    }
   }
 
 }

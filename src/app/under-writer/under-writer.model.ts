@@ -123,7 +123,7 @@ export class FinancialSummary implements IDeserializable {
     }
 
     isSectionAvaliable() {
-        if (this.TotalIncome == 'NA' && this.TotalLiabiity == 'NA' && this.TotalAssetValue == 'NA' && this.TotalObligation == 'NA' && this.NetIncomeMonthly == 'NA' && this.DBR == 'NA'&& this.LienAMT == 'NA') {
+        if (this.TotalIncome == 'NA' && this.TotalLiabiity == 'NA' && this.TotalAssetValue == 'NA' && this.TotalObligation == 'NA' && this.NetIncomeMonthly == 'NA' && this.DBR == 'NA' && this.LienAMT == 'NA') {
             return ""
         } else {
             return "OccupationDetails";
@@ -377,9 +377,20 @@ export class FamilyDetails implements IDeserializable {
     }
 
     getCardData() {
+        let familyDataLength = 0;
+        if (this.familyList.length) {
+            this.familyList.forEach(element => {
+                if (element.hasOwnProperty("Relationship")) {
+                    if (element.Relationship != "") {
+                        familyDataLength += 1;
+                    }
+                }
+            });
+        }
+
         const returnObj: IGeneralCardData = {
-            name: `Family Details (${this.familyList.length})`,
-            modalSectionName: this.familyList.length ? "FamilyDetails" : "",
+            name: `Family Details (${familyDataLength})`,
+            modalSectionName: familyDataLength ? "FamilyDetails" : "",
             data: "",
             canShowModal: true
         };
@@ -416,9 +427,20 @@ export class RmVisitDetails implements IDeserializable {
     }
 
     getCardData() {
+        let rmVisitLength = 0;
+        if (this.rmVisitListList.length) {
+            this.rmVisitListList.forEach(element => {
+                if (element.hasOwnProperty("VisitSeq")) {
+                    if (typeof element.VisitSeq == "number") {
+                        rmVisitLength += 1;
+                    }
+                }
+            });
+        }
+
         const returnObj: IGeneralCardData = {
-            name: `RM Visit Details (${this.rmVisitListList.length})`,
-            modalSectionName: this.rmVisitListList.length ? "RmVisitDetails" : "",
+            name: `RM Visit Details (${rmVisitLength})`,
+            modalSectionName: rmVisitLength ? "RmVisitDetails" : "",
             //modalSectionName: "RmVisitDetails",
             data: "",
             canShowModal: true
@@ -470,7 +492,10 @@ export class AccountDetails implements IDeserializable {
                 tableData['AccountStatus'] = "NA";
             }
 
-            tableRowData.push(tableData);
+            if (tableData['AccountType'] != "NA" && tableData['AccountNo'] != "NA" && tableData['AvailableBalance'] != "NA" && tableData['OpeningDate'] != "NA" && tableData['AccountStatus'] != "NA") {
+                tableRowData.push(tableData);
+            }
+
         });
         return tableRowData;
     }
@@ -920,9 +945,20 @@ export class ReferalDetails implements IDeserializable {
     }
 
     getCardData() {
+        let referalLength = 0;
+        if (this.referalDetailsList.length) {
+            this.referalDetailsList.forEach(element => {
+                if (element.hasOwnProperty("ApplicationId")) {
+                    if (typeof element.ApplicationId == "number") {
+                        referalLength += 1;
+                    }
+                }
+            });
+        }
+
         const returnObj: IGeneralCardData = {
-            name: `Referral Details (${this.referalDetailsList.length})`,
-            modalSectionName: this.referalDetailsList.length ? "ReferrerDetails" : "",
+            name: `Referral Details (${referalLength})`,
+            modalSectionName: referalLength ? "ReferrerDetails" : "",
             data: "",
             canShowModal: true
         };
@@ -939,9 +975,20 @@ export class Notes implements IDeserializable {
     }
 
     getCardData() {
+        let notesLength = 0;
+        if (this.notesList.length) {
+            this.notesList.forEach(element => {
+                if (element.hasOwnProperty("NotepadSeq")) {
+                    if (typeof element.NotepadSeq == "number") {
+                        notesLength += 1;
+                    }
+                }
+            });
+        }
+
         const returnObj: IGeneralCardData = {
-            name: `Notes (${this.notesList.length})`,
-            modalSectionName: this.notesList.length ? "Notes" : "",
+            name: `Notes (${notesLength})`,
+            modalSectionName: notesLength ? "Notes" : "",
             data: "",
             canShowModal: true
         };
@@ -1303,7 +1350,7 @@ export class CustomerDetails implements IDeserializable {
 
     getCustomerType(type: string) {
         switch (type) {
-            case "B"  :
+            case "B":
                 return "Primary"
                 break;
 
@@ -1457,7 +1504,17 @@ export class ApplicationDetails implements IDeserializable {
         }
 
         if (input.UWDisbursal != undefined) {
-            this.LoanDetails.Disbursals = input.UWDisbursal.length;
+            let disbursalData = input.UWDisbursal;
+            let disbursalLength = 0;
+
+            disbursalData.forEach(element => {
+                if (element.hasOwnProperty("DisbursalSeq")) {
+                    if (typeof element.DisbursalSeq == "number") {
+                        disbursalLength += 1;
+                    }
+                }
+            });
+            this.LoanDetails.Disbursals = disbursalLength.toString();
         }
         else {
             this.LoanDetails.Disbursals = "NA";
