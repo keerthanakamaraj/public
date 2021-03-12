@@ -255,19 +255,39 @@ export class CustomerSearchFieldsComponent extends FormCommonComponent implement
     console.log(this.fieldData);
 
     if (!_.isEmpty(this.searchParameters)) {
-      if (this.searchParameters.customerId.length < 5) {
-        if (this.searchParameters.customerId == "")
-          return
+      // if (this.searchParameters.customerId.length < 5) {
+      //   if (this.searchParameters.customerId == "")
+      //     return
 
-        this.services.alert.showAlert(2, '', 3000, 'Minimum 5 characters are required for CBS Customer Id');
+      //   this.services.alert.showAlert(2, '', 3000, 'Minimum 5 characters are required for CBS Customer Id');
+      //   return;
+      // } else {
+      //   const regex = new RegExp('^[0-9]*$');
+      //   if (!regex.test(this.searchParameters.customerId)) {
+      //     this.services.alert.showAlert(2, '', 3000, ' Please enter valid CBS Customer ID');
+      //     return;
+      //   }
+      // }
+
+      let isAllfieldsEmpty = -1;
+      Object.values(this.searchParameters).map((element, index) => {
+        if (element.length) {
+          isAllfieldsEmpty = index;
+        }
+      });
+
+      if (isAllfieldsEmpty == -1) {
+        this.services.alert.showAlert(2, '', 3000, 'Please enter data');
         return;
       } else {
-        const regex = new RegExp('^[0-9]*$');
-        if (!regex.test(this.searchParameters.customerId)) {
-          this.services.alert.showAlert(2, '', 3000, ' Please enter valid CBS Customer ID');
-          return;
+        if (this.searchParameters.hasOwnProperty("customerId")) {
+          if (this.searchParameters.customerId != "" && this.searchParameters.customerId.length < 5) {
+            this.services.alert.showAlert(2, '', 3000, 'Minimum 5 characters are required for CBS Customer Id');
+            return;
+          }
         }
       }
+
       this.SearchFormGrid.customSearchObj.mobileNumber = this.searchParameters.mobileNumber;
       this.SearchFormGrid.customSearchObj.taxId = this.searchParameters.taxId;
       this.SearchFormGrid.customSearchObj.firstName = this.searchParameters.firstName;

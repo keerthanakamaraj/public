@@ -607,41 +607,49 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   async SEARCH_CUST_BTN_click(event) {
     this.searchbutton = 'Y';
     var noofErrors: number = await this.revalidate();
+    console.log(this.SRC_MOBILE_NO.getFieldValue() == undefined, this.SRC_TAX_ID.getFieldValue() == undefined, this.SRC_CIF_NO.getFieldValue() == undefined)
     if (noofErrors == 0) {
-      if (this.SRC_MOBILE_NO.getFieldValue() == undefined || this.SRC_TAX_ID.getFieldValue() == undefined || this.SRC_CIF_NO.getFieldValue() == undefined) {
+      if (this.SRC_MOBILE_NO.getFieldValue() == undefined && this.SRC_TAX_ID.getFieldValue() == undefined && this.SRC_CIF_NO.getFieldValue() == undefined) {
         this.services.alert.showAlert(2, '', 3500, 'Please enter valid details');
-      } else {
-        let obj: ICustomSearchObject = {
-          mobileNumber: this.SRC_MOBILE_NO.getFieldValue(),
-          taxId: this.SRC_TAX_ID.getFieldValue(),
-          cifId: this.SRC_CIF_NO.getFieldValue(),
-          searchType: "External"
-        }
-        this.services.rloui.openCustomerSearch(obj).then((response: any) => {
-          this.toggleColumn();
-          if (response != null) {
-            console.log(response);
-            //  this.ApplicationStatus(response);
-            //  this.setValuesOfCustomer(response);
-            // this.CBSProductCode(response);
-            if (typeof response != "boolean")
-              this.IsInitiationAllowedForBranch(response);
-            this.searchbutton = 'N';
-            //  this.NoOfCardAllowed(response);
-            // this.IsInitiationAllowedForBranch(response);
+      }
+      else {
+        if ((this.SRC_MOBILE_NO.hasOwnProperty("value") && this.SRC_MOBILE_NO.value != "") || (this.SRC_TAX_ID.hasOwnProperty("value") && this.SRC_TAX_ID.value != "") || (this.SRC_CIF_NO.hasOwnProperty("value") && this.SRC_CIF_NO.value != "")) {
+          console.log("api call");
+          let obj: ICustomSearchObject = {
+            mobileNumber: this.SRC_MOBILE_NO.getFieldValue(),
+            taxId: this.SRC_TAX_ID.getFieldValue(),
+            cifId: this.SRC_CIF_NO.getFieldValue(),
+            searchType: "External"
+          }
+          this.services.rloui.openCustomerSearch(obj).then((response: any) => {
             this.toggleColumn();
+            if (response != null) {
+              console.log(response);
+              //  this.ApplicationStatus(response);
+              //  this.setValuesOfCustomer(response);
+              // this.CBSProductCode(response);
+              if (typeof response != "boolean")
+                this.IsInitiationAllowedForBranch(response);
+              this.searchbutton = 'N';
+              //  this.NoOfCardAllowed(response);
+              // this.IsInitiationAllowedForBranch(response);
+              this.toggleColumn();
 
-            /* PR-38 dev
-            // this.ApplicationStatus(response);
-             this.setValuesOfCustomer(response);
-             this.SRC_CIF_NO.onReset();
-            */
-          }
-          else {
-            console.warn("DEEP | No customer selected");
-            this.SRC_CIF_NO.onReset();
-          }
-        });
+              /* PR-38 dev
+              // this.ApplicationStatus(response);
+               this.setValuesOfCustomer(response);
+               this.SRC_CIF_NO.onReset();
+              */
+            }
+            else {
+              console.warn("DEEP | No customer selected");
+              this.SRC_CIF_NO.onReset();
+            }
+          });
+        }
+        else {
+          this.services.alert.showAlert(2, '', 3500, 'Please enter valid details');
+        }
       }
     }
     else {
@@ -865,7 +873,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     if (tempVar)
 
 
-    this.CD_DOB.setValue(tempVar['dob']);
+      this.CD_DOB.setValue(tempVar['dob']);
     this.CD_TAX_ID.setValue(tempVar['taxId']);
     this.CD_FULL_NAME.setValue(tempVar['custName']);
     this.CD_MOBILE.setValue(tempVar['mobileNum']);
@@ -960,10 +968,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     }
     );
     this.Handler.HideFieldBasedOnCorporate(null, 'B')
-    if(this.BAD_PROD_CAT.getFieldValue() !== 'CC' && this.CD_CARD_CUST_TYPE.getFieldInfo() == 'Corporate' ){
+    if (this.BAD_PROD_CAT.getFieldValue() !== 'CC' && this.CD_CARD_CUST_TYPE.getFieldInfo() == 'Corporate') {
       this.Handler.onResetCustomer({});
-     }
-   
+    }
+
     this.Handler.updateLoanTag();
     this.setDependency(fieldID, value);
     this.BAD_PRODUCT.onReset();
