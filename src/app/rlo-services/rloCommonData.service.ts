@@ -307,6 +307,10 @@ export class RloCommonData {
           mapValue = componentData.data;
           functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
           break;
+        case 'VehicalLoanDetails':
+          mapValue = componentData.data;
+          functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+          break;
       }
 
       tempStoreMap.get(mapName).set(mapKey, mapValue);
@@ -808,7 +812,7 @@ export class RloCommonData {
         errorsList: []
       }
       let totalLoanOwnership: number = this.calculateLoanOwnership();
-      if (100 != totalLoanOwnership && !this.globalApplicationDtls.isLoanCategory) {
+      if (100 != totalLoanOwnership && this.globalApplicationDtls.isLoanCategory) {
         dataObject.isAppValid = false;
         dataObject.errorsList.push("Total Loan ownership should be 100%");
 
@@ -1375,7 +1379,12 @@ export class RloCommonData {
     console.warn("allCustomerDataallCustomerDataallCustomerDataallCustomerData", allCustomerData);
 
     allCustomerData.forEach(element => {
-      this.customerListForAddress.set(element.BorrowerSeq, element.BorrowerSeq);
+      let obj = {
+        "BorrowerSeq": element.BorrowerSeq,
+        "customerType": element.CustomerType,
+        "loanOwnership": element.LoanOwnership
+      }
+      this.customerListForAddress.set(element.BorrowerSeq, obj);
     });
 
   }
@@ -1385,6 +1394,11 @@ export class RloCommonData {
       isSectionValid: true,
       errorMessage: ''
     }
+
+    if (this.globalApplicationDtls.isLoanCategory) {
+      return commonObj;
+    }
+
     if (this.globalApplicationDtls.isChannelApplication && !sectionData.has('RmVisitDetails')) {
       commonObj.isSectionValid = false;
       commonObj.errorMessage = 'Atleast 1 visit report';
