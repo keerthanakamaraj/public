@@ -220,6 +220,7 @@ export class GoldDetailsGridComponent implements AfterViewInit {
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 var loopDataVar10 = [];
+                let goldDetailsList = [];
                 let serviceObj = {
                     "name": "GoldLoanDetails",
                     "data": [],
@@ -246,6 +247,7 @@ export class GoldDetailsGridComponent implements AfterViewInit {
                         tempObj['GoldOrnamentType'] = loopVar10[i].GoldOrnamentType.text;
                         tempObj['GoldOrnamentType_ID'] = loopVar10[i].GoldOrnamentType.id;
                         loopDataVar10.push(tempObj);
+                        goldDetailsList.push(tempObj);
 
                         totalValue['GoldOrnamentType'] = 'Total';
                         totalValue['GoldDetailSeq'] = totalValue['GoldDetailSeq'] + loopVar10[i].GoldDetailSeq;
@@ -260,7 +262,7 @@ export class GoldDetailsGridComponent implements AfterViewInit {
                     loopDataVar10.push(totalValue);
                     console.log("new object", totalValue);
 
-                    serviceObj.data = loopDataVar10;
+                    serviceObj.data = goldDetailsList;
                 }
                 this.services.rloCommonData.globalComponentLvlDataHandler(serviceObj);
 

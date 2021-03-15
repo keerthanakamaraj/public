@@ -753,6 +753,7 @@ export class RloCommonData {
         this.validateLoanOrCreditCardSection(dataToValidate, isCategoryTypeLoan),
         this.validatePropertyDetailsSection(dataToValidate),
         this.validateFDDetailsSection(dataToValidate),
+        this.validateGoldDetailsSection(dataToValidate),
         // this.validateScoreCard(dataToValidate),
         // this.validatePolicyCheck(dataToValidate)
       ).subscribe((data) => {
@@ -961,7 +962,6 @@ export class RloCommonData {
       errorMessage: ''
     }
     if (this.globalApplicationDtls.TypeOfLoanCode == 'ML') {
-
       if (applicationData.has("PropertyDetails")) {
         let propertyDetails = applicationData.get("PropertyDetails");
         if (!propertyDetails[0].isValid) {
@@ -1402,6 +1402,22 @@ export class RloCommonData {
     if (this.globalApplicationDtls.isChannelApplication && !sectionData.has('RmVisitDetails')) {
       commonObj.isSectionValid = false;
       commonObj.errorMessage = 'Atleast 1 visit report';
+    }
+    return commonObj;
+  }
+
+  async validateGoldDetailsSection(applicationSectionData: Map<any, any>) {
+    let commonObj: IComponentSectionValidationData = {
+      isSectionValid: true,
+      errorMessage: ''
+    }
+
+    if (this.globalApplicationDtls.TypeOfLoanCode == 'GL') {
+      let hasGoldDetailsData = applicationSectionData.has("GoldLoanDetails");
+      if (!hasGoldDetailsData) {
+        commonObj.isSectionValid = false;
+        commonObj.errorMessage = "Please fill all the mandatory fields of gold details";
+      }
     }
     return commonObj;
   }

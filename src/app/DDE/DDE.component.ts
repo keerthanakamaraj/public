@@ -1595,7 +1595,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                 this.initiallyCustomersAdded = true;
             }
             else if (element.customerType == "CB") {
-              if (element.loanOwnership > 0 && this.formMenuObject.validCoBorrowerId == 0) {
+              if (this.formMenuObject.validCoBorrowerId == 0) {
                 this.progressStatusObject.manditorySection += 3;
                 this.formMenuObject.validCoBorrowerId = customerData.BorrowerSeq;
               }
@@ -1604,17 +1604,17 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             }
           });
 
-          switch (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode) {
-            case 'GL':
-            case 'AL':
-            case 'ML':
-              this.progressStatusObject.manditorySection += 1;
+          // switch (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode) {
+          //   case 'GL':
+          //   case 'AL':
+          //   case 'ML':
+          //     this.progressStatusObject.manditorySection += 1;
 
-              break;
+          //     break;
 
-            default:
-              break;
-          }
+          //   default:
+          //     break;
+          // }
 
           this.initiallyCustomersAdded = true;
         }
