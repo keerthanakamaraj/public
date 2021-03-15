@@ -433,10 +433,15 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.hideTypeofIncorp.setValue('CORPORATION_TYPE');
     this.hideEmbLineFlag.setValue('Y_N');
 
-
+    this.BAD_CUSTOMER_TYPE.setReadOnly(false);
+    // this.BAD_CUSTOMER_TYPE.setValue()
     this.EmbLine4.setHidden(true);
     this.CD_CIF.setHidden(true);
-    this.CD_CARD_CUST_TYPE.setReadOnly(true);
+    this.BAD_CBS_PROD_CD.setHidden(true);
+    this.BAD_CBS_PROD_CD.mandatory = false;
+    this.BAD_CARD_TYPE.setReadOnly(false);
+    // this.CD_CARD_CUST_TYPE.setReadOnly(false);
+   
 
     await this.Handler.onFormLoad({
     });
@@ -908,35 +913,35 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     // if (tempVar['CustomerType'] == 'C') {
     // this.BAD_PRIME_USAGE.setValue('OFFICE');
 
-    this.BAD_PRIME_USAGE.setStaticListOptions(this.FilterOptions);
-    let primeUsageMap = new Map();
-    primeUsageMap.set('QueryParam.lookup', 1);
-    primeUsageMap.set('QueryParam.PROD_CAT', "CC");
-    this.services.http.fetchApi('/MstApplnPurposeDetails', 'GET', primeUsageMap, '/olive/publisher/rlo-masters').subscribe(
-      async (httpResponse: HttpResponse<any>) => {
-        var res = httpResponse.body;
-        var cardList = res['Data'];
-        this.FilterOptions = [];
-        if (tempVar['CustomerType'] === 'C') {
-          cardList.forEach(element => {
-            if (element['id'] === 'OFFICE' && element['text'] === 'Office Expenses and Business Travel') {
-              this.FilterOptions.push({ id: element['id'], text: element['text'] });
-              this.BAD_PRIME_USAGE.setStaticListOptions(this.FilterOptions);
-              this.BAD_PRIME_USAGE.setValue(element['id']);
-            }
-          });
-        } else {
-          this.FilterOptions = [];
-          this.FilterOptions.push({ id: undefined, text: "" });
-          cardList.forEach(element => {
-            if (element['id'] !== 'OFFICE' && element['text'] !== 'Office Expenses and Business Travel') {
-              this.FilterOptions.push({ id: element['id'], text: element['text'] });
-            }
-          });
-          this.BAD_PRIME_USAGE.setStaticListOptions(this.FilterOptions);
-        }
-      }
-    );
+    // this.BAD_PRIME_USAGE.setStaticListOptions(this.FilterOptions);
+    // let primeUsageMap = new Map();
+    // primeUsageMap.set('QueryParam.lookup', 1);
+    // primeUsageMap.set('QueryParam.PROD_CAT', "CC");
+    // this.services.http.fetchApi('/MstApplnPurposeDetails', 'GET', primeUsageMap, '/olive/publisher/rlo-masters').subscribe(
+    //   async (httpResponse: HttpResponse<any>) => {
+    //     var res = httpResponse.body;
+    //     var cardList = res['Data'];
+    //     this.FilterOptions = [];
+    //     if (tempVar['CustomerType'] === 'C') {
+    //       cardList.forEach(element => {
+    //         if (element['id'] === 'OFFICE' && element['text'] === 'Office Expenses and Business Travel') {
+    //           this.FilterOptions.push({ id: element['id'], text: element['text'] });
+    //           this.BAD_PRIME_USAGE.setStaticListOptions(this.FilterOptions);
+    //           this.BAD_PRIME_USAGE.setValue(element['id']);
+    //         }
+    //       });
+    //     } else {
+    //       this.FilterOptions = [];
+    //       this.FilterOptions.push({ id: undefined, text: "" });
+    //       cardList.forEach(element => {
+    //         if (element['id'] !== 'OFFICE' && element['text'] !== 'Office Expenses and Business Travel') {
+    //           this.FilterOptions.push({ id: element['id'], text: element['text'] });
+    //         }
+    //       });
+    //       this.BAD_PRIME_USAGE.setStaticListOptions(this.FilterOptions);
+    //     }
+    //   }
+    // );
     // } //else{
     //   this.BAD_PRIME_USAGE.onReset();
     //   this.BAD_CARD_TYPE.onReset();
@@ -1635,6 +1640,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   async BAD_CUSTOMER_TYPE_change(fieldID, value) {
     this.setCustomerTypeOptions();
     this.toggleColumn();
+    this.CD_CARD_CUST_TYPE.setValue('B',undefined,true);
   }
 
 

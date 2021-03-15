@@ -315,10 +315,15 @@
                       placeholder="Select" domainObjectUrl="/MstApplnPurposeDetails/{ApplicationCd}" doServerUrl="/masters"
                       domainObjectCode="MstApplnPurposeDetails" (blur)="genericOnBlur('BAD_PRIME_USAGE', $event)">
                     </app-combo-box> -->
-                    <app-combo-box #BAD_PRIME_USAGE category="4" fieldID="BAD_PRIME_USAGE" placeholder="Select"
+                    <!-- <app-combo-box #BAD_PRIME_USAGE category="4" fieldID="BAD_PRIME_USAGE" placeholder="Select"
                       [formCode]="formCode" [emittedOptions]="FilterOptions"
                       (blur)="genericOnBlur('BAD_PRIME_USAGE', $event)">
-                    </app-combo-box>
+                    </app-combo-box> -->
+                    <app-combo-box #BAD_PRIME_USAGE category="2" fieldID="BAD_PRIME_USAGE" [formCode]="formCode"
+                    placeholder="Select" domainObjectUrl="/MstApplnPurposeDetails/{ApplicationCd}"
+                    doServerUrl="/masters" domainObjectCode="MstApplnPurposeDetails"
+                    (blur)="genericOnBlur('BAD_PRIME_USAGE', $event)">
+                  </app-combo-box>
                   </div>
                   <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide-line"> -->
                   <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>

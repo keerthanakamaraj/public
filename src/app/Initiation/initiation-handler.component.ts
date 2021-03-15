@@ -60,10 +60,12 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.CD_CARD_CUST_TYPE.mandatory = true;
       this.MainComponent.BAD_CARD_TYPE.mandatory = true;
       this.MainComponent.BAD_REQ_CARD_LIMIT.mandatory = true;
+      this.MainComponent.BAD_CUSTOMER_TYPE.setReadOnly(false);
       // this.MainComponent.BAD_SRC_CHANNEL.setValue("BRANCH");
       // this.MainComponent.BAD_CUSTOMER_TYPE.setValue("I");
       // this.MainComponent.CD_DEBIT_SCORE.isHidden
     } else {
+     
       this.MainComponent.isLoanCategory = true;
       this.MainComponent.CD_CUST_TYPE.setReadOnly(false);
       this.MainComponent.CD_CUST_TYPE.onReset();
