@@ -34,6 +34,7 @@ import { DecisionAlertComponent } from '../DecisionAlert/DecisionAlert.component
 import { InterfaceResultsComponent } from '../interface-results/interface-results.component';
 import { CustomerAvaliableCardsComponent } from '../customer-avaliable-cards/customer-avaliable-cards.component';
 import { BusinessDtlsFormComponent } from '../BusinessDtlsForm/BusinessDtlsForm.component';
+import { GoldDetailsComponent } from '../GoldDetails/GoldDetails.component';
 
 @Component({
   selector: 'app-popup-alert',
@@ -280,6 +281,9 @@ export class PopupAlertComponent implements OnInit {
       case 'BusinessDetails':
         return new AddSpecificComponent(BusinessDtlsFormComponent);
         break;
+      case 'GoldDetails':
+        return new AddSpecificComponent(GoldDetailsComponent);
+        break;
     }
   }
   // ngOnDestroy() {
@@ -301,6 +305,7 @@ export class PopupAlertComponent implements OnInit {
         break;
 
       case "AssetDetails":
+      case "GoldDetails":
         errorMsgEle[0].getElementsByClassName("errorMessagespan")[0].innerHTML = "";
 
         errorMsgClass = errorMsgEle[0].getElementsByClassName("error")[0];

@@ -784,7 +784,14 @@ export class GoldDetails implements IDeserializable {
     public common: Common;
 
     deserialize(input: any): this {
-        return Object.assign(this, input);
+        if (!input.length) {
+            return Object.assign(this, input);
+        } else {
+            let weightAndValue = this.getWeightAndValue(input);
+            // this.TotalWeight = weightAndValue.TotalWeight.toString();
+            // this.TotalValue = weightAndValue.TotalValue.toString();
+            return Object.assign(this, weightAndValue);
+        }
     }
 
     getCardData() {
@@ -799,16 +806,34 @@ export class GoldDetails implements IDeserializable {
                 title: "Total Value",
                 subTitle: this.TotalValue,
                 type: "basic",
-                modalSectionName: ""
+                modalSectionName: "",
+                formatToCurrency: true
             }
         ];
         const returnObj: IGeneralCardData = {
             name: "Gold Details",
-            modalSectionName: "",
+            modalSectionName: this.isSectionAvaliable(),
             data: fieldList,
             canShowModal: true
         };
         return returnObj;
+    }
+
+    isSectionAvaliable() {
+        if (this.TotalWeight == 'NA' || this.TotalWeight == "0" && this.TotalValue == 'NA' || this.TotalValue == '0') {
+            return ""
+        } else {
+            return "GoldDetails";
+        }
+    }
+
+    getWeightAndValue(goldList) {
+        let val = { TotalWeight: 0, TotalValue: 0 }
+        goldList.forEach(element => {
+            val.TotalWeight += element.TotalWeight;
+            val.TotalValue += element.TotalValue;
+        });
+        return val;
     }
 }
 
@@ -1535,7 +1560,13 @@ export class ApplicationDetails implements IDeserializable {
         this.CardDetails = new CardDetails().deserialize(input.UWCreditCard);
         // this.CardDetails.Branch = this.Branch;
 
-        this.GoldDetails = new GoldDetails().deserialize(input.UWIncomeSummary);
+        if (input.hasOwnProperty("UWGold")) {
+            this.GoldDetails = new GoldDetails().deserialize(input.UWGold)
+        }
+        else {
+            this.GoldDetails = new GoldDetails().deserialize([]);
+        }
+
         this.EducationDetails = new EducationDetails().deserialize(input.UWIncomeSummary);
 
         return this;
