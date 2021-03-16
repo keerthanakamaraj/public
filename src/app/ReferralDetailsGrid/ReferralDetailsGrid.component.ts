@@ -270,25 +270,25 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 
   }
   async RD_DELETE_click(event) {
-    let inputMap = new Map();
-    inputMap.clear();
-    inputMap.set('PathParam.BorrowerSeq', event.Referrer_ID);
-
     await this.services.rloCommonData.deleteConfirmationAlert('rlo.delete.comfirmation').then((response: any) => {
       if (response.id == 1) {
-        this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
-          async (httpResponse: HttpResponse<any>) => {
-            var res = httpResponse.body;
-            this.services.alert.showAlert(1, 'rlo.success.delete.referrer', 5000);
-            this.readonlyGrid.refreshGrid();
-          },
-          async (httpError) => {
-            var err = httpError['error']
-            if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+        let inputMap = new Map();
+        inputMap.clear();
+        inputMap.set('PathParam.BorrowerSeq', event.Referrer_ID);
+          this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
+            async (httpResponse: HttpResponse<any>) => {
+              var res = httpResponse.body;
+              this.services.alert.showAlert(1, 'rlo.success.delete.referrer', 5000);
+              this.readonlyGrid.refreshGrid();
+            },
+            async (httpError) => {
+              var err = httpError['error']
+              if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+              }
+              this.services.alert.showAlert(2, 'rlo.error.delete.referrer', -1);
             }
-            this.services.alert.showAlert(2, 'rlo.error.delete.referrer', -1);
-          }
-        );
+          );
+        
       }
     });
   }
