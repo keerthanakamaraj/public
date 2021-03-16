@@ -19,7 +19,7 @@ import { OccuptionDtlsGridComponent } from '../OccuptionDtlsGrid/OccuptionDtlsGr
 import { OccupationHandlerComponent } from '../OccupationDtlsForm/occupation-handler.component';
 import { RloUiAccordionComponent } from 'src/app/rlo-ui-accordion/rlo-ui-accordion.component';
 import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
-
+import { RloUtilService } from '../rlo-services/rloutil.service';
 const customCss: string = '';
 
 @Component({
@@ -126,7 +126,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     super.afterRevalidate();
     return totalErrors;
   }
-  constructor(services: ServiceStock) {
+  constructor(public rloutil: RloUtilService,services: ServiceStock) {
     super(services);
     this.value = new OccupationDtlsFormModel();
     this.componentCode = 'OccupationDtlsForm';

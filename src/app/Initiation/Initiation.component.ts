@@ -612,6 +612,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   async SEARCH_CUST_BTN_click(event) {
     this.searchbutton = 'Y';
     var noofErrors: number = await this.revalidate();
+
     console.log(this.SRC_MOBILE_NO.getFieldValue() == undefined, this.SRC_TAX_ID.getFieldValue() == undefined, this.SRC_CIF_NO.getFieldValue() == undefined)
     if (noofErrors == 0) {
       if (this.SRC_MOBILE_NO.getFieldValue() == undefined && this.SRC_TAX_ID.getFieldValue() == undefined && this.SRC_CIF_NO.getFieldValue() == undefined) {
@@ -660,8 +661,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     else {
       this.services.alert.showAlert(2, '', 3500, 'Please enter valid details');
     }
-
   }
+
   BAD_PHYSICAL_FRM_NO_blur() {
     let PhysicalFormNo = new Map();
 

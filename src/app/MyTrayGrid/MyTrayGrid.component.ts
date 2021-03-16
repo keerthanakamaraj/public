@@ -598,7 +598,7 @@ export class MyTrayGridComponent implements AfterViewInit {
     navPath = navPath.slice(1);
     inputMap.clear();
     const selectedData2 = this.readonlyGrid.getSelectedData();
-    if (selectedData2) {
+    if (selectedData2 != undefined) {
       let stageId = selectedData2['hiddenStageId'];
 
       // if(stageId !== "QDE" && stageId !== "DDE"){ // Restrict navigation other than QDE - Sprint -2
@@ -610,7 +610,10 @@ export class MyTrayGridComponent implements AfterViewInit {
       // if(stageId== "PRE-CPV"){
       //   stageId = "Underwriter";
       // }
-
+      //Approved Queue
+      if (stageId == "ApprovedQueue") {
+        return;
+      }
       if (stageId == "Underwriter") {
         stageId = "Underwriter";
       }
@@ -626,7 +629,7 @@ export class MyTrayGridComponent implements AfterViewInit {
     } else {
       // console.warn("Selected data not found");
       // this.services.alert.showAlert(4, 'rlo.error.feature.unavailable', 5000);
-      // return;
+      return;
     }
     this.services.dataStore.setRouteParams(this.services.routing.currModal, inputMap);
     if (this.services.routing.currModal > 0) {
