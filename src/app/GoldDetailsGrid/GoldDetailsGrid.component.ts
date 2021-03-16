@@ -295,26 +295,29 @@ export class GoldDetailsGridComponent implements AfterViewInit {
         let inputMap = new Map();
         inputMap.clear();
         inputMap.set('PathParam.ApplicationId', event.GoldDetailSeq);
-        if (confirm("Are you sure you want to Delete?")) {
-            this.services.http.fetchApi('/GoldDetails/{ApplicationId}', 'DELETE', inputMap, '/rlo-de').subscribe(
-                async (httpResponse: HttpResponse<any>) => {
-                    var res = httpResponse.body;
-                    this.services.alert.showAlert(1, 'rlo.success.delete.gold', 5000);
-
-                    // if (this.familyDetails.length == 1)
-                    //     this.services.rloCommonData.updateValuesFundLineGraph("remove");
-
-                    this.readonlyGrid.refreshGrid();
-                },
-                async (httpError) => {
-                    var err = httpError['error']
-                    if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+        await this.services.rloCommonData.deleteConfirmationAlert('rlo.delete.comfirmation').then((response: any) => {
+            if (response.id == 1) {
+                this.services.http.fetchApi('/GoldDetails/{ApplicationId}', 'DELETE', inputMap, '/rlo-de').subscribe(
+                    async (httpResponse: HttpResponse<any>) => {
+                        var res = httpResponse.body;
+                        this.services.alert.showAlert(1, 'rlo.success.delete.gold', 5000);
+    
+                        // if (this.familyDetails.length == 1)
+                        //     this.services.rloCommonData.updateValuesFundLineGraph("remove");
+    
+                        this.readonlyGrid.refreshGrid();
+                    },
+                    async (httpError) => {
+                        var err = httpError['error']
+                        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                        }
+                        this.services.alert.showAlert(2, 'rlo.error.delete.gold', -1);
                     }
-                    this.services.alert.showAlert(2, 'rlo.error.delete.gold', -1);
-                }
-            );
-        }
+                );
+            }
+        });
     }
+    
     loadSpinner = false;
     showSpinner() {
         this.loadSpinner = true;
