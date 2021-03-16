@@ -2,8 +2,6 @@
 // ng build ---prod replaces environment.ts with environment.prod.ts.
 // The list of file replacements can be found in angular.json.
 
-import { truncateWithEllipsis } from "@amcharts/amcharts4/.internal/core/utils/Utils";
-
 export const environment = {
   production: false,
   // baseURL: 'http://10.11.12.26:8180/olive/'
@@ -12,14 +10,14 @@ export const environment = {
   baseURL: 'https://rlfc.intellectseecapps.com', //LIVE
   // baseURL: 'http://10.11.10.42:20052',
   enableKeycloak: true,
-  //  authURL: 'https://iam.intellectseecapps.com/auth',
-  authURL: 'http://10.11.12.15:18080/auth',
+   authURL: 'https://iam.intellectseecapps.com/auth',
+  // authURL: 'http://10.11.12.15:18080/auth',
   //authURL: 'https://iam.intellectqacloud.com/auth', // QA
-  //  realm: 'ecpvdev',
+   realm: 'ecpvdev',
   // realm: 'dabank', // QA
-  // clientId: 'fabric',
-  realm: 'rlorealm',
-  clientId: 'rloclient',
+  clientId: 'fabric',
+  // realm: 'rlorealm',
+  // clientId: 'rloclient',
   redirectURL: 'http://localhost:1841/#/home/LANDING',
   arxAuthURL: 'http://tcldevapp173.intellectdesign.com:10751/ARXAL/AALIndex.jsp',
   arxLogoutURL: 'http://tcldevapp173.intellectdesign.com:10751/ARXAuth/AALLogout.jsp',
