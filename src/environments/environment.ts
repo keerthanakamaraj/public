@@ -7,7 +7,8 @@ export const environment = {
   // baseURL: 'http://10.11.12.26:8180/olive/'
   // baseURL: "http://10.11.12.19:18180" //Mumbai
   // baseURL: 'http://10.11.12.53:9090', // LOCAL
-  baseURL: 'https://rlfc.intellectseecapps.com', //LIVE
+  // baseURL: 'https://rlfc.intellectseecapps.com', //LIVE
+  baseURL: 'https://www.ifincloud.io', // fincloud
   // baseURL: 'http://10.11.10.42:20052',
   enableKeycloak: true,
    authURL: 'https://iam.intellectseecapps.com/auth',
@@ -50,19 +51,32 @@ export const environment = {
   // }
 
   //IUT
-  serviceMap: {
-    "default": "/initiation/publisher",
-    "/masters": "/masters/publisher",
-    "/ui": "/initiation/publisher",
-    "/los-wf": "/los-wf/rest",
-    "/initiation": "/initiation/publisher",
-    "/rlo-de": "/rlo-de/publisher",
-    "/los-integrator": "/los-integrator",
-    "/lettermangement": "/lettermangement/publisher",
-    "los-verification": "/los-verification",
-    "/common-de": "/common-de/publisher"
-  }
+  // serviceMap: {
+  //   "default": "/initiation/publisher",
+  //   "/masters": "/masters/publisher",
+  //   "/ui": "/initiation/publisher",
+  //   "/los-wf": "/los-wf/rest",
+  //   "/initiation": "/initiation/publisher",
+  //   "/rlo-de": "/rlo-de/publisher",
+  //   "/los-integrator": "/los-integrator",
+  //   "/lettermangement": "/lettermangement/publisher",
+  //   "los-verification": "/los-verification",
+  //   "/common-de": "/common-de/publisher"
+  // }
 
+  // fincloud - dev
+  serviceMap: {
+    'default': '/dev/initiation/publisher',
+    '/masters': '/dev/masters/publisher',
+    '/ui': '/dev/initiation/publisher',
+    '/los-wf': '/dev/los-wf/rest',
+    '/initiation': '/dev/initiation/publisher',
+    '/rlo-de': '/dev/rlo-de/publisher',
+    '/los-integrator': '/dev/los-integrator',
+    '/lettermangement' : '/dev/lettermangement/publisher',
+    '/common-de': '/dev/common-de',
+    '/los-verification': '/dev/common-de'
+  }
 
   // serviceMap : {
   //   "default" : "/initiation/publisher",

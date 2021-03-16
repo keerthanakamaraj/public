@@ -60,7 +60,7 @@ service:
 env:
 ingress:    
   enabled: true
-  path: "/rlo/"
+  path: "/dev/rlo/"
   annotations: 
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "true"
@@ -69,11 +69,11 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-buffering: "on"
     nginx.ingress.kubernetes.io/proxy-buffers: 128k
   hosts:
-    - "*.intellectseecapps.com"
+    - "*.ifincloud.io"
   tls:
   - secretName: tls-certificate-key-secret
     hosts:
-      - "*.intellectseecapps.com"
+      - "*.ifincloud.io"
 
 nodeSelector: {}
 
