@@ -1343,15 +1343,15 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         const section = element[i];
         section.isActive = false;
         // if (!this.isLoanCategory) {//ie. loan type credit card
-        if (section.id == "CreditCardDetails") {
-          if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == "CC") {
-            section.isOptional = false;
-            this.progressStatusObject.manditorySection += 1;
-          } else {
-            element.splice(i, 1);
-            i--;
-          }
-        }
+        // if (section.id == "CreditCardDetails") {
+        //   if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == "CC") {
+        //     section.isOptional = false;
+        //     this.progressStatusObject.manditorySection += 1;
+        //   } else {
+        //     element.splice(i, 1);
+        //     i--;
+        //   }
+        // }
         if (section.id == "LoanDetails" && section.isOptional) {
           if (this.isLoanCategory) {
             section.isOptional = false;
@@ -1556,7 +1556,6 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
           this.progressStatusObject.manditorySection += 1;
           this.progressStatusObject.manditorySection += initialAllCustomerList.size * 2;
-
         }
         break;
 
@@ -2275,8 +2274,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         }
         this.services.rloCommonData.customerListForAddress.set(borrowerSeq, obj);
         console.log("customerListForAddress", this.services.rloCommonData.customerListForAddress);
-        if (!this.isLoanCategory)
-          this.additionAddressDetailsApiCall(borrowerSeq);
+        // if (!this.isLoanCategory)
+        // this.additionAddressDetailsApiCall(borrowerSeq);
       }
   }
 
