@@ -32,6 +32,7 @@ import { DecisionAlertModule } from '../DecisionAlert/DecisionAlert.module';
 import { InterfaceResultsModule } from '../interface-results/interface-results.module';
 import { CustomerAvaliableCardsModule } from '../customer-avaliable-cards/customer-avaliable-cards.module';
 import { BusinessDtlsFormModule } from '../BusinessDtlsForm/BusinessDtlsForm.module';
+import { GoldDetailsModule } from '../GoldDetails/GoldDetails.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -63,6 +64,7 @@ import { BusinessDtlsFormModule } from '../BusinessDtlsForm/BusinessDtlsForm.mod
         InterfaceResultsModule,
         CustomerAvaliableCardsModule,
         BusinessDtlsFormModule,
+        GoldDetailsModule,
         TranslateModule.forChild({
             loader: {
                 provide: TranslateLoader,

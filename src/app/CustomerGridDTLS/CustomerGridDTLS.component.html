@@ -114,8 +114,8 @@
   <div class="customer-container col-12 col-sm-12 col-md-12">
     <div class="cust-group col-12 col-sm-3 col-md-3">
       <div class="cust-header">
-        <span class="cust-tag">{{ 'CustomerGridDTLS.BorrowerTag' | translate }}</span>
-        <span class="cust-label">{{ 'CustomerGridDTLS.BorrowerLabel' | translate }}</span>
+        <span class="cust-tag"  >{{MstDynamicData.PrimaryTag}}</span>
+      <span class="cust-label">{{MstDynamicData.PrimaryLabel}}</span>
       </div>
       <div class="cust-list">
         <div *ngFor="let customer of customerTypeMap.get('B')" [ngClass]="{'active' : customer.editing }"
@@ -133,8 +133,8 @@
     </div>
     <div class="cust-group col-12 col-sm-3 col-md-3">
       <div class="cust-header">
-        <span class="cust-tag">{{ 'CustomerGridDTLS.CoBorrowerTag' | translate }}</span>
-        <span class="cust-label">{{ 'CustomerGridDTLS.CoBorrowerLabel' | translate }}</span>
+        <span class="cust-tag">{{MstDynamicData.SecondaryTag}}</span>
+      <span class="cust-label">{{MstDynamicData.SecondaryLabel}}</span>
         <span class="cust-add" (click)="doReset('CB')" [hidden]="!PlusFlag" *ngIf="!readOnly">
           <img src="assets/icons/add_plus.png" />
         </span>
@@ -163,8 +163,8 @@
     </div>
     <div class="cust-group col-12 col-sm-3 col-md-3">
       <div class="cust-header">
-        <span class="cust-tag">{{ 'CustomerGridDTLS.GuarantorTag' | translate }}</span>
-        <span class="cust-label">{{ 'CustomerGridDTLS.GuarantorLabel' | translate }}</span>
+        <span class="cust-tag">{{MstDynamicData.TertiaryTag}}</span>
+      <span class="cust-label">{{MstDynamicData.TertiaryLabel}}</span>
         <span class="cust-add" (click)="doReset('G')" [hidden]="!isLoanCategory" *ngIf="!readOnly">
           <img src="assets/icons/add_plus.png" />
         </span>
@@ -190,8 +190,8 @@
     </div>
     <div class="cust-group col-12 col-sm-3 col-md-3">
       <div class="cust-header">
-        <span class="cust-tag">{{ 'CustomerGridDTLS.OtherPartyTag' | translate }}</span>
-        <span class="cust-label">{{ 'CustomerGridDTLS.OtherPartyLabel' | translate }}</span>
+        <span class="cust-tag">{{MstDynamicData.QuaternaryTag}}</span>
+        <span class="cust-label">{{MstDynamicData.QuaternaryLabel}}</span>
         <span class="cust-add" (click)="doReset('OP')" [hidden]="!isLoanCategory" *ngIf="!readOnly">
           <img src="assets/icons/add_plus.png" />
         </span>

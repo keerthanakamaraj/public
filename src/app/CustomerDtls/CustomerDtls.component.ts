@@ -171,7 +171,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.revalidateBasicField('CD_TITLE', false, showErrors),
         this.revalidateBasicField('CD_FIRST_NAME', false, showErrors),
         this.revalidateBasicField('CD_MIDDLE_NAME', false, showErrors),
-        this.revalidateBasicField('CD_THIRD_NAME', false, showErrors),
+        // this.revalidateBasicField('CD_THIRD_NAME', false, showErrors),
         this.revalidateBasicField('CD_LAST_NAME', false, showErrors),
         this.revalidateBasicField('CD_FULL_NAME', false, showErrors),
         this.revalidateBasicField('CD_DOB', false, showErrors),
@@ -192,12 +192,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.revalidateBasicField('CD_CUST_SEGMENT', false, showErrors),
         this.revalidateBasicField('CD_LOAN_OWN', false, showErrors),
         //   this.revalidateBasicField('CD_PRIME_USAGE', false, showErrors),
-        this.revalidateBasicField('CD_PMRY_EMBSR_NAME', false, showErrors),
+        // this.revalidateBasicField('CD_PMRY_EMBSR_NAME', false, showErrors),
         this.revalidateBasicField('CD_PREF_COM_CH', false, showErrors),
         this.revalidateBasicField('CD_PREF_LANG', false, showErrors),
-        this.revalidateBasicField('MaidenName', false, showErrors),
-        this.revalidateBasicField('RequestedAmountLimit', false, showErrors),
-        this.revalidateBasicField('EmbLine4', false, showErrors),
+        // this.revalidateBasicField('MaidenName', false, showErrors),
+        // this.revalidateBasicField('RequestedAmountLimit', false, showErrors),
+        // this.revalidateBasicField('EmbLine4', false, showErrors),
         //this.revalidateBasicField('CD_COUNTRY_CODE'),
         // this.FieldId_29.revalidate(),
         // this.FieldId_30.revalidate(),
@@ -240,6 +240,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.hideTypeofIncorp.setValue('CORPORATION_TYPE');
     if (this.isLoanCategory != undefined && 'C' != this.services.rloCommonData.globalApplicationDtls.CustomerType) {
       this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
+    }
+    else{
+      this.hideCustomerType.setValue('CUSTOMER_TYPE');
     }
 
     this.hideCitizenship.setValue('CITIZENSHIP');
@@ -989,6 +992,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     const customer = customerDtlsObj;
     // this.dispalyAddonField(customer.CustomerType);
     //console.log("*****LoadCustomerDetailsonFormLoad", customerDtlsObj);
+    if(this.isLoanCategory){
+      this.CD_CUST_TYPE.setValue(customer.CustomerType, undefined, true)
+    }
+    else{
+      this.CD_CARD_CUST_TYPE.setValue(customer.CustomerType, undefined, true);
+    }
     this.showHideCustSegment(customer.CustomerType);
 
     // const customer = customerDtlsObj;
@@ -1055,7 +1064,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
 
     this.activeBorrowerSeq = customer.BorrowerSeq;
-    this.CD_CARD_CUST_TYPE.setValue(customer.CustomerType, undefined, true);
 
     this.ManageCardTypeBasedFields(customer.CustomerType); //called for canara
     if (customer.CustomerType == 'B') {
@@ -1452,16 +1460,16 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     //   ]
     // },
 
-    // CD_CUST_TYPE: {
-    //   inDep: [
+    CD_CUST_TYPE: {
+      inDep: [
 
-    //     { paramKey: "VALUE1", depFieldID: "CD_CUST_TYPE", paramType: "PathParam" },
-    //     { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-    //     { paramKey: "KEY1", depFieldID: "hideCustomerType", paramType: "QueryParam" },
-    //   ],
-    //   outDep: [
-    //   ]
-    // },
+        { paramKey: "VALUE1", depFieldID: "CD_CUST_TYPE", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hideCustomerType", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
 
 
     CD_CUST_SEGMENT: {

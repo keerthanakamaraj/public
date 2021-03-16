@@ -69,11 +69,11 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         // { className: "GoldDetails" },
         // { className: "EducationDetails" },
         { className: "PropertyDetails" },
-        // { className: "GoNoGoDetails" },
+        { className: "GoNoGoDetails" },
         { className: "ApplicationDetails" },
 
         { className: "ReferalDetails" },
-        // { className: "Notes" }, // changes for canara bank
+        { className: "Notes" }, // changes for canara bank
       ]
     }
   ];
@@ -359,16 +359,16 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   //@Output
   broadcastProdCategory(event) {
-   
+
     let globlaObj = this.services.rloCommonData.globalApplicationDtls;
 
     this.isLoanCategory = event.isLoanCategory;
     //changes for canara
-    // if (globlaObj.TypeOfLoanCode == "CC") {
-    //   if (globlaObj.LoanAmount != undefined) {
-    //     this.maxCardLimit = globlaObj.LoanAmount;
-    //   }
-    // }
+    if (globlaObj.TypeOfLoanCode == "CC") {
+      if (globlaObj.LoanAmount != undefined) {
+        this.maxCardLimit = globlaObj.LoanAmount;
+      }
+    }
     //changes for canara
     this.getUnderWriterData();
   }
@@ -418,7 +418,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
-    // this.applicationId = 8776; //6633
+    // this.applicationId = 5694; //5689(tony stark) 5694(raj)
 
     if (this.userId === undefined || this.userId == '') {
       this.claimTask(this.taskId);
@@ -643,17 +643,20 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             this.customerCardDataWithFields.borrowerSeq = this.borrowerSeq;
             this.customerCardDataWithFields.componentCode = this.componentCode;
 
-            if (singleCustomer.CustomerType == "B") {
-              this.customerCardDataWithFields.accountDetails = singleCustomer['AccountDetails'].getTableData();
+            let cardDetails = singleCustomer['AccountDetails'].getTableData();
+            if (cardDetails.length) {
+              this.customerCardDataWithFields.accountDetails = cardDetails;
             }
             else {
               this.customerCardDataWithFields.accountDetails = [];
             }
 
+            let typeOfLoan = this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode;
+            let fieldsArray = this.customerCardDataWithFields.data;
+
             if (this.customerMasterJsonData.productCategory == 'CC' && this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
               const moment = require('moment');
               let DOI = moment(singleCustomer.DateOfIncorporation).format('DD-MM-YYYY');
-              let fieldsArray = this.customerCardDataWithFields.data;
               if (singleCustomer.CustomerType == "B") {
                 fieldsArray[0].title = "Registered Name";
                 fieldsArray[0].subTitle = singleCustomer.RegisteredName;
@@ -663,10 +666,12 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
                 fieldsArray[3].title = "Applicant Type";
                 fieldsArray[3].subTitle = "Corporate";
-              }else{
+              } else {
                 fieldsArray[3].title = "Applicant Type";
                 fieldsArray[3].subTitle = "Member";
               }
+            } else if (typeOfLoan == 'AL' || typeOfLoan == 'GL' || typeOfLoan == 'ML' || typeOfLoan == 'PL') {
+              fieldsArray[3].title = "Customer Type";
             }
 
             console.error(this.customerCardDataWithFields);
@@ -812,7 +817,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             data.borrowerSeq = this.borrowerSeq;
             data.componentCode = this.componentCode;
             customCustomerList = [];
-             if (this.customerList.length) {
+            if (this.customerList.length) {
               this.customerList.forEach(element => {
                 let obj = {};
                 obj["BorrowerSeq"] = element.BorrowerSeq;
@@ -823,9 +828,9 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
               })
             }
             data.customerList = customCustomerList;
-           console.log("debug :: ",data);
+            console.log("debug :: ", data);
             this.aCardDataWithFields.push(data);
-            console.log("debug 2:: ",this.aCardDataWithFields);
+            console.log("debug 2:: ", this.aCardDataWithFields);
             break;
 
           case "ReferalDetails":

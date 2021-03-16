@@ -51,8 +51,7 @@
               </label>
             </div>
             <app-combo-box #BuilderName category="2" fieldID="BuilderName" [formCode]="formCode"
-            domainObjectUrl="/MstBuilderDetails/{BuilderSeq}" doServerUrl="/masters"
-            domainObjectCode="MstBuilderDetails"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               placeholder="select" (blur)="genericOnBlur('BuilderName', $event)"></app-combo-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ProjectName.isHidden()">
@@ -178,13 +177,8 @@
                 {{ 'PropertyDetails.CostOfProperty' | translate}}
               </label>
             </div>
-            <!-- <app-amount #CostOfProperty fieldID="CostOfProperty" [formCode]="formCode"
-              (blur)="genericOnBlur('CostOfProperty', $event)"></app-amount> -->
-
-            <app-rlo-ui-currency #CostOfProperty fieldID="CostOfProperty" [currencyReadOnly]="true"
-              [componentFieldId]="'CostOfProperty'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
-              [formCode]="formCode"></app-rlo-ui-currency>
-
+            <app-amount #CostOfProperty fieldID="CostOfProperty" [formCode]="formCode"
+              (blur)="genericOnBlur('CostOfProperty', $event)"></app-amount>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PropertyInsuranceCost.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -192,13 +186,8 @@
                 {{ 'PropertyDetails.PropertyInsuranceCost' | translate}}
               </label>
             </div>
-            <!-- <app-amount #PropertyInsuranceCost fieldID="PropertyInsuranceCost" [formCode]="formCode"
-              (blur)="genericOnBlur('PropertyInsuranceCost', $event)"></app-amount> -->
-
-            <app-rlo-ui-currency #PropertyInsuranceCost fieldID="PropertyInsuranceCost" [currencyReadOnly]="true"
-              [componentFieldId]="'PropertyInsuranceCost'" (onBlurEvent)="customGenericOnBlur($event)"
-              [inputReadOnly]="readOnly" [formCode]="formCode"></app-rlo-ui-currency>
-
+            <app-amount #PropertyInsuranceCost fieldID="PropertyInsuranceCost" [formCode]="formCode"
+              (blur)="genericOnBlur('PropertyInsuranceCost', $event)"></app-amount>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SelectToCapitalizeProperty.isHidden()"
             [ngClass]="'checkboxLeft'">
@@ -218,13 +207,8 @@
                 {{ 'PropertyDetails.PersonalInsuranceCost' | translate}}
               </label>
             </div>
-            <!-- <app-amount #PersonalInsuranceCost fieldID="PersonalInsuranceCost" [formCode]="formCode"
-              (blur)="genericOnBlur('PersonalInsuranceCost', $event)"></app-amount> -->
-
-            <app-rlo-ui-currency #PersonalInsuranceCost fieldID="PersonalInsuranceCost" [currencyReadOnly]="true"
-              [componentFieldId]="'PersonalInsuranceCost'" (onBlurEvent)="customGenericOnBlur($event)"
-              [inputReadOnly]="readOnly" [formCode]="formCode"></app-rlo-ui-currency>
-
+            <app-amount #PersonalInsuranceCost fieldID="PersonalInsuranceCost" [formCode]="formCode"
+              (blur)="genericOnBlur('PersonalInsuranceCost', $event)"></app-amount>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SelectToCapitalizePersonal.isHidden()"
             [ngClass]="'checkboxLeft'">
@@ -470,13 +454,8 @@
 
               </label>
             </div>
-            <!-- <app-amount #DownPaymentAmount fieldID="DownPaymentAmount" [formCode]="formCode"
-              (blur)="genericOnBlur('DownPaymentAmount', $event)"></app-amount> -->
-
-            <app-rlo-ui-currency #DownPaymentAmount fieldID="DownPaymentAmount" [currencyReadOnly]="true"
-              [componentFieldId]="'DownPaymentAmount'" (onBlurEvent)="customGenericOnBlur($event)"
-              [inputReadOnly]="readOnly" [formCode]="formCode"></app-rlo-ui-currency>
-
+            <app-amount #DownPaymentAmount fieldID="DownPaymentAmount" [formCode]="formCode"
+              (blur)="genericOnBlur('DownPaymentAmount', $event)"></app-amount>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="DownPayment.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -494,13 +473,8 @@
                 {{ 'PropertyDetails.AmountToBeFinanced' | translate}}
               </label>
             </div>
-            <!-- <app-amount #AmountToBeFinanced fieldID="AmountToBeFinanced" [formCode]="formCode"
-              (blur)="genericOnBlur('AmountToBeFinanced', $event)"></app-amount> -->
-
-            <app-rlo-ui-currency #AmountToBeFinanced fieldID="AmountToBeFinanced" [currencyReadOnly]="true"
-              [componentFieldId]="'AmountToBeFinanced'" (onBlurEvent)="customGenericOnBlur($event)"
-              [inputReadOnly]="true" [formCode]="formCode"></app-rlo-ui-currency>
-
+            <app-amount #AmountToBeFinanced fieldID="AmountToBeFinanced" [formCode]="formCode"
+              (blur)="genericOnBlur('AmountToBeFinanced', $event)"></app-amount>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MoratoriumPeriod.isHidden()">
             <div class="clr-brown fieldLegend">

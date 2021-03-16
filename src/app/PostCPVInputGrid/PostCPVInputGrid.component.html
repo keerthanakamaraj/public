@@ -3,7 +3,10 @@
     <h4>{{ 'PostCPVInputGrid.GridTitle' | translate }}</h4>
   </div> -->
 </div>
-<table class="rlo-ip-table" [ngStyle]="{'table-layout': (getRowsCount()>0)?'fixed':'auto'}"
+<!-- <table class="rlo-ip-table" [ngStyle]="{'table-layout': (getRowsCount()>0)?'fixed':'auto'}"
+  [ngClass]="{'gridError':error}" (click)="clearGridError()"> -->
+  <div class="withscroll">
+<table class="rlo-ip-table cpv-ip-tbl" [ngStyle]="{'table-layout': (getRowsCount()>0)?'fixed':'auto'}"
   [ngClass]="{'gridError':error}" (click)="clearGridError()">
   <thead>
     <tr class="tr-blue tr-td-l">
@@ -149,7 +152,7 @@
             </p>
           </div>
         </td>
-        <td [hidden]="isColumnHidden('SaveVrfn')">
+        <td [hidden]="isColumnHidden('SaveVrfn')" [ngStyle]="{'padding-top':'1.51rem'}">
           <app-button #SaveVrfn fieldName="{{ 'PostCPVInputGrid.SaveVrfn' | translate}}" fieldID="SaveVrfn_{{rowNo}}"
             [formCode]="formCode" customClass="btn cpv-initiate-btn" (buttonClick)="SaveVrfn_click(rowNo,$event)">
           </app-button>
@@ -181,6 +184,7 @@
     </ng-container>
   </tbody>
 </table>
+</div>
 <span class="errorMessagespan">{{errorCode| translate}}</span>
 
 <!-- <app-hidden #hidCompletionResult fieldID="hidCompletionResult"></app-hidden> -->

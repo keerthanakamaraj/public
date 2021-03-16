@@ -54,6 +54,7 @@ export class PreCPVComponent extends FormComponent implements OnInit, AfterViewI
   @ViewChild('hideDirection', { static: false }) hideDirection: HiddenComponent;
   @ViewChild('PreCPV_CLOSE', { static: false }) PreCPV_CLOSE: ButtonComponent;
   @ViewChild('PreCPVGrid', { static: false }) PreCPVGrid: PreCPVInputGridComponent;
+  // @ViewChild('HideTaskId', { static: false }) HideTaskId: HiddenComponent;
 
   showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
   ApplicationId: any;
@@ -101,10 +102,6 @@ export class PreCPVComponent extends FormComponent implements OnInit, AfterViewI
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
-      this.ApplicationId = '3322';
-      this.services.rloCommonData.globalApplicationDtls.ARN='1030MOR08840990'
-    //  this.ApplicationId = '3722';
-
     this.PreCPVGrid.ApplicationId = this.ApplicationId;
     //this.PreCPVGrid.fetchDefaultData();
     if (this.userId === undefined || this.userId === '') {
@@ -115,8 +112,45 @@ export class PreCPVComponent extends FormComponent implements OnInit, AfterViewI
   }
 
   async claimTask(taskId) {
-    console.log("claim task called");
+    const inputMap = new Map();
+    inputMap.clear();
+    inputMap.set('Body.UserId', sessionStorage.getItem('userId'));
+    inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
+    inputMap.set('Body.TaskId', taskId);
+    inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
+    inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
+    this.services.http.fetchApi('/ClaimTask', 'POST', inputMap, '/los-wf').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        const res = httpResponse.body;
+
+        if (res.Status == 'S') {
+          this.services.alert.showAlert(1, 'rlo.success.claim.dde', 5000);
+          this.userId = sessionStorage.getItem('userId')
+        } else {
+          this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
+        }
+      },
+      async (httpError) => {
+        const err = httpError['error'];
+        if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+          if (err['ErrorElementPath'] === 'ServiceCode') {
+            this.HideServiceCode.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'ProcessId') {
+            this.HideProcessId.setError(err['ErrorDescription']);
+          // } else if (err['ErrorElementPath'] === 'TaskId') {
+          //   this.HideTaskId.setError(err['ErrorDescription']);
+          // 
+          } else if (err['ErrorElementPath'] === 'TENANT_ID') {
+            this.HideTenantId.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'UserId') {
+            this.HideUserId.setError(err['ErrorDescription']);
+          }
+        }
+        this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
+      }
+    );
   }
+  
   setInputs(param: any) {
     let params = this.services.http.mapToJson(param);
     if (params['mode']) {
@@ -201,25 +235,108 @@ export class PreCPVComponent extends FormComponent implements OnInit, AfterViewI
   goBack() {
     this.services.rloui.goBack();
   }
+  isPreCpvStageValid(){
+    return true;
+  }
 
+  submitPreCPV(requestParams){
+    const inputMap = new Map();
+
+    inputMap.clear();
+    inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
+    inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
+    inputMap.set('Body.TaskId', this.taskId);
+    inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
+    inputMap.set('Body.UserId', this.userId);
+    inputMap.set('Body.CurrentStage', this.HideCurrentStage.getFieldValue());
+    inputMap.set('Body.ApplicationId', this.ApplicationId);
+    inputMap.set('Body.CreatedBy', this.userId);
+    inputMap.set('Body.ProductCategory', this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode);
+
+
+    if (requestParams) {
+      requestParams.forEach((val, key) => {
+        inputMap.set(key, val);
+      });
+    } else {
+      return;
+    }
+
+    this.services.http.fetchApi('/acceptPreCPV', 'POST', inputMap, '/rlo-de').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        const res = httpResponse.body;
+
+        const action: string = (requestParams.get('Body.ApplicationStatus')).toUpperCase();
+
+        let alertMsg = 'rlo.success.submit';
+        switch (action) {
+          case 'WITHDRAW':
+            alertMsg = 'rlo.success.withdraw';
+            break;
+          case 'REJECT':
+            alertMsg = 'rlo.success.reject';
+            break;
+          default:
+            alertMsg = 'rlo.success.submit';
+            break;
+        }
+
+        // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
+        var mainMessage = this.services.rloui.getAlertMessage(alertMsg);
+        var button1 = this.services.rloui.getAlertMessage('', 'OK');
+        // var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+        Promise.all([mainMessage, button1]).then(values => {
+          console.log(values);
+          let modalObj = {
+            title: "Alert",
+            mainMessage: values[0],
+            modalSize: "modal-width-sm",
+            buttons: [
+              { id: 1, text: values[1], type: "success", class: "btn-primary" },
+              //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+            ]
+          }
+
+          console.log("deep ===", modalObj);
+          this.services.rloui.confirmationModal(modalObj).then((response) => {
+            console.log(response);
+            if (response != null) {
+              if (response.id === 1) {
+                this.services.router.navigate(['home', 'LANDING']);
+              }
+            }
+          });
+        });
+      },
+      async (httpError) => {
+        const err = httpError['error'];
+        if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+          if (err['ErrorElementPath'] === 'CurrentStage') {
+            this.HideCurrentStage.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'UserId') {
+            this.HideUserId.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'TENANT_ID') {
+            this.HideTenantId.setError(err['ErrorDescription']);
+          }
+          this.services.alert.showAlert(2, 'Fail to Submit', -1);
+        }
+      }
+    );
+  }
   // async PreCPV_SUBMIT_click(event) {
-  //   console.log("submit clicked");
-  // }
-  // async PreCPV_WITHDRAW_click(event) {
-  //   console.log("withdraw clicked");
-  // }
+  //   const requestParams = new Map();
 
+  //   if(this.isPreCpvStageValid()) {
+  //       requestParams.set('Body.ApplicationStatus', 'AP');
+  //       requestParams.set('Body.direction', 'AP');
+  //       this.submitPreCPV(requestParams);
+  //     }
+  //   }
 
-  // async PreCPV_SENDBACK_click(event) {
-  //   console.log("sendback clicked")
-  // }
-
-  // async PreCPV_CLOSE_click(event) {
-  //   console.log("close clicked");
-  // }
-
+  
   broadcastProdCategory(event) {
-   
+    //console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
     // let globlaObj = this.services.rloCommonData.globalApplicationDtls;
     this.isLoanCategory = event.isLoanCategory;
   }

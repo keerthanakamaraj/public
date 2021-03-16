@@ -1994,8 +1994,8 @@ rlo-ui-card-field {
 }
 
 .header-expanded-dde {
-  // margin-top: 127px !important;
-  margin-top: 66px !important; //Changes for canara bank
+  margin-top: 127px !important;
+  // margin-top: 66px !important; //Changes for canara bank
 }
 
 .header-expanded-qde {
@@ -2857,7 +2857,7 @@ rlo-ui-card-field {
   margin-bottom: 18px;
   padding: 0;
   height: 3.5em;
-  margin-top: 66px !important;
+  // margin-top: 66px !important;//Canara bank changes
 
   .wgt-doc-upload {
     top: 0;
@@ -3416,7 +3416,7 @@ rlo-ui-card-field {
   }
 
   .scroll-margin {
-    margin-top: 50px;
+    margin-top: 4.5rem  
   }
 
   .relationship-pannel {
@@ -4062,7 +4062,14 @@ rlo-ui-card-field {
 /*input grid css start*/
 // .lyt-ip-grid {
 //   padding: 0px;
-
+.withscroll {
+  //	width: 800px;
+    overflow-x: scroll;
+  //	white-space: nowrap;
+  }
+  .cpv-ip-tbl{
+    width: 1850px;
+  }
 .rlo-ip-table {
   thead:first-child {
     tr:first-child {

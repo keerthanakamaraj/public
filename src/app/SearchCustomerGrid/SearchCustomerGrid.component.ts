@@ -191,6 +191,21 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       CustomClass: 'btn-edit',
       onClick: this.CmsDetails_click.bind(this),
     }
+  },
+  {
+    field: "LmsDetails",
+    width: 12,
+    sortable: true,
+    resizable: true,
+    cellStyle: { 'text-align': 'left' },
+    filter: "agTextColumnFilter",
+    filterParams: {
+      suppressAndOrCondition: true,
+      applyButton: true,
+      clearButton: true,
+      filterOptions: ["contains"],
+      caseSensitive: true,
+    },
   }
     // {
     //   width: 12,
@@ -246,6 +261,21 @@ export class SearchCustomerGridComponent implements AfterViewInit {
     "ErrCode": "",
     "ErrMsg": ""
   }
+
+  cmsDetails = [
+    {
+      AvailableLimit: "12490.27",
+      CardEmbossingDate: "200505",
+      CardStatus: "ACTIVE",
+      CashLimit: "50000",
+      CreditLimit: "50000",
+      MaskedCardNo: "494611******6005",
+      ProductClass: "Classic",
+      ProductFranchise: "VISA",
+      ProductName: "Visa Global",
+      ProductType: "24200"
+    }
+  ];
 
   constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef, public activeModal: NgbActiveModal, public router: Router, public http: ProvidehttpService) { }
 
@@ -430,9 +460,10 @@ export class SearchCustomerGridComponent implements AfterViewInit {
             this.documentCount = loopDataVar7.length;
             this.readonlyGrid.apiSuccessCallback(params, loopDataVar7);
           } else {
+            this.recordsFound = false;
             this.hideGridData();
           }
-          
+
         });
     }
     else {
@@ -442,71 +473,95 @@ export class SearchCustomerGridComponent implements AfterViewInit {
 
       this.services.rloCommonData.getSearchedCustomerData(this.customSearchObj.searchType, inputMap)
         .then((response: any) => {
+          let errorResponse = { msg: "Error occured while processing the request", interfaceId: "CUSTOMER_SEARCH", errorcode: "0000", status: "F" }
           console.log("Deep | Response", response);
           if (response != null) {
-            this.recordsFound = true;
-            var loopVar7 = response.outputdata.CustomerList;
-            loopVar7.forEach(element => {
-              element['CMS'] = 'N'
-            });
-            this.getMultipleCifId(loopVar7, params); // Addon and limit enhance
-            this.documentCount = 0;
+            if (response.status == "S") {
+              this.recordsFound = true;
+              var loopVar7 = response.outputdata.CustomerList;
+              loopVar7.map((element, index) => {
+                element['CMS'] = 'N';
+                element['LMS'] = 'N';
+                element['CMSDetailsList'] = [];
+                element['showCardDetailsModal'] = false;
+                if (index < 5) {
+                  element['CMSDetailsList'] = this.cmsDetails;
+                  element['CMS'] = 'Y';
 
-            var loopDataVar7 = [];
-            if (loopVar7) {
-              for (var i = 0; i < loopVar7.length; i++) {
-                var tempObj = {};
-                tempObj['TaxID'] = loopVar7[i].TaxId;
-                tempObj['Customer'] = loopVar7[i].CustomerType == "I" ? loopVar7[i].FullName : loopVar7[i].RegisteredName;
-                tempObj['AccNo'] = loopVar7[i].AccountNumber;
-                //tempObj['AccVintage'] = loopVar7[i].AccountVintage;
-                tempObj['AccType'] = loopVar7[i].AccountType;
-                tempObj['Status'] = loopVar7[i].ApplicationStatus;
-                tempObj['Mobile'] = loopVar7[i].MobileNumber;
-                tempObj['Cif'] = loopVar7[i].ExistingCIF;
-                tempObj['Dob'] = loopVar7[i].DateOfBirth;
-                tempObj['FirstName'] = loopVar7[i].FirstName;
-                tempObj['MiddleName'] = loopVar7[i].MiddleName;
-                tempObj['LastName'] = loopVar7[i].LastName;
-                tempObj['Title'] = loopVar7[i].Title;
-                tempObj['Gender'] = loopVar7[i].Gender;
-                tempObj['EmailID'] = loopVar7[i].EmailID;
-                tempObj['NameOnCard'] = loopVar7[i].NameOnCard;
-                tempObj['ICIF'] = loopVar7[i].ICIF;
-                tempObj['AppRefNum'] = loopVar7[i].AppRefNum;
-                tempObj['CBSProductCode'] = loopVar7[i].CBSProductCode;
-                tempObj['StaffID'] = loopVar7[i].StaffID;
-                tempObj['CustomerType'] = loopVar7[i].CustomerType;
-                tempObj['Branch'] = loopVar7[i].Branch;
-                tempObj['RegisteredName'] = loopVar7[i].RegisteredName;
-                tempObj['DateOfIncorporation'] = loopVar7[i].DateOfIncorporation;
-                tempObj['TypeOfIncorporation'] = loopVar7[i].TypeOfIncorporation;
-                // tempObj['CreditCard'] = loopVar7[i].CreditCard;
-                tempObj['CmsDetails'] = loopVar7[i].CMS;
-                tempObj['NoOfCard'] = loopVar7[i].NoOfCard;
-                tempObj['Product'] = loopVar7[i].Product;
-                tempObj['ProductCategory'] = loopVar7[i].ProductCategory;
-                tempObj['SubProduct'] = loopVar7[i].SubProduct;
-                tempObj['Scheme'] = loopVar7[i].Scheme;
-                tempObj['TypeOfLoan'] = loopVar7[i].TypeOfLoan;
-                tempObj['TypeOfLoanName'] = loopVar7[i].TypeOfLoanName;
-                tempObj['ApplicationPurpose'] = loopVar7[i].ApplicationPurpose;
-                tempObj['SourcingChannel'] = loopVar7[i].SourcingChannel;
-                tempObj['DSACode'] = loopVar7[i].DSACode;
-                tempObj['CreatedOn'] = loopVar7[i].CreatedOn;
-                tempObj['ApplicationBranch'] = loopVar7[i].ApplicationBranch;
-                tempObj['ExistingCardType'] = loopVar7[i].ExistingCardType;
+                  if (this.services.rloCommonData.getActiveRouteName() == "AddOn" || this.services.rloCommonData.getActiveRouteName() == "LimitEnhancement") {
+                    element['showCardDetailsModal'] = true;
+                  }
+                }
+              });
+              // this.getMultipleCifId(loopVar7, params); // Addon and limit enhance
+              this.documentCount = 0;
 
-                loopDataVar7.push(tempObj);
+              var loopDataVar7 = [];
+              if (loopVar7) {
+                for (var i = 0; i < loopVar7.length; i++) {
+                  var tempObj = {};
+                  tempObj['TaxID'] = loopVar7[i].TaxId;
+                  tempObj['Customer'] = loopVar7[i].CustomerType == "I" ? loopVar7[i].FullName : loopVar7[i].RegisteredName;
+                  tempObj['AccNo'] = loopVar7[i].AccountNumber;
+                  //tempObj['AccVintage'] = loopVar7[i].AccountVintage;
+                  tempObj['AccType'] = loopVar7[i].AccountType;
+                  tempObj['Status'] = loopVar7[i].ApplicationStatus;
+                  tempObj['Mobile'] = loopVar7[i].MobileNumber;
+                  tempObj['Cif'] = loopVar7[i].ExistingCIF;
+                  tempObj['Dob'] = loopVar7[i].DateOfBirth;
+                  tempObj['FirstName'] = loopVar7[i].FirstName;
+                  tempObj['MiddleName'] = loopVar7[i].MiddleName;
+                  tempObj['LastName'] = loopVar7[i].LastName;
+                  tempObj['Title'] = loopVar7[i].Title;
+                  tempObj['Gender'] = loopVar7[i].Gender;
+                  tempObj['EmailID'] = loopVar7[i].EmailID;
+                  tempObj['NameOnCard'] = loopVar7[i].NameOnCard;
+                  tempObj['ICIF'] = loopVar7[i].ICIF;
+                  tempObj['AppRefNum'] = loopVar7[i].AppRefNum;
+                  tempObj['CBSProductCode'] = loopVar7[i].CBSProductCode;
+                  tempObj['StaffID'] = loopVar7[i].StaffID;
+                  tempObj['CustomerType'] = loopVar7[i].CustomerType;
+                  tempObj['Branch'] = loopVar7[i].Branch;
+                  tempObj['RegisteredName'] = loopVar7[i].RegisteredName;
+                  tempObj['DateOfIncorporation'] = loopVar7[i].DateOfIncorporation;
+                  tempObj['TypeOfIncorporation'] = loopVar7[i].TypeOfIncorporation;
+                  // tempObj['CreditCard'] = loopVar7[i].CreditCard;
+                  tempObj['CmsDetails'] = loopVar7[i].CMS;
+                  tempObj['NoOfCard'] = loopVar7[i].NoOfCard;
+                  tempObj['Product'] = loopVar7[i].Product;
+                  tempObj['ProductCategory'] = loopVar7[i].ProductCategory;
+                  tempObj['SubProduct'] = loopVar7[i].SubProduct;
+                  tempObj['Scheme'] = loopVar7[i].Scheme;
+                  tempObj['TypeOfLoan'] = loopVar7[i].TypeOfLoan;
+                  tempObj['TypeOfLoanName'] = loopVar7[i].TypeOfLoanName;
+                  tempObj['ApplicationPurpose'] = loopVar7[i].ApplicationPurpose;
+                  tempObj['SourcingChannel'] = loopVar7[i].SourcingChannel;
+                  tempObj['DSACode'] = loopVar7[i].DSACode;
+                  tempObj['CreatedOn'] = loopVar7[i].CreatedOn;
+                  tempObj['ApplicationBranch'] = loopVar7[i].ApplicationBranch;
+                  tempObj['ExistingCardType'] = loopVar7[i].ExistingCardType;
+                  tempObj['LmsDetails'] = loopVar7[i].LMS;
+                  tempObj['CMSDetailsList'] = loopVar7[i].CMSDetailsList;
+                  tempObj['showCardDetailsModal'] = loopVar7[i].showCardDetailsModal;
+                  loopDataVar7.push(tempObj);
+                }
               }
+              //hide spinner
+              this.hideSpinner();
+
+              this.documentCount = loopDataVar7.length;
+              this.readonlyGrid.apiSuccessCallback(params, loopDataVar7);
             }
-            this.documentCount = loopDataVar7.length;
-            this.readonlyGrid.apiSuccessCallback(params, loopDataVar7);
+            else {
+              this.recordsFound = false;
+              this.hideSpinner();
+              this.hideGridData();
+            }
           } else {
+            this.recordsFound = false;
             this.hideGridData();
+            this.hideSpinner();
           }
-          // hide spinner
-          // this.hideSpinner();
         });
     }
   }
@@ -568,6 +623,8 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       tempVar['ApplicationBranch'] = selectedData0['ApplicationBranch'];
       tempVar['ExistingCardType'] = selectedData0['ExistingCardType'];
       tempVar['CmsDetails'] = selectedData0['CmsDetails'];
+      tempVar['CmsDetailsList'] = selectedData0['CMSDetailsList'];
+      tempVar['showCardDetailsModal'] = selectedData0['showCardDetailsModal'];
 
       console.log("DEEP| Selcted customer,", tempVar);
 
@@ -582,22 +639,35 @@ export class SearchCustomerGridComponent implements AfterViewInit {
 
         if (selectedData0['CmsDetails'] == 'Y' && showCardModal) {
           console.error("DEEP | Open Seperate 360 modal");
-          this.services.rloCommonData.getMemberCardDetail(selectedData0['ICIF']).then((response: any) => {
-            console.log(response);
-            if (response != null) {
-              let cardDetails = response.outputdata.AccountList;
-              console.error(cardDetails);
 
-              this.services.rloui.customerCardDetails(cardDetails).then((response: any) => {
-                if (response != null) {
-                  console.log(response);
-                }
-                else {
-                  console.warn("DEEP | No customer selected");
-                }
-              });
+          let cardDetails = tempVar.CmsDetailsList;
+          console.error(cardDetails);
+
+          this.services.rloui.customerCardDetails(cardDetails).then((response: any) => {
+            if (response != null) {
+              console.log(response);
+            }
+            else {
+              console.warn("DEEP | No customer selected");
             }
           });
+
+          // this.services.rloCommonData.getMemberCardDetail(selectedData0['ICIF']).then((response: any) => {
+          //   console.log(response);
+          //   if (response != null) {
+          //     let cardDetails = response.outputdata.AccountList;
+          //     console.error(cardDetails);
+
+          //     this.services.rloui.customerCardDetails(cardDetails).then((response: any) => {
+          //       if (response != null) {
+          //         console.log(response);
+          //       }
+          //       else {
+          //         console.warn("DEEP | No customer selected");
+          //       }
+          //     });
+          //   }
+          // });
         }
       } else {
         this.services.dataStore.setData('selectedData', tempVar);
@@ -607,6 +677,13 @@ export class SearchCustomerGridComponent implements AfterViewInit {
 
         if (this.clickedShowCustomerDetails && selectedData0['CmsDetails'] == 'Y') {
           console.warn("DEEP | SHOW SEPERATE CUSTOMER CARD UI");
+          if (this.services.rloCommonData.getActiveRouteName() == "Initiation" || this.services.rloCommonData.getActiveRouteName() == "QDE" || this.services.rloCommonData.getActiveRouteName() == "DDE") {
+            this.clickedShowCustomerDetails = false;
+            this.selectedCustomer.emit(tempVar);
+            this.activeModal.close(tempVar);
+            return;
+          }
+
           this.clickedShowCustomerDetails = false;
           tempVar['showCustomerCard'] = true;
           this.selectedCustomer.emit(tempVar);
@@ -693,7 +770,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       inputMap.set('Body.interfaceId', 'CUSTOMER_360');
       inputMap.set('Body.prposalid', '3322');
 
-      apiCalls[i] = this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator');
+      apiCalls[i] = this.http.fetchApi(this.services.rloCommonData.userInvokeInterfacev2 ? '/api/invokeInterface/v2' : '/api/invokeInterface', 'POST', inputMap, '/los-integrator');
     }
     console.log(apiCalls);
     forkJoin(apiCalls).subscribe(response => {

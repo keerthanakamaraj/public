@@ -72,7 +72,7 @@
     "rlo.success.withdraw": "The application has been successfully withdrawn.",
     "rlo.success.reject": "The application has been successfully rejected.",
     "rlo.success.refer": "The application has been successfully referred.",
-    "rlo.success.sendback" : "The application has been successfully sendback.",
+    "rlo.success.sendback": "The application has been successfully sendback.",
     "rlo.error.code.address": "Please select the country code.",
     "rlo.error.landline.address": "Please enter a landline number.",
     "rlo.error.mobile.address": "Please enter a mobile number.",
@@ -237,10 +237,12 @@
     "rlo.error.address.delete-restrict": "This address can not be deleted.",
     "rlo.error.credit-card-grid.empty-column": "Please fill the mandatory data in member cards grid properly.",
     "rlo.delete.comfirmation": "Are you sure you want to delete?",
-    "rlo.error.approve.amount.empty" : "For Member Card Approve Card Limit Cannot be Blank",
-    "rlo.error.credit-card-grid.greater-value" : "Value should be less than Primary Card limit",
-    "rlo.error.addon.req-amt-lmt":"Value must be less than Primary Requested Amount.",
-    "rlo.error.member.addon.req-amt-lmt":"Value must be less than Primary Approved Amount.",
+    "rlo.error.approve.amount.empty": "For Member Card Approve Card Limit Cannot be Blank",
+    "rlo.error.credit-card-grid.greater-value": "Value should be less than Primary Card limit",
+    "rlo.error.addon.req-amt-lmt": "Value must be less than Primary Requested Amount.",
+    "rlo.error.member.addon.req-amt-lmt": "Value must be less than Primary Approved Amount.",
+    "rlo.error.vehicle.invalid-loan-amt": "total vehicle cost should be less than local currency equivalent.",
+
     "rlo.error.exits.fd": "FD already added",
     "rlo.success.update.fd": "FD Details Updated Successfully",
     "rlo.error.update.fd": "Failed to update FD Details",
@@ -249,13 +251,12 @@
     "rlo.error.greter.fd": " Lien Amount should be less than FD Amount",
     "rlo.success.delete.fd": "The FD Detail deleted successfully.",
     "rlo.error.delete.fd": "The FD Details could not be deleted. Please try again.",
-    "rlo.error.approvedlimit.lien.product" : "Approved Card Limit needs to be less than the Lien Amount",
-    "rlo.success.trigger.interface":"Interface triggered successfully.",
-    "rlo.error.trigger.interface":"Unable to trigger interface.",
-    "rlo.error.initiation.invalid-card-type" : "Customer Type not match with Card Type",
+    "rlo.error.approvedlimit.lien.product": "Approved Card Limit needs to be less than the Lien Amount",
+    "rlo.success.trigger.interface": "Interface triggered successfully.",
+    "rlo.error.trigger.interface": "Unable to trigger interface.",
+    "rlo.error.initiation.invalid-card-type": "Customer Type not match with Card Type",
     "rlo.error.invalid-card-type": "Invalid Card Type",
-    "rlo.error.cmsdetails.invalid" : "CMS Details not present for selected record",
-
+    "rlo.error.cmsdetails.invalid": "CMS Details not present for selected record",
     "999": "Unspecified error",
     "MANDATORY": "Value can not be Empty.",
     "DUPLICATE": "This has already been added. Please add other details.",
@@ -1515,7 +1516,8 @@
     "Mobile": "Mobile No.",
     "Branch": "Branch",
     "CreditCard": "Credit Card",
-    "CmsDetails": "CMS Details"
+    "CmsDetails": "CMS Details",
+    "LmsDetails": "LMS Details"
   },
   "CustomerAvaliableCardGrid": {
     "CardSubProduct": "Card Sub Product",
@@ -1671,7 +1673,7 @@
     "SRC_TAX_ID": "PAN Number",
     "CD_DOB": "Date Of Birth",
     "CD_RESET": "Reset",
-    "BAD_SUB_PROD": "Product Class",
+    "BAD_SUB_PROD": "Sub Product",
     "BAD_CBS_PROD_CD": "CBS Product Code",
     "BAD_CARD_TYPE": "Card Type",
     "BAD_CARD_NUMBER": "Reference Number",
@@ -1699,7 +1701,7 @@
     "LD_OTH_DEDUCTIONS": "Other Deductions",
     "SC_HEAD": "Who would you like to create the application for?",
     "FieldId_71": "Who would you like to create the application for?",
-    "BAD_SCHEME": "Product",
+    "BAD_SCHEME": "Scheme",
     "RD_REFERRER_NAME": "Referrer Name",
     "CD_FULL_NAME": "Full Name",
     "CD_CUST_TYPE": "Customer Type",
@@ -1707,7 +1709,7 @@
     "CD_CUSTOMER_ID": "Customer ID",
     "RD_HEAD_LBL": "Referral Information",
     "CD_MOBILE": "Mobile No.",
-    "BAD_PRODUCT": "Product Franchise",
+    "BAD_PRODUCT": "Product",
     "LD_NET_INCOME": "Net Income",
     "LD_MARGIN_RATE": "Margin Rate",
     "LD_NET_INTEREST_RATE": "Net Interest Rate",
@@ -1763,7 +1765,7 @@
     "AD_Residence_Duration": "Duration of Occupancy",
     "AD_DELETE_BTN_ButtonName": "Delete",
     "AD_DELETE_BTN": "",
-    "AD_MAILING_ADDRESS": "Correspondence Address",
+    "AD_IS_MAILING_ADDRESS": "Correspondence Address",
     "toolbar_AddressDetailsGrid": "null",
     "AD_Address": "Address",
     "AD_OCC_STATUS": "Occupancy Status",
@@ -1933,7 +1935,10 @@
     "SANCTION_CREDIT_LIMIT": "Approved Credit Limit",
     "SANCTION_CASH_LIMIT": "Approved Cash Limit",
     "REQ_CARD_LIMIT": "Requested Card Limit",
-    "CC_CAMPTYPE": "Application Type"
+    "CC_CAMPTYPE": "Application Type",
+    "HD_PROD_LOAN": "Product",
+    "REAL_PROD_NAME_LOAN": "Scheme",
+    "HD_SUB_PROD_LOAN": "Sub Product"
   },
   "CustomerDtlsGrid": {
     "CD_CUSTOMER_TYPE": "Customer Type",
@@ -2024,7 +2029,7 @@
     "CD_DATE_OF_INCORPORATION": "Date Of Incorporation/Birth"
   },
   "MyTrayGrid": {
-    "MT_SCHEME": "Product",
+    "MT_SCHEME": "Scheme",
     "MT_PRODUCT": "Product",
     "MT_INITIATED_ON": "Initiated On",
     "MT_LOAN_AMOUNT": "Requested Credit Amount",
@@ -2127,7 +2132,7 @@
     "RD_DELETE_ButtonName": "Delete",
     "GridTitle": "ReferralDetailsGrid",
     "toolbar_ReferralDetailsGrid": "null",
-    "RD_REFERRER_RELATION": "Referrer Relation",
+    "RD_REFERRER_RELATION_TEXT": "Referrer Relation",
     "RD_DELETE": "Delete",
     "RD_REFERRER_NAME": "Referrer Name",
     "RD_EDIT_ButtonName": "Edit",
@@ -2236,14 +2241,14 @@
     "FC_Rate": "Rate",
     "FC_Edit": "",
     "FC_Charge_Collection": "Charge Collection",
-    "FC_Charge_Desc": " Charge Desc",
+    "FC_Charge_Desc_text": " Charge Desc",
     "FC_Delete": "",
     "FC_Amount": "Amount",
-    "FC_Frequency": "Frequency",
-    "FC_Rate_Charge_On": "Rate Charge On",
+    "FC_Frequency_text": "Frequency",
+    "FC_Rate_Charge_On_text": "Rate Charge On",
     "FC_Delete_ButtonName": "null",
     "FC_Edit_ButtonName": "null",
-    "FC_Charge_Type": "Charge Type",
+    "FC_Charge_Type_text": "Charge Type",
     "toolbar_FeesChargesGrid": "null",
     "FC_Effective_Amt": "Effective Amount"
   },
@@ -2290,7 +2295,7 @@
     "ApplicationInfo": "Application Information",
     "FormTitle": "Operation",
     "VIEW_DDE": "View Loan Application",
-    "VIEW_DDE_CARD" : "View Card Application",
+    "VIEW_DDE_CARD": "View Card Application",
     "CustomerInfo": "Customer Infomation",
     "FieldId_3": "Loan Information",
     "OPERATION_APPROVE": "APPROVE",
@@ -2495,22 +2500,6 @@
     "ED_SAVE_BTN": "SAVE",
     "ED_CLEAR_BTN": "CLEAR"
   },
-  "PreCPVInputGrid": {
-    "SelectCity": "Select City",
-    "RetriggerStatus": "Retrigger Status",
-    "Details": "Details",
-    "VerificationType": "Verification Type",
-    "GridTitle": "pre cpv input grid",
-    "SrNo": "Sr. No",
-    "RemarksForAgency": "Remarks for Agency",
-    "SelectAgency": "Select Agency",
-    "CustomerName": "Customer Name",
-    "WaiveOff": "Waive Off",
-    "AddVerificationType": "Add Verification Type",
-    "Plus": "+",
-    "Initiate": "Initiate",
-    "INITIATE": "INITIATE"
-  },
   "VehicleIPGrid": {
     "VehicleCostBreakup": "Vehicle Cost Breakup",
     "GridTitle": "VehicleIPGrid",
@@ -2567,6 +2556,22 @@
     "AdditionalRemarks": "Additional Remarks",
     "Value": "Value"
   },
+  "PreCPVInputGrid": {
+    "SelectCity": "Select City",
+    "RetriggerStatus": "Retrigger Status",
+    "Details": "Details",
+    "VerificationType": "Verification Type",
+    "GridTitle": "pre cpv input grid",
+    "SrNo": "Sr. No",
+    "RemarksForAgency": "Remarks for Agency",
+    "SelectAgency": "Select Agency",
+    "CustomerName": "Customer Name",
+    "WaiveOff": "Waive Off",
+    "AddVerificationType": "Add Verification Type",
+    "Plus": "+",
+    "Initiate": "Initiate",
+    "INITIATE": "INITIATE"
+  },
   "PostCPVInputGrid": {
     "AgencyName": "Agency Name",
     "VerificationType": "Verification Type",
@@ -2584,8 +2589,8 @@
   },
   "PostCPV": {
     "FormTitle": "PostCPV",
-    "PostCPV_Cancel": "CANCEL",
-    "PostCPV_Reset": "RESET",
+    "PostCPV_Reject": "Reject",
+    "PostCPV_Withdraw": "Withdraw",
     "PostCPV_Submit": "SUBMIT"
   },
   "DecisionAlert": {
@@ -2674,7 +2679,7 @@
   },
   "CreditCardInputGrid": {
     "MemberName": "Member Name",
-    "AddOnName":"Add On Name",
+    "AddOnName": "Add On Name",
     "CardNumber": "Card Number",
     "CardStatus": "Card Status",
     "LatestLimitDate": "Latest Limit Date",
@@ -2695,28 +2700,28 @@
     "RealignmentSection": "Realignment Section",
     "LimitEnhacement": "Limit Enhacement"
   },
-  "FDDetails" : {
-    "FormTitle" : "FDDetails",
-    "FDNumber" : "FD Number",
-    "FDAmount" : "FD Amount",
-    "DateofMaturity" : "Date of Maturity",
-    "FDAmountLCE" : "FD Amount(Local Currency Equivalent)",
-    "AutoRenewal" : "Auto Renewal",
-    "MaturityAmount" : "Maturity Amount",
-    "IncludeInDBR" : "Include in DBR",
-    "LienAmount" : "Lien Amount"
-    },
-    "FDDetailsGrid" : {
-      "FDNumber" : "FD Number",
-      "toolbar_FDDetailsGrid" : "null",
-      "EDIT_ButtonName" : "EDIT",
-      "DELETE" : "DELETE",
-      "DateofMaturity" : "Date of Maturity ",
-      "GridTitle" : "FDDetailsGrid",
-      "DELETE_ButtonName" : "DELETE",
-      "EDIT" : "EDIT",
-      "LienAmount" : "Lien Amount",
-      "FieldId_5" : "Edit",
-      "FDAmount" : "FD Amount"
-      }
+  "FDDetails": {
+    "FormTitle": "FDDetails",
+    "FDNumber": "FD Number",
+    "FDAmount": "FD Amount",
+    "DateofMaturity": "Date of Maturity",
+    "FDAmountLCE": "FD Amount(Local Currency Equivalent)",
+    "AutoRenewal": "Auto Renewal",
+    "MaturityAmount": "Maturity Amount",
+    "IncludeInDBR": "Include in DBR",
+    "LienAmount": "Lien Amount"
+  },
+  "FDDetailsGrid": {
+    "FDNumber": "FD Number",
+    "toolbar_FDDetailsGrid": "null",
+    "EDIT_ButtonName": "EDIT",
+    "DELETE": "DELETE",
+    "DateofMaturity": "Date of Maturity ",
+    "GridTitle": "FDDetailsGrid",
+    "DELETE_ButtonName": "DELETE",
+    "EDIT": "EDIT",
+    "LienAmount": "Lien Amount",
+    "FieldId_5": "Edit",
+    "FDAmount": "FD Amount"
+  }
 }

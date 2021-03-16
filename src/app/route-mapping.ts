@@ -128,22 +128,17 @@ export var componentRoutes: Routes = [
 		path: 'view-wf',
 		loadChildren: 'src/app/workflow-viewer/workflow-viewer.module#WorkflowViewerModule'
 	},
-	// {
-	// 	path: 'PRE-CPV',
-	// 	loadChildren: 'src/app/pre-cpv/pre-cpv.module#PreCPVModule'
-	// },
-	// {
-	// 	path: 'withdraw',
-	// 	loadChildren: 'src/app/pre-cpv/pre-cpv.module#PreCPVModule'
-	// },
 	{
-		path: 'customization-console',
-		loadChildren: 'src/app/CustomizationConsole/customization-console.module#CustomizationConsoleModule'
-	},
+		path: 'PRE-CPV',
+		loadChildren: 'src/app/pre-cpv/pre-cpv.module#PreCPVModule'
+  },
+  {
+		path: 'PostCPV',
+		loadChildren: 'src/app/PostCPV/PostCPV.module#PostCPVModule'
+  },
 	// {
-	// 	path: 'withdraw',
-	// //loadChildren: 'src/app/PostCPV/PostCPV.module#PostCPVModule'
-	// loadChildren: 'src/app/pre-cpv/pre-cpv.module#PreCPVModule'
+	// 	path: 'customization-console',
+	// 	loadChildren: 'src/app/CustomizationConsole/customization-console.module#CustomizationConsoleModule'
 	// },
 	{
 		path: 'AddOn',

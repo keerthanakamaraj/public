@@ -28,11 +28,12 @@ export class GoldDetailsGridComponent implements AfterViewInit {
     @Input('displayTitle') displayTitle: boolean = true;
     @Input('displayToolbar') displayToolbar: boolean = true;
     @Input('fieldID') fieldID: string;
-
+    loopDataVar10 = [];
     goldRecord: boolean = false;
     componentCode: string = 'GoldDetailsGrid';
     openedFilterForm: string = '';
     hidden: boolean = false;
+    tempObj = {};
     gridConsts: any = {
         paginationPageSize: 10,
         gridCode: "GoldDetailsGrid",
@@ -219,6 +220,13 @@ export class GoldDetailsGridComponent implements AfterViewInit {
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 var loopDataVar10 = [];
+                let goldDetailsList = [];
+                let serviceObj = {
+                    "name": "GoldLoanDetails",
+                    "data": [],
+                    "sectionName": "GoldLoanDetails"
+                }
+
                 if (res !== null) {
                     this.goldRecord = true
                     var loopVar10 = res['GoldDetails'];
@@ -237,7 +245,9 @@ export class GoldDetailsGridComponent implements AfterViewInit {
                         tempObj['Value'] = loopVar10[i].Value;
                         tempObj['MarketRate'] = loopVar10[i].MarketRate;
                         tempObj['GoldOrnamentType'] = loopVar10[i].GoldOrnamentType.text;
+                        tempObj['GoldOrnamentType_ID'] = loopVar10[i].GoldOrnamentType.id;
                         loopDataVar10.push(tempObj);
+                        goldDetailsList.push(tempObj);
 
                         totalValue['GoldOrnamentType'] = 'Total';
                         totalValue['GoldDetailSeq'] = totalValue['GoldDetailSeq'] + loopVar10[i].GoldDetailSeq;
@@ -251,7 +261,11 @@ export class GoldDetailsGridComponent implements AfterViewInit {
                     }
                     loopDataVar10.push(totalValue);
                     console.log("new object", totalValue);
+
+                    serviceObj.data = goldDetailsList;
                 }
+                this.services.rloCommonData.globalComponentLvlDataHandler(serviceObj);
+
                 this.readonlyGrid.apiSuccessCallback(params, loopDataVar10);
                 console.log("newwwwwww", this.readonlyGrid);
                 console.log(this.readonlyGrid.getAllRows());
@@ -281,17 +295,16 @@ export class GoldDetailsGridComponent implements AfterViewInit {
         let inputMap = new Map();
         inputMap.clear();
         inputMap.set('PathParam.ApplicationId', event.GoldDetailSeq);
-
         await this.services.rloCommonData.deleteConfirmationAlert('rlo.delete.comfirmation').then((response: any) => {
             if (response.id == 1) {
                 this.services.http.fetchApi('/GoldDetails/{ApplicationId}', 'DELETE', inputMap, '/rlo-de').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.delete.gold', 5000);
-
+    
                         // if (this.familyDetails.length == 1)
                         //     this.services.rloCommonData.updateValuesFundLineGraph("remove");
-
+    
                         this.readonlyGrid.refreshGrid();
                     },
                     async (httpError) => {
@@ -304,7 +317,7 @@ export class GoldDetailsGridComponent implements AfterViewInit {
             }
         });
     }
-
+    
     loadSpinner = false;
     showSpinner() {
         this.loadSpinner = true;
@@ -330,5 +343,8 @@ export class GoldDetailsGridComponent implements AfterViewInit {
         console.error("last", lastRow);
         lastRow[lastRow.length - 1].classList.add("d-none");
         lastRow[lastRow.length - 2].classList.add("d-none");
+    }
+    getGoldDetails() {
+        return this.loopDataVar10;
     }
 }

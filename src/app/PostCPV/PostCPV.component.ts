@@ -28,8 +28,8 @@ export class PostCPVComponent extends FormComponent implements OnInit, AfterView
   @ViewChild('PostCPVInputGrid', { static: false }) PostCPVInputGrid: PostCPVInputGridComponent;
   @ViewChild('HEADER', { static: false }) HEADER: HeaderComponent;
   @ViewChild('PostCPV_Submit', { static: false }) PostCPV_Submit: ButtonComponent;
-  @ViewChild('PostCPV_Reset', { static: false }) PostCPV_Reset: ButtonComponent;
-  @ViewChild('PostCPV_Cancel', { static: false }) PostCPV_Cancel: ButtonComponent;
+  @ViewChild('PostCPV_Withdraw', { static: false }) PostCPV_Withdraw: ButtonComponent;
+  @ViewChild('PostCPV_Reject', { static: false }) PostCPV_Reject: ButtonComponent;
   @ViewChild('HideProcessId', { static: false }) HideProcessId: HiddenComponent;
   @ViewChild('HideServiceCode', { static: false }) HideServiceCode: HiddenComponent;
   @ViewChild('HideServiceCodeComplete', { static: false }) HideServiceCodeComplete: HiddenComponent;
@@ -46,6 +46,7 @@ export class PostCPVComponent extends FormComponent implements OnInit, AfterView
   taskId: any;
   instanceId: any;
   isLoanCategory: any = undefined;
+  preCPVTaskId:any=undefined;
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -79,15 +80,59 @@ export class PostCPVComponent extends FormComponent implements OnInit, AfterView
     this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
+    //this.userId = sessionStorage.getItem('userId');
     this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
 
-    this.ApplicationId = 3322;
-    //tempARN='1030MOR08840990';
-    // this.services.rloCommonData.globalApplicationDtls.ARN='1030MOR08840990';
+   // this.ApplicationId = 3743;
+    //tempARN='1030MOR08840990', '1010VEH00001651','1010VEH00001672';
+   // this.services.rloCommonData.globalApplicationDtls.ARN='1010VEH00001672';
 
     this.PostCPVInputGrid.ApplicationId = this.ApplicationId;
+    // if (this.userId === undefined || this.userId == '') {
+    //   this.claimTask(this.taskId);
+    // }
     // this.PostCPVInputGrid.fetchDefaultData();
   }
+
+  async claimTask(taskId) {
+    const inputMap = new Map();
+    inputMap.clear();
+    inputMap.set('Body.UserId', sessionStorage.getItem('userId'));
+    inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
+    inputMap.set('Body.TaskId', taskId);
+    inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
+    inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
+    this.services.http.fetchApi('/ClaimTask', 'POST', inputMap, '/los-wf').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        const res = httpResponse.body;
+
+        if (res.Status == 'S') {
+          this.services.alert.showAlert(1, 'rlo.success.claim.dde', 5000);
+          this.userId = sessionStorage.getItem('userId')
+        } else {
+          this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
+        }
+      },
+      async (httpError) => {
+        const err = httpError['error'];
+        if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+          if (err['ErrorElementPath'] === 'ServiceCode') {
+            this.HideServiceCode.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'ProcessId') {
+            this.HideProcessId.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'TaskId') {
+           // this.HideTaskId.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'TENANT_ID') {
+            this.HideTenantId.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'UserId') {
+            this.HideUserId.setError(err['ErrorDescription']);
+          }
+        }
+        this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
+      }
+    );
+  }
+
   setInputs(param: any) {
     let params = this.services.http.mapToJson(param);
     if (params['mode']) {
@@ -160,11 +205,231 @@ export class PostCPVComponent extends FormComponent implements OnInit, AfterView
     this.services.rloui.goBack();
   }
   broadcastProdCategory(event) {
-    
+    //  console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
     // let globlaObj = this.services.rloCommonData.globalApplicationDtls;
     this.isLoanCategory = event.isLoanCategory;
   }
   fieldDependencies = {
   }
+
+  isPostCpvStageValid(){
+    let noOfErrors: number=0;
+this.PostCPVInputGrid.MstDataMap.forEach(eachCustomer=>{
+  if (eachCustomer.verificationList.length > 0){
+    eachCustomer.verificationList.forEach(eachVrfn => {
+      if (this.PostCPVInputGrid.isEmptyString(eachVrfn.ProposalVerificationID) || this.PostCPVInputGrid.isEmptyString(eachVrfn.RLODecision) || this.PostCPVInputGrid.isEmptyString(eachVrfn.DecisionRemarks)) {
+        noOfErrors++;
+      }
+    });
+  }
+});
+    return noOfErrors;
+  }
+ async PostCPV_Submit_click(){
+  const requestParams = new Map();
+  await this.getPreCPVTaskId(requestParams);
+//console.log("Pre CPV Id ",this.preCPVTaskId);
+//return;
+    
+  }
+
+  async getPreCPVTaskId(requestParams){
+    let inputMap = new Map();
+    let preCPVTaskId=undefined;
+    inputMap.set('PathParam.userid', this.userId);
+    let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+    if (this.ApplicationId) {
+      criteriaJson.FilterCriteria.push({
+        "columnName": "ARN",
+        "columnType": "String",
+        "conditions": {
+          "searchType": "equals",
+          "searchText": this.services.rloCommonData.globalApplicationDtls.ARN
+        }
+      });
+      // criteriaJson.FilterCriteria.push({
+      //   "columnName": "STAGE_ID",
+      //   "columnType": "String",
+      //   "conditions": {
+      //     "searchType": "equals",
+      //     "searchText": "PostCPV"
+      //   }
+      // });
+      inputMap.set('QueryParam.criteriaDetails', criteriaJson);
+    this.services.http.fetchApi('/tasks/user/{userid}', 'GET', inputMap, '/los-wf').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        var loopDataVar7 = [];
+        var loopVar7 = res['Tasks'];
+        if (loopVar7) {
+            var tempObj = {};
+            let preCPVTaskObj=loopVar7.find(eachTask=> eachTask.STAGE_ID=='PRE-CPV');
+            this.preCPVTaskId=preCPVTaskObj.TASK_ID;
+            if(this.isPostCpvStageValid()==0 && this.preCPVTaskId!=undefined) {
+              requestParams.set('Body.ApplicationStatus', 'AP');
+              requestParams.set('Body.direction', 'AP');
+              this.submitPostCPV(requestParams);
+            }
+        }
+          }, async (httpError) => {
+            var err = httpError['error']
+            if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+            }
+            this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+          });
+        }
+  }
+
+  submitPostCPV(requestParams){
+    const inputMap = new Map();
+
+    inputMap.clear();
+    inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
+    inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
+    inputMap.set('Body.TaskId', this.preCPVTaskId);
+    inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
+    inputMap.set('Body.UserId', this.userId);
+    inputMap.set('Body.CurrentStage', this.HideCurrentStage.getFieldValue());
+    inputMap.set('Body.ApplicationId', this.ApplicationId);
+    inputMap.set('Body.CreatedBy', this.userId);
+    inputMap.set('Body.ProductCategory', this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode);
+
+
+    if (requestParams) {
+      requestParams.forEach((val, key) => {
+        inputMap.set(key, val);
+      });
+    } else {
+      return;
+    }
+   // console.log("submit body",inputMap);
+   // return;
+    this.services.http.fetchApi('/acceptPostCPV', 'POST', inputMap, '/rlo-de').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        const res = httpResponse.body;
+
+        const action: string = (requestParams.get('Body.ApplicationStatus')).toUpperCase();
+
+        let alertMsg = 'rlo.success.submit';
+        switch (action) {
+          case 'WITHDRAW':
+            alertMsg = 'rlo.success.withdraw';
+            break;
+          case 'REJECT':
+            alertMsg = 'rlo.success.reject';
+            break;
+          default:
+            alertMsg = 'rlo.success.submit';
+            break;
+        }
+
+        // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
+        var mainMessage = this.services.rloui.getAlertMessage(alertMsg);
+        var button1 = this.services.rloui.getAlertMessage('', 'OK');
+        // var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+        Promise.all([mainMessage, button1]).then(values => {
+          console.log(values);
+          let modalObj = {
+            title: "Alert",
+            mainMessage: values[0],
+            modalSize: "modal-width-sm",
+            buttons: [
+              { id: 1, text: values[1], type: "success", class: "btn-primary" },
+              //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+            ]
+          }
+
+          console.log("deep ===", modalObj);
+          this.services.rloui.confirmationModal(modalObj).then((response) => {
+            console.log(response);
+            if (response != null) {
+              if (response.id === 1) {
+                this.services.router.navigate(['home', 'LANDING']);
+              }
+            }
+          });
+        });
+      },
+      async (httpError) => {
+        const err = httpError['error'];
+        if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+          if (err['ErrorElementPath'] === 'CurrentStage') {
+            this.HideCurrentStage.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'UserId') {
+            this.HideUserId.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'TENANT_ID') {
+            this.HideTenantId.setError(err['ErrorDescription']);
+          }
+          this.services.alert.showAlert(2, 'Fail to Submit', -1);
+        }
+      }
+    );
+  }
+
+async PostCPV_Withdraw_click(event) {
+  // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
+  const requestParams = new Map();
+  requestParams.set('Body.ApplicationStatus', 'Withdraw');
+  requestParams.set('Body.direction', 'W');
+  var mainMessage = this.services.rloui.getAlertMessage('rlo.withdraw.comfirmation');
+  var button1 = this.services.rloui.getAlertMessage('', 'OK');
+  var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+  Promise.all([mainMessage, button1, button2]).then(values => {
+    console.log(values);
+    let modalObj = {
+      title: "Alert",
+      mainMessage: values[0],
+      modalSize: "modal-width-sm",
+      buttons: [
+        { id: 1, text: values[1], type: "success", class: "btn-primary" },
+        { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+      ]
+    }
+
+    this.services.rloui.confirmationModal(modalObj).then((response) => {
+      console.log(response);
+      if (response != null) {
+        if (response.id === 1) {
+          this.services.rloui.closeAllConfirmationModal()
+          this.submitPostCPV(requestParams);
+        }
+      }
+    });
+  });
+}
+
+async PostCPV_REJECT_click(event) {
+  const requestParams = new Map();
+  requestParams.set('Body.ApplicationStatus', 'Reject');
+  requestParams.set('Body.direction', 'RJ');
+  var mainMessage = this.services.rloui.getAlertMessage('rlo.reject.comfirmation');
+  var button1 = this.services.rloui.getAlertMessage('', 'OK');
+  var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+  Promise.all([mainMessage, button1, button2]).then(values => {
+    console.log(values);
+    let modalObj = {
+      title: "Alert",
+      mainMessage: values[0],
+      modalSize: "modal-width-sm",
+      buttons: [
+        { id: 1, text: values[1], type: "success", class: "btn-primary" },
+        { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+      ]
+    }
+
+    this.services.rloui.confirmationModal(modalObj).then((response) => {
+      console.log(response);
+      if (response != null) {
+        if (response.id === 1) {
+          this.services.rloui.closeAllConfirmationModal()
+          this.submitPostCPV(requestParams);
+        }
+      }
+    });
+  });
+}
 
 }

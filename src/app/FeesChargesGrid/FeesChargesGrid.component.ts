@@ -42,7 +42,7 @@ export class FeesChargesGridComponent implements AfterViewInit {
         paginationReq: false
     };
     columnDefs: any[] = [{
-        field: "FC_Charge_Desc",
+        field: "FC_Charge_Desc_text",
         width: 10,
         resizable: true,
         cellStyle: { 'text-align': 'left' },
@@ -56,7 +56,7 @@ export class FeesChargesGridComponent implements AfterViewInit {
 
     },
     {
-        field: "FC_Charge_Type",
+        field: "FC_Charge_Type_text",
         width: 10,
         resizable: true,
         cellStyle: { 'text-align': 'left' },
@@ -85,14 +85,14 @@ export class FeesChargesGridComponent implements AfterViewInit {
 
     },
     {
-        field: "FC_Frequency",
+        field: "FC_Frequency_text",
         width: 10,
         resizable: true,
         cellStyle: { 'text-align': 'left' },
 
     },
     {
-        field: "FC_Rate_Charge_On",
+        field: "FC_Rate_Charge_On_text",
         width: 15,
         resizable: true,
         cellStyle: { 'text-align': 'left' },
@@ -272,13 +272,17 @@ export class FeesChargesGridComponent implements AfterViewInit {
                         var tempObj = {};
                         tempObj['FC_ID'] = loopVar9[i].ChargeDtlSeq;
                         tempObj['FC_Charge_Desc'] = loopVar9[i].ChargeDescription;
+                        tempObj['FC_Charge_Desc_text'] = loopVar9[i].ChargeDescription.text;
                         tempObj['FC_Party_Name'] = loopVar9[i].PartyName;
                         tempObj['FC_Charge_Type'] = loopVar9[i].ChargeType;
+                        tempObj['FC_Charge_Type_text'] = loopVar9[i].ChargeType.text;
                         tempObj['FC_Rate'] = loopVar9[i].ChargeRate;
                         tempObj['FC_Amount'] = loopVar9[i].LocalAmount;
                         tempObj['FC_Effective_Amt'] = loopVar9[i].EffectiveAmount;
                         tempObj['FC_Frequency'] = loopVar9[i].Frequency;
+                        tempObj['FC_Frequency_text'] = loopVar9[i].Frequency.text;
                         tempObj['FC_Rate_Charge_On'] = loopVar9[i].RateOnCharge;
+                        tempObj['FC_Rate_Charge_On_text'] = loopVar9[i].RateOnCharge.text;
                         tempObj['FC_Charge_Collection'] = loopVar9[i].ChargeCollection;
 
                         this.feeChargeDetails.push(tempObj);

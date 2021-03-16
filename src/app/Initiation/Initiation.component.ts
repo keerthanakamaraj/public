@@ -206,7 +206,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     var totalErrors = 0;
     super.beforeRevalidate();
     await Promise.all([
-      // this.revalidateBasicField('CD_CUST_TYPE'),
+      this.revalidateBasicField('CD_CUST_TYPE'),
       // this.revalidateBasicField('CD_CARD_CUST_TYPE'),
       //this.revalidateBasicField('CD_EXISTING_CUST'),
       //this.revalidateBasicField('CD_STAFF'),
@@ -313,7 +313,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         // this.revalidateBasicField('CD_LAST_NAME'),
         // this.revalidateBasicField('CD_FULL_NAME'),
         // this.revalidateBasicField('CD_GENDER'),
-        this.revalidateBasicField('CD_TAX_ID'),
+        // this.revalidateBasicField('CD_TAX_ID'),
         // this.revalidateBasicField('CD_MOBILE'),
         // this.revalidateBasicField('CD_DOB'),
         // this.revalidateBasicField('CD_CUST_SGMT'),
@@ -433,15 +433,20 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.hideTypeofIncorp.setValue('CORPORATION_TYPE');
     this.hideEmbLineFlag.setValue('Y_N');
 
-
+    this.BAD_CUSTOMER_TYPE.setReadOnly(false);
+    // this.BAD_CUSTOMER_TYPE.setValue()
     this.EmbLine4.setHidden(true);
     this.CD_CIF.setHidden(true);
-    this.CD_CARD_CUST_TYPE.setReadOnly(true);
+    this.BAD_CBS_PROD_CD.setHidden(true);
+    this.BAD_CBS_PROD_CD.mandatory = false;
+    this.BAD_CARD_TYPE.setReadOnly(false);
+    // this.CD_CARD_CUST_TYPE.setReadOnly(false);
+   
 
     await this.Handler.onFormLoad({
     });
-    this.BAD_PROD_CAT.setDefault('CC');
-    this.Handler.onProdCategoryChange({});
+    // this.BAD_PROD_CAT.setDefault('CC');
+    // this.Handler.onProdCategoryChange({});
     //this.CD_EXISTING_CUST.setDefault('N');
     // this.Handler.existingCustomer({});
     //this.CD_STAFF.setDefault('N');
@@ -516,7 +521,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       //  this.toggleColumn();
     });
 
-    this.tempUnableCustId()
+    this.tempUnableCustId();
+
+    // //testing
+    // this.SRC_MOBILE_NO.setValue(700000000);
+    // this.SRC_TAX_ID.setValue(111111 - 1111);
+    // this.SRC_CIF_NO.setValue(1111111111)
   }
   clearError() {
     super.clearBasicFieldsError();
@@ -602,46 +612,54 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   async SEARCH_CUST_BTN_click(event) {
     this.searchbutton = 'Y';
     var noofErrors: number = await this.revalidate();
-    if (noofErrors == 0 && this.SRC_CIF_NO.getFieldValue() != undefined) {
-      if (!this.SRC_CIF_NO.getFieldValue().length) {
-        this.services.alert.showAlert(2, '', -1, 'Please enter valid CBS Customer ID');
-        return;
-      }
 
-      let obj: ICustomSearchObject = {
-        mobileNumber: this.SRC_MOBILE_NO.getFieldValue(),
-        taxId: this.SRC_TAX_ID.getFieldValue(),
-        cifId: this.SRC_CIF_NO.getFieldValue(),
-        searchType: "External"
+    console.log(this.SRC_MOBILE_NO.getFieldValue() == undefined, this.SRC_TAX_ID.getFieldValue() == undefined, this.SRC_CIF_NO.getFieldValue() == undefined)
+    if (noofErrors == 0) {
+      if (this.SRC_MOBILE_NO.getFieldValue() == undefined && this.SRC_TAX_ID.getFieldValue() == undefined && this.SRC_CIF_NO.getFieldValue() == undefined) {
+        this.services.alert.showAlert(2, '', 3500, 'Please enter valid details');
       }
-      this.services.rloui.openCustomerSearch(obj).then((response: any) => {
-        this.toggleColumn();
-        if (response != null) {
-          console.log(response);
-          //  this.ApplicationStatus(response);
-          //  this.setValuesOfCustomer(response);
-          // this.CBSProductCode(response);
-          if (typeof response != "boolean")
-            this.IsInitiationAllowedForBranch(response);
-          this.searchbutton = 'N';
-          //  this.NoOfCardAllowed(response);
-          // this.IsInitiationAllowedForBranch(response);
-          this.toggleColumn();
+      else {
+        if ((this.SRC_MOBILE_NO.hasOwnProperty("value") && this.SRC_MOBILE_NO.value != "") || (this.SRC_TAX_ID.hasOwnProperty("value") && this.SRC_TAX_ID.value != "") || (this.SRC_CIF_NO.hasOwnProperty("value") && this.SRC_CIF_NO.value != "")) {
+          console.log("api call");
+          let obj: ICustomSearchObject = {
+            mobileNumber: this.SRC_MOBILE_NO.getFieldValue(),
+            taxId: this.SRC_TAX_ID.getFieldValue(),
+            cifId: this.SRC_CIF_NO.getFieldValue(),
+            searchType: "External"
+          }
+          this.services.rloui.openCustomerSearch(obj).then((response: any) => {
+            this.toggleColumn();
+            if (response != null) {
+              console.log(response);
+              //  this.ApplicationStatus(response);
+              //  this.setValuesOfCustomer(response);
+              // this.CBSProductCode(response);
+              if (typeof response != "boolean")
+                this.IsInitiationAllowedForBranch(response);
+              this.searchbutton = 'N';
+              //  this.NoOfCardAllowed(response);
+              // this.IsInitiationAllowedForBranch(response);
+              this.toggleColumn();
 
-          /* PR-38 dev
-          // this.ApplicationStatus(response);
-           this.setValuesOfCustomer(response);
-           this.SRC_CIF_NO.onReset();
-          */
+              /* PR-38 dev
+              // this.ApplicationStatus(response);
+               this.setValuesOfCustomer(response);
+               this.SRC_CIF_NO.onReset();
+              */
+            }
+            else {
+              console.warn("DEEP | No customer selected");
+              this.SRC_CIF_NO.onReset();
+            }
+          });
         }
         else {
-          console.warn("DEEP | No customer selected");
-          this.SRC_CIF_NO.onReset();
+          this.services.alert.showAlert(2, '', 3500, 'Please enter valid details');
         }
-      });
+      }
     }
     else {
-      this.services.alert.showAlert(2, '', -1, 'Please enter valid CBS Customer ID');
+      this.services.alert.showAlert(2, '', 3500, 'Please enter valid details');
     }
   }
 
@@ -755,7 +773,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         for (let i = 0; i < CPBProductDetails.length; i++) {
           if (CPBProductDetails[i].CBS_PRODUCT_CODE == tempVar['CBSProductCode']) {
             if (CPBProductDetails[i].INITIATION_ALLOWED == 'N') {
-              this.services.alert.showAlert(2, '', -1, 'For Specified Product Code we cannot initiate the Proposal');
+              this.services.alert.showAlert(2, '', 3500, 'For Specified Product Code we cannot initiate the Proposal');
               // this.SUBMIT_MAIN_BTN.setDisabled(true);
               return;
             }
@@ -779,7 +797,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       return
     }
     else {
-      this.CBSProductCode(data);
+      // this.CBSProductCode(data);
+      this.NoOfCardAllowed(data);
     }
   }
 
@@ -837,6 +856,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   //called when a customer is selected for customer search
   setValuesOfCustomer(data) {
+    if (data.CustomerType == 'C') {
+      this.BAD_PROD_CAT.setValue('CC');
+      this.Handler.onProdCategoryChange({
+      }
+      );
+    }
 
     console.log('searched data =================', data);
 
@@ -866,7 +891,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.CD_TITLE.setValue(tempVar['title']);
     this.CD_CUSTOMER_ID.setValue(tempVar['icif']);
     this.CD_EMAIL_ID.setValue(tempVar['emailid']);
-    this.CD_NAME_ON_CARD.setValue((tempVar['custName']).slice(0, 19));
+    this.CD_NAME_ON_CARD.setValue(tempVar['custName']);
 
     // this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
     this.BAD_SRC_CHANNEL.setValue('BRANCH');
@@ -889,35 +914,35 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     // if (tempVar['CustomerType'] == 'C') {
     // this.BAD_PRIME_USAGE.setValue('OFFICE');
 
-    this.BAD_PRIME_USAGE.setStaticListOptions(this.FilterOptions);
-    let primeUsageMap = new Map();
-    primeUsageMap.set('QueryParam.lookup', 1);
-    primeUsageMap.set('QueryParam.PROD_CAT', "CC");
-    this.services.http.fetchApi('/MstApplnPurposeDetails', 'GET', primeUsageMap, '/olive/publisher/rlo-masters').subscribe(
-      async (httpResponse: HttpResponse<any>) => {
-        var res = httpResponse.body;
-        var cardList = res['Data'];
-        this.FilterOptions = [];
-        if (tempVar['CustomerType'] === 'C') {
-          cardList.forEach(element => {
-            if (element['id'] === 'OFFICE' && element['text'] === 'Office Expenses and Business Travel') {
-              this.FilterOptions.push({ id: element['id'], text: element['text'] });
-              this.BAD_PRIME_USAGE.setStaticListOptions(this.FilterOptions);
-              this.BAD_PRIME_USAGE.setValue(element['id']);
-            }
-          });
-        } else {
-          this.FilterOptions = [];
-          this.FilterOptions.push({ id: undefined, text: "" });
-          cardList.forEach(element => {
-            if (element['id'] !== 'OFFICE' && element['text'] !== 'Office Expenses and Business Travel') {
-              this.FilterOptions.push({ id: element['id'], text: element['text'] });
-            }
-          });
-          this.BAD_PRIME_USAGE.setStaticListOptions(this.FilterOptions);
-        }
-      }
-    );
+    // this.BAD_PRIME_USAGE.setStaticListOptions(this.FilterOptions);
+    // let primeUsageMap = new Map();
+    // primeUsageMap.set('QueryParam.lookup', 1);
+    // primeUsageMap.set('QueryParam.PROD_CAT', "CC");
+    // this.services.http.fetchApi('/MstApplnPurposeDetails', 'GET', primeUsageMap, '/olive/publisher/rlo-masters').subscribe(
+    //   async (httpResponse: HttpResponse<any>) => {
+    //     var res = httpResponse.body;
+    //     var cardList = res['Data'];
+    //     this.FilterOptions = [];
+    //     if (tempVar['CustomerType'] === 'C') {
+    //       cardList.forEach(element => {
+    //         if (element['id'] === 'OFFICE' && element['text'] === 'Office Expenses and Business Travel') {
+    //           this.FilterOptions.push({ id: element['id'], text: element['text'] });
+    //           this.BAD_PRIME_USAGE.setStaticListOptions(this.FilterOptions);
+    //           this.BAD_PRIME_USAGE.setValue(element['id']);
+    //         }
+    //       });
+    //     } else {
+    //       this.FilterOptions = [];
+    //       this.FilterOptions.push({ id: undefined, text: "" });
+    //       cardList.forEach(element => {
+    //         if (element['id'] !== 'OFFICE' && element['text'] !== 'Office Expenses and Business Travel') {
+    //           this.FilterOptions.push({ id: element['id'], text: element['text'] });
+    //         }
+    //       });
+    //       this.BAD_PRIME_USAGE.setStaticListOptions(this.FilterOptions);
+    //     }
+    //   }
+    // );
     // } //else{
     //   this.BAD_PRIME_USAGE.onReset();
     //   this.BAD_CARD_TYPE.onReset();
@@ -944,10 +969,15 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   async BAD_PROD_CAT_change(fieldID, value) {
     let inputMap = new Map();
-    this.revalidateBasicField('BAD_PROD_CAT');
+    // this.revalidateBasicField('BAD_PROD_CAT');
     await this.Handler.onProdCategoryChange({
     }
     );
+    this.Handler.HideFieldBasedOnCorporate(null, 'B')
+    if (this.BAD_PROD_CAT.getFieldValue() !== 'CC' && this.CD_CARD_CUST_TYPE.getFieldInfo() == 'Corporate') {
+      this.Handler.onResetCustomer({});
+    }
+
     this.Handler.updateLoanTag();
     this.setDependency(fieldID, value);
     this.BAD_PRODUCT.onReset();
@@ -1007,15 +1037,15 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.Handler.isStaff({});
 
   }
-  // async CD_DOB_blur(event) {
-  //   if (!this.isPastDate(this.CD_DOB.getFieldValue())) {
-  //     this.CD_DOB.setError('rlo.error.DOB.invalid');
-  //     return 1;
-  //   } else if (!this.isAgeValid(this.CD_DOB.getFieldValue())) {
-  //     this.CD_DOB.setError('rlo.error.Age.invalid');
-  //     return 1
-  //   }
-  // }
+  async CD_DOB_blur(event) {
+    if (!this.isPastDate(this.CD_DOB.getFieldValue())) {
+      this.CD_DOB.setError('rlo.error.DOB.invalid');
+      return 1;
+    } else if (!this.isAgeValid(this.CD_DOB.getFieldValue())) {
+      this.CD_DOB.setError('rlo.error.Age.invalid');
+      return 1
+    }
+  }
 
 
   async BAD_DATE_OF_RCPT_blur(event) {
@@ -1192,8 +1222,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
           return;
         }
         if (res.status == 'S') {
-          this.eligeData = res.outputdata.LOAN_ELIGIBILITY;
-          this.EligibilityDecision = res.outputdata.OVERALLDECISION;
+          this.eligeData = res.ouputdata.LOAN_ELIGIBILITY;
+          this.EligibilityDecision = res.ouputdata.OVERALLDECISION;
           // for (let i = 0; i < res.ouputdata.LOAN_ELIGIBILITY.length; i++) {
           //   const Data = res.ouputdata.LOAN_ELIGIBILITY[i];
           //   if (Data.DECISION == 'Reject') {
@@ -1611,6 +1641,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   async BAD_CUSTOMER_TYPE_change(fieldID, value) {
     this.setCustomerTypeOptions();
     this.toggleColumn();
+    this.CD_CARD_CUST_TYPE.setValue('B',undefined,true);
   }
 
 
@@ -1686,7 +1717,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
         { paramKey: "ProductCd", depFieldID: "BAD_PRODUCT", paramType: "PathParam" },
         { paramKey: "BAD_PROD_CAT", depFieldID: "BAD_PROD_CAT", paramType: "QueryParam" },
-        { paramKey: "BAD_CARD_TYPE", depFieldID: "BAD_CARD_TYPE", paramType: "QueryParam" },
+        // { paramKey: "BAD_CARD_TYPE", depFieldID: "BAD_CARD_TYPE", paramType: "QueryParam" },
       ],
       outDep: [
         { paramKey: "MstProductDetails.MaxCredLimit", depFieldID: "MaxCredLimit" },
@@ -1712,9 +1743,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       outDep: [
 
         { paramKey: "NewSchemeDetails.MaxLoanVal", depFieldID: "MaxCredLimit" },
-        { paramKey: "NewSchemeDetails.MinLoanVal", depFieldID: "MinCredLimit" }
-        // { paramKey: "NewScemeDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE" },
-        // { paramKey: "NewSchemeDetails.AllowCoBorrower", depFieldID: "allowCoBorrower" }
+        { paramKey: "NewSchemeDetails.MinLoanVal", depFieldID: "MinCredLimit" },
+        { paramKey: "NewSchemeDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE" },
+        { paramKey: "NewSchemeDetails.AllowCoBorrower", depFieldID: "allowCoBorrower" }
       ]
     },
     BAD_PROMOTION: {
@@ -2093,7 +2124,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       let inputMap = new Map();
       inputMap.set('Body.interfaceId', 'REF_SEARCH');
       inputMap.set('Body.inputdata.RefNumber', refnum);
-      this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+      this.services.http.fetchApi(this.services.rloCommonData.userInvokeInterfacev2 ? '/api/invokeInterface/v2' : '/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
           if (res.status === 'S') {

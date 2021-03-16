@@ -16,7 +16,6 @@ import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { PropertyHandlerComponent } from './property-handler.component';
-import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
 
 const customCss: string = '';
 
@@ -44,10 +43,10 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
   @ViewChild('PerOfProjectCompletion', { static: false }) PerOfProjectCompletion: TextBoxComponent;
   @ViewChild('ExpDateOfCompletion', { static: false }) ExpDateOfCompletion: DateComponent;
   @ViewChild('PropoertyPurchaseNameOf', { static: false }) PropoertyPurchaseNameOf: TextBoxComponent;
-  //@ViewChild('CostOfProperty', { static: false }) CostOfProperty: AmountComponent;
-  //@ViewChild('PropertyInsuranceCost', { static: false }) PropertyInsuranceCost: AmountComponent;
+  @ViewChild('CostOfProperty', { static: false }) CostOfProperty: AmountComponent;
+  @ViewChild('PropertyInsuranceCost', { static: false }) PropertyInsuranceCost: AmountComponent;
   @ViewChild('SelectToCapitalizeProperty', { static: false }) SelectToCapitalizeProperty: CheckBoxComponent;
-  //@ViewChild('PersonalInsuranceCost', { static: false }) PersonalInsuranceCost: AmountComponent;
+  @ViewChild('PersonalInsuranceCost', { static: false }) PersonalInsuranceCost: AmountComponent;
   @ViewChild('SelectToCapitalizePersonal', { static: false }) SelectToCapitalizePersonal: CheckBoxComponent;
   @ViewChild('Address1', { static: false }) Address1: TextBoxComponent;
   @ViewChild('Address2', { static: false }) Address2: TextBoxComponent;
@@ -69,9 +68,9 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
   @ViewChild('SellerCity', { static: false }) SellerCity: TextBoxComponent;
   @ViewChild('SellerState', { static: false }) SellerState: TextBoxComponent;
   @ViewChild('SellerMobileNo', { static: false }) SellerMobileNo: TextBoxComponent;
-  //@ViewChild('DownPaymentAmount', { static: false }) DownPaymentAmount: AmountComponent;
+  @ViewChild('DownPaymentAmount', { static: false }) DownPaymentAmount: AmountComponent;
   @ViewChild('DownPayment', { static: false }) DownPayment: TextBoxComponent;
-  //@ViewChild('AmountToBeFinanced', { static: false }) AmountToBeFinanced: AmountComponent;
+  @ViewChild('AmountToBeFinanced', { static: false }) AmountToBeFinanced: AmountComponent;
   @ViewChild('MoratoriumPeriod', { static: false }) MoratoriumPeriod: ComboBoxComponent;
   @ViewChild('MoratoriamPeriodCheck', { static: false }) MoratoriamPeriodCheck: CheckBoxComponent;
   @ViewChild('PD_Save', { static: false }) PD_Save: ButtonComponent;
@@ -85,16 +84,6 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
   @ViewChild('hideBuilderName', { static: false }) hideBuilderName: HiddenComponent;
   // @ViewChild('hidCountryCode', { static: false }) hidCountryCode: HiddenComponent;
   @ViewChild('Handler', { static: false }) Handler: PropertyHandlerComponent;
-
-  //custom
-  @ViewChild('CostOfProperty', { static: false }) CostOfProperty: RloUiCurrencyComponent;
-  @ViewChild('PropertyInsuranceCost', { static: false }) PropertyInsuranceCost: RloUiCurrencyComponent;
-  @ViewChild('PersonalInsuranceCost', { static: false }) PersonalInsuranceCost: RloUiCurrencyComponent;
-  @ViewChild('AmountToBeFinanced', { static: false }) AmountToBeFinanced: RloUiCurrencyComponent;
-  @ViewChild('DownPaymentAmount', { static: false }) DownPaymentAmount: RloUiCurrencyComponent;
-
-  clearFieldsFlag = false;
-  
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -167,19 +156,19 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
 
     let ApplicationId: any = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'ApplicationId');
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-    //this.CostOfProperty.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
-    //this.PropertyInsuranceCost.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
-    //this.PersonalInsuranceCost.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
-    //this.DownPaymentAmount.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
-    //this.AmountToBeFinanced.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
+    this.CostOfProperty.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
+    this.PropertyInsuranceCost.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
+    this.PersonalInsuranceCost.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
+    this.DownPaymentAmount.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
+    this.AmountToBeFinanced.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
     this.hidAppId.setValue('RLO');
     this.hidePropertyType.setValue('PROPERTY_TYPE');
     this.hidePurchaseType.setValue('PURCHASE_TYPE');
     this.hideSellerType.setValue('SELLER_TYPE');
     this.hideMoratoriumPeriod.setValue('MORATORIUM_PERIOD');
-    // this.hideBuilderName.setValue('BUIDER_NAME');
+    this.hideBuilderName.setValue('BUIDER_NAME');
     // this.hidCountryCode.setValue('ISD_COUNTRY_CODE');
-    if (!this.clearFieldsFlag) { this.OnLoanFormLoad(); }
+    this.OnLoanFormLoad();
     this.setDependencies();
     await this.Handler.onFormLoad({});
     this.AmountToBeFinanced.setReadOnly(true);
@@ -215,30 +204,57 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
 
   async Pincode_blur(event) {
     let inputMap = new Map();
-    inputMap.set('QueryParam.CountryCode', 'IND');
-    inputMap.set('PathParam.PinCd', event.value)
+    inputMap.set('PathParam.PinCd', event.value);
+    inputMap.set('QueryParam.CountryCode', this.services.rloui.getConfig('country.code.default'));
     this.services.http.fetchApi('/MasterPincodeDtls/{PinCd}', 'GET', inputMap, '/masters').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         console.log("res", res);
-        this.Region.setValue(res['MasterPincodeDtls']['UDF1'])
-        this.State.setValue(res['MasterPincodeDtls']['StateCd']['StateName'])
-        this.City.setValue(res['MasterPincodeDtls']['CityCd']['CityName'])
+        if (res == null) {
+          this.Pincode.setError('rlo.error.pincode.invalid');
+          this.Region.onReset();
+          this.City.onReset();
+          this.State.onReset();
+          setTimeout(() => {
+            this.Pincode.onReset();
+          }, 5000);
 
+          return 1;
+
+        } else {
+          this.Region.setValue(res['MasterPincodeDtls']['UDF1']);
+          this.State.setValue(res['MasterPincodeDtls']['StateCd']['StateName']);
+          this.City.setValue(res['MasterPincodeDtls']['CityCd']['CityName']);
+        }
       },
     );
   }
 
   async SellerPincode_blur(event) {
     let inputMap = new Map();
-    inputMap.set('PathParam.PinCd', event.value)
+    inputMap.set('PathParam.PinCd', event.value);
+    inputMap.set('QueryParam.CountryCode', this.services.rloui.getConfig('country.code.default'));
     this.services.http.fetchApi('/MasterPincodeDtls/{PinCd}', 'GET', inputMap, '/masters').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         console.log("res", res);
-        this.SellerRegion.setValue(res['MasterPincodeDtls']['UDF1'])
-        this.SellerState.setValue(res['MasterPincodeDtls']['StateCd']['StateName'])
-        this.SellerCity.setValue(res['MasterPincodeDtls']['CityCd']['CityName'])
+        if (res == null) {
+          this.SellerPincode.setError('rlo.error.pincode.invalid');
+          this.SellerRegion.onReset();
+          this.SellerCity.onReset();
+          this.SellerState.onReset();
+          setTimeout(() => {
+            this.SellerPincode.onReset();
+          }, 5000);
+
+          return 1;
+
+        } else {
+          this.SellerRegion.setValue(res['MasterPincodeDtls']['UDF1']);
+          this.SellerState.setValue(res['MasterPincodeDtls']['StateCd']['StateName']);
+          this.SellerCity.setValue(res['MasterPincodeDtls']['CityCd']['CityName']);
+        }
+
 
       },
     );
@@ -316,13 +332,6 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
     this.passNewValue(this.value);
     this.setReadOnly(false);
     this.onFormLoad();
-
-    //custom
-    this.CostOfProperty.resetFieldAndDropDown();
-    this.PropertyInsuranceCost.resetFieldAndDropDown();
-    this.PersonalInsuranceCost.resetFieldAndDropDown();
-    this.DownPaymentAmount.resetFieldAndDropDown();
-    this.AmountToBeFinanced.resetFieldAndDropDown();
   }
 
   OnLoanFormLoad() {
@@ -366,15 +375,15 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
             this.PerOfProjectCompletion.setValue(PropertyElement['CompletionPercent']);
             this.ExpDateOfCompletion.setValue(PropertyElement['CompletionDate']);
             this.PropoertyPurchaseNameOf.setValue(PropertyElement['NewLegalOwner']);
-            //this.CostOfProperty.setValue(PropertyElement['PropertyCost']);
-            //this.PropertyInsuranceCost.setValue(PropertyElement['PropertyInsuranceCost']);
-            this.SelectToCapitalizeProperty.setValue(PropertyElement['PropertyInsuranceAdjFlag']);
-            //this.PersonalInsuranceCost.setValue(PropertyElement['PersonInsuranceCost']);
-            this.SelectToCapitalizePersonal.setValue(PropertyElement['PersonInsuranceAdjFlag']);
+            this.CostOfProperty.setValue(PropertyElement['PropertyCost']);
+            this.PropertyInsuranceCost.setValue(PropertyElement['PropertyInsuranceCost']);
+            this.SelectToCapitalizeProperty.setValue(PropertyElement['PropertyInsuranceAdjFlag'] == 'true' ? true : false);
+            this.PersonalInsuranceCost.setValue(PropertyElement['PersonInsuranceCost']);
+            this.SelectToCapitalizePersonal.setValue(PropertyElement['PersonInsuranceAdjFlag'] == 'true' ? true : false);
             this.SellerType.setValue(PropertyElement['SellerType']['id']);
             this.NameOfSeller.setValue(PropertyElement['SellerName']);
             this.NameOfRegisteredOwner.setValue(PropertyElement['CurrentOwnerName']);
-            //this.DownPaymentAmount.setValue(PropertyElement['DownPayAmount']);
+            this.DownPaymentAmount.setValue(PropertyElement['DownPayAmount']);
             this.DownPayment.setValue(PropertyElement['DownPayPercent']);
             this.AmountToBeFinanced.setValue(PropertyElement['TotalFinanceAmount']);
             this.MoratoriumPeriod.setValue(PropertyElement['MoratoriumPeriod']['id']);
@@ -396,16 +405,10 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
             this.SellerState.setValue(PropertyElement['SLState']);
             this.SellerMobileNo.setValue(PropertyElement['SLMobileNo']);
             this.HidePropertySeq.setValue(PropertyElement['PropertySeq']);
+            this.MoratoriamPeriodCheck.setValue(PropertyElement['MoratoriamPeriodFlag']);
             // let disburalRecords=PropertyElement['DisbursalRecords'];
             // if(disburalRecords){
             // }
-
-            //custom
-            this.CostOfProperty.setComponentSpecificValue(PropertyElement['PropertyCost'], null);
-            this.PropertyInsuranceCost.setComponentSpecificValue(PropertyElement['PropertyInsuranceCost'], null);
-            this.PersonalInsuranceCost.setComponentSpecificValue(PropertyElement['PersonInsuranceCost'], null);
-            this.AmountToBeFinanced.setComponentSpecificValue(PropertyElement['TotalFinanceAmount'], null);
-            this.DownPaymentAmount.setComponentSpecificValue(PropertyElement['DownPayAmount'], null);
           });
 
           this.revalidate().then((errors) => {
@@ -492,6 +495,15 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
             this.services.alert.showAlert(1, 'rlo.success.update.property', 5000);
+
+            let array = [];
+            array.push({ isValid: true, sectionData: this.getFieldValue() });
+            let obj = {
+              "name": "PropertyDetails",
+              "data": array,
+              "sectionName": "PropertyDetails"
+            }
+            this.services.rloCommonData.globalComponentLvlDataHandler(obj);
           },
           async (httpError) => {
             var err = httpError['error']
@@ -683,10 +695,22 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
         inputMap.set('Body.PropertyDetails.DownPayPercent', this.DownPayment.getFieldValue());
         inputMap.set('Body.PropertyDetails.TotalFinanceAmount', this.AmountToBeFinanced.getFieldValue());
         inputMap.set('Body.PropertyDetails.ApplicationId', this.ApplicationId);
+        inputMap.set('Body.PropertyDetails.MoratoriamPeriodFlag', this.MoratoriamPeriodCheck.getFieldValue());
+        //  this.MoratoriamPeriodCheck.setValue(PropertyElement['MoratoriamPeriodFlag']);
         this.services.http.fetchApi('/PropertyDetails', 'POST', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
             this.services.alert.showAlert(1, 'rlo.success.save.property', 5000);
+
+            let array = [];
+            array.push({ isValid: true, sectionData: this.getFieldValue() });
+            let obj = {
+              "name": "PropertyDetails",
+              "data": array,
+              "sectionName": "PropertyDetails"
+            }
+            this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+
           },
           async (httpError) => {
             var err = httpError['error']
@@ -852,7 +876,6 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
     }
   }
   Clear_click(event) {
-    this.clearFieldsFlag = true;
     this.onReset();
   }
 
@@ -868,7 +891,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
 
   async ExpDateOfCompletion_blur(event) {
     let inputMap = new Map();
-   
+    console.log("shweta :: ", this.ExpDateOfCompletion.getFieldValue());
     if (this.ExpDateOfCompletion.getFieldValue()) {
       if (this.isPastDate(this.ExpDateOfCompletion.getFieldValue())) {
         this.ExpDateOfCompletion.setError('rlo.error.ExpDateOfCompletion.invalid');
@@ -876,17 +899,10 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
       }
     }
   }
-  async DownPaymentAmount_blur() {
+  async DownPaymentAmount_blur(event) {
     let AmtFinanced;
     let PerDownPayment;
     let TotalAmtFinced;
-
-    console.warn("DEEP | DownPaymentAmount_blur");
-    console.log("DownPaymentAmount", this.DownPaymentAmount.getFieldValue());
-    console.log("CostOfProperty", this.CostOfProperty.getFieldValue());
-    console.log("PropertyInsuranceCost", this.PropertyInsuranceCost.getFieldValue());
-    console.log("PersonalInsuranceCost", this.PersonalInsuranceCost.getFieldValue());
-
     if (this.DownPaymentAmount.getFieldValue() != undefined && this.CostOfProperty.getFieldValue() != undefined) {
       PerDownPayment = (Math.round(this.DownPaymentAmount.getFieldValue() / this.CostOfProperty.getFieldValue() * 100))
       this.DownPayment.setValue(PerDownPayment.toFixed(2));
@@ -895,37 +911,33 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
     // console.log("log", this.SelectToCapitalizePersonal.getFieldValue(), this.SelectToCapitalizeProperty.getFieldValue())
     if (this.SelectToCapitalizePersonal.getFieldValue() != false && this.SelectToCapitalizeProperty.getFieldValue() != false) {
       if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PropertyInsuranceCost.getFieldValue() != undefined && this.PersonalInsuranceCost.getFieldValue() != undefined) {
-        AmtFinanced = Number(this.CostOfProperty.getFieldValue()) - Number(this.DownPaymentAmount.getFieldValue())
-        TotalAmtFinced = AmtFinanced + Number(this.PropertyInsuranceCost.getFieldValue()) + Number(this.PersonalInsuranceCost.getFieldValue());
+        AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
+        TotalAmtFinced = AmtFinanced + this.PropertyInsuranceCost.getFieldValue() + this.PersonalInsuranceCost.getFieldValue();
         console.log("total mt", TotalAmtFinced);
-        //this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
-        this.AmountToBeFinanced.setComponentSpecificValue(TotalAmtFinced.toFixed(2), null);
+        this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
       }
     }
     else if (this.SelectToCapitalizePersonal.getFieldValue() != false) {
       if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PersonalInsuranceCost.getFieldValue() != undefined) {
-        AmtFinanced = Number(this.CostOfProperty.getFieldValue()) - Number(this.DownPaymentAmount.getFieldValue())
-        TotalAmtFinced = AmtFinanced + Number(this.PersonalInsuranceCost.getFieldValue());
+        AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
+        TotalAmtFinced = AmtFinanced + this.PersonalInsuranceCost.getFieldValue();
         console.log("total mt", TotalAmtFinced);
-        //this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
-        this.AmountToBeFinanced.setComponentSpecificValue(TotalAmtFinced.toFixed(2), null);
+        this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
       }
     }
     else if (this.SelectToCapitalizeProperty.getFieldValue() != false) {
       if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PropertyInsuranceCost.getFieldValue() !== undefined) {
-        AmtFinanced = Number(this.CostOfProperty.getFieldValue()) - Number(this.DownPaymentAmount.getFieldValue())
-        TotalAmtFinced = AmtFinanced + Number(this.PropertyInsuranceCost.getFieldValue());
+        AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
+        TotalAmtFinced = AmtFinanced + this.PropertyInsuranceCost.getFieldValue();
         console.log("total mt", TotalAmtFinced);
-        //this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
-        this.AmountToBeFinanced.setComponentSpecificValue(TotalAmtFinced.toFixed(2), null);
+        this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
       }
     }
     else if (this.SelectToCapitalizePersonal.getFieldValue() == false && this.SelectToCapitalizeProperty.getFieldValue() == false) {
       if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined) {
-        AmtFinanced = Number(this.CostOfProperty.getFieldValue()) - Number(this.DownPaymentAmount.getFieldValue())
+        AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
         console.log("total mt", AmtFinanced);
-        //this.AmountToBeFinanced.setValue(AmtFinanced.toFixed(2));
-        this.AmountToBeFinanced.setComponentSpecificValue(AmtFinanced.toFixed(2), null);
+        this.AmountToBeFinanced.setValue(AmtFinanced.toFixed(2));
       }
     }
   }
@@ -935,57 +947,46 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
     let AmtFinanced;
     let TotalAmtFinced;
 
-    console.warn("DEEP | DownPayment_blur");
-    console.log("DownPaymentAmount", this.DownPaymentAmount.getFieldValue());
-    console.log("CostOfProperty", this.CostOfProperty.getFieldValue());
-    console.log("PropertyInsuranceCost", this.PropertyInsuranceCost.getFieldValue());
-    console.log("PersonalInsuranceCost", this.PersonalInsuranceCost.getFieldValue());
-
     if (this.CostOfProperty.getFieldValue() != undefined && this.DownPayment.getFieldValue() != undefined) {
       DownPaymentCal = (Math.round(this.DownPayment.getFieldValue() * this.CostOfProperty.getFieldValue() / 100))
-      //this.DownPaymentAmount.setValue(DownPaymentCal.toFixed(2));
-      this.DownPaymentAmount.setComponentSpecificValue(DownPaymentCal.toFixed(2), null);
+      this.DownPaymentAmount.setValue(DownPaymentCal.toFixed(2));
     }
     if (this.SelectToCapitalizePersonal.getFieldValue() != false && this.SelectToCapitalizeProperty.getFieldValue() != false) {
       if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PropertyInsuranceCost.getFieldValue() != undefined && this.PersonalInsuranceCost.getFieldValue() != undefined) {
-        AmtFinanced = Number(this.CostOfProperty.getFieldValue()) - Number(this.DownPaymentAmount.getFieldValue())
-        TotalAmtFinced = AmtFinanced + Number(this.PropertyInsuranceCost.getFieldValue()) + Number(this.PersonalInsuranceCost.getFieldValue());
+        AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
+        TotalAmtFinced = AmtFinanced + this.PropertyInsuranceCost.getFieldValue() + this.PersonalInsuranceCost.getFieldValue();
         console.log("total mt", TotalAmtFinced);
-        //this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
-        this.AmountToBeFinanced.setComponentSpecificValue(TotalAmtFinced.toFixed(2), null);
+        this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
       }
     }
     else if (this.SelectToCapitalizePersonal.getFieldValue() != false) {
       if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PersonalInsuranceCost.getFieldValue() != undefined) {
-        AmtFinanced = Number(this.CostOfProperty.getFieldValue()) - Number(this.DownPaymentAmount.getFieldValue())
-        TotalAmtFinced = AmtFinanced + Number(this.PersonalInsuranceCost.getFieldValue());
+        AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
+        TotalAmtFinced = AmtFinanced + this.PersonalInsuranceCost.getFieldValue();
         console.log("total mt", TotalAmtFinced);
-        //this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
-        this.AmountToBeFinanced.setComponentSpecificValue(TotalAmtFinced.toFixed(2), null);
+        this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
       }
     }
     else if (this.SelectToCapitalizeProperty.getFieldValue() != false) {
       if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PropertyInsuranceCost.getFieldValue() !== undefined) {
-        AmtFinanced = Number(this.CostOfProperty.getFieldValue()) - Number(this.DownPaymentAmount.getFieldValue())
-        TotalAmtFinced = AmtFinanced + Number(this.PropertyInsuranceCost.getFieldValue());
+        AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
+        TotalAmtFinced = AmtFinanced + this.PropertyInsuranceCost.getFieldValue();
         console.log("total mt", TotalAmtFinced);
-        //this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
-        this.AmountToBeFinanced.setComponentSpecificValue(TotalAmtFinced.toFixed(2), null);
+        this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
       }
     }
     else if (this.SelectToCapitalizePersonal.getFieldValue() == false && this.SelectToCapitalizeProperty.getFieldValue() == false) {
       if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined) {
-        AmtFinanced = Number(this.CostOfProperty.getFieldValue()) - Number(this.DownPaymentAmount.getFieldValue())
+        AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
         console.log("total mt", AmtFinanced);
-        //this.AmountToBeFinanced.setValue(AmtFinanced.toFixed(2));
-        this.AmountToBeFinanced.setComponentSpecificValue(AmtFinanced.toFixed(2), null);
+        this.AmountToBeFinanced.setValue(AmtFinanced.toFixed(2));
       }
     }
   }
 
 
   async PerOfProjectCompletion_blur(event) {
-  
+    // console.log("shweta :: property :: project completion %",this.PerOfProjectCompletion.getFieldValue());
     this.ExpDateOfCompletion.mandatory = (
       this.PerOfProjectCompletion.getFieldValue() == undefined
       || this.PerOfProjectCompletion.getFieldValue() == ''
@@ -1035,7 +1036,10 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
     },
     BuilderName: {
       inDep: [
-        { paramKey: "BuilderSeq", depFieldID: "BuilderName", paramType: "PathParam" },
+
+        { paramKey: "VALUE1", depFieldID: "BuilderName", paramType: "PathParam" },
+        { paramKey: "KEY1", depFieldID: "hideBuilderName", paramType: "QueryParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
       ],
       outDep: [
       ]
@@ -1075,19 +1079,6 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
     //   ]
     // },
 
-  }
-
-  //custom 
-  customGenericOnBlur(event: any) {
-    console.log("Deep | customGenericOnBlur", event);
-    if (event.field == "LD_LOAN_AMOUNT") {
-    } else if (event.field == "DownPaymentAmount") {
-      this.DownPaymentAmount_blur();
-    } else if (event.field == "DownPaymentAmount") {
-
-    }
-
-    this.genericOnBlur(event.field, event.textFieldValue);
   }
 
 }

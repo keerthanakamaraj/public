@@ -42,16 +42,16 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
   @ViewChild('hidAccBranch', { static: false }) hidAccBranch: HiddenComponent;
 
   //new changes canara
-  @ViewChild('BAD_CARD_TYPE', { static: false }) BAD_CARD_TYPE: TextBoxComponent;
-  @ViewChild('BAD_CUSTOMER_TYPE', { static: false }) BAD_CUSTOMER_TYPE: RLOUIRadioComponent;
-  @ViewChild('BAD_REQ_CARD_LIMIT', { static: false }) BAD_REQ_CARD_LIMIT: RloUiCurrencyComponent;
-  @ViewChild('BAD_CBS_PROD_CD', { static: false }) BAD_CBS_PROD_CD: TextBoxComponent;
-  @ViewChild('BAD_PRODUCT_APP', { static: false }) BAD_PRODUCT_APP: TextBoxComponent;
-  @ViewChild('BAD_SUB_PROD_APP', { static: false }) BAD_SUB_PROD_APP: TextBoxComponent;
-  @ViewChild('BAD_PRIME_USAGE', { static: false }) BAD_PRIME_USAGE: TextBoxComponent;
-  @ViewChild('BAD_PROD_CLASS', { static: false }) BAD_PROD_CLASS: TextBoxComponent;
+  // @ViewChild('BAD_CARD_TYPE', { static: false }) BAD_CARD_TYPE: TextBoxComponent;
+  // @ViewChild('BAD_CUSTOMER_TYPE', { static: false }) BAD_CUSTOMER_TYPE: RLOUIRadioComponent;
+  // @ViewChild('BAD_REQ_CARD_LIMIT', { static: false }) BAD_REQ_CARD_LIMIT: RloUiCurrencyComponent;
+  // @ViewChild('BAD_CBS_PROD_CD', { static: false }) BAD_CBS_PROD_CD: TextBoxComponent;
+  // @ViewChild('BAD_PRODUCT_APP', { static: false }) BAD_PRODUCT_APP: TextBoxComponent;
+  // @ViewChild('BAD_SUB_PROD_APP', { static: false }) BAD_SUB_PROD_APP: TextBoxComponent;
+  // @ViewChild('BAD_PRIME_USAGE', { static: false }) BAD_PRIME_USAGE: TextBoxComponent;
+  // @ViewChild('BAD_PROD_CLASS', { static: false }) BAD_PROD_CLASS: TextBoxComponent;
   @ViewChild('hidCustType', { static: false }) hidCustType: HiddenComponent;
-  
+
   @Input() ApplicationId: string = undefined;
   CustomerConfirmationStatus: string = undefined;
   CustomerConfirmationRemarks: string = undefined;
@@ -116,26 +116,35 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
             this.AD_SOURCING_CHANNEL.setValue(applDtls.SourcingChannel);
             this.AD_DSA_ID.setValue(applDtls.DSACode);
             this.AD_BRANCH.setValue(applDtls.ApplicationBranch);
-            this.services.rloCommonData.globalApplicationDtls.SubCamType=applDtls.SubCamType;
+            this.services.rloCommonData.globalApplicationDtls.SubCamType = applDtls.SubCamType;
             console.log(this.services.rloCommonData.globalApplicationDtls);
             let headerData = this.services.rloCommonData.globalApplicationDtls;
-            this.BAD_CARD_TYPE.setValue(headerData.CardTypename);
-            this.BAD_PRODUCT_APP.setValue(headerData.ProductName);
-            this.BAD_CBS_PROD_CD.setValue(headerData.CBSProductCode);
-            this.BAD_PROD_CLASS.setValue(headerData.SchemeName);
-            this.BAD_CUSTOMER_TYPE.setValue(headerData.CustomerType, undefined, true);
-            this.BAD_PRIME_USAGE.setValue(headerData.ApplicationPurposeName);
-            this.BAD_REQ_CARD_LIMIT.setComponentSpecificValue(headerData.ReqCardLimit);
-            this.BAD_SUB_PROD_APP.setValue(headerData.SubProductName);
+
+            //Canara related changes
+            // this.BAD_CARD_TYPE.setValue(headerData.CardTypename);
+            // this.BAD_PRODUCT_APP.setValue(headerData.ProductName);
+            // this.BAD_CBS_PROD_CD.setValue(headerData.CBSProductCode);
+            // this.BAD_PROD_CLASS.setValue(headerData.SchemeName);
+            // this.BAD_CUSTOMER_TYPE.setValue(headerData.CustomerType, undefined, true);
+            // this.BAD_PRIME_USAGE.setValue(headerData.ApplicationPurposeName);
+            // this.BAD_REQ_CARD_LIMIT.setComponentSpecificValue(headerData.ReqCardLimit);
+            // this.BAD_SUB_PROD_APP.setValue(headerData.SubProductName);
+            //Canara related changes
+
             // if (this.AD_PHYSICAL_FORM_NO.getFieldValue() == undefined && this.AD_PHYSICAL_FORM_NO.getFieldValue() == null) {
             //   this.AD_PHYSICAL_FORM_NO.setValue("NA");
             // }
             // else {
             // this.AD_PHYSICAL_FORM_NO.setValue(applDtls.ApplicationInfo.PhysicalFormNo);
             // }
-            if (applDtls.ApplicationInfo.PhysicalFormNo) {
-              this.AD_PHYSICAL_FORM_NO.setValue(applDtls.ApplicationInfo.PhysicalFormNo);
-            } else {
+            if (applDtls.ApplicationInfo.hasOwnProperty("PhysicalFormNo")) {
+              if (applDtls.ApplicationInfo.PhysicalFormNo) {
+                this.AD_PHYSICAL_FORM_NO.setValue(applDtls.ApplicationInfo.PhysicalFormNo);
+              } else {
+                this.AD_PHYSICAL_FORM_NO.setValue("NA");
+              }
+            }
+            else {
               this.AD_PHYSICAL_FORM_NO.setValue("NA");
             }
 
@@ -239,9 +248,10 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
       //this.Handler.updateAmountTags();
     } else if (event.field == "LD_GROSS_INCOME" || event.field == "LD_EXST_LBLT_AMT" || event.field == "LD_OTH_DEDUCTIONS") {
       //this.Handler.calculateNetIncome({});
-    } else if (event.field == "BAD_REQ_CARD_LIMIT") {
-      this.BAD_REQ_CARD_LIMIT.setValue(event.textFieldValue);
     }
+    // else if (event.field == "BAD_REQ_CARD_LIMIT") {
+    //   this.BAD_REQ_CARD_LIMIT.setValue(event.textFieldValue);
+    // }
     this.genericOnBlur(event.field, event.textFieldValue);
   }
 
@@ -324,15 +334,15 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
       outDep: [
       ]
     },
-    BAD_CUSTOMER_TYPE: {
-      inDep: [
-        { paramKey: "VALUE1", depFieldID: "BAD_CUSTOMER_TYPE", paramType: "PathParam" },
-        { paramKey: "KEY1", depFieldID: "hidCustType", paramType: "QueryParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    }
+    // BAD_CUSTOMER_TYPE: {
+    //   inDep: [
+    //     { paramKey: "VALUE1", depFieldID: "BAD_CUSTOMER_TYPE", paramType: "PathParam" },
+    //     { paramKey: "KEY1", depFieldID: "hidCustType", paramType: "QueryParam" },
+    //     { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
+    //   ]
+    // }
 
     // BAD_PRIME_USAGE: {
     //   inDep: [

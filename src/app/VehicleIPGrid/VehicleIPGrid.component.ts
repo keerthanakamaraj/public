@@ -26,13 +26,14 @@ export class VehicleIPGridComponent extends GridComponent implements OnInit {
   @ViewChild('TotalAmount', { static: false }) TotalAmount: AmountComponent;
   @ViewChild('TotalLocalCurEq', { static: false }) TotalLocalCurEq: AmountComponent;
 
-
   showAdd: boolean = false;
   LocalCurrency: string = undefined;
   VehicelDetailsList: VehicleIPInterface[] = [];
   VehicleDetailsMap: Map<any, VehicleIPInterface> = new Map();
   hidExchangeRate: number = undefined;
   doSubscribeFlag: boolean = false;
+
+  readOnly: boolean = false;//make fields readOnly in UW 
 
   constructor(services: ServiceStock, cdRef: ChangeDetectorRef) {
     super(services, cdRef);
@@ -67,6 +68,12 @@ export class VehicleIPGridComponent extends GridComponent implements OnInit {
     });
   }
 
+  //make grid readOnly for UW
+  makeGridFieldsReadOnly(readOnly) {
+    console.log("DEEP | make grid readOnly", readOnly)
+    this.readOnly = readOnly;
+  }
+
   async gridLoad() {
     this.fetchMstCostList();
     this.showHideAddRowIcon(0);
@@ -76,11 +83,16 @@ export class VehicleIPGridComponent extends GridComponent implements OnInit {
     this.LocalCurrencyEquivalent.toArray()[rowNo].setReadOnly(true);
     this.TotalAmount.setReadOnly(true);
     this.TotalLocalCurEq.setReadOnly(true);
+
+    if (this.readOnly) {
+      this.Amount.toArray()[rowNo].setReadOnly(true);
+    }
+
     this.showHideAddRowIcon(0);
   }
 
   showHideAddRowIcon(rowlimit) {
-    
+    console.log("shweta testing row deleted", this.value.rowData.length, " dsdf ", this.value.rowData, "this is ", this);
     if (this.value.rowData.length <= rowlimit) {
       this.showAdd = true;
     } else {
@@ -111,9 +123,9 @@ export class VehicleIPGridComponent extends GridComponent implements OnInit {
       rowData['Amount'] = element.Amount;
       rowData['LocalCurrencyEquivalent'] = element.CurrencyEquivalentAmt;
       let rowCounter = this.addRow(rowData);
-     
+      //  console.log("shweta :: 1 row added", rowCounter, " :: ", rowData);
     });
-    
+    // console.log("shweta :: complete record fetched", this.value.rowData);
     // this.updateTotal();
   }
 
@@ -149,16 +161,25 @@ export class VehicleIPGridComponent extends GridComponent implements OnInit {
 
   updateTotal() {
     let totAmount: number = 0;
-    this.Amount.forEach((element: any) => {
-      if (element.getFieldValue() != undefined) {
+    this.Amount.forEach((element: any, index) => {
+      if (element.getFieldValue() != undefined && index !== 0) {
+
         totAmount += parseFloat(element.getFieldValue());
+        this.TotalAmount.setValue(totAmount.toFixed(2));
+      }
+      else if (index == 0) {
+        totAmount -= parseFloat(element.getFieldValue());
         this.TotalAmount.setValue(totAmount.toFixed(2));
       }
     });
     totAmount = 0;
-    this.LocalCurrencyEquivalent.forEach((element: any) => {
-      if (element.getFieldValue() != undefined) {
+    this.LocalCurrencyEquivalent.forEach((element: any, index) => {
+      if (element.getFieldValue() != undefined && index !== 0) {
         totAmount += parseFloat(element.getFieldValue());
+        this.TotalLocalCurEq.setValue(totAmount.toFixed(2));
+      }
+      else if (index == 0) {
+        totAmount -= parseFloat(element.getFieldValue());
         this.TotalLocalCurEq.setValue(totAmount.toFixed(2));
       }
     });
@@ -186,6 +207,22 @@ export class VehicleIPGridComponent extends GridComponent implements OnInit {
       return this.hidExchangeRate * newAmount;
     }
     return 0;
+  }
+
+  validateInputGrid(isFirstLoad) {
+    let isValid = true;
+
+    this.Amount.forEach(element => {
+      element.clearError();
+      if (element.getFieldValue() == undefined || element.getFieldValue() == '') {
+        if (!isFirstLoad) {
+          element.setError('MANDATORY');
+        }
+
+        isValid = false;
+      }
+    });
+    return isValid;
   }
   fieldDependencies = {}
 

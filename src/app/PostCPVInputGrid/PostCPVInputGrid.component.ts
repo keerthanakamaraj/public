@@ -77,7 +77,7 @@ export class PostCPVInputGridComponent extends GridComponent implements OnInit {
   async gridLoad() {
     // this.hidAppId.setValue('RLO');
     // this.hidCompletionResult.setValue('VRFN_CMPLTN_RSLT');
-
+    // console.log('shweta :: hidden app id ',this.hidAppId.getFieldValue());
   }
   async onRowAdd(rowNo) {
   }
@@ -135,11 +135,11 @@ export class PostCPVInputGridComponent extends GridComponent implements OnInit {
         inputMap.set('PathParam.verification-type', 'CPV');
         inputMap.set('QueryParam.ProposalId', this.ApplicationId);
         inputMap.set('QueryParam.verificationtype', 'CPV');
-        this.services.http.fetchApi('/v1/proposal/{proposal-id}/CPV/verification', 'GET', inputMap, "/los-verification").subscribe(
+        this.services.http.fetchApi('/v1/proposal/{proposal-id}/CPV/verification', 'GET', inputMap, "/common-de").subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
             let defaultData = res['CPVResp'];
-
+            console.log("shweta :: verification data", defaultData);
             // this.parseDefaultData(defaultData);
             this.parseVerificationResp(defaultData);
           },
@@ -206,7 +206,7 @@ export class PostCPVInputGridComponent extends GridComponent implements OnInit {
         this.MstDataMap.set(eachCustomer.FIELD1, customerDtls);
       });
       this.loadRecords();
-
+      console.log("shweta :: mstDataMap", this.MstDataMap);
     }
   }
 
@@ -270,7 +270,7 @@ export class PostCPVInputGridComponent extends GridComponent implements OnInit {
             // rowData['SaveVrfn'] = eachVrfn.SpecificInstructions;
             rowCounter = this.addRow(rowData);
             eachVrfn.rowNumber = rowCounter;
-
+            console.log("shweta :: row counter", rowCounter);
             if (eachVrfn.RLODecision != undefined) {
               this.disableRow(rowCounter);
             }
@@ -280,18 +280,31 @@ export class PostCPVInputGridComponent extends GridComponent implements OnInit {
       }
     });
   }
-
+isEmptyString(value){
+if(value==undefined || value=='')
+{
+  return true;
+}else{
+  return false;
+}
+}
+  isValidDecision(rowNo){
+  if(this.isEmptyString(this.CompletionResult.toArray()[rowNo].getFieldValue()) ||this.isEmptyString(this.CompletionRemarks.toArray()[rowNo].getFieldValue())){
+    return false;
+  }
+  return true;
+  }
+  
   SaveVrfn_click(rowNo, $event) {
     console.log("row clicked", rowNo, ' : ', event);
     let inputMap = new Map();
-    var noOfError: number = 0;
-    if (noOfError == 0) {
+    if (this.isValidDecision(rowNo)) {
       this.SaveVrfn.toArray()[rowNo].setDisabled(true);
       inputMap = this.generateSaveVrfnReqJSON(inputMap, rowNo);
 
-
+      console.log("shweta :: intiation req json", inputMap)
       inputMap.set('PathParam.proposal-id', this.ApplicationId);
-      this.services.http.fetchApi('/v1/proposal/{proposal-id}/verification/CPV/accept/save', 'POST', inputMap, '/los-verification').subscribe(
+      this.services.http.fetchApi('/v1/proposal/{proposal-id}/verification/CPV/accept/save', 'POST', inputMap, '/common-de').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
           this.services.alert.showAlert(1, 'rlo.success.postcpv-dicisionsave', 5000);
@@ -326,10 +339,15 @@ export class PostCPVInputGridComponent extends GridComponent implements OnInit {
     this.SaveVrfn.toArray()[rowNo].setDisabled(true);
   }
   generateSaveVrfnReqJSON(inputMap, rowNo) {
-    this.services.rloCommonData.globalApplicationDtls.ARN = '1030MOR08840990';
+   // this.services.rloCommonData.globalApplicationDtls.ARN = '1010VEH00001672';
     inputMap.clear();
     inputMap.set('Body.ProposalVerfnHolder.ProposalId', this.ApplicationId);
     inputMap.set('Body.ProposalVerfnHolder.AppRefNum', this.services.rloCommonData.globalApplicationDtls.ARN);
+    //inputMap.set('Body.ProposalVerfnHolder.TaskId', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId'));
+    inputMap.set('Body.ProposalVerfnHolder.UserId', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId'));
+    inputMap.set('Body.ProposalVerfnHolder.TenantId',this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId'));
+    inputMap.set('Body.ProposalVerfnHolder.Direction','AP');
+    inputMap.set('Body.ProposalVerfnHolder.VeriableName','VerificationId');
     //inputMap.set('Body.ProposalVerfnHolder.VerificationTxnId', this.VerificationTxnId);
 
     // inputMap.set('Body.ProposalVerfnHolder.CreatedBy', this.TotalLocalCurEq.getFieldValue());
@@ -351,7 +369,7 @@ export class PostCPVInputGridComponent extends GridComponent implements OnInit {
     vrfnSummObj['VerificationStatus'] = 'SaveCPV';
     vrfnSummObj['DecisionBy'] = 'CpvReq';
 
-
+    console.log("shweta :: ", this.MstDataMap);
     // vrfnSummObj['CpvReq'] = CPVReqObj;
 
     verificationSummList.push(vrfnSummObj);

@@ -120,6 +120,8 @@ export class RloCommonData {
   customerListForAddress = new Map();//need to change this
   initialBorrowerDetailsCallDone: boolean = false;
 
+  userInvokeInterfacev2: boolean = true;//temp fix to make interface apis work
+
   LienAmt: number = 0; // FD details lien amt for credit card calculation
   constructor(public rloutil: RloUtilService, public rloui: RlouiService, public router: Router, public http: ProvidehttpService, public alert: AlertsService) {
     this.resetMapData();
@@ -266,12 +268,10 @@ export class RloCommonData {
           break;
         case 'LoanDetails':
           mapValue = componentData.data;
-
           functionalResponseObj = this.tabularOrNonTabularSectionValidation(mapValue[0].isValid).then(data => { return data });
           break;
         case 'CreditCardDetails':
           mapValue = componentData.data;
-
           functionalResponseObj = this.tabularOrNonTabularSectionValidation(mapValue[0].isValid).then(data => { return data });
           break;
         case 'ReferrerDetails':
@@ -302,7 +302,15 @@ export class RloCommonData {
         case 'FDDetails':
           mapValue = componentData.data;
           functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
-          break
+          break;
+        case 'GoldLoanDetails':
+          mapValue = componentData.data;
+          functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+          break;
+        case 'VehicalLoanDetails':
+          mapValue = componentData.data;
+          functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+          break;
       }
 
       tempStoreMap.get(mapName).set(mapKey, mapValue);
@@ -347,34 +355,20 @@ export class RloCommonData {
   //updateTags
   async updateAddressTags(event) {
     const tags = [];
-    let activeApplicantType = undefined;
     if (event.data != undefined) {
-      let activeApplicant = await this.getCustomerDetails(parseInt(event.data[0].BorrowerSeq));
-      if (activeApplicant != undefined) {
-        activeApplicantType = activeApplicant['CustomerType'];
-      }
-    }
-    event.data.forEach(address => {
-      let tagText = '';
-      // if (address.MailingAddress.id === 'Y') {
-      //   if (address.AddressType === 'OF') {
-      //     tagText = 'Office; ';
-      //   } else if (address.AddressType === 'RS') {
-      //     tagText = 'Residence; ';
-      //   }
-      // }
-      if (address.AddressType === 'ML') {
-        if (this.globalApplicationDtls.CustomerType == 'C' && activeApplicantType == 'B') {
-          tagText = 'Registered; ';
-        } else {
-          tagText = 'Mailing; ';
+      event.data.forEach(address => {
+        let tagText = '';
+        if (address.IsMailingAddress.id == 'Y') {
+          if (address.AddressType === 'OF') {
+            tagText = 'Office; ';
+          } else if (address.AddressType === 'RS') {
+            tagText = 'Residence; ';
+          }
+          tagText = tagText + this.rloutil.concatenate([address.AddressLine1, address.Region, address.City, address.State, address.PinCode], ', ');
+          tags.push({ text: tagText });
         }
-
-
-        tagText = tagText + this.rloutil.concatenate([address.AddressLine1, address.Region, address.City, address.State, address.PinCode], ', ');
-        tags.push({ text: tagText });
-      }
-    });
+      });
+    }
     return this.trimTagsIfRequired(tags, 2);
   }
 
@@ -659,66 +653,46 @@ export class RloCommonData {
 
     const LoanOwnership = customerData.LoanOwnership;
     const applicantType = customerData.CustomerType;
+    if (applicantType == 'G' || applicantType == 'OP') {
+      commonObj.isSectionValid = true;
+    }
+    else if (!sectionData.has('AddressDetails')) {
+      commonObj.isSectionValid = false;
+    } else {
+      if (sectionData.has('AddressDetails')) {
+        const addressList = sectionData.get('AddressDetails');
 
+        const addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };
+        for (const eachAddress of addressList) {
+          if (eachAddress.IsMailingAddress.id == 'Y') {
+            addrValidationObj.isMailing = true;
+          }
+          if ('CR' === ('' + eachAddress.OccupancyType.id)) {
+            addrValidationObj.isCurrent = true;
+          }
+          if ('PR' === ('' + eachAddress.OccupancyType.id)) {
+            addrValidationObj.isPermenet = true;
+          }
+          if ('OF' === ('' + eachAddress.AddressType)) {
+            addrValidationObj.isOffice = true;
+          }
+        }
 
-    // if (!sectionData.has('AddressDetails')) { //added for canara
-    //     commonObj.isSectionValid = false;
-    // } else {
-    if (sectionData.has('AddressDetails')) {
-      const addressList = sectionData.get('AddressDetails');
-      const addrValidationObj = { isMailing: false, isPermenet: true };
-      for (const eachAddress of addressList) {
-        if ('ML' === ('' + eachAddress.AddressType)) {
-          addrValidationObj.isMailing = true;
-        }
-        // if ('PR' === ('' + eachAddress.AddressType)) {
-        //   addrValidationObj.isPermenet = true;
-        // }
-      }
-      // if (applicantType == 'A' && this.globalApplicationDtls.CustomerType == 'C') {
-      //   addrValidationObj.isMailing = true;
-      // }
-      // commented for Canara
-      /*const addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };  
-      for (const eachAddress of addressList) {
-        if (eachAddress.MailingAddress.id && eachAddress.MailingAddress.id === 'Y') {
-          addrValidationObj.isMailing = true;
-        }
-        if ('CR' === ('' + eachAddress.OccupancyType.id) ) {
-          addrValidationObj.isCurrent = true;
-        }
-        if ('PR' === ('' + eachAddress.OccupancyType.id)) {
-          addrValidationObj.isPermenet = true;
-        }
-        if ('OF' === ('' + eachAddress.AddressType.id)) {
+        if ((LoanOwnership == undefined || LoanOwnership == 0)) {
           addrValidationObj.isOffice = true;
         }
-      }
 
-      if ((LoanOwnership == undefined || LoanOwnership == 0) && custType !== 'B' && custType !== 'CB') {
-        addrValidationObj.isOffice = true;
-      }*/
-
-      for (const flag in addrValidationObj) {
-        if (!addrValidationObj[flag]) {
-          commonObj.isSectionValid = false;
+        for (const flag in addrValidationObj) {
+          if (!addrValidationObj[flag]) {
+            commonObj.isSectionValid = false;
+          }
         }
       }
     }
-    // commented for canara
-    /*if (!commonObj.isSectionValid) {
-      commonObj.errorMessage += ((LoanOwnership == undefined || LoanOwnership == 0) && custType !== 'B' && custType !== 'CB') ?
-        '1 correspondence address'
-        : '1 permanent and 1 current residence address, at least 1 office address and 1 correspondence address';
-    }*/
     if (!commonObj.isSectionValid) {
-      if (this.globalApplicationDtls.CustomerType == 'C' && applicantType == 'B') {
-        commonObj.errorMessage += '1 Registered';
-      }
-      else {
-        commonObj.errorMessage += '1 Mailing';
-      }
-
+      commonObj.errorMessage += (LoanOwnership == undefined || LoanOwnership == 0) ?
+        '1 permanent, 1 current residence address and 1 correspondence address'
+        : '1 permanent, 1 current residence address, at least 1 office address and 1 correspondence address';
     }
     return commonObj;
   }
@@ -779,6 +753,7 @@ export class RloCommonData {
         this.validateLoanOrCreditCardSection(dataToValidate, isCategoryTypeLoan),
         this.validatePropertyDetailsSection(dataToValidate),
         this.validateFDDetailsSection(dataToValidate),
+        this.validateGoldDetailsSection(dataToValidate),
         // this.validateScoreCard(dataToValidate),
         // this.validatePolicyCheck(dataToValidate)
       ).subscribe((data) => {
@@ -838,7 +813,7 @@ export class RloCommonData {
         errorsList: []
       }
       let totalLoanOwnership: number = this.calculateLoanOwnership();
-      if (100 != totalLoanOwnership && !this.globalApplicationDtls.isLoanCategory) {
+      if (100 != totalLoanOwnership && this.globalApplicationDtls.isLoanCategory) {
         dataObject.isAppValid = false;
         dataObject.errorsList.push("Total Loan ownership should be 100%");
 
@@ -987,7 +962,6 @@ export class RloCommonData {
       errorMessage: ''
     }
     if (this.globalApplicationDtls.TypeOfLoanCode == 'ML') {
-
       if (applicationData.has("PropertyDetails")) {
         let propertyDetails = applicationData.get("PropertyDetails");
         if (!propertyDetails[0].isValid) {
@@ -1212,7 +1186,7 @@ export class RloCommonData {
           }
         );
       } else {
-        this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+        this.http.fetchApi(this.userInvokeInterfacev2 ? '/api/invokeInterface/v2' : '/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
             console.log("Deep | Service - getSearchedCustomerData() EXTERNAL SEARCH RESPONSE:", res);
@@ -1332,7 +1306,7 @@ export class RloCommonData {
     inputMap.set('Body.prposalid', '1234');
 
     const promise = new Promise((resolve, reject) => {
-      this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+      this.http.fetchApi(this.userInvokeInterfacev2 ? '/api/invokeInterface/v2' : '/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
           console.log("Deep | Service - getInterfaceResposes()", res);
@@ -1357,7 +1331,7 @@ export class RloCommonData {
     inputMap.set('Body.prposalid', '3322');
 
     const promise = new Promise((resolve, reject) => {
-      this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+      this.http.fetchApi(this.userInvokeInterfacev2 ? '/api/invokeInterface/v2' : '/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
           console.log("Deep | Service - getMemberCardDetail()", res);
@@ -1405,7 +1379,12 @@ export class RloCommonData {
     console.warn("allCustomerDataallCustomerDataallCustomerDataallCustomerData", allCustomerData);
 
     allCustomerData.forEach(element => {
-      this.customerListForAddress.set(element.BorrowerSeq, element.BorrowerSeq);
+      let obj = {
+        "BorrowerSeq": element.BorrowerSeq,
+        "customerType": element.CustomerType,
+        "loanOwnership": element.LoanOwnership
+      }
+      this.customerListForAddress.set(element.BorrowerSeq, obj);
     });
 
   }
@@ -1415,9 +1394,30 @@ export class RloCommonData {
       isSectionValid: true,
       errorMessage: ''
     }
+
+    if (this.globalApplicationDtls.isLoanCategory) {
+      return commonObj;
+    }
+
     if (this.globalApplicationDtls.isChannelApplication && !sectionData.has('RmVisitDetails')) {
       commonObj.isSectionValid = false;
       commonObj.errorMessage = 'Atleast 1 visit report';
+    }
+    return commonObj;
+  }
+
+  async validateGoldDetailsSection(applicationSectionData: Map<any, any>) {
+    let commonObj: IComponentSectionValidationData = {
+      isSectionValid: true,
+      errorMessage: ''
+    }
+
+    if (this.globalApplicationDtls.TypeOfLoanCode == 'GL') {
+      let hasGoldDetailsData = applicationSectionData.has("GoldLoanDetails");
+      if (!hasGoldDetailsData) {
+        commonObj.isSectionValid = false;
+        commonObj.errorMessage = "Please fill all the mandatory fields of gold details";
+      }
     }
     return commonObj;
   }

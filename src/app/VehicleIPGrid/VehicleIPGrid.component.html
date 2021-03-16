@@ -46,7 +46,7 @@
         </td>
         <td [hidden]="isColumnHidden('Amount')">
           <app-amount #Amount fieldID="Amount_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['Amount']"
-            [formCode]="formCode" placeholder="Enter" [DecimalLength]="0" [mandatory]="true"
+            [formCode]="formCode" placeholder="Enter" [DecimalLength]="0"
             (blur)="genericOnBlur('Amount', $event, rowNo)"></app-amount>
           <div *ngIf="isCellReadOnly[rowNo]['Amount']">
             <p class="label-text" [title]="this['Amount'].toArray()[rowNo].getFieldInfo()">
@@ -57,7 +57,7 @@
         <td [hidden]="isColumnHidden('LocalCurrencyEquivalent')">
           <app-amount #LocalCurrencyEquivalent fieldID="LocalCurrencyEquivalent_{{rowNo}}"
             [hidden]="isCellReadOnly[rowNo]['LocalCurrencyEquivalent']" [formCode]="formCode" placeholder="Placeholder"
-            [DecimalLength]="20" [mandatory]="true" (blur)="genericOnBlur('LocalCurrencyEquivalent', $event, rowNo)">
+            [DecimalLength]="20" (blur)="genericOnBlur('LocalCurrencyEquivalent', $event, rowNo)">
           </app-amount>
           <div *ngIf="isCellReadOnly[rowNo]['LocalCurrencyEquivalent']">
             <p class="label-text" [title]="this['LocalCurrencyEquivalent'].toArray()[rowNo].getFieldInfo()">
@@ -77,11 +77,13 @@
     <tr>
       <td>{{ 'VehicleIPGrid.Total' | translate }}</td>
       <td>
-        <app-amount #TotalAmount fieldID="TotalAmount" (blur)="genericOnBlur('TotalAmount', $event, undefined)"></app-amount>
+        <app-amount #TotalAmount fieldID="TotalAmount" (blur)="genericOnBlur('TotalAmount', $event, undefined)">
+        </app-amount>
       </td>
 
       <td>
-        <app-amount #TotalLocalCurEq fieldID="TotalLocalCurEq" (blur)="genericOnBlur('TotalLocalCurEq', $event, undefined)">
+        <app-amount #TotalLocalCurEq fieldID="TotalLocalCurEq"
+          (blur)="genericOnBlur('TotalLocalCurEq', $event, undefined)">
         </app-amount>
       </td>
     </tr>

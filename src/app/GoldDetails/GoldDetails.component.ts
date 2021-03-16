@@ -46,6 +46,11 @@ export class GoldDetailsComponent extends FormComponent implements OnInit, After
     @ViewChild('GoldDetailSeq', { static: false }) GoldDetailSeq: HiddenComponent;
     @ViewChild('hidExchangeRate', { static: false }) hidExchangeRate: HiddenComponent;
     @Input() ApplicationId: string = undefined;
+
+    //used in modal
+    @Input() parentFormCode: string;
+    @Input('readOnly') readOnly: boolean = false;
+
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -88,10 +93,18 @@ export class GoldDetailsComponent extends FormComponent implements OnInit, After
         this.setDependencies();
         if (this.ApplicationId) {
             await this.GoldDeatilGrid.gridDataLoad({
-              'ApplicationId': this.ApplicationId,
+                'ApplicationId': this.ApplicationId,
             });
-          }
+        }
         await this.Handler.onFormLoad({});
+
+        console.log(this.GoldDeatilGrid.columnDefs);
+        if (this.readOnly) {
+          this.GoldDeatilGrid.columnDefs = this.GoldDeatilGrid.columnDefs.slice(0, 7);
+          this.GoldDeatilGrid.columnDefs[6].width = 12;
+          this.GoldDeatilGrid.columnDefs[6].cellRendererParams.CustomClass = "btn-views";
+          this.GoldDeatilGrid.columnDefs[6].cellRendererParams.IconClass = 'fas fa-eye fa-lg';
+        }
     }
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
@@ -140,6 +153,10 @@ export class GoldDetailsComponent extends FormComponent implements OnInit, After
             this.subsBFldsValueUpdates();
             this.onFormLoad();
             this.checkForHTabOverFlow();
+
+            if (this.readOnly) {
+                this.setReadOnly(this.readOnly);
+            }
         });
     }
     clearError() {
@@ -164,20 +181,20 @@ export class GoldDetailsComponent extends FormComponent implements OnInit, After
     }
     async Count_blur(event) {
         let totalweight;
-    if (this.Count.getFieldValue() != undefined && this.Weight.getFieldValue() != undefined) {
-        totalweight = (Math.round(this.Count.getFieldValue() * this.Weight.getFieldValue()))
-      this.TotalWeight.setValue(totalweight.toFixed(2));
-      console.log("new count", totalweight);
-    }
+        if (this.Count.getFieldValue() != undefined && this.Weight.getFieldValue() != undefined) {
+            totalweight = (Math.round(this.Count.getFieldValue() * this.Weight.getFieldValue()))
+            this.TotalWeight.setValue(totalweight.toFixed(2));
+            console.log("new count", totalweight);
+        }
     }
 
     async MarketRate_blur(event) {
         let marketrate;
-    if (this.TotalWeight.getFieldValue() != undefined && this.MarketRate.getFieldValue() != undefined) {
-        marketrate = (Math.round(this.TotalWeight.getFieldValue() * this.MarketRate.getFieldValue()))
-      this.Value.setValue(marketrate.toFixed(2));
-      console.log("new marketrate", marketrate);
-    }
+        if (this.TotalWeight.getFieldValue() != undefined && this.MarketRate.getFieldValue() != undefined) {
+            marketrate = (Math.round(this.TotalWeight.getFieldValue() * this.MarketRate.getFieldValue()))
+            this.Value.setValue(marketrate.toFixed(2));
+            console.log("new marketrate", marketrate);
+        }
     }
 
     GOLD_RESET_click(event) {
@@ -187,8 +204,18 @@ export class GoldDetailsComponent extends FormComponent implements OnInit, After
         // this.AT_SAVE.setDisabled(true);
         let inputMap = new Map();
         var numberOfErrors: number = await this.revalidate();
-        // let assetGridData: any = this.GoldDetailsGrid.getAssetDetails();
+        let goldGridData: any = this.GoldDeatilGrid.getGoldDetails();
         if (numberOfErrors == 0) {
+            if (this.GoldOrnamentType.getFieldValue() !== undefined) {
+                if (goldGridData) {
+                    for (let i = 0; i < goldGridData.length; i++) {
+                        if (goldGridData[i].GoldOrnamentType_ID == this.GoldOrnamentType.getFieldValue() && goldGridData[i].AT_Asset_Value == this.Count.getFieldValue() && goldGridData[i].AT_Asset_Subtype == this.Weight.getFieldValue() && goldGridData[i].GoldDetailSeq !== this.GoldDetailSeq.getFieldValue()) {
+                            this.services.alert.showAlert(2, 'rlo.error.exits.gold', -1);
+                            return;
+                        }
+                    }
+                }
+            }
             if (this.GoldDetailSeq.getFieldValue() != undefined) {
                 inputMap.clear();
                 inputMap.set('PathParam.GoldDetailSeq', this.GoldDetailSeq.getFieldValue());
@@ -286,7 +313,7 @@ export class GoldDetailsComponent extends FormComponent implements OnInit, After
                             // if (err['ErrorElementPath'] == 'GoldDetails.LocalCurrencyEquivalent') {
                             //     this.LocalCurrencyEquivalent.setError(err['ErrorDescription']);
                             // }
-                             if (err['ErrorElementPath'] == 'GoldDetails.AdditionalRemarks') {
+                            if (err['ErrorElementPath'] == 'GoldDetails.AdditionalRemarks') {
                                 this.AdditionalRemarks.setError(err['ErrorDescription']);
                             }
                             else if (err['ErrorElementPath'] == 'GoldDetails.GoldOrnamentType') {

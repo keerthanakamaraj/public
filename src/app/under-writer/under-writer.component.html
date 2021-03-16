@@ -12,7 +12,7 @@
 
   <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
     <div class="form-group pb10 row">
-      <div class="col-12  col-sm-12 col-md-12">
+      <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
         <app-Header #FieldId_1 fieldID="FieldId_1" [formCode]="formCode"
           (productCategoryFound)="broadcastProdCategory($event)" (headerStateEvent)="headerState($event)">
         </app-Header>
@@ -21,20 +21,22 @@
   </div>
 
   <!-- Changes for canara bank -->
-  <!-- <div class="col-sm-12 col-md-12 col-lg-12 d-flex status-section" [ngClass]="showExpandedHeader ? '' : 'scroll-margin'">
+  <div class="col-sm-12 col-md-12 col-lg-12 d-flex status-section"
+    [ngClass]="showExpandedHeader ? '' : 'scroll-margin'">
     <div class="header-status-container vertical-layout col-sm-6 col-md-6 col-lg-6">
-      <app-score-card #scorecard [scoreData]="data" [layoutType]="'vertical'" [applicationId]="applicationId" [borrowersBorrowerSeq]="borrowersBorrowerSeq" *ngFor="let data of headerScoreCard">
+      <app-score-card #scorecard [scoreData]="data" [layoutType]="'vertical'" [applicationId]="applicationId"
+        [borrowersBorrowerSeq]="borrowersBorrowerSeq" *ngFor="let data of headerScoreCard">
       </app-score-card>
     </div>
     <div class="header-status-container col-sm-6 col-md-6 col-lg-6">
       <app-header-status-card [statusData]="data" *ngFor="let data of headerStatusData"></app-header-status-card>
     </div>
-  </div> -->
+  </div>
   <!-- Changes for canara bank -->
 
   <!-- Changes for canara bank => showExpandedHeader-->
   <div class="row">
-    <div class="col-12  col-sm-12 col-md-12 uw-tabs" [ngClass]="showExpandedHeader ? '' : 'scroll-margin'">
+    <div class="col-12  col-sm-12 col-md-12 uw-tabs">
       <div class="wgt-doc-upload open-folder" (click)="openFileUpload()">
         <a href="javascript:void(0);" class="icon-folder-open"></a>
       </div>

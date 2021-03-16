@@ -304,7 +304,6 @@ export class FDDetailsGridComponent implements AfterViewInit {
         let inputMap = new Map();
         inputMap.clear();
         inputMap.set('PathParam.AssetSeq', event.FD_ID);
-        // if (confirm("Are you sure you want to delete?")) {
         await this.services.rloCommonData.deleteConfirmationAlert('rlo.delete.comfirmation').then((response: any) => {
             if (response.id == 1) {
                 this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
@@ -322,7 +321,6 @@ export class FDDetailsGridComponent implements AfterViewInit {
                 );
             }
         });
-        // }
     }
 
     getAssetDetails() {

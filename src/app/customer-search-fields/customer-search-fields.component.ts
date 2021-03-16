@@ -186,7 +186,7 @@ export class CustomerSearchFieldsComponent extends FormCommonComponent implement
           data['fieldData'].forEach(element => {
             if (element.attributeName != "middleName") {
               if (element.attributeName == "customerId") {
-                element['placeholder'] = "Min 10/Max 10 chars";
+                element['placeholder'] = "Min 5 chars";
                 if (this.customerSearchType == "Internal") {
                   element.fieldName = "Customer Id"
                 }
@@ -255,19 +255,39 @@ export class CustomerSearchFieldsComponent extends FormCommonComponent implement
     console.log(this.fieldData);
 
     if (!_.isEmpty(this.searchParameters)) {
-      if (this.searchParameters.customerId.length < 10) {
-        if (this.searchParameters.customerId == "")
-          return
+      // if (this.searchParameters.customerId.length < 5) {
+      //   if (this.searchParameters.customerId == "")
+      //     return
 
-        this.services.alert.showAlert(2, '', 3000, 'Minimum 10 characters are required');
+      //   this.services.alert.showAlert(2, '', 3000, 'Minimum 5 characters are required for CBS Customer Id');
+      //   return;
+      // } else {
+      //   const regex = new RegExp('^[0-9]*$');
+      //   if (!regex.test(this.searchParameters.customerId)) {
+      //     this.services.alert.showAlert(2, '', 3000, ' Please enter valid CBS Customer ID');
+      //     return;
+      //   }
+      // }
+
+      let isAllfieldsEmpty = -1;
+      Object.values(this.searchParameters).map((element, index) => {
+        if (element.length) {
+          isAllfieldsEmpty = index;
+        }
+      });
+
+      if (isAllfieldsEmpty == -1) {
+        this.services.alert.showAlert(2, '', 3000, 'Please enter data');
         return;
       } else {
-        const regex = new RegExp('^[0-9]*$');
-        if (!regex.test(this.searchParameters.customerId)) {
-          this.services.alert.showAlert(2, '', 3000, ' Please enter valid CBS Customer ID');
-          return;
+        if (this.searchParameters.hasOwnProperty("customerId")) {
+          if (this.searchParameters.customerId != "" && this.searchParameters.customerId.length < 5) {
+            this.services.alert.showAlert(2, '', 3000, 'Minimum 5 characters are required for CBS Customer Id');
+            return;
+          }
         }
       }
+
       this.SearchFormGrid.customSearchObj.mobileNumber = this.searchParameters.mobileNumber;
       this.SearchFormGrid.customSearchObj.taxId = this.searchParameters.taxId;
       this.SearchFormGrid.customSearchObj.firstName = this.searchParameters.firstName;
@@ -488,20 +508,26 @@ export class CustomerSearchFieldsComponent extends FormCommonComponent implement
     console.log(data);
 
     if (object.keys(data).includes('showCustomerCard')) {
+      // this.showCustomerCardSection = true;
+
+      // this.services.rloCommonData.getMemberCardDetail(data.icif).then((response: any) => {
+      //   console.log(response);
+      //   if (response != null) {
+      //     let cardDetails = response.outputdata.AccountList;
+      //     console.error(cardDetails);
+      //     this.customerCardDetails = cardDetails;
+
+      //     setTimeout(() => {
+      //       this.CustomerAvaliableCards.gridDataLoad({});
+      //     }, 100);
+      //   }
+      // });
+
       this.showCustomerCardSection = true;
-
-      this.services.rloCommonData.getMemberCardDetail(data.icif).then((response: any) => {
-        console.log(response);
-        if (response != null) {
-          let cardDetails = response.outputdata.AccountList;
-          console.error(cardDetails);
-          this.customerCardDetails = cardDetails;
-
-          setTimeout(() => {
-            this.CustomerAvaliableCards.gridDataLoad({});
-          }, 100);
-        }
-      });
+      this.customerCardDetails = data.CmsDetailsList;
+      setTimeout(() => {
+        this.CustomerAvaliableCards.gridDataLoad({});
+      }, 100);
     }
 
     this.customerData.emit(data);

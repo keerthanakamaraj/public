@@ -19,7 +19,7 @@ import { VehicleIPGridComponent } from '../VehicleIPGrid/VehicleIPGrid.component
 import { VehicleDetailsHandlerComponent } from './vehicle-handler.component';
 import { VehicleIPInterface } from './VehicleDetails-interfaces';
 import { Subscription, forkJoin } from 'rxjs';
-import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
+// import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
 
 const customCss: string = '';
 
@@ -27,21 +27,22 @@ const customCss: string = '';
   selector: 'app-VehicleDetails',
   templateUrl: './VehicleDetails.component.html'
 })
+
 export class VehicleDetailsComponent extends FormComponent implements OnInit, AfterViewInit {
   @ViewChild('VehicleCategory', { static: false }) VehicleCategory: ComboBoxComponent;
   @ViewChild('Manufacturer', { static: false }) Manufacturer: ComboBoxComponent;
   @ViewChild('Make', { static: false }) Make: ComboBoxComponent;
   @ViewChild('Variant', { static: false }) Variant: ComboBoxComponent;
   @ViewChild('Model', { static: false }) Model: ComboBoxComponent;
-  @ViewChild('AssetType', { static: false }) AssetType: ComboBoxComponent;
+  @ViewChild('AssetType', { static: false }) AssetType: ComboBoxComponent; d
   @ViewChild('AssetLife', { static: false }) AssetLife: TextBoxComponent;
   @ViewChild('NameoftheDealer', { static: false }) NameoftheDealer: ComboBoxComponent;
   @ViewChild('DealerCode', { static: false }) DealerCode: TextBoxComponent;
   @ViewChild('VehicaleCostDetails', { static: false }) VehicaleCostDetails: VehicleIPGridComponent;
   @ViewChild('Currency', { static: false }) Currency: ComboBoxComponent;
-  @ViewChild('FundsbyCustomer', { static: false }) FundsbyCustomer: RloUiCurrencyComponent;
-  @ViewChild('LocalCurrencyEquivalent', { static: false }) LocalCurrencyEquivalent: RloUiCurrencyComponent;
-  @ViewChild('LoanRequired', { static: false }) LoanRequired: RloUiCurrencyComponent;
+  @ViewChild('FundsbyCustomer', { static: false }) FundsbyCustomer: TextBoxComponent;
+  @ViewChild('LocalCurrencyEquivalent', { static: false }) LocalCurrencyEquivalent: TextBoxComponent;
+  @ViewChild('LoanRequired', { static: false }) LoanRequired: TextBoxComponent;
   @ViewChild('Vehicle_Save', { static: false }) Vehicle_Save: ButtonComponent;
   @ViewChild('Vehicle_clear', { static: false }) Vehicle_clear: ButtonComponent;
   @ViewChild('Handler', { static: false }) Handler: VehicleDetailsHandlerComponent;
@@ -62,26 +63,25 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
   tempCostFundsList = [];
   LoanSeq: number = undefined;
   @Input() ApplicationId: string = undefined;
-  async revalidate(): Promise<number> {
+  async revalidate(showErrors: boolean = true): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
     await Promise.all([
-      this.revalidateBasicField('VehicleCategory'),
-      this.revalidateBasicField('Manufacturer'),
-      this.revalidateBasicField('Make'),
-      this.revalidateBasicField('Variant'),
-      this.revalidateBasicField('Model'),
-      this.revalidateBasicField('AssetType'),
-      this.revalidateBasicField('AssetLife'),
-      this.revalidateBasicField('NameoftheDealer'),
-      this.revalidateBasicField('DealerCode'),
-      this.VehicaleCostDetails.revalidate(),
-      this.revalidateBasicField('Currency'),
-      this.revalidateBasicField('FundsbyCustomer'),
-      this.revalidateBasicField('LocalCurrencyEquivalent'),
-      this.revalidateBasicField('LoanRequired'),
-      this.revalidateBasicField('City'),
-      this.revalidateBasicField('Address'),
+      this.revalidateBasicField('VehicleCategory', false, showErrors),
+      this.revalidateBasicField('Manufacturer', false, showErrors),
+      this.revalidateBasicField('Make', false, showErrors),
+      this.revalidateBasicField('Variant', false, showErrors),
+      this.revalidateBasicField('Model', false, showErrors),
+      this.revalidateBasicField('AssetType', false, showErrors),
+      this.revalidateBasicField('AssetLife', false, showErrors),
+      this.revalidateBasicField('NameoftheDealer', false, showErrors),
+      this.revalidateBasicField('DealerCode', false, showErrors),
+      this.revalidateBasicField('Currency', false, showErrors),
+      this.revalidateBasicField('FundsbyCustomer', false, showErrors),
+      this.revalidateBasicField('LocalCurrencyEquivalent', false, showErrors),
+      this.revalidateBasicField('LoanRequired', false, showErrors),
+      this.revalidateBasicField('City', false, showErrors),
+      this.revalidateBasicField('Address', false, showErrors),
     ]).then((errorCounts) => {
       errorCounts.forEach((errorCount) => {
         totalErrors += errorCount;
@@ -107,6 +107,7 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
   setReadOnly(readOnly) {
     super.setBasicFieldsReadOnly(readOnly);
     this.VehicaleCostDetails.setReadOnly(readOnly);
+    this.VehicaleCostDetails.makeGridFieldsReadOnly(readOnly)
   }
   async onFormLoad() {
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
@@ -177,6 +178,9 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
       this.VehicaleCostDetails.valueChangeUpdates().subscribe((value) => { this.value.VehicaleCostDetails = value; });
       this.onFormLoad();
       this.checkForHTabOverFlow();
+
+      if (this.readOnly)
+        this.setReadOnly(this.readOnly);
     });
   }
   clearError() {
@@ -201,11 +205,11 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
     this.setReadOnly(false);
     this.onFormLoad();
   }
-  async FundsbyCustomer_blur(event) {
-    let inputMap = new Map();
-    this.Handler.FundsbyCustomerOnblur()
-    // await this.Handler.onAddTypeChange();
-  }
+  // async FundsbyCustomer_blur(event) {
+  //   let inputMap = new Map();
+  //   this.Handler.FundsbyCustomerOnblur()
+  //   // await this.Handler.onAddTypeChange();
+  // }
 
   async FetcVehicelLoanDtls() {
     let inputMap = new Map();
@@ -231,15 +235,9 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
               console.log("hjgj :: Education loan fetched : ", VehicleDtls);
               this.parseFetchVehicleResp(VehicleDtls);
 
-              // let array = [];
-              // array.push({ isValid: true, sectionData: this.getFieldValue() });
-              // let obj = {
-              //   "name": "EducationDetails",
-              //   "data": array,
-              //   "sectionName": "EducationDetails"
-              // }
-             
-              // this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+              let errors = await this.revalidate(false);
+              let isGridValid = this.VehicaleCostDetails.validateInputGrid(true);
+              this.passValidationDetails((errors == 0 && isGridValid) ? true : false);
             }
           }
           else {
@@ -295,7 +293,7 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
   }
   parseLoanDtls(LoanDtls) {
     this.LoanSeq = LoanDtls.LoanSeq;
-    this.LoanRequired.setComponentSpecificValue(LoanDtls.LoanRequiredAmt);
+    this.LoanRequired.setValue(LoanDtls.LoanRequiredAmt);
   }
   parseFetchVehicleResp(VehicleDtls) {
     console.log("abc :: edu resp", VehicleDtls, " : ", VehicleDtls[0]['VehicaleCostDetails']);
@@ -325,10 +323,10 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
     this.Currency.setValue(VehicleDtlsSumm.Currency);
     this.Address.setValue(VehicleDtlsSumm.DealerAddress);
     // this.LoanRequired.setValue(VehicleDtlsSumm.TotalCost);
-    this.LocalCurrencyEquivalent.setComponentSpecificValue(VehicleDtlsSumm.LocalCurrenyAmount);
-    this.FundsbyCustomer.setComponentSpecificValue(VehicleDtlsSumm.CustomerFunds);
+    this.LocalCurrencyEquivalent.setValue(VehicleDtlsSumm.LocalCurrenyAmount);
+    this.FundsbyCustomer.setValue(VehicleDtlsSumm.CustomerFunds);
     this.LoanSeq = VehicleDtlsSumm.vehicleLoanDtls.LoanSeq;
-    this.LoanRequired.setComponentSpecificValue(VehicleDtlsSumm.vehicleLoanDtls.LoanRequiredAmt);
+    this.LoanRequired.setValue(VehicleDtlsSumm.vehicleLoanDtls.LoanRequiredAmt);
     this.VehicaleCostDetails.TotalAmount.setValue(VehicleDtlsSumm.TotalCost);
     this.VehicaleCostDetails.TotalLocalCurEq.setValue(VehicleDtlsSumm.TotalCostEq);
   }
@@ -366,7 +364,7 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
     // this.FundsAvailableGrid.loadRecords();
   }
   async Currency_blur(event) {
-   
+    console.log("shweta : hidden exchange rate : ", this.hidExchangeRate.getFieldValue());
     this.VehicaleCostDetails.hidExchangeRate = this.hidExchangeRate.getFieldValue();
     this.VehicaleCostDetails.Amount.toArray().forEach((element, index) => {
       let tempObj = { "columnId": "Amount", "rowNo": index, "value": element.value };
@@ -389,6 +387,7 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
       inputObj.Amount = element.Amount;
       inputObj.Currency = this.Currency.getFieldValue();
       inputObj.CurrencyEquivalentAmt = element.CurrencyEquivalentAmt;
+      inputObj.VehicleCostSeq = element.VehicleCostSeq;
       VehicleDtlsList.push(inputObj);
       // inputMap.set('CreatedBy',element.);
       //  inputMap.set('UpdatedBy',element.);
@@ -508,11 +507,16 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
     this.clearFieldsFlag = true;
     this.onReset();
   }
-  Vehicle_Save_click(event) {
+  async Vehicle_Save_click(event) {
     let inputMap = new Map();
     this.Vehicle_Save.setDisabled(true);
-    let numberOfErrors: number = 0;
-    if (numberOfErrors == 0) {
+    let numberOfErrors: number = await this.revalidate(true);
+    let isGridValid = this.VehicaleCostDetails.validateInputGrid(false);
+    if (numberOfErrors == 0 && isGridValid) {
+      if (Number(this.VehicaleCostDetails.TotalLocalCurEq.getFieldValue()) <= Number(this.LocalCurrencyEquivalent.getFieldValue())) {
+        this.services.alert.showAlert(2, 'rlo.error.vehicle.invalid-loan-amt', -1);
+        return;
+      }
       if (this.VehicleDtlsSeq.getFieldValue() != undefined) {
 
         inputMap = this.generateVehicleSaveUpdateReq(inputMap);
@@ -521,8 +525,8 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
             this.services.alert.showAlert(1, 'rlo.success.update.vehicle', 5000);
-            this.Vehicle_Clear_click({});
             this.Vehicle_Save.setDisabled(false);
+            this.passValidationDetails(true);
           },
           async (httpError) => {
             this.parseResponseError(httpError['error']);
@@ -537,11 +541,8 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
             this.services.alert.showAlert(1, 'rlo.success.save.vehicle', 5000);
-            // this.PastEducationGrid.gridDataLoad({
-            //     'ApplicationId': this.ApplicationId
-            // });
-            //  this.Vehicle_Clear_click({});
             this.Vehicle_Save.setDisabled(false);
+            this.passValidationDetails(true);
           },
           async (httpError) => {
             this.parseResponseError(httpError['error']);
@@ -657,38 +658,55 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
   calculateLocalCurrEquv() {
     if (this.hidExchangeRate.getFieldValue() !== undefined && this.FundsbyCustomer.getFieldValue() !== undefined) {
       let CurrenyExchangeValue = this.hidExchangeRate.getFieldValue() * this.FundsbyCustomer.getFieldValue();
-      this.LocalCurrencyEquivalent.setComponentSpecificValue(CurrenyExchangeValue.toFixed(2));
+      this.LocalCurrencyEquivalent.setValue(CurrenyExchangeValue.toFixed(2));
     }
   }
   async Currencyblur(event) {
     let inputMap = new Map();
     this.calculateLocalCurrEquv()
   }
-  async FundsbyCustomerblur(event) {
+  async FundsbyCustomer_blur(event) {
     let inputMap = new Map();
+    this.calculateLocalCurrEquv();
+    let LoanRequied
+    if (this.VehicaleCostDetails.TotalLocalCurEq.getFieldValue() != undefined && this.VehicaleCostDetails.TotalLocalCurEq.getFieldValue() != null && this.VehicaleCostDetails.TotalLocalCurEq.getFieldValue() != '') {
+      if (Number(this.VehicaleCostDetails.TotalLocalCurEq.getFieldValue()) > Number(this.LocalCurrencyEquivalent.getFieldValue())) {
+        LoanRequied = (Number(this.VehicaleCostDetails.TotalLocalCurEq.getFieldValue()) - Number(this.LocalCurrencyEquivalent.getFieldValue()))
+        this.LoanRequired.setValue(LoanRequied.toFixed(2));
+      } else {
+        this.services.alert.showAlert(2, 'rlo.error.vehicle.invalid-loan-amt', -1);
+      }
 
-    // this.calculateLocalCurrEquv()
+      
+    }
     // await this.Handler.onAddTypeChange();
   }
-  customGenericOnBlur(event: any) {
-    console.log("Deep | customGenericOnBlur", event);
-    // if (event.field == "LocalCurrencyEquivalent") {
-    if (event.exchangeRate != undefined && event.textFieldValue != undefined) {
-      this.hidExchangeRate.setValue(event.exchangeRate);
 
-      let localCurrencyEq = event.textFieldValue * event.exchangeRate;
-      console.log(localCurrencyEq);
-
-      this.LocalCurrencyEquivalent.setComponentSpecificValue(localCurrencyEq, null);
+  passValidationDetails(validationFlag) {
+    let array = [];
+    array.push({ isValid: validationFlag, sectionData: this.getFieldValue() });
+    let obj = {
+      "name": "VehicalLoanDetails",
+      "data": array,
+      "sectionName": "VehicalLoanDetails"
     }
-    this.FundsbyCustomer.currencyCode = this.LocalCurrencyEquivalent.currencyCode;
-    // }
-    this.genericOnBlur(event.field, event.textFieldValue);
-    let LoanRequied
-    if (this.VehicaleCostDetails.TotalLocalCurEq.getFieldValue() != undefined || this.VehicaleCostDetails.TotalLocalCurEq.getFieldValue() != null) {
-      LoanRequied = (this.VehicaleCostDetails.TotalLocalCurEq.getFieldValue() - this.LocalCurrencyEquivalent.getFieldValue())
-      this.LoanRequired.setComponentSpecificValue(LoanRequied);
-    }
+    this.services.rloCommonData.globalComponentLvlDataHandler(obj);
   }
+  // customGenericOnBlur(event: any) {
+  //   console.log("Deep | customGenericOnBlur", event);
+  //   // if (event.field == "LocalCurrencyEquivalent") {
+  //   if (event.exchangeRate != undefined && event.textFieldValue != undefined) {
+  //     this.hidExchangeRate.setValue(event.exchangeRate);
+
+  //     let localCurrencyEq = event.textFieldValue * event.exchangeRate;
+  //     console.log(localCurrencyEq);
+
+  //     this.LocalCurrencyEquivalent.setComponentSpecificValue(localCurrencyEq, null);
+  //   }
+  //   this.FundsbyCustomer.currencyCode = this.LocalCurrencyEquivalent.currencyCode;
+  //   // }
+  //   this.genericOnBlur(event.field, event.textFieldValue);
+
+  // }
 
 }
