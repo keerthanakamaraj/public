@@ -233,11 +233,15 @@ export class AppModule implements DoBootstrap {
           // sessionStorage.setItem('userId', "vishal.kardode@intellectdesign.com");
           // sessionStorage.setItem('fullName', "Vishal Kardode" );
 
-          sessionStorage.setItem('userId', userInfo.ViewUserInfo.userId);
-          sessionStorage.setItem('fullName', userInfo.ViewUserInfo.firstName + ' ' + userInfo.ViewUserInfo.lastName);
-          sessionStorage.setItem('lastloginDate', userInfo.ViewUserInfo.lastLoginDate);
+          if(userInfo && userInfo.ViewUserInfo){
+            sessionStorage.setItem('userId', userInfo.ViewUserInfo.userId);
+            sessionStorage.setItem('fullName', userInfo.ViewUserInfo.firstName + ' ' + userInfo.ViewUserInfo.lastName);
+            sessionStorage.setItem('lastloginDate', userInfo.ViewUserInfo.lastLoginDate);
 
-          appRef.bootstrap(AppComponent);
+            appRef.bootstrap(AppComponent);
+          } else {
+            window.location.href = environment.arxAuthURL;
+          }
 
         },
         async (errorResponse: HttpResponse<any>) => {
