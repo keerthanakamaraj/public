@@ -2065,6 +2065,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
   toggleColumn() {
     console.log('Customer typesss:- ', this.BAD_CUSTOMER_TYPE.getFieldValue());
+
+    this.Handler.HideFieldBasedOnCorporate(this.BAD_CUSTOMER_TYPE.getFieldValue(), 'B');
+
+
     // if (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'I' || this.BAD_CUSTOMER_TYPE.getFieldValue() === 'C') {
     //   this.CUST_DTLS_GRID.setColumnHidden('CD_DATE_OF_INCORPORATION', true);
     //   this.CUST_DTLS_GRID.setColumnHidden('REGISTERED_NAME', true);
