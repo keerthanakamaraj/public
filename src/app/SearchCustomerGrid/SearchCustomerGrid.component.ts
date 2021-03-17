@@ -605,9 +605,9 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       tempVar['NoOfCard'] = selectedData0['NoOfCard'];
 
       tempVar['custType'] = selectedData0['custType'];
-      tempVar['registeredName'] = selectedData0['registeredName'];
-      tempVar['dateOfIncorporation'] = selectedData0['dateOfIncorporation'];
-      tempVar['typeOfIncorporation'] = selectedData0['typeOfIncorporation'];
+      tempVar['registeredName'] = selectedData0['RegisteredName'];
+      tempVar['dateOfIncorporation'] = selectedData0['DateOfIncorporation'];
+      tempVar['typeOfIncorporation'] = selectedData0['TypeOfIncorporation'];
 
       tempVar['staffId'] = selectedData0['staffId'];//StaffID: "9870"
       tempVar['Product'] = selectedData0['Product'];
