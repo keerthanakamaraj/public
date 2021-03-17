@@ -24,7 +24,7 @@ export const environment = {
     '/rlo-de': '/dev/rlo-de/publisher',
     '/los-integrator': '/dev/los-integrator',
     '/lettermangement' : '/dev/lettermangement/publisher',
-    '/common-de': '/dev/common-de',
+    '/common-de': '/dev/common-de/publisher',
     '/los-verification': '/dev/common-de'
   }
 };
