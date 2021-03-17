@@ -622,7 +622,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
 
     getUrlThumbnail(seqNo) {
         const baseURL: string = environment.baseURL;
-        return baseURL + "/igcb-dms/v1/documents/" + seqNo + "/preview?driveType=GLOBALDRIVE";
+        return baseURL + "/dev/igcb-dms/v1/documents/" + seqNo + "/preview?driveType=GLOBALDRIVE";
     }
 
     getImagePreview(Id) {

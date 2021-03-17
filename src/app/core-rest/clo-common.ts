@@ -20,7 +20,7 @@ export class CLOCommonService extends CoreREST {
 	private domainAttributesCache = {};
 	private tenantDACache = {};
 	public urlInfoContext: string = 'assets/json/url-info.json';
-	public docContext: string = '/igcb-dms/v1';
+	public docContext: string = '/dev/igcb-dms/v1';
 	public static UrlMap: any;
 	public ActionModes = {};
 	public APIInfo = {};
