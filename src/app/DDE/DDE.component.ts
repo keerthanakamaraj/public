@@ -1343,15 +1343,15 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         const section = element[i];
         section.isActive = false;
         // if (!this.isLoanCategory) {//ie. loan type credit card
-        // if (section.id == "CreditCardDetails") {
-        //   if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == "CC") {
-        //     section.isOptional = false;
-        //     this.progressStatusObject.manditorySection += 1;
-        //   } else {
-        //     element.splice(i, 1);
-        //     i--;
-        //   }
-        // }
+        if (section.id == "CreditCardDetails") {
+          if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == "CC") {
+            // section.isOptional = false;
+            // this.progressStatusObject.manditorySection += 1;
+          } else {
+            element.splice(i, 1);
+            i--;
+          }
+        }
         if (section.id == "LoanDetails" && section.isOptional) {
           if (this.isLoanCategory) {
             section.isOptional = false;
