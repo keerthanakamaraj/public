@@ -126,7 +126,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     super.afterRevalidate();
     return totalErrors;
   }
-  constructor(public rloutil: RloUtilService,services: ServiceStock) {
+  constructor(public rloutil: RloUtilService, services: ServiceStock) {
     super(services);
     this.value = new OccupationDtlsFormModel();
     this.componentCode = 'OccupationDtlsForm';
@@ -186,7 +186,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     }
     this.setDependencies();
 
-   // this.OCC_DTLS_GRID.hideLastColumnIcons();
+    // this.OCC_DTLS_GRID.hideLastColumnIcons();
   }
   setInputs(param: any) {
     let params = this.services.http.mapToJson(param);
@@ -690,6 +690,14 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         this.OD_LOC_CURR_EQ.setComponentSpecificValue(res['OccupationDetails']['LocalCurrencyEquivalent'], null);
 
         this.OD_NET_INCOME.selectedCode(res['OccupationDetails']['Currency']);
+
+        if (this.readOnly) {
+          if (res['OccupationDetails']['CompanyLicenseNo'] == "OTHERS") {
+            this.OD_COMP_CAT.setReadOnly(true);
+            this.OD_COMP_NAME.setReadOnly(true);
+          }
+        }
+
         // if (this.OD_OCCUPATION.getFieldValue() == 'SL') {    //Commented for Canara
         //   this.OD_EMPLT_TYPE.mandatory = true;
         //   this.OD_EMPLT_TYPE.setReadOnly(false);
