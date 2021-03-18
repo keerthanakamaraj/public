@@ -226,6 +226,10 @@ export class AppModule implements DoBootstrap {
         async (httpResponse: HttpResponse<any>) => {
           // console.log("ARX User Info ", httpResponse);
 
+          if ( !httpResponse ) { // getting http 200 without response body
+            window.location.href = environment.arxAuthURL;
+          }
+
           const userInfo = httpResponse['userInfo'];
 
           // console.log('userinfo ', userInfo);
@@ -233,7 +237,7 @@ export class AppModule implements DoBootstrap {
           // sessionStorage.setItem('userId', "vishal.kardode@intellectdesign.com");
           // sessionStorage.setItem('fullName', "Vishal Kardode" );
 
-          if(userInfo && userInfo.ViewUserInfo){
+          if (userInfo && userInfo.ViewUserInfo) {
             sessionStorage.setItem('userId', userInfo.ViewUserInfo.userId);
             sessionStorage.setItem('fullName', userInfo.ViewUserInfo.firstName + ' ' + userInfo.ViewUserInfo.lastName);
             sessionStorage.setItem('lastloginDate', userInfo.ViewUserInfo.lastLoginDate);
