@@ -937,6 +937,8 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.CD_GENDER.mandatory = false;
       this.MainComponent.CD_REGISTERED_NAME.mandatory = true;
       this.MainComponent.CD_DATE_OF_INCORPORATION.mandatory = true;
+      this.MainComponent.CD_DOB.mandatory = false;
+
       this.MainComponent.CD_STAFF_ID.setHidden(true);
       this.MainComponent.CD_NAME_ON_CARD.setHidden(true);
       this.MainComponent.CD_NAME_ON_CARD.mandatory = false;
