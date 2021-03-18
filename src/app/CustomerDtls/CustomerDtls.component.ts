@@ -872,8 +872,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   clearQDEFields() {
     this.CD_MARITAL_STATUS.onReset();
     //  this.CD_EMAIL.onReset();
-    this.CD_NATIONALITY.setValue(this.services.rloui.getConfig('country.code.default'));
-    this.CD_CITIZENSHIP.setValue(this.services.rloui.getConfig('country.code.default'));
+    // this.CD_NATIONALITY.setValue(this.services.rloui.getConfig('country.code.default'));
+    // this.CD_CITIZENSHIP.setValue(this.services.rloui.getConfig('country.code.default'));
     this.CD_PASSPORT_EXPIRY.onReset();
     this.CD_PASSPORT_NO.onReset();
     this.CD_VISA_VALID.onReset();
