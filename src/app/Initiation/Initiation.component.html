@@ -71,7 +71,7 @@
                     <div #PRDUCT_GROUP id="PRDUCT_GROUP">
                       <div class="form-group pb10 PRDUCT_GROUP">
 
-                     
+
 
 
                         <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="BAD_PROD_CAT.isHidden()">
@@ -87,17 +87,17 @@
                           </rlo-ui-radio>
                         </div>
                         <div class="col-12  col-sm-3 col-md-3 res-pr-hide"
-                        [hidden]="BAD_CUSTOMER_TYPE.isHidden() || isLoanCategory">
-                        <div class="clr-brown fieldLegend">
-                          <label class="clr-brown" [ngClass]="{'mandatory': BAD_CUSTOMER_TYPE.mandatory}">
-                            {{ 'Initiation.BAD_CUSTOMER_TYPE' | translate}}
-                          </label>
+                          [hidden]="BAD_CUSTOMER_TYPE.isHidden() || isLoanCategory">
+                          <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': BAD_CUSTOMER_TYPE.mandatory}">
+                              {{ 'Initiation.BAD_CUSTOMER_TYPE' | translate}}
+                            </label>
+                          </div>
+                          <rlo-ui-radio #BAD_CUSTOMER_TYPE fieldID="BAD_CUSTOMER_TYPE" [formCode]="formCode"
+                            domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" reverseFlag="true"
+                            domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_CUSTOMER_TYPE', $event)"
+                            (change)="BAD_CUSTOMER_TYPE_change('BAD_CUSTOMER_TYPE', $event)"></rlo-ui-radio>
                         </div>
-                        <rlo-ui-radio #BAD_CUSTOMER_TYPE fieldID="BAD_CUSTOMER_TYPE" [formCode]="formCode"
-                          domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" reverseFlag="true"
-                          domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_CUSTOMER_TYPE', $event)"
-                          (change)="BAD_CUSTOMER_TYPE_change('BAD_CUSTOMER_TYPE', $event)"></rlo-ui-radio>
-                      </div>
                         <div class="col-12  col-sm-3 col-md-3 res-pr-hide"
                           [hidden]="BAD_CARD_TYPE.isHidden() || isLoanCategory">
                           <div class="clr-brown fieldLegend">
@@ -320,10 +320,10 @@
                       (blur)="genericOnBlur('BAD_PRIME_USAGE', $event)">
                     </app-combo-box> -->
                     <app-combo-box #BAD_PRIME_USAGE category="2" fieldID="BAD_PRIME_USAGE" [formCode]="formCode"
-                    placeholder="Select" domainObjectUrl="/MstApplnPurposeDetails/{ApplicationCd}"
-                    doServerUrl="/masters" domainObjectCode="MstApplnPurposeDetails"
-                    (blur)="genericOnBlur('BAD_PRIME_USAGE', $event)">
-                  </app-combo-box>
+                      placeholder="Select" domainObjectUrl="/MstApplnPurposeDetails/{ApplicationCd}"
+                      doServerUrl="/masters" domainObjectCode="MstApplnPurposeDetails"
+                      (blur)="genericOnBlur('BAD_PRIME_USAGE', $event)">
+                    </app-combo-box>
                   </div>
                   <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide-line"> -->
                   <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
@@ -433,10 +433,17 @@
                         {{ 'Initiation.CD_CARD_CUST_TYPE' | translate}}
                       </label>
                     </div>
-                    <rlo-ui-radio #CD_CARD_CUST_TYPE fieldID="CD_CARD_CUST_TYPE" [formCode]="formCode"
+                    <!-- <rlo-ui-radio #CD_CARD_CUST_TYPE fieldID="CD_CARD_CUST_TYPE" [formCode]="formCode"
                       domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" reverseFlag="true"
                       domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CARD_CUST_TYPE', $event)"
-                      (change)="CD_CARD_CUST_TYPE_change('CD_CARD_CUST_TYPE', $event)"></rlo-ui-radio>
+                      (change)="CD_CARD_CUST_TYPE_change('CD_CARD_CUST_TYPE', $event)"></rlo-ui-radio> -->
+
+                    <app-combo-box #CD_CARD_CUST_TYPE category="2" fieldID="CD_CARD_CUST_TYPE" [formCode]="formCode" placeholder="Select"
+                    domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" reverseFlag="true"
+                    domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CARD_CUST_TYPE', $event)"
+                    (change)="CD_CARD_CUST_TYPE_change('CD_CARD_CUST_TYPE', $event)">
+                    </app-combo-box>
+
                   </div>
                   <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_EXISTING_CUST.isHidden()">
                     <div class="clr-brown fieldLegend">

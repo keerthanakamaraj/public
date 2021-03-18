@@ -183,5 +183,8 @@ export class CustDtlsGridComponent implements AfterViewInit {
   hideSpinner() {
     this.loadSpinner = false;
   }
-
+  getAddedCustomerList() {
+    console.warn(this.readonlyGrid.getAllRows());
+    return this.readonlyGrid.getAllRows();
+  }
 }

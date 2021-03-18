@@ -65,7 +65,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       // this.MainComponent.BAD_CUSTOMER_TYPE.setValue("I");
       // this.MainComponent.CD_DEBIT_SCORE.isHidden
     } else {
-     
+
       this.MainComponent.isLoanCategory = true;
       this.MainComponent.CD_CUST_TYPE.setReadOnly(false);
       this.MainComponent.CD_CUST_TYPE.onReset();
@@ -329,7 +329,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   // Edit Customer
   onEditCustomer(arg0: { 'id': any; }) {
     this.HideFieldBasedOnCorporate();
-   
+
     // this.MainComponent.CD_CARD_CUST_TYPE.setReadOnly(true);
     // this.editId = undefined;
     this.editId = arg0.id;
@@ -405,48 +405,54 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
     let index = this.customers.findIndex(cust => cust.tempId === arg0.id);
     this.customers.forEach(cust => {
-     if(cust.tempId === arg0.id){
-       if(cust.customerType.value == 'B'){
-         if(cust.CUST_TYPE_LBL == 'Primary'){
-          var successmessage = "Please note that Add-on/ Add-Ons added will also be deleted. Please click Ok to Proceed";
-         }else{
-          var successmessage = "Please note that Member-Card/ Member-Cards added will also be deleted. Please click Ok to Proceed";
-         }
-        //  var title = this.services.rloui.getAlertMessage('');
-        var mainMessage = this.MainComponent.services.rloui.getAlertMessage('', successmessage);
-        var button1 = this.MainComponent.services.rloui.getAlertMessage('', 'OK');
-        Promise.all([mainMessage, button1]).then(values => {
-          console.log(values);
-          let modalObj = {
-            title: "Alert",
-            mainMessage: values[0],
-            modalSize: "modal-width-sm",
-            buttons: [
-              { id: 1, text: values[1], type: "success", class: "btn-primary" },
-            ]
+      if (cust.tempId === arg0.id) {
+        if (cust.customerType.value == 'B') {
+          if (cust.CUST_TYPE_LBL == 'Primary') {
+            var successmessage = "Please note that Add-on/ Add-Ons added will also be deleted. Please click Ok to Proceed";
+          } else {
+            var successmessage = "Please note that Member-Card/ Member-Cards added will also be deleted. Please click Ok to Proceed";
           }
-
-          this.MainComponent.services.rloui.confirmationModal(modalObj).then((response) => {
-            console.log(response);
-            if (response != null) {
-              if (response.id === 1) {
-                this.customers = [];
-                this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
-                this.updateCustomerTags();
-                this.DisableLoanOwnerShip();
-                this.MainComponent.services.alert.showAlert(1, 'rlo.success.delete.customer', 1000);
-              }
+          //  var title = this.services.rloui.getAlertMessage('');
+          var mainMessage = this.MainComponent.services.rloui.getAlertMessage('', successmessage);
+          var button1 = this.MainComponent.services.rloui.getAlertMessage('', 'OK');
+          Promise.all([mainMessage, button1]).then(values => {
+            console.log(values);
+            let modalObj = {
+              title: "Alert",
+              mainMessage: values[0],
+              modalSize: "modal-width-sm",
+              buttons: [
+                { id: 1, text: values[1], type: "success", class: "btn-primary" },
+              ]
             }
+
+            this.MainComponent.services.rloui.confirmationModal(modalObj).then((response) => {
+              console.log(response);
+              if (response != null) {
+                if (response.id === 1) {
+                  this.customers = [];
+                  this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
+                  this.updateCustomerTags();
+                  this.DisableLoanOwnerShip();
+                  this.MainComponent.services.alert.showAlert(1, 'rlo.success.delete.customer', 1000);
+
+                  //enable Customer Type radio btn whcuh will be disabled once CC is selected && customer is added.
+                  if (this.MainComponent.BAD_PROD_CAT.getFieldValue() == 'CC') {
+                    this.MainComponent.BAD_CUSTOMER_TYPE.setReadOnly(false);
+                  }
+
+                }
+              }
+            });
           });
-        });
-       }else{
-        this.customers.splice(index, 1);
-        this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
-        this.updateCustomerTags();
-        this.DisableLoanOwnerShip();
-        this.MainComponent.services.alert.showAlert(1, 'rlo.success.delete.customer', 1000);
-       }
-     }
+        } else {
+          this.customers.splice(index, 1);
+          this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
+          this.updateCustomerTags();
+          this.DisableLoanOwnerShip();
+          this.MainComponent.services.alert.showAlert(1, 'rlo.success.delete.customer', 1000);
+        }
+      }
     });
   }
 
@@ -471,11 +477,11 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       console.log("this.customers before adding", this.customers);
 
       for (let i = 0; i < this.customers.length; i++) {
-       
+
         if (this.customers[i].tempId !== this.editId) {
           if (customer.customerType.value == 'B') {
             if (this.customers[i].customerType.value == 'B' && this.customers[i].tempId !== this.editId) {
-              this.MainComponent.services.alert.showAlert(2, this.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue()=='C'?'rlo.error.corporate-applicant.exist':'rlo.error.primary-applicant.exist', -1);
+              this.MainComponent.services.alert.showAlert(2, this.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue() == 'C' ? 'rlo.error.corporate-applicant.exist' : 'rlo.error.primary-applicant.exist', -1);
               return;
             }
           }
@@ -504,18 +510,20 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.updateCustomerTags();
       this.MainComponent.isReferrer = false;
       this.customers.forEach(element => {
-        if(element.CUST_TYPE_LBL != 'Corporate'){
+        if (element.CUST_TYPE_LBL != 'Corporate') {
           this.MainComponent.isReferrer = true;
           return;
         }
       });
-      
+
 
       if (this.editId) {
         this.MainComponent.services.alert.showAlert(1, 'rlo.success.update.customer', 1000);
       } else {
         this.MainComponent.services.alert.showAlert(1, 'rlo.success.save.customer', 1000);
-
+        if (this.MainComponent.BAD_PROD_CAT.getFieldValue() == 'CC') {
+          this.MainComponent.BAD_CUSTOMER_TYPE.setReadOnly(true);
+        }
       }
       this.resetCustomerDetails();
       this.DisableLoanOwnerShip();
@@ -907,7 +915,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.BAD_PRODUCT.setReadOnly(false);
       this.MainComponent.BAD_SUB_PROD.setReadOnly(false);
       this.MainComponent.BAD_SCHEME.setReadOnly(false);
-      
+
     }
   }
   HideFieldBasedOnCorporate(customerType?: string, Borrower?: string) {
@@ -916,7 +924,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       Borrower = this.MainComponent.CD_CARD_CUST_TYPE.getFieldValue();
     }
     //if(this.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue() == 'C' && this.MainComponent.CD_CARD_CUST_TYPE.getFieldValue() == 'B'){
-    if (customerType == 'C' && Borrower == 'B' && this.MainComponent.BAD_PROD_CAT.getFieldValue()  == 'CC') {
+    if (customerType == 'C' && Borrower == 'B' && this.MainComponent.BAD_PROD_CAT.getFieldValue() == 'CC') {
       this.MainComponent.CD_REGISTERED_NAME.setHidden(false);
       this.MainComponent.CD_TYPE_OF_INCORPORATION.setHidden(false);
       this.MainComponent.CD_DATE_OF_INCORPORATION.setHidden(false);
@@ -949,7 +957,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.EmbLine4.mandatory = false;
       //this.embLineFlagselected();
     }
-    else if(customerType == 'I' && Borrower == 'B' && this.MainComponent.BAD_PROD_CAT.getFieldValue()  == 'CC'){
+    else if (customerType == 'I' && Borrower == 'B' && this.MainComponent.BAD_PROD_CAT.getFieldValue() == 'CC') {
       this.MainComponent.CD_REGISTERED_NAME.setHidden(true);
       this.MainComponent.CD_TYPE_OF_INCORPORATION.setHidden(true);
       this.MainComponent.CD_DATE_OF_INCORPORATION.setHidden(true);
@@ -973,7 +981,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.EmbLineFlag.mandatory = false;
       this.MainComponent.EmbLine4.setHidden(true);
       this.MainComponent.EmbLine4.mandatory = false;
-    }else{
+    } else {
       this.MainComponent.CD_REGISTERED_NAME.setHidden(true);
       this.MainComponent.CD_TYPE_OF_INCORPORATION.setHidden(true);
       this.MainComponent.CD_DATE_OF_INCORPORATION.setHidden(true);

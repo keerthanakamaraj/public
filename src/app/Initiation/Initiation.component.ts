@@ -441,7 +441,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.BAD_CBS_PROD_CD.mandatory = false;
     this.BAD_CARD_TYPE.setReadOnly(false);
     // this.CD_CARD_CUST_TYPE.setReadOnly(false);
-   
+
 
     await this.Handler.onFormLoad({
     });
@@ -1641,7 +1641,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   async BAD_CUSTOMER_TYPE_change(fieldID, value) {
     this.setCustomerTypeOptions();
     this.toggleColumn();
-    this.CD_CARD_CUST_TYPE.setValue('B',undefined,true);
+    this.CD_CARD_CUST_TYPE.setValue('B', undefined, true);
   }
 
 
@@ -2064,8 +2064,6 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   }
   toggleColumn() {
-    console.log('Customer typesss:- ', this.BAD_CUSTOMER_TYPE.getFieldValue());
-
     this.Handler.HideFieldBasedOnCorporate(this.BAD_CUSTOMER_TYPE.getFieldValue(), 'B');
 
 
