@@ -90,7 +90,7 @@ export class FinancialSummary implements IDeserializable {
                 formatToCurrency: true
             },
             {
-                title: "Net Income Monthly (Annual)",
+                title: "Net Income Monthly",
                 subTitle: this.NetIncomeMonthly,
                 type: "basic",
                 modalSectionName: "",
