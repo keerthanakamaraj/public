@@ -11,10 +11,10 @@ export const environment = {
   baseURL: 'https://www.ifincloud.io', // fincloud
   // baseURL: 'http://10.11.10.42:20052',
   enableKeycloak: true,
-   authURL: 'https://iam.intellectseecapps.com/auth',
+  authURL: 'https://iam.intellectseecapps.com/auth',
   // authURL: 'http://10.11.12.15:18080/auth',
   //authURL: 'https://iam.intellectqacloud.com/auth', // QA
-   realm: 'ecpvdev',
+  realm: 'ecpvdev',
   // realm: 'dabank', // QA
   clientId: 'fabric',
   // realm: 'rlorealm',
@@ -64,18 +64,18 @@ export const environment = {
   //   "/common-de": "/common-de/publisher"
   // }
 
-  // fincloud - dev
+  // fincloud - sandbox5
   serviceMap: {
-    'default': '/dev/initiation/publisher',
-    '/masters': '/dev/masters/publisher',
-    '/ui': '/dev/initiation/publisher',
-    '/los-wf': '/dev/los-wf/rest',
-    '/initiation': '/dev/initiation/publisher',
-    '/rlo-de': '/dev/rlo-de/publisher',
-    '/los-integrator': '/dev/los-integrator',
-    '/lettermangement' : '/dev/lettermangement/publisher',
-    '/common-de': '/dev/common-de/publisher',
-    '/los-verification': '/dev/common-de'
+    'default': '/sandbox5/initiation/publisher',
+    '/masters': '/sandbox5/masters/publisher',
+    '/ui': '/sandbox5/initiation/publisher',
+    '/los-wf': '/sandbox5/los-wf/rest',
+    '/initiation': '/sandbox5/initiation/publisher',
+    '/rlo-de': '/sandbox5/rlo-de/publisher',
+    '/los-integrator': '/sandbox5/los-integrator',
+    '/lettermangement': '/sandbox5/lettermangement/publisher',
+    '/common-de': '/sandbox5/common-de/publisher',
+    '/los-verification': '/sandbox5/common-de'
   }
 
   // serviceMap : {
