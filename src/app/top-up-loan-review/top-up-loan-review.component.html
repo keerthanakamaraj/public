@@ -1,0 +1,132 @@
+<div class="lyt-topup-loan-review clearfix content">
+  <div class="wgt-top-navigator row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+    <div class="col-sm-12 col-md-12">
+      <div class="FormTitle">
+        <a class="back" (click)="goBack()">Back</a>
+        <span>Topup Loan Review</span>
+      </div>
+    </div>
+    <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+    </div>
+  </div>
+
+  <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+    <div class="form-group pb10 row d-none">
+      <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+        <app-Header #FieldId_1 fieldID="FieldId_1" [formCode]="formCode"
+          (productCategoryFound)="broadcastProdCategory($event)">
+        </app-Header>
+      </div>
+    </div>
+
+    <div class="app-title">Top Up Plan Application</div>
+  </div>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="customer-panel">
+      <div class="col-12 col-sm-12 col-md-12 res-pr-hide">
+        <app-uw-cust-tab #UWTabs (customerChanged)="customerSelectionChanged($event)">
+        </app-uw-cust-tab>
+      </div>
+
+      <div class="cards-section" style="width:100% !important;height:100% !important;">
+
+        <ngx-masonry [options]="myOptions" [ordered]="true">
+          <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto"
+            [ngClass]="{'d-block' : customerSectionLoaded}">
+            <div class="card-layout-container">
+              <app-card [cardMetaData]="customerCardDataWithFields"></app-card>
+            </div>
+          </div>
+
+          <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto"
+            [ngClass]="{'d-block' : customerSectionLoaded}">
+            <div class="card-layout-container">
+              <app-card [cardMetaData]="existingLoanCardDataWithFields"></app-card>
+            </div>
+          </div>
+
+          <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto"
+            [ngClass]="{'d-block' : customerSectionLoaded}">
+            <div class="card-layout-container">
+              <app-card [cardMetaData]="topUpLoanCardDataWithFields"></app-card>
+            </div>
+          </div>
+
+
+          <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto"
+            [ngClass]="{'d-block' : customerSectionLoaded}">
+            <div class="card-layout-container">
+              <app-card [cardMetaData]="breOutputDataWithFields"></app-card>
+            </div>
+          </div>
+
+          <!-- <div ngxMasonryItem class="p-0 w-25" style="height:auto" *ngFor="let data of cCardDataWithFields">
+                <div class="card-layout-container">
+                  <app-card [cardMetaData]="data"></app-card>
+                </div>
+              </div> -->
+
+          <!-- <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto" [ngClass]="{'d-block' : customerSectionLoaded}">
+                <div class="wgt-blank-card col-sm-3 col-md-3 col-lg-3">
+                  <div class="blank-container" *ngIf="cBlankCardData.length">
+                    <app-blank-card [cardMetaData]="data" *ngFor="let data of cBlankCardData"></app-blank-card>
+                  </div>
+                </div>
+              </div> -->
+        </ngx-masonry>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- fab button -->
+  <div class="fab" id="fab-show" style="display:none;">
+    <ul class="fab-buttons ">
+      <li class="fab-buttons__item">
+        <span class="fab-buttons__link" (click)="cancelForm()">
+          <span class="icon-material icon-material_cancel"></span>
+          <span style="margin-left: -5px;  color:black; font-size: 12px;">Cancel</span>
+        </span>
+      </li>
+      <!-- <li class="fab-buttons__item">
+        <span class="fab-buttons__link" (click)="withdrawForm()">
+          <span class="icon-material icon-material_widthdraw">
+          </span>
+          <span style="margin-left: -5px;  color:black;font-size: 12px;">Withdraw</span>
+        </span>
+      </li> -->
+    </ul>
+    <div class="fab-row ">
+      <!-- <div class="mr-4"> -->
+      <div class="fab-buttons__item" style="padding-left: 25px;">
+        <span class="fab-buttons__link" (click)="rejectForm()">
+          <span class="icon-material-row icon-material_reject">
+          </span>
+          <span style="color: white;font-size: 12px;">Reject</span>
+        </span>
+      </div>
+      <!-- <div class="fab-buttons__item" style="color:white;">
+        |
+      </div> -->
+      <div class="fab-buttons__item " style="padding-right: 75px;">
+        <span class="fab-buttons__link" (click)="approveForm()">
+          <span class="icon-material-row icon-material_approve"></span>
+          <span style="color: white; font-size: 12px;">Approve</span>
+        </span>
+      </div>
+    </div>
+    <span class="fab-action-button shadow-sm" (click)="fabclose()">
+      <i class="fab-action-button__icon"></i>
+    </span>
+  </div>
+
+
+  <div class="fab" id="fab-open">
+    <span class="fab-action-button_2 shadow-sm" (click)="fabopen()">
+      <i class="fab-action-button__icon_2"></i>
+    </span>
+  </div>
+
+</div>

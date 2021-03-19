@@ -35,6 +35,8 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('MT_SLIDER', { static: false }) MT_SLIDER: CheckBoxComponent;
   @ViewChild('MT_GRID', { static: false }) MT_GRID: MyTrayGridComponent;
   @ViewChild('MT_Proposal', { static: false }) MT_Proposal: ButtonComponent;
+  @ViewChild('MT_TopupLoan', { static: false }) MT_TopupLoan: ButtonComponent;
+
   @ViewChild('doughnutChart', { static: false }) doughnutChart: ElementRef;
   //@ViewChild('chartPendingTxt', { static: false }) chartPendingTxt: ElementRef;
   //@ViewChild('chartCountTxt', { static: false }) chartCountTxt: ElementRef;
@@ -76,15 +78,23 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
   NotificationList = [
     {
       type: "New",
-      msg: "Customer ID: S04312244561234 has been blacklisted. Kindly ensure all applications with this ID No.",
-      dateTime: "21 Oct Wed, 10:03 AM"
+      data: [
+        {
+          msg: "Customer ID: S04312244561234 has been blacklisted. Kindly ensure all applications with this ID No.",
+          dateTime: ""
+        }
+      ]
     },
     {
       type: "Recent",
-      msg: "From 1st Sep 2020, branch trading hours will be back to normal (9:00 - 16:00).Safety measures will be followed and respected throughout.",
-      dateTime: "21 Oct Fri, 01:20 PM"
+      data: [
+        {
+          msg: "From DATE, branch trading hours will be back to normal (9:00 - 16:00). Safety measures will be followed and respected throughout.",
+          dateTime: ""
+        }
+      ]
     }
-  ];
+  ]
 
   // Doughnut
   public doughnutChartLabels: Label[] = ['Quick Data Entry', 'Detailed Data Entry', 'CPV', 'Credit Underwriting'];
@@ -158,6 +168,9 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
     this.componentCode = 'MyTrayForm';
     this.displayBorder = false;
     // this.menuList = [{ Menu: 'MODIFICATION', MenuList: [{ id: 'Initiation', text: 'Initiate' }]}];
+    //moment(moment().format('Do MMM ddd, HH:mm A'),'ddd DD-MMM-YYYY, hh:mm A')
+
+    this.notificationChanges();
   }
   setReadOnly(readOnly) {
     super.setBasicFieldsReadOnly(readOnly);
@@ -224,7 +237,7 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
       this.checkForHTabOverFlow();
     });
 
-    this.getFilter("1W");
+    this.getFilter("1Y");
     this.cdRef.detectChanges();
   }
   clearError() {
@@ -269,11 +282,26 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
       this.navigateToHome();
     }
   }
+  
+    MT_TopupLoan_click() {
+    let inputMap = new Map();
+    this.router.navigate(['/home/LoanTopup']);
+  }
   navigateToHome() {
     this.router.navigate(['/home/LANDING']);
   }
   redirect() {
-    var id = "Initiation";
+   // var Roles = sessionStorage.getItem('ROLES');
+       // var RolesArr = Roles.split(',');
+            var id;
+  // RolesArr.forEach(element => {
+   //   if (element == 'mortgage_role') {
+    //     id = "MMSInitiation";
+     //   }
+      //   else {
+          id = "Initiation";
+	  //   }
+	  // });
     if (id && id != "") {
       this.router.navigate(['/home/' + id]);
     } else {
@@ -393,7 +421,8 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
       { stage: "Operation", color: "#b2d8e7" },
       { stage: "Approve", color: "#92d050" },
       { stage: "Reject", color: "#c0504d" },
-      { stage: "withdraw", color: "#7f7f7f" }
+      { stage: "withdraw", color: "#7f7f7f" },
+      { stage: "TopUpReview", color: "#018ac3" }
     ];
 
     let colorArray = [];
@@ -481,5 +510,23 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
   updateCount(count: any): any {
     console.error("DEEP | count", count);
     this.proposalCount = count;
+  }
+
+  TopUpUW() {
+    let inputMap = new Map();
+    this.router.navigate(['/home/top-up-loan-review']);
+  }
+
+  notificationChanges() {
+    const moment = require('moment');
+
+    let todaysDate = moment().format('Do MMM ddd');
+    this.NotificationList[0].data[0].dateTime = todaysDate + ", 09:15 AM";
+
+    let futureDate = moment().add(7, 'day').format('Do MMM ddd');
+    let backDate = moment().subtract(7, 'day').format('Do MMM ddd');
+    
+    this.NotificationList[1].data[0].dateTime = backDate + ", 02:20 PM";
+    this.NotificationList[1].data[0].msg = this.NotificationList[1].data[0].msg.replace('DATE', moment(futureDate, 'Do MMM ddd').format('Do MMM YYYY').toString());
   }
 }

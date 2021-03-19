@@ -61,6 +61,7 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
   cust_dob: string;
   //tenurePeriod:string=undefined;
   isCBOwnership: boolean = false;
+  amortizationGridData  = null;
   repaymentFormData: IRepaymentSchedule = {};
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -100,7 +101,11 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
   }
   async onFormLoad() {
     // this.ApplicationId = '2221';
-    this.editableFlag = true;
+    if(this.parentData.parentComponent == 'Loan'){
+      this.editableFlag = true;
+    }else{
+      this.editableFlag = false;
+    };
     this.RequiredEMIAmt.setReadOnly(true);
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
     let inputMap = new Map();
@@ -150,6 +155,9 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
     styleElement.innerHTML = customCss;
     styleElement.id = 'AmortizationSchedule_customCss';
     document.getElementsByTagName('head')[0].appendChild(styleElement);
+    console.log("amortizationGridData",this.amortizationGridData);
+    
+    
   }
   ngOnDestroy() {
     this.unsubscribe$.next();
@@ -164,6 +172,9 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
       this.onFormLoad();
       this.checkForHTabOverFlow();
       // this.cdRef.detectChanges();
+      if(this.amortizationGridData != null){
+        this.AMS_TOPUP_GENERATE_BTN_click(event);
+      }
     });
   }
   clearError() {
@@ -344,6 +355,33 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
     } else {
       this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
     }
+  }
+
+  async AMS_TOPUP_GENERATE_BTN_click(event) {
+
+    // const noOfErrors: number = await this.revalidate();
+    // if (noOfErrors === 0) {
+
+      this.repaymentFormData = {};
+      this.repaymentFormData.loanAmount = this.amortizationGridData.loanAmount;
+      this.repaymentFormData.interestRate = this.amortizationGridData.interestRate;
+      this.repaymentFormData.disbursalDate = this.amortizationGridData.disbursalDate;
+      this.repaymentFormData.firstInstallmentDate = this.amortizationGridData.firstInstallmentDate;
+      this.repaymentFormData.productCode = this.amortizationGridData.productCode;
+      this.repaymentFormData.subProductCode = this.amortizationGridData.subProductCode;
+
+     
+        this.repaymentFormData.noOfInstallments = this.amortizationGridData.noOfInstallments;
+        this.repaymentFormData.installmentFrequency = '1';
+        this.repaymentFormData.installmentFreqIndicator = this.amortizationGridData.installmentFreqIndicator;
+        this.repaymentFormData.FreqIndctrDesc = this.amortizationGridData.FreqIndctrDesc
+      
+      console.log("shweta :: new repayment Interface ::", JSON.stringify(this.repaymentFormData));
+      this.AmortizationGrid.gridDataLoad({
+        'requestParams': this.repaymentFormData
+      });
+
+    
   }
   generateRepaymentForm(requestedParams) {
     //this.repaymentFormData=requestParams;
