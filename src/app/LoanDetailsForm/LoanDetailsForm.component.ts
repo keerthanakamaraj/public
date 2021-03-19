@@ -740,6 +740,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     dataObj.Tenure = this.Tenure.getFieldValue();
     dataObj.TenurePeriod = (this.TenurePeriod.getFieldInfo() != undefined ? this.TenurePeriod.getFieldInfo() : this.TenurePeriod.getFieldValue());
     dataObj.TenurePeriodCd = this.TenurePeriod.getFieldValue();
+    dataObj.parentComponent = 'Loan'
     // dataObj.Tenure = this.Tenure.getFieldValue() + " " + (this.TenurePeriod.getFieldInfo() != undefined ? this.TenurePeriod.getFieldInfo() : this.TenurePeriod.getFieldValue());
     if (this.FieldId_26.LoanGridArray != undefined) {
       this.FieldId_26.LoanGridArray.forEach(element => {
@@ -809,9 +810,9 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       case 'D': isValid = true; break;
       case 'W': isValid = (this.TenurePeriod.getFieldValue() != 'DAY') ? true : false; break;
       case 'M': isValid = (this.TenurePeriod.getFieldValue() != 'DAY' && this.TenurePeriod.getFieldValue() != 'WEEK') ? true : false; break;
-      case 'Y': isValid = (this.TenurePeriod.getFieldValue() == 'YRS') ? true : false; break;
-
-
+      case 'Y': isValid = (this.TenurePeriod.getFieldValue() == 'DAY' && this.TenurePeriod.getFieldValue()!== 'WEEK'  ) ? true : false; break;
+      case 'Q' :isValid = (this.TenurePeriod.getFieldValue() !== 'DAY' && this.TenurePeriod.getFieldValue()!== 'WEEK' && this.TenurePeriod.getFieldValue()!== 'MNTH' )? true : false;break;
+      case 'BW' :isValid = (this.TenurePeriod.getFieldValue() !== 'DAY' && this.TenurePeriod.getFieldValue()!== 'WEEK')? true : false;break;
     }
     return isValid;
   }
