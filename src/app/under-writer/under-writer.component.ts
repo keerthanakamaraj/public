@@ -418,7 +418,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
-    // this.applicationId = 5694; //5689(tony stark) 5694(raj)
+    // this.applicationId = 10382; //5689(tony stark) 5694(raj)
 
     if (this.userId === undefined || this.userId == '') {
       this.claimTask(this.taskId);
@@ -1024,6 +1024,9 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     requestParams.set('Body.ApplicationStatus', this.applicationStatus);
     requestParams.set('Body.direction', this.applicationStatus);
 
+    this.normalApproveForm(requestParams);
+    return;
+
     console.log(this.customerMasterJsonData.ApplicationDetails.CardDetails);
     let ApprovedLimit = this.customerMasterJsonData.ApplicationDetails.CardDetails.ApprovedLimit;
 
@@ -1115,6 +1118,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       });
     });
   }
+
   async submitUwSection(requestParams, DecisionResponse) {
     const inputMap = new Map();
 
@@ -1128,11 +1132,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     inputMap.set('Body.ApplicationId', this.applicationId);
     inputMap.set('Body.ApplicationStatus', this.applicationStatus);
     inputMap.set('Body.CreatedBy', this.userId);
-    if (DecisionResponse != null) {
-      inputMap.set('Body.ApprovalReq', DecisionResponse.ApprovalReq);
-      inputMap.set('Body.AuthorityDesignation', DecisionResponse.DesignationAuthority);
-      inputMap.set('Body.ApproverName', DecisionResponse.ApproverName);
-    }
+
     if (requestParams) {
       requestParams.forEach((val, key) => {
         inputMap.set(key, val);
@@ -1145,7 +1145,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
 
-        const action: string = (requestParams.get('Body.ApplicationStatus')).toUpperCase();
+        const action: string = ''
 
         let alertMsg = 'rlo.success.submit';
         switch (action) {
@@ -1384,6 +1384,33 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
           );
         }
       }
+    });
+  }
+
+
+  normalApproveForm(requestParams) {
+    var mainMessage = this.services.rloui.getAlertMessage('rlo.submit.comfirmation');
+    var button1 = this.services.rloui.getAlertMessage('', 'OK');
+    var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+    Promise.all([mainMessage, button1, button2]).then(values => {
+      let modalObj = {
+        title: "Alert",
+        mainMessage: values[0],
+        modalSize: "modal-width-sm",
+        buttons: [
+          { id: 1, text: values[1], type: "success", class: "btn-primary" },
+          { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+        ]
+      }
+
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        if (response != null) {
+          if (response.id === 1) {
+            this.services.rloui.closeAllConfirmationModal()
+            this.submitUwSection(requestParams, null);
+          }
+        }
+      });
     });
   }
 }
