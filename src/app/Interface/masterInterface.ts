@@ -54,7 +54,8 @@ export interface IAmortizationForm {
   InstallmentFreqIndicator?: any,
   InstallmentFreqIndicatorCd?: any,
   TenurePeriod?: any,
-  TenurePeriodCd?: any
+  TenurePeriodCd?: any,
+  parentComponent?: string
 
 }
 
@@ -75,7 +76,8 @@ export interface IRepaymentSchedule {
   tenure?: string,
   tenureIndecator?: string,
   requiredEMIAmt?: string,
-  FreqIndctrDesc?: string
+  FreqIndctrDesc?: string,
+  parentComponent?: string
 }
 
 
@@ -108,6 +110,19 @@ export interface IGlobalComponentLvlDataHandler {
   name: string;
   data: any;
   BorrowerSeq: number;
+}
+//top up loan review
+export interface IAmortizationGridData {
+  productCode?: any;
+  subProductCode?: any;
+  installmentFrequency?: any;
+  loanAmount?: any;
+  interestRate?: any;
+  disbursalDate?: any;
+  firstInstallmentDate?: any;
+  noOfInstallments?: any;
+  installmentFreqIndicator?: any;
+  FreqIndctrDesc?: any;
 }
 
 export interface ICustomSearchObject {
@@ -143,6 +158,13 @@ export interface IInterfaceDataIndicator {
   modalSectionName: string;
   interfaceId?: number;
   isTriggered?: boolean;
+}
+export interface IAccountDetails {
+  AccountNo?: any;
+  AccountStatus?: any;
+  AccountType?: any;
+  AvailableBalance?: any;
+  OpeningDate?: any;
 }
 
 export interface IPopUpModalResponse {

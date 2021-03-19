@@ -147,10 +147,20 @@ export var componentRoutes: Routes = [
 	{
 		path: 'LimitEnhancement',
 		loadChildren: 'src/app/AddOn/AddOn.module#AddOnModule'
-	}
+	},
 	// {
 	// 	path: 'POST-CPV',
 	// 	loadChildren: 'src/app/PostCPV/PostCPV.module#PostCPVModule'
-	// }	
+	// }
+	
+   {
+		path: 'LoanTopup',
+		//   loadChildren: 'src/app/Initiation/Initiation.module#InitiationModule'
+		loadChildren: 'src/app/LoanTopupDetails/LoanTopupDetails.module#LoanTopupDetailsModule'
+	},
+	{
+		path: 'topup-loan-review',
+		loadChildren: 'src/app/top-up-loan-review/top-up-loan-review.module#TopUpLoanReviewModule'
+	}		
 ];
 export class AppRoutingModule { }
