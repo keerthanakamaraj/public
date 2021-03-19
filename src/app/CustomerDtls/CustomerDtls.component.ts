@@ -123,6 +123,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   @ViewChild('CD_INCORPORATE_DATE', { static: false }) CD_INCORPORATE_DATE: DateComponent;
   @ViewChild('CD_INCORPORATE_TYPE', { static: false }) CD_INCORPORATE_TYPE: TextBoxComponent;
   @ViewChild('hideTypeofIncorp', { static: false }) hideTypeofIncorp: HiddenComponent;
+  @ViewChild('CD_PEP', { static: false }) CD_PEP: RLOUIRadioComponent;
+  @ViewChild('hidePEP', { static: false }) hidePEP: HiddenComponent;
+  @ViewChild('CD_PEPDETAILS', { static: false }) CD_PEPDETAILS: TextBoxComponent;
 
   @Output() updateCustGrid: EventEmitter<any> = new EventEmitter<any>();
   @Output() onFullNameblur: EventEmitter<any> = new EventEmitter<any>();
@@ -151,7 +154,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   async revalidate(showErrors: boolean = true): Promise<number> {
     let totalErrors = 0;
     super.beforeRevalidate();
-     if(this.custSearchButton == 'Y'){
+    if (this.custSearchButton == 'Y') {
       await Promise.all([
         this.revalidateBasicField('CD_CIF'),
       ]).then((errorCounts) => {
@@ -160,7 +163,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         });
       });
     }
-    else{
+    else {
       await Promise.all([
         // this.revalidateBasicField('CD_CUST_TYPE'),
         // this.revalidateBasicField('CD_EXISTING_CUST', false, showErrors),
@@ -195,8 +198,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         // this.revalidateBasicField('CD_PMRY_EMBSR_NAME', false, showErrors),
         this.revalidateBasicField('CD_PREF_COM_CH', false, showErrors),
         this.revalidateBasicField('CD_PREF_LANG', false, showErrors),
-        // this.revalidateBasicField('MaidenName', false, showErrors),
-        // this.revalidateBasicField('RequestedAmountLimit', false, showErrors),
+        this.revalidateBasicField('CD_PEP', false, showErrors),
+        this.revalidateBasicField('CD_PEPDETAILS', false, showErrors),
         // this.revalidateBasicField('EmbLine4', false, showErrors),
         //this.revalidateBasicField('CD_COUNTRY_CODE'),
         // this.FieldId_29.revalidate(),
@@ -207,7 +210,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         });
       });
     }
-   
+
     this.errors = totalErrors;
     super.afterRevalidate();
     return totalErrors;
@@ -238,13 +241,13 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.hideCustSubSegment.setValue('CUST_SUB_SEGMENT');
     this.hidCardDispatch.setValue('CARD_DISPATACH');
     this.hideTypeofIncorp.setValue('CORPORATION_TYPE');
+    this.hidePEP.setValue('Y_N');
     if (this.isLoanCategory != undefined && 'C' != this.services.rloCommonData.globalApplicationDtls.CustomerType) {
       this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
     }
-    else{
+    else {
       this.hideCustomerType.setValue('CUSTOMER_TYPE');
     }
-
     this.hideCitizenship.setValue('CITIZENSHIP');
 
     if (this.isLoanCategory != undefined) {
@@ -263,13 +266,18 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     // if (this.EmbLineFlag.getFieldValue() == undefined) {
     //   this.EmbLineFlag.setValue('N');
     // }
-
+    this.CD_PEPDETAILS.setHidden(true);
     this.Handler.onFormLoad({
     });
     this.setDependencies();
     if ('DDE' == this.parentFormCode) {
       this.CD_LOAN_OWN.setReadOnly(this.services.rloCommonData.calculateLoanOwnership(this.activeBorrowerSeq) < 100 ? false : true);
     }
+    if (this.CD_PEP.getFieldValue() == 'Y') {
+      this.CD_PEPDETAILS.setHidden(false);
+    }
+    this.CD_PEP.setDefault('N');
+
     // else if ('QDE' == this.parentFormCode) {
     //   this.CD_CUST_SEGMENT.mandatory=false;
     // }
@@ -422,7 +430,16 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   async family_addfullname(event) {
     console.log("Calling this Emitter");
   }
+  async CD_PEP_change(fieldID, value) {
+    if (this.CD_PEP.getFieldValue() == 'Y') {
+      this.CD_PEPDETAILS.setHidden(false);
+      this.CD_PEPDETAILS.mandatory = true;
 
+    }
+    else {
+      this.CD_PEPDETAILS.setHidden(true);
+    }
+  }
 
   genderCheck() {
     if ((this.CD_GENDER.getFieldValue() === 'M' && this.CD_TITLE.getFieldValue() !== 'MR') || (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue() !== 'MRS') && (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue() !== 'MS')) {
@@ -611,6 +628,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         inputMap.set('Body.BorrowerDetails.EmbLine4', this.EmbLine4.getFieldValue());
         inputMap.set('Body.BorrowerDetails.EmbLineFlag', this.EmbLineFlag.getFieldValue());
 
+        //demo changes
+        inputMap.set('Body.BorrowerDetails.UDF1', this.CD_PEP.getFieldValue());
+        inputMap.set('Body.BorrowerDetails.UDF2', this.CD_PEPDETAILS.getFieldValue());
         console.log(inputMap, this.CD_MOBILE_NO.countryCode);
 
         this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/initiation').subscribe(
@@ -751,7 +771,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         inputMap.set('Body.BorrowerDetails.MaidenName', this.MaidenName.getFieldValue());
         inputMap.set('Body.BorrowerDetails.RequestedCreditLimit', this.RequestedAmountLimit.getFieldValue());
         inputMap.set('Body.BorrowerDetails.PickUpInstruction', this.CardDispatchMode.getFieldValue());
-
+        //demo changes
+        inputMap.set('Body.BorrowerDetails.UDF1', this.CD_PEP.getFieldValue());
+        inputMap.set('Body.BorrowerDetails.UDF2', this.CD_PEPDETAILS.getFieldValue());
 
 
         this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/initiation').subscribe(
@@ -768,12 +790,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
               // }
               // console.log("AddedMember" , parentData.isAddedNewMember);
               let array = [];
-              array.push({ isValid: false, sectionData:{} });
+              array.push({ isValid: false, sectionData: {} });
               let obj = {
                 "name": "CreditCardDetails",
                 "data": array,
                 "sectionName": "CreditCardDetails",
-                "tabName":"A"
+                "tabName": "A"
               }
               this.services.rloCommonData.globalComponentLvlDataHandler(obj);
             }
@@ -992,10 +1014,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     const customer = customerDtlsObj;
     // this.dispalyAddonField(customer.CustomerType);
     //console.log("*****LoadCustomerDetailsonFormLoad", customerDtlsObj);
-    if(this.isLoanCategory){
+    if (this.isLoanCategory) {
       this.CD_CUST_TYPE.setValue(customer.CustomerType, undefined, true)
     }
-    else{
+    else {
       this.CD_CARD_CUST_TYPE.setValue(customer.CustomerType, undefined, true);
     }
     this.showHideCustSegment(customer.CustomerType);
@@ -1062,7 +1084,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       this.EmbLineFlag.setValue(customer.EmbLineFlag.id, undefined, true);
       this.cardEmbossingData.EmbLineFlag = customer.EmbLineFlag.id;
     }
-
+    this.CD_PEP.setValue(customer.UDF1, undefined, true);
+    this.CD_PEPDETAILS.setValue(customer.UDF2);
     this.activeBorrowerSeq = customer.BorrowerSeq;
 
     this.ManageCardTypeBasedFields(customer.CustomerType); //called for canara
@@ -1529,6 +1552,16 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       ],
       outDep: [
       ]
+    },
+    CD_PEP: {
+      inDep: [
+
+        { paramKey: "VALUE1", depFieldID: "CD_PEP", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hidePEP", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
     }
   }
   /* Write Custom Scripts Here */
@@ -1570,59 +1603,59 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
   }
 
- async searchForCustomer(type: any) {
+  async searchForCustomer(type: any) {
     this.custSearchButton = 'Y';
     let obj: ICustomSearchObject = {};
     const errorCount = await this.revalidate();
     console.log("searchForCustomer()", type);
-    if(errorCount == 0){
-    if (type.inputBtn == "CD_CUSTOMER_ID") {
-      obj.searchType = "Internal";
-    } else {
-      obj.searchType = "External";
-    }
+    if (errorCount == 0) {
+      if (type.inputBtn == "CD_CUSTOMER_ID") {
+        obj.searchType = "Internal";
+      } else {
+        obj.searchType = "External";
+      }
 
-    obj.cifId = this.CD_CIF.getFieldValue();
+      obj.cifId = this.CD_CIF.getFieldValue();
 
-    console.log(obj);
-    if ((obj.cifId != "" && obj.cifId != undefined)) {
+      console.log(obj);
+      if ((obj.cifId != "" && obj.cifId != undefined)) {
 
-      // if ((obj.cifId != "" && obj.cifId != undefined) || (obj.customerId != "" && obj.customerId != undefined) || (obj.staffId != "" && obj.staffId != undefined)) {
+        // if ((obj.cifId != "" && obj.cifId != undefined) || (obj.customerId != "" && obj.customerId != undefined) || (obj.staffId != "" && obj.staffId != undefined)) {
 
-      this.services.rloui.openCustomerSearch(obj).then((response: any) => {
+        this.services.rloui.openCustomerSearch(obj).then((response: any) => {
 
-        if (response != null) {
-          this.custSearchButton = 'N';
-          let applicationCustomerType = this.services.rloCommonData.globalApplicationDtls.CustomerType;
-          console.error("applicationCustomerType", applicationCustomerType);
+          if (response != null) {
+            this.custSearchButton = 'N';
+            let applicationCustomerType = this.services.rloCommonData.globalApplicationDtls.CustomerType;
+            console.error("applicationCustomerType", applicationCustomerType);
 
-          if (response.CustomerType == 'C') {
-            if (this.CD_CARD_CUST_TYPE.getFieldValue() == 'A') {
-              // this.services.alert.showAlert(2, 'User Cannot add Corporate for Addon Customer', -1)
-              this.services.alert.showAlert(2, '', 4000, 'User Cannot Add Corporate Record For Addon Customer');
-              return;
+            if (response.CustomerType == 'C') {
+              if (this.CD_CARD_CUST_TYPE.getFieldValue() == 'A') {
+                // this.services.alert.showAlert(2, 'User Cannot add Corporate for Addon Customer', -1)
+                this.services.alert.showAlert(2, '', 4000, 'User Cannot Add Corporate Record For Addon Customer');
+                return;
+              }
+            }
+
+            console.log(response);
+            if (typeof response != "boolean") {
+              this.setValuesOfCustomer(response);
+            }
+            else {
+              // if (response)
+              //this.CD_RESET_click();
             }
           }
-
-          console.log(response);
-          if (typeof response != "boolean") {
-            this.setValuesOfCustomer(response);
-          }
           else {
-            // if (response)
-            //this.CD_RESET_click();
+            console.warn("DEEP | No customer selected");
           }
-        }
-        else {
-          console.warn("DEEP | No customer selected");
-        }
-      });
+        });
+      } else {
+        this.customerSearchGenericOnBlur(type.inputBtn, this.CD_CIF.getFieldValue())
+      }
     } else {
-      this.customerSearchGenericOnBlur(type.inputBtn, this.CD_CIF.getFieldValue())
+      this.services.alert.showAlert(2, '', -1, 'Please enter valid CBS Customer ID');
     }
-  }else{
-    this.services.alert.showAlert(2, '', -1, 'Please enter valid CBS Customer ID');
-  }
   }
 
   setValuesOfCustomer(data) {

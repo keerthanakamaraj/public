@@ -262,6 +262,26 @@
             <app-text-box #CD_EMAIL fieldID="CD_EMAIL" [formCode]="formCode" (blur)="genericOnBlur('CD_EMAIL', $event)">
             </app-text-box>
           </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_PEP.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': CD_PEP.mandatory}">
+                {{ 'CustomerDtls.CD_PEP' | translate}}
+              </label>
+            </div>
+            <rlo-ui-radio #CD_PEP category="2" fieldID="CD_PEP" [formCode]="formCode"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              (change)="CD_PEP_change('CD_PEP', $event)" (blur)="genericOnBlur('CD_PEP', $event)">
+            </rlo-ui-radio>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_PEPDETAILS.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': CD_PEPDETAILS.mandatory}">
+                {{ 'CustomerDtls.CD_PEPDETAILS' | translate}}
+              </label>
+            </div>
+            <app-text-box #CD_PEPDETAILS fieldID="CD_PEPDETAILS" [formCode]="formCode"
+              (blur)="genericOnBlur('CD_PEPDETAILS', $event)"></app-text-box>
+          </div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="isCorporateBorrower">
             <app-label #NATIONALITY_DTLS_LBL parentCompCode="CustomerDtls" fieldID="NATIONALITY_DTLS_LBL"
               [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px"
@@ -552,6 +572,8 @@
         <app-hidden #hidCardDispatch fieldID="hidCardDispatch"></app-hidden>
         <app-hidden #hideCardCustType fieldID="hideCardCustType"></app-hidden>
         <app-hidden #hideTypeofIncorp fieldID="hideTypeofIncorp"></app-hidden>
+        <app-hidden #hidePEP fieldID="hidePEP"></app-hidden>
+
       </div>
     </div>
   </div>
