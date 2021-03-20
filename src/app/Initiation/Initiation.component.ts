@@ -1271,13 +1271,13 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       }
     }
     if (noofErrors == 0) {
-      this.SUBMIT_MAIN_BTN.setDisabled(true);
+     
       let countLoanOwnership = this.Handler.aggregateLoanOwnerShip();
       if (this.BAD_PROD_CAT.getFieldValue() !== 'CC' && countLoanOwnership < 100) {
         this.services.alert.showAlert(2, 'rlo.error.loanownership.invalid', -1);
         return;
       }
-
+      this.SUBMIT_MAIN_BTN.setDisabled(true);
       inputMap.clear();
       if (this.borrower == true) {
         // this.SUBMIT_MAIN_BTN.setDisabled(true);
@@ -1629,12 +1629,16 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.CD_LOAN_OWNERSHIP.setValue(undefined);
     }
     if (this.allowCoBorrower.getFieldValue() == 'Y') {
-      if (this.CD_CUST_TYPE.getFieldValue() !== 'B' && this.disableLoanOwnership == true) {
-        this.CD_LOAN_OWNERSHIP.setReadOnly(true);
-      }
-      else {
-        this.CD_LOAN_OWNERSHIP.setReadOnly(false);
-      }
+      // if (this.CD_CUST_TYPE.getFieldValue() !== 'B' && this.disableLoanOwnership == true) {
+      //   // this.CD_LOAN_OWNERSHIP.setReadOnly(true);
+      // }
+      // else {
+      //   this.CD_LOAN_OWNERSHIP.setReadOnly(false);
+      // }
+    }
+
+    if (this.CD_CUST_TYPE.getFieldValue() == 'G' || this.CD_CUST_TYPE.getFieldValue() == 'OP') {
+      this.CD_LOAN_OWNERSHIP.setReadOnly(true);
     }
 
   }
@@ -2132,7 +2136,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.services.http.fetchApi(this.services.rloCommonData.userInvokeInterfacev2 ? '/api/invokeInterface/v2' : '/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
-          console.log("jggf",res);
+          console.log("jggf", res);
           if (res.status === 'S') {
             this.BAD_MASK_CARD_NUMBER.setValue(res['outputdata']['MaskCardNumber']);
             this.BAD_MASK_CARD_NUMBER.setHidden(true);

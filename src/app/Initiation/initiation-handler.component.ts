@@ -239,6 +239,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     //this.MainComponent.CD_STAFF.setValue(this.MainComponent.CD_STAFF.getDefault());
     this.isStaff({});
     this.DisableLoanOwnerShip();
+    this.editId = undefined;
   }
 
   // Add Full Name based on First Name, Middle Name, Third Name and Last Name
@@ -392,7 +393,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         this.MainComponent.CD_LOAN_OWNERSHIP.setReadOnly(false);
       }
       else {
-        this.MainComponent.CD_LOAN_OWNERSHIP.setReadOnly(true);
+        // this.MainComponent.CD_LOAN_OWNERSHIP.setReadOnly(true);
       }
 
     }
@@ -476,18 +477,49 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       customer.tempId = "ID-" + (this.counter++);
       console.log("this.customers before adding", this.customers);
 
+      let totalLoanOwnership = 0;
+      let coBorrowerWithLoaOwnership = false;
+
       for (let i = 0; i < this.customers.length; i++) {
 
         if (this.customers[i].tempId !== this.editId) {
+          if (this.customers[i].loanOwnership != undefined && this.customers[i].loanOwnership !== "")
+            totalLoanOwnership += Number(this.customers[i].loanOwnership);
+
           if (customer.customerType.value == 'B') {
             if (this.customers[i].customerType.value == 'B' && this.customers[i].tempId !== this.editId) {
-              this.MainComponent.services.alert.showAlert(2, this.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue() == 'C' ? 'rlo.error.corporate-applicant.exist' : 'rlo.error.primary-applicant.exist', -1);
+              this.MainComponent.services.alert.showAlert(2, this.MainComponent.BAD_PROD_CAT.getFieldValue() != 'CC' ? 'rlo.error.corporate-applicant.exist' : 'rlo.error.primary-applicant.exist', -1);
               return;
             }
+          }
+          if (this.customers[i].customerType.value == 'CB' && Number(this.customers[i].loanOwnership) > 0) {
+            coBorrowerWithLoaOwnership = true;
           }
           if (this.customers[i].FULL_NAME == this.MainComponent.CD_FULL_NAME.getFieldValue() && this.customers[i].DOB == this.MainComponent.CD_DOB.getFieldValue()) {
             this.MainComponent.services.alert.showAlert(2, 'rlo.error.customer.exist', -1);
             return;
+          }
+        } else {
+
+        }
+      }
+
+      if (coBorrowerWithLoaOwnership && customer.loanOwnership != "") {
+        this.MainComponent.services.alert.showAlert(2, 'rlo.error.exist.coborrower', 4000);
+        return;
+      }
+      else {
+        if (customer.customerType.value == "CB") {
+          if (customer.loanOwnership != undefined) {
+            if (customer.loanOwnership === "") {
+
+            } else {
+              let cbLoanOwnership = Number(customer.loanOwnership);
+              if ((Number(customer.loanOwnership) + totalLoanOwnership) > 100) {
+                this.MainComponent.services.alert.showAlert(2, 'rlo.error.loanownershipmore.invalid', 4000);
+                return;
+              }
+            }
           }
         }
       }
@@ -507,6 +539,8 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       }
 
       this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
+      this.MainComponent.CD_LOAN_OWNERSHIP.setReadOnly(false);
+
       this.updateCustomerTags();
       this.MainComponent.isReferrer = false;
       this.customers.forEach(element => {
@@ -829,7 +863,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
     } else {
       this.MainComponent.disableLoanOwnership = true;
-      this.MainComponent.CD_LOAN_OWNERSHIP.setReadOnly(true);
+      // this.MainComponent.CD_LOAN_OWNERSHIP.setReadOnly(true);
     }
   }
 
@@ -840,7 +874,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         this.MainComponent.disableLoanOwnership = true;
 
         if (this.MainComponent.disableLoanOwnership == true) {
-          this.MainComponent.CD_LOAN_OWNERSHIP.setReadOnly(true);
+          // this.MainComponent.CD_LOAN_OWNERSHIP.setReadOnly(true);
         } else {
           this.MainComponent.CD_LOAN_OWNERSHIP.setReadOnly(false);
         }
