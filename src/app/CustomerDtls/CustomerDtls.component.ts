@@ -1240,6 +1240,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     let appCustomerType = this.services.rloCommonData.globalApplicationDtls.CustomerType;
     let CorporateApplicantFlag: boolean = undefined;
 
+    if(applicantType == 'G' || applicantType == 'OP'){
+      this.CD_CIF.setReadOnly(false);
+    }
+
     console.log("*****ManageCardTypeBasedFields()");
 
     // this.EmbLineFlag.setValue('N', undefined, true);
