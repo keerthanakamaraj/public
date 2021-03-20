@@ -418,7 +418,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
-    // this.applicationId = 10382; //5689(tony stark) 5694(raj)
+    this.applicationId = 10387; //5689(tony stark) 5694(raj)
 
     if (this.userId === undefined || this.userId == '') {
       this.claimTask(this.taskId);
@@ -1199,8 +1199,16 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       if (response != null) {
         response.ApplicationScoreDetails.forEach(element => {
           let selectedObj = this.headerScoreCard.find(x => x.id == element.ScoreId);
-          if (element.Score != undefined)
-            selectedObj.score = Math.round(element.Score);
+          // if(element.ScoreId == )
+          if (element.Score != undefined){
+            if(selectedObj.id == 'DBR'){
+              let val=
+              selectedObj.score = Math.round(element.Score);
+            }
+            else{
+              selectedObj.score = Math.round(element.Score);
+            }
+          }  
         });
       }
       else {
