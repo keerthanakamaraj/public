@@ -16,7 +16,7 @@
 
 <div class="wgt-scores row" [ngClass]="showExpanded?'expanded':''">
     <div class="cards">
-        <span>
+        <span class="card-txt">
             {{scoreData.type}}
         </span>
         <div class="progress">
@@ -25,7 +25,9 @@
                 <span class="sr-only">{{scoreData.score}}% Complete</span>
             </div>
         </div>
-        <span class="progress-count">{{scoreData.score}}</span>
+        <span class="progress-count">
+            {{scoreData.score}}<span *ngIf="scoreData.type == 'Final DBR'" class="percentage-sign"> %</span>
+        </span>
         <span *ngIf="layoutType == 'vertical'" class="refresher" (click)="refreshData()"></span>
         <span *ngIf="layoutType == 'vertical'" class="open-modal" (click)="openModal(scoreData)"></span>
     </div>

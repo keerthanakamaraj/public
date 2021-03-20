@@ -1202,7 +1202,6 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
           // if(element.ScoreId == )
           if (element.Score != undefined){
             if(selectedObj.id == 'DBR'){
-              let val=
               selectedObj.score = Math.round(element.Score);
             }
             else{
