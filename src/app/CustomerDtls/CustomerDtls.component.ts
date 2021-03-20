@@ -126,6 +126,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   @ViewChild('CD_PEP', { static: false }) CD_PEP: RLOUIRadioComponent;
   @ViewChild('hidePEP', { static: false }) hidePEP: HiddenComponent;
   @ViewChild('CD_PEPDETAILS', { static: false }) CD_PEPDETAILS: TextBoxComponent;
+  @ViewChild('CD_NATIONAL_ID', { static: false }) CD_NATIONAL_ID: TextBoxComponent;
+
 
   @Output() updateCustGrid: EventEmitter<any> = new EventEmitter<any>();
   @Output() onFullNameblur: EventEmitter<any> = new EventEmitter<any>();
@@ -200,6 +202,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.revalidateBasicField('CD_PREF_LANG', false, showErrors),
         this.revalidateBasicField('CD_PEP', false, showErrors),
         this.revalidateBasicField('CD_PEPDETAILS', false, showErrors),
+        this.revalidateBasicField('CD_NATIONAL_ID', false, showErrors),
         // this.revalidateBasicField('EmbLine4', false, showErrors),
         //this.revalidateBasicField('CD_COUNTRY_CODE'),
         // this.FieldId_29.revalidate(),
@@ -631,6 +634,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         //demo changes
         inputMap.set('Body.BorrowerDetails.UDF1', this.CD_PEP.getFieldValue());
         inputMap.set('Body.BorrowerDetails.UDF2', this.CD_PEPDETAILS.getFieldValue());
+        inputMap.set('Body.BorrowerDetails.CitizenID', this.CD_NATIONAL_ID.getFieldValue());
+
         console.log(inputMap, this.CD_MOBILE_NO.countryCode);
 
         this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/initiation').subscribe(
@@ -774,6 +779,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         //demo changes
         inputMap.set('Body.BorrowerDetails.UDF1', this.CD_PEP.getFieldValue());
         inputMap.set('Body.BorrowerDetails.UDF2', this.CD_PEPDETAILS.getFieldValue());
+        inputMap.set('Body.BorrowerDetails.CitizenID', this.CD_NATIONAL_ID.getFieldValue());
 
 
         this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/initiation').subscribe(
@@ -903,7 +909,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_DRVNG_LCNSE_EXP_DT.onReset();
     // this.CD_TAX_ID.onReset();
     this.CD_DEBIT_SCORE.onReset();
-    // this.CD_NATIONAL_ID.onReset();
+    this.CD_NATIONAL_ID.onReset();
     this.CD_CUST_SEGMENT.onReset();
     this.CustSubSegment.onReset();
     //  this.CD_PRIME_USAGE.onReset();
@@ -1057,7 +1063,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     //this.CD_NATIONALITY.setValue(customer.Nationality.id);
     // this.CD_CITIZENSHIP.setValue(customer.CitizenShip.id);
     this.CD_MARITAL_STATUS.setValue(customer.MaritalStatus.id);
-    // this.CD_NATIONAL_ID.setValue(customer.CitizenID);
+    this.CD_NATIONAL_ID.setValue(customer.CitizenID);
     this.CD_PASSPORT_NO.setValue(customer.PassportNumber);
     this.CD_PASSPORT_EXPIRY.setValue(customer.PassportExpiryDt);
     this.CD_DRIVING_LICENSE.setValue(customer.DrivingLicense);
