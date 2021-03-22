@@ -184,9 +184,9 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     // this.LD_USR_RCMD_AMT.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
     // this.LD_USR_RCMD_AMT.setReadOnly(true);
     let inputMap = new Map();
-    inputMap.clear();
+    inputMap.clear(); 
     inputMap.set('PathParam.ApplicationId', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'));
-    // inputMap.set('PathParam.ApplicationId', 10382);//5730
+    // inputMap.set('PathParam.ApplicationId', 10390);//5730
     console.log('inputmaap', inputMap);
     this.services.http.fetchApi('/proposal/{ApplicationId}/header', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {

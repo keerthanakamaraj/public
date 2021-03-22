@@ -1366,8 +1366,8 @@ a.back {
   // }
 
   .percentage-sign {
-    display: inline;
-    top: 0px;
+    display: inline !important;
+    top: 0px !important;
   }
 }
 

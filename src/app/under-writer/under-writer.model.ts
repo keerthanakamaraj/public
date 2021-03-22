@@ -139,7 +139,8 @@ export class AddressDetails implements IDeserializable {
     public MailingAddress: string;
     public OccupancyType: string;
     public Verification: string;
-    public addressesList: any
+    public addressesList: any;
+    public IsMailingAddress: any;
     public Common: Common = new Common();
 
     deserialize(input: any): this {
@@ -213,7 +214,7 @@ export class AddressDetails implements IDeserializable {
                 let address = this.getFullAddress(element);
                 let occupancy = this.getOccupancy(element);
                 obj['address'] = address;
-                obj['type'] = this.getAddressType(element);
+                obj['type'] = this.getNewAddressTypes(element);
                 addresssList.push(obj);
             });
             return addresssList;
@@ -264,6 +265,18 @@ export class AddressDetails implements IDeserializable {
             }
         } else {
             return "NA";
+        }
+    }
+
+    getNewAddressTypes(address) {
+        if (address.IsMailingAddress == "Y") {
+            return "Correspondence Address"
+        } else {
+            if (address.AddressType == "RS") {
+                return "Residence Address";
+            } else {
+                return "Office Address";
+            }
         }
     }
 }
