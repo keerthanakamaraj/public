@@ -1639,18 +1639,25 @@ export class ApplicationDetails implements IDeserializable {
     getSourcingChannel(SourcingChannel) {
         if (SourcingChannel != undefined) {
             switch (SourcingChannel) {
-                case "BRANCH":
-                    return "Branch";
+                case "Phon":
+                    return "Phone";
                     break;
 
-                case "OL":
-                    return "Online";
+                case "Brok":
+                    return "Broker";
                     break;
 
-                case "PORTFOLIO_PURSE":
-                    return "Portfolio Purchase";
+                case "Web":
+                    return "Web";
                     break;
 
+                case "Telem":
+                    return "Telemarketing";
+                    break;
+                
+                case "Winbck":
+                    return "Winback Application";
+                    break;
                 default:
                     return SourcingChannel
                     break;

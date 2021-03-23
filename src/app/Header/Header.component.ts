@@ -289,7 +289,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
             this.CC_CHANNEL.setValue("Phone");
           }
           else if (header.SourcingChannel == 'Brok') {
-            this.CC_CHANNEL.setValue("Brok");
+            this.CC_CHANNEL.setValue("Broker");
           }
           else if (header.SourcingChannel == 'Web') {
             this.CC_CHANNEL.setValue("Web");
