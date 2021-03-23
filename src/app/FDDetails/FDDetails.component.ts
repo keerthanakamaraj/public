@@ -32,12 +32,12 @@ const customCss: string = '';
     templateUrl: './FDDetails.component.html'
 })
 export class FDDetailsComponent extends FormComponent implements OnInit, AfterViewInit {
-    @ViewChild('FDNumber', { static: false }) FDNumber: ComboBoxComponent;
+    @ViewChild('FDNumber', { static: false }) FDNumber: TextBoxComponent;
     @ViewChild('FDAmount', { static: false }) FDAmount: RloUiCurrencyComponent;
     @ViewChild('FDAmountLCE', { static: false }) FDAmountLCE: RloUiCurrencyComponent;
     @ViewChild('LienAmount', { static: false }) LienAmount: RloUiCurrencyComponent;
     @ViewChild('IncludeInDBR', { static: false }) IncludeInDBR: RLOUIRadioComponent;
-    @ViewChild('DateofMaturity', { static: false }) DateofMaturity: TextBoxComponent;
+    @ViewChild('DateofMaturity', { static: false }) DateofMaturity: DateComponent;
     @ViewChild('Handler', { static: false }) Handler: FDDetailsHandlerComponent;
     @ViewChild('MaturityAmount', { static: false }) MaturityAmount: RloUiCurrencyComponent;
     @ViewChild('AutoRenewal', { static: false }) AutoRenewal: RLOUIRadioComponent;
@@ -49,6 +49,7 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
     @ViewChild('hideIncludeInDBR', { static: false }) hideIncludeInDBR: HiddenComponent;
     @ViewChild('FD_GRID', { static: false }) FD_GRID: FDDetailsGridComponent;
     @ViewChild('FD_ID', { static: false }) FD_ID: HiddenComponent;
+    @ViewChild('hidExchangeRate', { static: false }) hidExchangeRate: HiddenComponent;
 
     @Input() activeBorrowerSeq: string = undefined;
     // activeBorrowerSeq : any;
@@ -95,9 +96,9 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
         this.getPrimaryApplicantSeq();
         await this.Handler.onFormLoad({
         });
-        setTimeout(() => {
-            this.callAccountDetails();
-        }, 500);
+        // setTimeout(() => {
+        //     this.callAccountDetails();
+        // }, 500);
         await this.FD_GRID.gridDataLoad({
             'passBorrowerToFD': this.primaryBorrowerSeq,
         });
@@ -235,41 +236,41 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
 
             });
         }
-        this.FDNumber.setStaticListOptions(this.FilterOptions);
+        // this.FDNumber.setStaticListOptions(this.FilterOptions);
         console.log(" fd options list", this.FilterOptions);
     }
-    async FDNumber_blur() {
-        this.selectData = this.FDNumber.getFieldValue();
-        if (this.FDNumber.getFieldValue() != null) {
-            this.onSelectFDNumber();
-        }
-        else if (this.FDNumber.value == null) {
-            this.FDAmount.resetFieldAndDropDown();
-            this.FDAmountLCE.resetFieldAndDropDown();
-            this.MaturityAmount.resetFieldAndDropDown();
-            this.DateofMaturity.onReset();
-            this.AutoRenewal.onReset()
-        }
-    }
-    onSelectFDNumber() {
-        for (let index = 0; index < this.tempAccountlist.length; index++) {
-            const element = this.tempAccountlist[index];
-            for (let index = 0; index < this.FDNumber.emittedOptions.length; index++) {
-                const fdno = this.FDNumber.emittedOptions[index];
-                if (element.FDNumber == fdno.text) {
-                    this.FDAmount.setComponentSpecificValue(element.FDAmount);
-                    // this.FDAmountLCE.setComponentSpecificValue(element.FDAmountLocalCurrency);
-                    // TO Be Fixed .. Local Curreny Amount is not right
-                    this.FDAmountLCE.setComponentSpecificValue(element.FDAmount);
-                    this.MaturityAmount.setComponentSpecificValue(element.MaturityAmount);
-                    this.DateofMaturity.setValue(element.DateofMaturity);
-                    this.AutoRenewal.setValue(element.AutoRenewal)
-                }
+    // async FDNumber_blur() {
+    //     this.selectData = this.FDNumber.getFieldValue();
+    //     if (this.FDNumber.getFieldValue() != null) {
+    //         this.onSelectFDNumber();
+    //     }
+    //     else if (this.FDNumber.value == null) {
+    //         this.FDAmount.resetFieldAndDropDown();
+    //         this.FDAmountLCE.resetFieldAndDropDown();
+    //         this.MaturityAmount.resetFieldAndDropDown();
+    //         this.DateofMaturity.onReset();
+    //         this.AutoRenewal.onReset()
+    //     }
+    // }
+    // onSelectFDNumber() {
+    //     for (let index = 0; index < this.tempAccountlist.length; index++) {
+    //         const element = this.tempAccountlist[index];
+    //         for (let index = 0; index < this.FDNumber.emittedOptions.length; index++) {
+    //             const fdno = this.FDNumber.emittedOptions[index];
+    //             if (element.FDNumber == fdno.text) {
+    //                 this.FDAmount.setComponentSpecificValue(element.FDAmount);
+    //                 // this.FDAmountLCE.setComponentSpecificValue(element.FDAmountLocalCurrency);
+    //                 // TO Be Fixed .. Local Curreny Amount is not right
+    //                 this.FDAmountLCE.setComponentSpecificValue(element.FDAmount);
+    //                 this.MaturityAmount.setComponentSpecificValue(element.MaturityAmount);
+    //                 this.DateofMaturity.setValue(element.DateofMaturity);
+    //                 this.AutoRenewal.setValue(element.AutoRenewal)
+    //             }
 
-            }
+    //         }
 
-        }
-    }
+    //     }
+    // }
     async clear_click(event) {
         let inputMap = new Map();
         this.onReset();
@@ -478,9 +479,21 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
             ]
         }
     }
-    //custom 
-    customGenericOnBlur(event: any) {
+     //custom 
+     customGenericOnBlur(event: any) {
         console.log("Deep | customGenericOnBlur", event);
+        if (event.field == "AT_FAIR_MRKT_VALUE") {
+            if (event.exchangeRate != undefined && event.textFieldValue != undefined) {
+                this.hidExchangeRate.setValue(event.exchangeRate);
+
+                let localCurrencyEq = event.textFieldValue * event.exchangeRate;
+                console.log(localCurrencyEq);
+
+                this.FDAmountLCE.setComponentSpecificValue(localCurrencyEq, null);
+            }
+            this.FDAmount.currencyCode = this.FDAmountLCE.currencyCode;
+        }
+
         this.genericOnBlur(event.field, event.textFieldValue);
     }
 }

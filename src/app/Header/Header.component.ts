@@ -284,7 +284,22 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
             this.CC_CAMPTYPE.setValue("New Application");
           }
 
-          this.CC_CHANNEL.setValue(header.SourcingChannel);
+          // this.CC_CHANNEL.setValue(header.SourcingChannel);
+          if (header.SourcingChannel == 'Phon') {
+            this.CC_CHANNEL.setValue("Phone");
+          }
+          else if (header.SourcingChannel == 'Brok') {
+            this.CC_CHANNEL.setValue("Brok");
+          }
+          else if (header.SourcingChannel == 'Web') {
+            this.CC_CHANNEL.setValue("Web");
+          }
+          else if (header.SourcingChannel == 'Telem') {
+            this.CC_CHANNEL.setValue("Telemarketing");
+          }
+          else if (header.SourcingChannel == 'Winbck') {
+            this.CC_CHANNEL.setValue("Winback Application");
+          }
           this.channel = this.CC_CHANNEL.getFieldValue();
           // this.CC_CARD_ASSOCIATION.setValue('NA');
           this.CC_CUST_TYPE.setValue(header.CardCustName);
