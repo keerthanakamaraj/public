@@ -482,14 +482,14 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
      //custom 
      customGenericOnBlur(event: any) {
         console.log("Deep | customGenericOnBlur", event);
-        if (event.field == "AT_FAIR_MRKT_VALUE") {
+        if (event.field == "FDAmount") {
             if (event.exchangeRate != undefined && event.textFieldValue != undefined) {
                 this.hidExchangeRate.setValue(event.exchangeRate);
 
                 let localCurrencyEq = event.textFieldValue * event.exchangeRate;
                 console.log(localCurrencyEq);
 
-                this.FDAmountLCE.setComponentSpecificValue(localCurrencyEq, null);
+                this.FDAmountLCE.setComponentSpecificValue(localCurrencyEq);
             }
             this.FDAmount.currencyCode = this.FDAmountLCE.currencyCode;
         }
