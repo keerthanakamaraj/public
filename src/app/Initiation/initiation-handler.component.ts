@@ -1056,7 +1056,41 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.EmbLine4.mandatory = false;
     }
   }
+  schemeData(){
+
+    if(this.MainComponent.BAD_SCHEME.getFieldValue() !== undefined && this.MainComponent.BAD_SCHEME.getFieldValue() !== null){
+    
+      this.MainComponent.MAX_LOAN_VAL.setHidden(false);
+      this.MainComponent.MAX_TENURE.setHidden(false);
+      this.MainComponent.MIN_LOAN_VAL.setHidden(false);
+      this.MainComponent.MIN_TENURE.setHidden(false);
+      this.MainComponent.ATTCH_FEE_CHARGE.setHidden(false);
+      this.MainComponent.MAX_INST_RATE.setHidden(false);
+      this.MainComponent.MIN_INST_RATE.setHidden(false);
+      // this.MainComponent.ATTCH_FEE_CHARGE.setValue(this.MainComponent.services.formatAmount('87787', null, null, false));
+      this.MainComponent.MIN_LOAN_VAL.setValue(this.MainComponent.services.formatAmount(this.MainComponent.MIN_LOAN_VAL.getFieldValue(), null, null, false));
+      this.MainComponent.MAX_LOAN_VAL.setValue(this.MainComponent.services.formatAmount(this.MainComponent.MAX_LOAN_VAL.getFieldValue(), null, null, false));
+
+    }
+     if(this.MainComponent.BAD_SCHEME.getFieldValue() == undefined || this.MainComponent.BAD_SCHEME.getFieldValue() == null){
+      this.MainComponent.isSchemeCategory = false;   
+      this.MainComponent.MAX_LOAN_VAL.setHidden(true);
+      this.MainComponent.MAX_TENURE.setHidden(true);
+      this.MainComponent.MIN_LOAN_VAL.setHidden(true);
+      this.MainComponent.MIN_TENURE.setHidden(true);
+      this.MainComponent.ATTCH_FEE_CHARGE.setHidden(true);
+      this.MainComponent.MAX_INST_RATE.setHidden(true);
+      this.MainComponent.MIN_INST_RATE.setHidden(true);
+    }
+    
+    
+  }
+
 }
+
+
+
+
 
 
 

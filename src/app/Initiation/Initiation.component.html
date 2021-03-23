@@ -227,6 +227,121 @@
 
                     </div>
                   </div>
+                  
+                  <div style = "margin-left: 13px;
+                  margin-top: 42px;
+                  color: steelblue;">
+                      <i class="fa fa-info-circle" aria-hidden="true" (click)="DocumentClick($event)"></i>
+                  </div>
+
+                  <div class="col-12  col-sm-3 col-md-3 group-default">
+                          
+                    <div  [hidden]="!isSchemeCategory"
+                      style="padding: 4px 23px 10px 18px;position: absolute;
+                      z-index: 9;">
+
+                      <div #FieldId_74 id="FieldId_74">
+                        <div class="form-group pb10 SCHEME_GROUP">
+                          <div class="col-12  col-sm-12 col-md-12" style="text-align: center;
+                        font-size: 14px;
+                        font-weight: 600;
+                        line-height: 1;
+                        margin-bottom: 15px;
+                        color: #565656;">Scheme Details</div>
+                          <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+                              <app-label #SchemeLabel parentCompCode="Initiation" legendAlign="text-center" fieldID="SchemeLabel"
+                                [formCode]="formCode"></app-label>
+                            </div> -->
+                          <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="MIN_LOAN_VAL.isHidden()">
+                            <div class="clr-brown fieldLegend">
+                              <label class="clr-brown scheme">
+                                {{ 'Initiation.MIN_LOAN_VAL' | translate}}</label>
+                            </div>
+                            <rlo-ui-readonlyfield #MIN_LOAN_VAL fieldID="MIN_LOAN_VAL" [formCode]="formCode"
+                              placeholder="(Optional)" (blur)="genericOnBlur('MIN_LOAN_VAL', $event)">
+                            </rlo-ui-readonlyfield>
+                          </div>
+
+                          <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="MAX_LOAN_VAL.isHidden()">
+                            <div class="clr-brown fieldLegend">
+                              <label class="clr-brown scheme">
+                                {{ 'Initiation.MAX_LOAN_VAL' | translate}}</label>
+                            </div>
+                            <rlo-ui-readonlyfield #MAX_LOAN_VAL fieldID="MAX_LOAN_VAL" [formCode]="formCode"
+                              placeholder="(Optional)" (blur)="genericOnBlur('MAX_LOAN_VAL', $event)">
+                            </rlo-ui-readonlyfield>
+                          </div>
+
+                          <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="MIN_TENURE.isHidden()">
+                            <div class="clr-brown fieldLegend">
+                              <label class="clr-brown scheme">
+                                {{ 'Initiation.MIN_TENURE' | translate}}(Months)</label>
+                            </div>
+                            <rlo-ui-readonlyfield #MIN_TENURE fieldID="MIN_TENURE" [formCode]="formCode"
+                              placeholder="(Optional)" (blur)="genericOnBlur('MIN_TENURE', $event)">
+                            </rlo-ui-readonlyfield>
+                          </div>
+
+                          <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="MAX_TENURE.isHidden()">
+                            <div class="clr-brown fieldLegend">
+                              <label class="clr-brown scheme">
+                                {{ 'Initiation.MAX_TENURE' | translate}}(Months)</label>
+                            </div>
+                            <rlo-ui-readonlyfield #MAX_TENURE fieldID="MAX_TENURE" [formCode]="formCode"
+                              placeholder="(Optional)" (blur)="genericOnBlur('MAX_TENURE', $event)">
+                            </rlo-ui-readonlyfield>
+                          </div>
+                          <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="MIN_INST_RATE.isHidden()">
+                            <div class="clr-brown fieldLegend">
+                              <label class="clr-brown scheme">
+                                {{ 'Initiation.MIN_INST_RATE' | translate}}</label>
+                            </div>
+                            <rlo-ui-readonlyfield #MIN_INST_RATE fieldID="MIN_INST_RATE" [formCode]="formCode"
+                              placeholder="(Optional)" (blur)="genericOnBlur('MIN_INST_RATE', $event)">
+                            </rlo-ui-readonlyfield>
+                          </div>
+                          <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="MAX_INST_RATE.isHidden()">
+                            <div class="clr-brown fieldLegend">
+                              <label class="clr-brown scheme">
+                                {{ 'Initiation.MAX_INST_RATE' | translate}}</label>
+                            </div>
+                            <rlo-ui-readonlyfield #MAX_INST_RATE fieldID="MAX_INST_RATE" [formCode]="formCode"
+                              placeholder="(Optional)" (blur)="genericOnBlur('MAX_INST_RATE', $event)">
+                            </rlo-ui-readonlyfield>
+                          </div>
+
+
+                          <div class="col-12  col-sm-6 col-md- res-pr-hide"
+                            [hidden]="ATTCH_FEE_CHARGE.isHidden()">
+                            <div class="clr-brown fieldLegend">
+                              <label class="clr-brown scheme">
+                                {{ 'Initiation.ATTCH_FEE_CHARGE' | translate}}</label>
+                            </div>
+                            <rlo-ui-readonlyfield #ATTCH_FEE_CHARGE fieldID="ATTCH_FEE_CHARGE"
+                              [formCode]="formCode" placeholder="(Optional)" value="576"
+                              (blur)="genericOnBlur('ATTCH_FEE_CHARGE', $event)"></rlo-ui-readonlyfield>
+                          </div>
+                          <div class="col-12  col-sm-6 col-md-6 res-pr-hide"
+                            *ngFor="let ChargeDetails of ChargeDetailsArray">
+                            <!-- <div class="promo-title">{{ChargeDetails.ChargeName}}</div> -->
+                            <div class="clr-brown fieldLegend">
+                              <label class="clr-brown scheme">
+                                {{ ChargeDetails.ChargeName}}</label>
+                            </div>
+                            <div>
+                              <label class="read-only-field FeeCharge">
+                                {{ChargeDetails.FeesCharge}}
+                              </label>
+                            </div>
+                            <!-- <div class="promo-message">{{ChargeDetails.FeesCharge}}</div> -->
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+               
+
                   <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_PHYSICAL_FRM_NO.isHidden()"
                     style="margin-left: 4px;">

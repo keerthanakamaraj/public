@@ -143,6 +143,10 @@ export class PopupAlertComponent implements OnInit {
       } else if (this.modalObject.componentName == 'PolicyCheckResults') {
         this.dynamicallyLoadableComponent.openInModal = true;
         this.dynamicallyLoadableComponent.parentFormCode = "DDE";//used in condition to check score acc. to stage
+      }
+      else if (this.modalObject.componentName == 'TopupComponent') {
+        this.dynamicallyLoadableComponent.openInModal = true;
+        this.dynamicallyLoadableComponent.amortizationGridData = this.modalObject.data;
       } else if (this.modalObject.componentName == 'CreditCardDetails') {
         this.dynamicallyLoadableComponent.enableApproveLimit = true;
         this.dynamicallyLoadableComponent.uwCustomerList = this.modalObject.customerList;
@@ -275,6 +279,7 @@ export class PopupAlertComponent implements OnInit {
       case 'InterfaceResults':
         return new AddSpecificComponent(InterfaceResultsComponent);
         break;
+      
       case 'CustomerCards':
         return new AddSpecificComponent(CustomerAvaliableCardsComponent);
         break;
@@ -283,6 +288,9 @@ export class PopupAlertComponent implements OnInit {
         break;
       case 'GoldDetails':
         return new AddSpecificComponent(GoldDetailsComponent);
+        break;
+      case 'TopupComponent':
+        return new AddSpecificComponent(AmortizationScheduleComponent);
         break;
     }
   }

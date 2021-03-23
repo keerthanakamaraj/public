@@ -443,7 +443,7 @@ async SUBMIT_MAIN_BTN_click(event) {
         inputMap.set('Body.LoanDetails.SubProduct', this.SubProductCode);
         // inputMap.set('Body.LoanDetails.Scheme', this.BAD_SCHEME.getFieldValue());
         // inputMap.set('Body.LoanDetails.Promotion', this.BAD_PROMOTION.getFieldValue());
-        inputMap.set('Body.LoanDetails.Decision', 'AP');
+        inputMap.set('Body.LoanDetails.Decision', 'Approve');
         
         // inputMap.set('Body.LoanDetails.ReferrerName', this.RD_REFERRER_NAME.getFieldValue());
         // inputMap.set('Body.LoanDetails.ReferrerPhoneNo', this.RD_REFERRER_NO.getFieldValue());
@@ -469,8 +469,9 @@ async SUBMIT_MAIN_BTN_click(event) {
         // inputMap.set('Body.LoanTopupDetails.UDF4', this.RevisedAmount.getFieldValue());
 
 
-        inputMap.set('Body.LoanTopupDetails.InitiationFrom', "TopUp");
+        inputMap.set('Body.LoanDetails.InitiationFrom', "TopUp");
         inputMap.set('Body.BorrowerDetails', this.Handler.getBorrowerPostData());
+       
 
 
      
