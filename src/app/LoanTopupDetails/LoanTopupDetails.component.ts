@@ -151,6 +151,7 @@ setReadOnly(readOnly){
 super.setBasicFieldsReadOnly(readOnly);
 }
 async onFormLoad(){
+  console.log("Print console");
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
 this.hideAppPurpose.setValue('APPLICATION_PURPOSE');
 this.hideTenurePeriod.setValue('PERIOD');
@@ -470,6 +471,7 @@ async SUBMIT_MAIN_BTN_click(event) {
 
 
         inputMap.set('Body.LoanDetails.InitiationFrom', "TopUp");
+        inputMap.set('Body.ApplicationDetails.CAMType', 'TopUp');
         inputMap.set('Body.BorrowerDetails', this.Handler.getBorrowerPostData());
        
 

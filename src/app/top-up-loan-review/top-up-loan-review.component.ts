@@ -161,7 +161,9 @@ export class TopUpLoanReviewComponent extends FormComponent implements OnInit {
         "ProductCategory": "PL",
         "LoanDetailsSeq": 1216,
         "ApplicationId": 3548,
-        "TotalDisbAmount": ""
+        "TotalDisbAmount": "",
+        "LoanAccountNumber" : 12324332342,
+        "LoanDisbursementDate" : '25-16-1995'
       },
       "DSAId": "USERS3",
       "LoanTopupDetails": {
@@ -476,7 +478,7 @@ export class TopUpLoanReviewComponent extends FormComponent implements OnInit {
           console.log(this.topUpLoanCardDataWithFields);
           break;
 
-        case "BreDetails":
+        case "  ":
           this.breOutputDataWithFields = this.customerMasterJsonData["BreDetails"].getCardData();
           this.breOutputDataWithFields.applicationId = this.applicationId;
           this.breOutputDataWithFields.borrowerSeq = this.borrowerSeq;
@@ -814,6 +816,7 @@ export class TopUpLoanReviewComponent extends FormComponent implements OnInit {
       this.services.http.fetchApi(`/UWApplication/${this.applicationId}`, 'GET', new Map(), '/rlo-de').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           let res = httpResponse.body;
+          res = this.workingJsonObj;
           resolve(res);
         },
         async (httpError) => {

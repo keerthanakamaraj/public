@@ -79,7 +79,7 @@ export class LoanTopupHandlerComponent extends RLOUIHandlerComponent implements 
     this.customers = [];
     let inputMap = new Map();
     inputMap.clear(); 
-    inputMap.set('PathParam.BorrowerSeq', '4151');
+    inputMap.set('PathParam.BorrowerSeq', '4130');
     
       this.MainComponent.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'GET', inputMap, "/initiation").subscribe(
         async (httpResponse: HttpResponse<any>) => {
@@ -101,17 +101,17 @@ export class LoanTopupHandlerComponent extends RLOUIHandlerComponent implements 
         tempObj['CustomerType'] = this.customers[i].CustomerType;
         tempObj['ExistingCustomer'] = this.customers[i].ExistingCustomer;
         tempObj['CIF'] = this.customers[i].CIF;
-        tempObj['Title'] = this.customers[i].Title;
+        tempObj['Title'] = this.customers[i].Title.id;
         tempObj['FirstName'] = this.customers[i].FirstName;
         tempObj['MiddleName'] = this.customers[i].MiddleName;
         tempObj['LastName'] = this.customers[i].LastName;
         tempObj['FullName'] = this.customers[i].FullName;
-        tempObj['Gender'] = this.customers[i].Gender;
+        tempObj['Gender'] = this.customers[i].Gender.id;
         tempObj['DOB'] = this.customers[i].DOB;
         tempObj['TaxID'] = this.customers[i].TaxID;
         tempObj['MobileNo'] = this.customers[i].TaxID;
         tempObj['DebitScore'] = this.customers[i].DebitScore;
-        tempObj['CustomerSegment'] = this.customers[i].CustomerSegment;
+        tempObj['CustomerSegment'] = this.customers[i].CustomerSegment.id;
         tempObj['IsStaff'] = this.customers[i].IsStaff;
         tempObj['StaffID'] = this.customers[i].StaffID;
         tempObj['ICIFNumber'] = this.customers[i].ICIFNumber;

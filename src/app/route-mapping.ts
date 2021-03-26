@@ -159,7 +159,7 @@ export var componentRoutes: Routes = [
 		loadChildren: 'src/app/LoanTopupDetails/LoanTopupDetails.module#LoanTopupDetailsModule'
 	},
 	{
-		path: 'topup-loan-review',
+		path: 'TopUpReview',
 		loadChildren: 'src/app/top-up-loan-review/top-up-loan-review.module#TopUpLoanReviewModule'
 	}		
 ];

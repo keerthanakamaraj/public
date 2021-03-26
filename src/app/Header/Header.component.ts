@@ -249,7 +249,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
 
         this.LD_LOAN_AMT.setValue(this.LOAN_AMT);
         this.LD_APP_PRPSE.setValue(header.ApplicationPurpose != undefined ? header.ApplicationPurpose : 'NA');
-        if (header.hasOwnProperty("SchemeName") || header.SchemeName != null || header.SchemeName.length) {
+        if (header.hasOwnProperty("SchemeName") || header.SchemeName != null ) {
           if (header.SchemeName.length) {
             this.REAL_PROD_NAME.setValue(header.SchemeName);
           }
