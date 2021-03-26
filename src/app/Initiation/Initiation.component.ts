@@ -2186,52 +2186,52 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   //   this.BAD_SUB_PROD.setReadOnly(false);
   //   this.BAD_SCHEME.setReadOnly(false);
   // }
-  async BAD_CARD_NUMBER_blur(refNumber, event) {
-    // Request JSON structure
-    // const requestJson = {
-    //   "interfaceId": "REF_SEARCH",
-    //   "prposalid": "3322",
-    //   "inputdata": {
-    //     "RefNumber": "545852"
-    //   }
-    // };
+  // async BAD_CARD_NUMBER_blur(refNumber, event) {
+  //   // Request JSON structure
+  //   // const requestJson = {
+  //   //   "interfaceId": "REF_SEARCH",
+  //   //   "prposalid": "3322",
+  //   //   "inputdata": {
+  //   //     "RefNumber": "545852"
+  //   //   }
+  //   // };
 
-    // console.log("ref number ", refNumber);
+  //   // console.log("ref number ", refNumber);
 
-    const refnum = this.BAD_CARD_NUMBER.getFieldValue();
-
-
-    if (refnum && refnum.trim() !== '') {
-      let inputMap = new Map();
-      inputMap.set('Body.interfaceId', 'REF_SEARCH');
-      inputMap.set('Body.inputdata.RefNumber', refnum);
-      this.services.http.fetchApi(this.services.rloCommonData.userInvokeInterfacev2 ? '/api/invokeInterface/v2' : '/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
-        async (httpResponse: HttpResponse<any>) => {
-          var res = httpResponse.body;
-          console.log("jggf", res);
-          if (res.status === 'S') {
-            this.BAD_MASK_CARD_NUMBER.setValue(res['outputdata']['MaskCardNumber']);
-            this.BAD_MASK_CARD_NUMBER.setHidden(true);
-            this.BAD_PRODUCT.setValue(res['outputdata']['ProductFranchise']);
-
-            this.BAD_SUB_PROD.setValue(res['outputdata']['ProdcutClass']);
-
-            this.BAD_SCHEME.setValue(res['outputdata']['ProductCode']);
-
-          } else if (res.status === 'F') {
-            this.BAD_PRODUCT.onReset();
-            this.BAD_SUB_PROD.onReset();
-            this.BAD_SCHEME.onReset();
-            // this.BAD_PRODUCT.setReadOnly(false);
-            // this.BAD_SUB_PROD.setReadOnly(false);
-            // this.BAD_SCHEME.setReadOnly(false);
-            this.services.alert.showAlert(2, 'rlo.error.ReferenceNumber.invalid', -1);
-          }
-        }
-      );
-    }
+  //   const refnum = this.BAD_CARD_NUMBER.getFieldValue();
 
 
-  }
+  //   if (refnum && refnum.trim() !== '') {
+  //     let inputMap = new Map();
+  //     inputMap.set('Body.interfaceId', 'REF_SEARCH');
+  //     inputMap.set('Body.inputdata.RefNumber', refnum);
+  //     this.services.http.fetchApi(this.services.rloCommonData.userInvokeInterfacev2 ? '/api/invokeInterface/v2' : '/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+  //       async (httpResponse: HttpResponse<any>) => {
+  //         var res = httpResponse.body;
+  //         console.log("jggf", res);
+  //         if (res.status === 'S') {
+  //           this.BAD_MASK_CARD_NUMBER.setValue(res['outputdata']['MaskCardNumber']);
+  //           this.BAD_MASK_CARD_NUMBER.setHidden(true);
+  //           this.BAD_PRODUCT.setValue(res['outputdata']['ProductFranchise']);
+
+  //           this.BAD_SUB_PROD.setValue(res['outputdata']['ProdcutClass']);
+
+  //           this.BAD_SCHEME.setValue(res['outputdata']['ProductCode']);
+
+  //         } else if (res.status === 'F') {
+  //           this.BAD_PRODUCT.onReset();
+  //           this.BAD_SUB_PROD.onReset();
+  //           this.BAD_SCHEME.onReset();
+  //           // this.BAD_PRODUCT.setReadOnly(false);
+  //           // this.BAD_SUB_PROD.setReadOnly(false);
+  //           // this.BAD_SCHEME.setReadOnly(false);
+  //           this.services.alert.showAlert(2, 'rlo.error.ReferenceNumber.invalid', -1);
+  //         }
+  //       }
+  //     );
+  //   }
+
+
+  // }
 
 }
