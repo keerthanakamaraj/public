@@ -276,7 +276,7 @@ export class TopUpLoanDetails implements IDeserializable {
             },
             {
                 title: "Tenure",
-                subTitle: this.LD_TENURE,
+                subTitle: this.LD_TENURE.length ? this.LD_TENURE : "NA",
                 type: "basic",
                 modalSectionName: "",
             },
@@ -320,13 +320,17 @@ export class TopUpLoanDetails implements IDeserializable {
             case "LoanRollover":
                 return "Exisiting Loan Rollover"
                 break;
-    
+
             case "NewLoan":
                 return "New Loan"
                 break;
-    
+
             case "G":
                 return "Guarantor"
+                break;
+
+            default:
+                return "NA"
                 break;
         }
     }
