@@ -934,9 +934,9 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.BAD_PRODUCT.onReset();
       this.MainComponent.BAD_SUB_PROD.onReset();
       this.MainComponent.BAD_SCHEME.onReset();
-      // this.MainComponent.BAD_PRODUCT.setReadOnly(true);
-      // this.MainComponent.BAD_SUB_PROD.setReadOnly(true);
-      // this.MainComponent.BAD_SCHEME.setReadOnly(true);
+      this.MainComponent.BAD_PRODUCT.setReadOnly(true);
+      this.MainComponent.BAD_SUB_PROD.setReadOnly(true);
+      this.MainComponent.BAD_SCHEME.setReadOnly(true);
     }
     else {
       this.MainComponent.BAD_CARD_NUMBER.setHidden(true);
