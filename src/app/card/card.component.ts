@@ -109,6 +109,7 @@ export class CardComponent implements OnInit {
   currentAddressIndex: number = 0;
   interfaceDataAvaliable = true;//enable or disable interface card expand icon
   applicationId: any;
+  currentRoute: string = '';
 
   constructor(private changeDetector: ChangeDetectorRef, private services: ServiceStock) {
     this.cardConfig.set("customer", this.customerConfig);
@@ -120,6 +121,7 @@ export class CardComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.cardMetaData);
+    this.currentRoute = this.services.rloCommonData.getActiveRouteName();
   }
 
   ngAfterViewInit() {

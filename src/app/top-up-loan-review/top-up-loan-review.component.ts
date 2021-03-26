@@ -318,7 +318,7 @@ export class TopUpLoanReviewComponent extends FormComponent implements OnInit {
     inputMap.set('HeaderParam.ProcessId', this.processId);
     inputMap.set('HeaderParam.ServiceCode', this.serviceCode);
     this.services.http.fetchApi('/ClaimTask', 'POST', inputMap, '/los-wf').subscribe(
-      async (httpResponse: HttpResponse<any>) => {
+      async (httpResponse: any) => {
         const res = httpResponse.body;
 
         if (res.Status == 'S') {
@@ -478,7 +478,7 @@ export class TopUpLoanReviewComponent extends FormComponent implements OnInit {
           console.log(this.topUpLoanCardDataWithFields);
           break;
 
-        case "  ":
+        case "BreDetails":
           this.breOutputDataWithFields = this.customerMasterJsonData["BreDetails"].getCardData();
           this.breOutputDataWithFields.applicationId = this.applicationId;
           this.breOutputDataWithFields.borrowerSeq = this.borrowerSeq;
@@ -495,7 +495,7 @@ export class TopUpLoanReviewComponent extends FormComponent implements OnInit {
       this.customerSectionLoaded = true;
       console.warn("****");
       this.reloadCardGrid();
-    }, 500);
+    }, 1000);
   }
 
   generateCustomerListDropDowns(tempCustomerList) {
@@ -720,7 +720,7 @@ export class TopUpLoanReviewComponent extends FormComponent implements OnInit {
     }
 
     this.services.http.fetchApi('/acceptUW', 'POST', inputMap, '/rlo-de').subscribe(
-      async (httpResponse: HttpResponse<any>) => {
+      async (httpResponse: any) => {
         const res = httpResponse.body;
 
         const action: string = (requestParams.get('Body.ApplicationStatus')).toUpperCase();
@@ -795,7 +795,7 @@ export class TopUpLoanReviewComponent extends FormComponent implements OnInit {
         // inputMap.set('QueryParam.ApplicationId', this.applicationId);
         inputMap.set('QueryParam.criteriaDetails', criteriaJson);
         this.services.http.fetchApi('/PolicyResult', 'GET', inputMap, '/rlo-de').subscribe(
-          async (httpResponse: HttpResponse<any>) => {
+          async (httpResponse: any) => {
             let res = httpResponse.body;
             resolve(res);
           },
@@ -814,9 +814,9 @@ export class TopUpLoanReviewComponent extends FormComponent implements OnInit {
     const promise = new Promise((resolve, reject) => {
 
       this.services.http.fetchApi(`/UWApplication/${this.applicationId}`, 'GET', new Map(), '/rlo-de').subscribe(
-        async (httpResponse: HttpResponse<any>) => {
+        async (httpResponse: any) => {
           let res = httpResponse.body;
-          res = this.workingJsonObj;
+          // res = this.workingJsonObj;
           resolve(res);
         },
         async (httpError) => {
