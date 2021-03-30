@@ -576,7 +576,19 @@ export class MyTrayGridComponent implements AfterViewInit {
               tempObj['hiddenTaskId'] = loopVar32[i].TASK_ID;
               tempObj['hiddenInstanceId'] = loopVar32[i].INSTANCE_ID;
               tempObj['hiddenStageId'] = loopVar32[i].STAGE_ID;
-              tempObj['MT_APPLICATION_TYPE'] = loopVar32[i].CAM_TYPE;
+              
+              if (loopVar32[i].CAM_TYPE == "LE") {
+                tempObj['MT_APPLICATION_TYPE'] = 'LE';
+              }
+              else if (loopVar32[i].CAM_TYPE == "NAPP") {
+                tempObj['MT_APPLICATION_TYPE'] = 'NEW';
+              }
+              else if (loopVar32[i].CAM_TYPE == "MEMC") {
+                tempObj['MT_APPLICATION_TYPE'] = 'M';
+              }
+              else if (loopVar32[i].CAM_TYPE == "CHNL") {
+                tempObj['MT_APPLICATION_TYPE'] = 'CH';
+              }
               loopDataVar32.push(tempObj);
             }
           }

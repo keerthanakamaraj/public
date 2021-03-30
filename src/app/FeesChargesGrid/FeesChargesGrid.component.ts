@@ -99,7 +99,7 @@ export class FeesChargesGridComponent implements AfterViewInit {
 
     },
     {
-        field: "FC_Charge_Collection",
+        field: "FC_Charge_Collection_text",
         width: 15,
         resizable: true,
         cellStyle: { 'text-align': 'left' },
@@ -284,6 +284,8 @@ export class FeesChargesGridComponent implements AfterViewInit {
                         tempObj['FC_Rate_Charge_On'] = loopVar9[i].RateOnCharge;
                         tempObj['FC_Rate_Charge_On_text'] = loopVar9[i].RateOnCharge.text;
                         tempObj['FC_Charge_Collection'] = loopVar9[i].ChargeCollection;
+                        tempObj['FC_Charge_Collection_text'] = loopVar9[i].ChargeCollection.text;
+
 
                         this.feeChargeDetails.push(tempObj);
                     }

@@ -48,6 +48,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('SRC_TAX_ID', { static: false }) SRC_TAX_ID: TextBoxComponent;
   @ViewChild('SRC_CIF_NO', { static: false }) SRC_CIF_NO: TextBoxComponent;
   @ViewChild('SEARCH_CUST_BTN', { static: false }) SEARCH_CUST_BTN: ButtonComponent;
+  @ViewChild('FieldId_77', { static: false }) FieldId_77: ButtonComponent;
   @ViewChild('BAD_PHYSICAL_FRM_NO', { static: false }) BAD_PHYSICAL_FRM_NO: TextBoxComponent;
   @ViewChild('BAD_DATE_OF_RCPT', { static: false }) BAD_DATE_OF_RCPT: DateComponent;
   @ViewChild('BAD_SRC_CHANNEL', { static: false }) BAD_SRC_CHANNEL: ComboBoxComponent;
@@ -63,6 +64,17 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('BAD_PRODUCT', { static: false }) BAD_PRODUCT: ComboBoxComponent;
   @ViewChild('BAD_SUB_PROD', { static: false }) BAD_SUB_PROD: ComboBoxComponent;
   @ViewChild('BAD_SCHEME', { static: false }) BAD_SCHEME: ComboBoxComponent;
+
+  @ViewChild('MAX_LOAN_VAL', { static: false }) MAX_LOAN_VAL: ReadOnlyComponent;
+  @ViewChild('MIN_LOAN_VAL', { static: false }) MIN_LOAN_VAL: ReadOnlyComponent;
+  @ViewChild('MAX_TENURE', { static: false }) MAX_TENURE: ReadOnlyComponent;
+  @ViewChild('MIN_TENURE', { static: false }) MIN_TENURE: ReadOnlyComponent;
+  @ViewChild('MIN_INST_RATE', { static: false }) MIN_INST_RATE: ReadOnlyComponent;
+  @ViewChild('MAX_INST_RATE', { static: false }) MAX_INST_RATE: ReadOnlyComponent;
+
+  @ViewChild('ATTCH_FEE_CHARGE', { static: false }) ATTCH_FEE_CHARGE: ReadOnlyComponent;
+  
+
   @ViewChild('BAD_PROMOTION', { static: false }) BAD_PROMOTION: ComboBoxComponent;
   @ViewChild('CD_CUST_TYPE', { static: false }) CD_CUST_TYPE: RLOUIRadioComponent;
   @ViewChild('CD_CARD_CUST_TYPE', { static: false }) CD_CARD_CUST_TYPE: RLOUIRadioComponent;
@@ -185,6 +197,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   isLoanCategory: boolean;
   isCustomerCorporate: any = 'I';
   isReferrer: boolean = true;
+  isSchemeCategory: boolean = false;
   borrower: any;
   borrowericif: any;
   icif: any;
@@ -202,6 +215,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   FilterOptions = [];
   unique: boolean = true;
   custSearchButton: string;
+  ChargeDetailsArray: any[];
   async revalidateCustomers(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -460,6 +474,14 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
     this.setDependencies();
     this.EligibilityDecision = '';
+
+    this.MAX_LOAN_VAL.setHidden(true);
+    this.MAX_TENURE.setHidden(true);
+    this.MIN_LOAN_VAL.setHidden(true);
+    this.MIN_TENURE.setHidden(true);
+    this.ATTCH_FEE_CHARGE.setHidden(true);
+    // this.Handler.schemeData();
+    
 
   }
   setInputs(param: any) {
@@ -1010,7 +1032,50 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   async BAD_SCHEME_blur(event) {
     this.Handler.AllowLoanOwnership();
+     this.Handler.schemeData()
   }
+  DocumentClick(){
+
+    let TotalFeeCharge :number = 0 ;
+    this.ChargeDetailsArray = [];
+    let FeeChargeDetails = [];
+    if(this.isSchemeCategory){
+      this.isSchemeCategory = false
+    }else{
+      if(this.BAD_SCHEME.getFieldValue() !== undefined && this.BAD_SCHEME.getFieldValue() !== null){
+        this.isSchemeCategory = true;  
+      } 
+    }
+   
+    this.services.http.fetchApi('/MstFeeChargesDtls', 'GET', null, '/masters').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        const res = httpResponse.body;
+        FeeChargeDetails =  res['MstFeeChargesDtls'];
+        if(this.BAD_SCHEME.getFieldValue() !== undefined){
+          FeeChargeDetails.forEach(element => {
+            if(element.SchemeCd == this.BAD_SCHEME.getFieldValue()){
+                   this.ChargeDetailsArray.push({ChargeName : element.ChargeDesc, FeesCharge : this.services.formatAmount(element.AdvFeeCharge, null, null, false)}) ;   
+              TotalFeeCharge += Number(element.AdvFeeCharge);
+              this.ATTCH_FEE_CHARGE.setValue(this.services.formatAmount(TotalFeeCharge, null, null, false));
+            
+                // this.Handler.schemeData();
+           
+            }
+          });
+        }
+        // console.log("res", res);
+      
+      },
+
+    );
+    
+
+  }
+  
+  // async BAD_SCHEME_change(event) {
+  //    this.Handler.schemeData();
+  // }
+
   async BAD_PROMOTION_blur(event) {
     this.Handler.AllowLoanOwnership();
     this.Handler.updateAmountTags();
@@ -1271,13 +1336,13 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       }
     }
     if (noofErrors == 0) {
-      this.SUBMIT_MAIN_BTN.setDisabled(true);
+     
       let countLoanOwnership = this.Handler.aggregateLoanOwnerShip();
       if (this.BAD_PROD_CAT.getFieldValue() !== 'CC' && countLoanOwnership < 100) {
         this.services.alert.showAlert(2, 'rlo.error.loanownership.invalid', -1);
         return;
       }
-
+      this.SUBMIT_MAIN_BTN.setDisabled(true);
       inputMap.clear();
       if (this.borrower == true) {
         // this.SUBMIT_MAIN_BTN.setDisabled(true);
@@ -1629,12 +1694,16 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.CD_LOAN_OWNERSHIP.setValue(undefined);
     }
     if (this.allowCoBorrower.getFieldValue() == 'Y') {
-      if (this.CD_CUST_TYPE.getFieldValue() !== 'B' && this.disableLoanOwnership == true) {
-        this.CD_LOAN_OWNERSHIP.setReadOnly(true);
-      }
-      else {
-        this.CD_LOAN_OWNERSHIP.setReadOnly(false);
-      }
+      // if (this.CD_CUST_TYPE.getFieldValue() !== 'B' && this.disableLoanOwnership == true) {
+      //   // this.CD_LOAN_OWNERSHIP.setReadOnly(true);
+      // }
+      // else {
+      //   this.CD_LOAN_OWNERSHIP.setReadOnly(false);
+      // }
+    }
+
+    if (this.CD_CUST_TYPE.getFieldValue() == 'G' || this.CD_CUST_TYPE.getFieldValue() == 'OP') {
+      this.CD_LOAN_OWNERSHIP.setReadOnly(true);
     }
 
   }
@@ -1745,10 +1814,17 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       ],
       outDep: [
 
-        { paramKey: "NewSchemeDetails.MaxLoanVal", depFieldID: "MaxCredLimit" },
-        { paramKey: "NewSchemeDetails.MinLoanVal", depFieldID: "MinCredLimit" },
-        { paramKey: "NewSchemeDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE" },
-        { paramKey: "NewSchemeDetails.AllowCoBorrower", depFieldID: "allowCoBorrower" }
+        { paramKey: "MstSchemeDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE" },
+        { paramKey: "MstSchemeDetails.AllowCoBorrower", depFieldID: "allowCoBorrower" },
+        { paramKey: "MstSchemeDetails.MaxLoanVal", depFieldID: "MAX_LOAN_VAL" },
+        { paramKey: "MstSchemeDetails.MinLoanVal", depFieldID: "MIN_LOAN_VAL" },
+        { paramKey: "MstSchemeDetails.MaxTenure", depFieldID: "MAX_TENURE" },
+        { paramKey: "MstSchemeDetails.MinTenure", depFieldID: "MIN_TENURE" },
+        { paramKey: "MstSchemeDetails.MinNetRate", depFieldID: "MIN_INST_RATE" },
+        { paramKey: "MstSchemeDetails.MaxNetRate", depFieldID: "MAX_INST_RATE" }
+
+        // { paramKey: "MstSchemeDetails.MinLoanVal", depFieldID: "minLoanValHide"}
+        
       ]
     },
     BAD_PROMOTION: {
@@ -2132,7 +2208,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.services.http.fetchApi(this.services.rloCommonData.userInvokeInterfacev2 ? '/api/invokeInterface/v2' : '/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
-          console.log("jggf",res);
+          console.log("jggf", res);
           if (res.status === 'S') {
             this.BAD_MASK_CARD_NUMBER.setValue(res['outputdata']['MaskCardNumber']);
             this.BAD_MASK_CARD_NUMBER.setHidden(true);

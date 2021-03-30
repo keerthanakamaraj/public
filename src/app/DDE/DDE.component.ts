@@ -580,7 +580,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     //Changes for canara
-    //this.getScores();//get scores on page load
+    this.getScores();//get scores on page load
   }
 
   ngOnDestroy() {
@@ -2240,9 +2240,16 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       if (response != null) {
         response.ApplicationScoreDetails.forEach(element => {
           let selectedObj = this.headerScoreCard.find(x => x.id == element.ScoreId);
-          if (element.Score != undefined)
-            selectedObj.score = Math.round(element.Score);
+          if (element.Score != undefined){
+            if(selectedObj.id == 'DBR'){
+              selectedObj.score = Math.round(element.Score);
+            }
+            else{
+              selectedObj.score = Math.round(element.Score);
+            }
+          }
         });
+        
       }
       else {
         this.headerScoreCard.forEach(element => {

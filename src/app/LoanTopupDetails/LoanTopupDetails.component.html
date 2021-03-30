@@ -1,0 +1,329 @@
+<form class="MakeRelative">
+  <div class="ShowLoading " *ngIf="loadSpinner">
+    <div class="lds-roller MakeItMiddle">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+  <div class="clearfix content">
+    <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+      <div class="col-sm-5 col-md-5">
+      </div>
+      <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+      </div>
+    </div>
+    <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+
+    <div *ngIf="!formOnLoadError">
+      <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+        <div class="form-group pb10 row" style="margin-bottom: 50px">
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+            <app-label #FieldId_71 parentCompCode="LoanTopupDetails" legendAlign="text-center" fieldID="FieldId_71"
+              [formCode]="formCode" customClass="section-header-search"></app-label>
+          </div>
+          <div class="col-12 col-sm-12 col-md-12 group-default top-up-initiation-section">
+            <div class="form-group pb10 OLD_LOAN_GROUP">
+              <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CifNo.isHidden()">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown" [ngClass]="{'mandatory': CifNo.mandatory}">
+                    {{ 'LoanTopupDetails.CifNo' | translate}}</label>
+                </div>
+                <app-text-box #CifNo fieldID="CifNo" [formCode]="formCode" (blur)="genericOnBlur('CifNo', $event)">
+                </app-text-box>
+              </div>
+              <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LoanAccNo.isHidden()">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown" [ngClass]="{'mandatory': LoanAccNo.mandatory}">
+                    {{ 'LoanTopupDetails.LoanAccNo' | translate}}
+                  </label>
+                </div>
+                <app-combo-box #LoanAccNo category="4" fieldID="LoanAccNo" placeholder="Select"
+                  [emittedOptions]="FilterOptions" (blur)="genericOnBlur('LoanAccNo', $event)">
+                </app-combo-box>
+              </div>
+
+              <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CustName.isHidden()">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown" [ngClass]="{'mandatory': CustName.mandatory}">
+                    {{ 'LoanTopupDetails.CustName' | translate}}</label>
+                </div>
+                <app-text-box #CustName fieldID="CustName" [formCode]="formCode"
+                  (blur)="genericOnBlur('CustName', $event)"></app-text-box>
+              </div>
+              <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Product.isHidden()">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown" [ngClass]="{'mandatory': Product.mandatory}">
+                    {{ 'LoanTopupDetails.Product' | translate}}</label>
+                </div>
+                <app-text-box #Product fieldID="Product" [formCode]="formCode"
+                  (blur)="genericOnBlur('Product', $event)"></app-text-box>
+              </div>
+              <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SubProduct.isHidden()">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown" [ngClass]="{'mandatory': SubProduct.mandatory}">
+                    {{ 'LoanTopupDetails.SubProduct' | translate}}</label>
+                </div>
+                <app-text-box #SubProduct fieldID="SubProduct" [formCode]="formCode"
+                  (blur)="genericOnBlur('SubProduct', $event)"></app-text-box>
+              </div>
+              <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LoanAmount.isHidden()">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown" [ngClass]="{'mandatory': LoanAmount.mandatory}">
+                    {{ 'LoanTopupDetails.LoanAmount' | translate}}</label>
+                </div>
+                <app-text-box #LoanAmount fieldID="LoanAmount" [formCode]="formCode"
+                  (blur)="genericOnBlur('LoanAmount', $event)"></app-text-box>
+              </div>
+              <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LoanAccNo.isHidden()">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown" [ngClass]="{'mandatory': LoanAccNo.mandatory}">
+                    {{ 'LoanTopupDetails.LoanAccNo' | translate}}</label>
+                </div>
+                <app-text-box #LoanAccNo fieldID="LoanAccNo" [formCode]="formCode"
+                  (blur)="genericOnBlur('LoanAccNo', $event)"></app-text-box>
+              </div> -->
+              <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LoandistDate.isHidden()">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown" [ngClass]="{'mandatory': LoandistDate.mandatory}">
+                    {{ 'LoanTopupDetails.LoandistDate' | translate}}
+                  </label>
+                </div>
+                <app-date #LoandistDate fieldID="LoandistDate" [formCode]="formCode"
+                  (blur)="genericOnBlur('LoandistDate', $event)"></app-date>
+              </div>
+              <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OutstandingLoanBal.isHidden()">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown" [ngClass]="{'mandatory': OutstandingLoanBal.mandatory}">
+                    {{ 'LoanTopupDetails.OutstandingLoanBal' | translate}}
+                  </label>
+                </div>
+                <app-amount #OutstandingLoanBal fieldID="OutstandingLoanBal" [formCode]="formCode"
+                  domainObjectUrl="null" (blur)="genericOnBlur('OutstandingLoanBal', $event)"></app-amount>
+              </div>
+              <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NetInterestRate.isHidden()">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown" [ngClass]="{'mandatory': NetInterestRate.mandatory}">
+                    {{ 'LoanTopupDetails.NetInterestRate' | translate}}</label>
+                </div>
+                <app-text-box #NetInterestRate fieldID="NetInterestRate" [formCode]="formCode"
+                  (blur)="genericOnBlur('NetInterestRate', $event)"></app-text-box>
+              </div>
+              <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Tenure.isHidden()">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown" [ngClass]="{'mandatory': Tenure.mandatory}">
+                    {{ 'LoanTopupDetails.Tenure' | translate}}</label>
+                </div>
+                <app-text-box #Tenure fieldID="Tenure" [formCode]="formCode" (blur)="genericOnBlur('Tenure', $event)">
+                </app-text-box>
+              </div>
+              <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="DisbursalAccount.isHidden()">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown" [ngClass]="{'mandatory': DisbursalAccount.mandatory}">
+                    {{ 'LoanTopupDetails.DisbursalAccount' | translate}}</label>
+                </div>
+                <app-text-box #DisbursalAccount fieldID="Tenure" [formCode]="formCode"
+                  (blur)="genericOnBlur('Tenure', $event)">
+                </app-text-box>
+              </div>
+            </div>
+            <div class="d-flex topup-action-btn-conatiner">
+              <app-button #LoanRepaymentSchedule fieldName="{{ 'LoanTopupDetails.LoanRepaymentSchedule' | translate}}"
+                fieldID="LoanRepaymentSchedule" [formCode]="formCode" customClass="btn btn-repayment"
+                (buttonClick)="AMS_GENERATE_LOAN_BTN_click($event)"></app-button>
+              <!-- <app-button #Clear fieldName="{{ 'LoanTopupDetails.Clear' | translate}}"
+                (buttonClick)="Clear_click($event)" fieldID="Clear" [formCode]="formCode"
+                customClass="btn-warning-outline repayment-clear"></app-button> -->
+
+              <app-button #Clear fieldName="{{'LoanTopupDetails.Clear' | translate}}"
+                (buttonClick)="Clear_click($event)" fieldID="Clear" [formCode]="formCode"
+                customClass="btn-warning-outline"></app-button>
+            </div>
+          </div>
+          <div class="form-group pb10 TOP_UP_GROUP" style="padding-top: 1.25em">
+            <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="TopupDisbursal.isHidden()">
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown" [ngClass]="{'mandatory': TopupDisbursal.mandatory}">
+                  {{ 'LoanTopupDetails.TopupDisbursal' | translate}}
+                </label>
+              </div>
+              <rlo-ui-radio #TopupDisbursal category="2" fieldID="TopupDisbursal" [formCode]="formCode"
+                domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+                (blur)="genericOnBlur('AD_ADD_TYPE', $event)">
+              </rlo-ui-radio>
+            </div>
+            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="TopupAmount.isHidden()">
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown" [ngClass]="{'mandatory': TopupAmount.mandatory}">
+                  {{ 'LoanTopupDetails.TopupAmount' | translate}}
+                </label>
+              </div>
+              <app-amount #TopupAmount fieldID="TopupAmount" [formCode]="formCode" domainObjectUrl="null"
+                (blur)="genericOnBlur('TopupAmount', $event)"></app-amount>
+            </div>
+            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RevisedAmount.isHidden()">
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown" [ngClass]="{'mandatory': RevisedAmount.mandatory}">
+                  {{ 'LoanTopupDetails.RevisedAmount' | translate}}
+                </label>
+              </div>
+              <app-amount #RevisedAmount fieldID="RevisedAmount" [formCode]="formCode" domainObjectUrl="null"
+                (blur)="genericOnBlur('RevisedAmount', $event)"></app-amount>
+            </div>
+            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="InterestRate.isHidden()">
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown" [ngClass]="{'mandatory': InterestRate.mandatory}">
+                  {{ 'LoanTopupDetails.InterestRate' | translate}}</label>
+              </div>
+              <app-text-box #InterestRate fieldID="InterestRate" [formCode]="formCode"
+                (blur)="genericOnBlur('InterestRate', $event)"></app-text-box>
+            </div>
+            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MarginRate.isHidden()">
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown" [ngClass]="{'mandatory': MarginRate.mandatory}">
+                  {{ 'LoanTopupDetails.MarginRate' | translate}}</label>
+              </div>
+              <app-text-box #MarginRate fieldID="MarginRate" [formCode]="formCode"
+                (blur)="genericOnBlur('MarginRate', $event)"></app-text-box>
+            </div>
+
+            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="TopupNetInstRate.isHidden()">
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown" [ngClass]="{'mandatory': TopupNetInstRate.mandatory}">
+                  {{ 'LoanTopupDetails.TopupNetInstRate' | translate}}</label>
+              </div>
+              <app-text-box #TopupNetInstRate fieldID="TopupNetInstRate" [formCode]="formCode"
+                (blur)="genericOnBlur('TopupNetInstRate', $event)"></app-text-box>
+            </div>
+            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_TENURE.isHidden()">
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown" [ngClass]="{'mandatory': LD_TENURE.mandatory}">
+                  {{ 'LoanTopupDetails.LD_TENURE' | translate}}</label>
+              </div>
+              <app-text-box #LD_TENURE fieldID="LD_TENURE" [formCode]="formCode"
+                (blur)="genericOnBlur('LD_TENURE', $event)"></app-text-box>
+            </div>
+            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_TENURE_PERIOD.isHidden()">
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown" [ngClass]="{'mandatory': LD_TENURE_PERIOD.mandatory}">
+                  {{ 'LoanTopupDetails.LD_TENURE_PERIOD' | translate}}</label>
+              </div>
+              <app-combo-box #LD_TENURE_PERIOD category="2" fieldID="LD_TENURE_PERIOD" [formCode]="formCode"
+                placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_TENURE_PERIOD', $event)">
+              </app-combo-box>
+            </div>
+            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_APP_PRPSE.isHidden()">
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown" [ngClass]="{'mandatory': BAD_APP_PRPSE.mandatory}">
+                  {{ 'LoanTopupDetails.BAD_APP_PRPSE' | translate}}
+                </label>
+              </div>
+              <app-combo-box #BAD_APP_PRPSE category="2" fieldID="BAD_APP_PRPSE" [formCode]="formCode"
+                placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_APP_PRPSE', $event)">
+              </app-combo-box>
+            </div>
+            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="DisbursalDate.isHidden()">
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown" [ngClass]="{'mandatory':DisbursalDate.mandatory}">
+                  {{ 'LoanTopupDetails.DisbursalDate' | translate}}
+                </label>
+              </div>
+              <app-date #DisbursalDate fieldID="DisbursalDate" [formCode]="formCode" placeholder="dd-mm-yyyy"
+                (blur)="genericOnBlur('DisbursalDate', $event)"></app-date>
+            </div>
+
+            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RepaymentFrequency.isHidden()">
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown" [ngClass]="{'mandatory': RepaymentFrequency.mandatory}">
+                  {{ 'LoanTopupDetails.RepaymentFrequency' | translate}}</label>
+              </div>
+              <app-combo-box #RepaymentFrequency category="2" fieldID="RepaymentFrequency" [formCode]="formCode"
+                placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('RepaymentFrequency', $event)">
+              </app-combo-box>
+            </div>
+            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RepaymentDate.isHidden()">
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown" [ngClass]="{'mandatory': RepaymentDate.mandatory}">
+                  {{ 'LoanTopupDetails.RepaymentDate' | translate}}
+                </label>
+              </div>
+              <app-date #RepaymentDate fieldID="RepaymentDate" [formCode]="formCode" placeholder="dd-mm-yyyy"
+                (blur)="genericOnBlur('RepaymentDate', $event)"></app-date>
+            </div>
+            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NoOfInstallments.isHidden()">
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown" [ngClass]="{'mandatory':NoOfInstallments.mandatory}">
+                  {{ 'LoanTopupDetails.NoOfInstallments' | translate}}
+                </label>
+              </div>
+              <app-text-box #NoOfInstallments fieldID="NoOfInstallments" [formCode]="formCode"
+                (blur)="genericOnBlur('NoOfInstallments', $event)"></app-text-box>
+            </div>
+            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RequiredEMIAmt.isHidden()">
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown">
+                  {{ 'LoanTopupDetails.RequiredEMIAmt' | translate}}
+                </label>
+              </div>
+              <app-amount #RequiredEMIAmt fieldID="RequiredEMIAmt" [formCode]="formCode"
+                (blur)="genericOnBlur('RequiredEMIAmt', $event)"></app-amount>
+            </div>
+
+            <div class="w-100">
+              <div class="d-flex topup-action-btn-conatiner">
+                <app-button #TopupRepaymentSchedule
+                  fieldName="{{ 'LoanTopupDetails.TopupRepaymentSchedule' | translate}}"
+                  fieldID="TopupRepaymentSchedule" [formCode]="formCode" customClass="btn btn-repayment"
+                  (buttonClick)="AMS_GENERATE_BTN_click($event)"></app-button>
+
+                <app-button #Clear fieldName="{{ 'LoanTopupDetails.Clear' | translate}}"
+                  (buttonClick)="Clear_click($event)" fieldID="Clear" [formCode]="formCode"
+                  customClass="btn-warning-outline repayment-clear"></app-button>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-12  col-sm-12 col-md-12 group-default">
+            <div #BUTTON_SECTION id="BUTTON_SECTION" class="w-100">
+              <div class="form-group pb10 button-group">
+                <div class="w-100 text-center">
+
+                  <app-button #SUBMIT_MAIN_BTN fieldName="{{ 'NewInitiationDetails.SUBMIT_MAIN_BTN' | translate}}"
+                    fieldID="SUBMIT_MAIN_BTN" [formCode]="formCode" customClass="btn btn-primary"
+                    (buttonClick)="SUBMIT_MAIN_BTN_click($event)"></app-button>
+
+                  <app-button #CANCEL_MAIN_BTN fieldName="{{ 'NewInitiationDetails.CANCEL_MAIN_BTN' | translate}}"
+                    (buttonClick)="CANCEL_MAIN_BTN_click($event)" fieldID="CANCEL_MAIN_BTN" [formCode]="formCode"
+                    customClass="btn-warning-outline"></app-button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+            <app-topup-handler #Handler [MainComponent]="this"></app-topup-handler>
+          </div>
+        </div>
+
+
+        <app-hidden #hideRepaymentFreq fieldID="hideRepaymentFreq"></app-hidden>
+        <app-hidden #hideTenurePeriod fieldID="hideTenurePeriod"></app-hidden>
+        <app-hidden #hideAppPurpose fieldID="hideAppPurpose"></app-hidden>
+        <app-hidden #hidtopDisbursal fieldID="hidtopDisbursal"></app-hidden>
+        <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
+
+
+      </div>
+    </div>
+  </div>
+</form>

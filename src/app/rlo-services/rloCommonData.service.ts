@@ -97,7 +97,13 @@ export class RloCommonData {
   dataSavedSubject = new Subject<boolean>();//when a particular form section is saved successfully(save),subscribed in DDE
 
   dynamicComponentInstance: any;
-
+  storeDBR: {
+    OldDBR: any,
+    NewDBR: any
+  } = {
+      OldDBR: 0,
+      NewDBR: 0
+    };
   makeDdeDisabled: { ddeDisabled: boolean, previousPageOperation: boolean }
     = { ddeDisabled: false, previousPageOperation: false };//applied only when user comes to DDE from operations page
 
@@ -108,6 +114,8 @@ export class RloCommonData {
   globalApplicationDtls: IGlobalApllicationDtls = {};
 
   amortizationModalDataUW: any;//stored data used for amortization schedule modal  
+  topUpLoanCardDetails = new Subject<any>();//when 'Existing Loan Details' or 'Top Up Loan Details' details to be viewed(Amortization schedule grid)
+  selectedTopUpPlanCard: any;//store data required to show in amortization grid
 
   reloadUWSections = new Subject<any>();
 
@@ -123,6 +131,8 @@ export class RloCommonData {
   userInvokeInterfacev2: boolean = true;//temp fix to make interface apis work
 
   LienAmt: number = 0; // FD details lien amt for credit card calculation
+  //temp storing data from UW to operation
+  TopUploanData: any;
   constructor(public rloutil: RloUtilService, public rloui: RlouiService, public router: Router, public http: ProvidehttpService, public alert: AlertsService) {
     this.resetMapData();
     console.log(this.masterDataMap);
@@ -549,6 +559,7 @@ export class RloCommonData {
           this.validateAddressDetailSection(entry[1]),
           this.validateOccupationDetailsSection(entry[1]),
           this.validateRMVisitSection(entry[1])
+	  
         ).subscribe((data) => {
           console.error(data);
           isCustomerValid = data[0].isSectionValid;

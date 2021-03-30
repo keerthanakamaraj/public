@@ -971,6 +971,7 @@ a.back {
 #DDE_WITHDRAW,
 #DDE_SUBMIT,
 #DDE_CANCEL,
+#Clear,
 #DDE_REFER {
   margin-left: 1.25em;
 }
@@ -1364,6 +1365,11 @@ a.back {
   //   margin-left: -4.6rem;
   //   margin-top: 0.65rem;
   // }
+
+  .percentage-sign {
+    display: inline !important;
+    top: 0px !important;
+  }
 }
 
 .small-menu {
@@ -2739,7 +2745,7 @@ rlo-ui-card-field {
             border-bottom-left-radius: 0px;
           }
 
-          span:first-child {
+          .card-txt:first-child {
             width: 40%;
           }
         }
@@ -3416,7 +3422,7 @@ rlo-ui-card-field {
   }
 
   .scroll-margin {
-    margin-top: 4.5rem  
+    margin-top: 4.5rem;
   }
 
   .relationship-pannel {
@@ -4064,12 +4070,12 @@ rlo-ui-card-field {
 //   padding: 0px;
 .withscroll {
   //	width: 800px;
-    overflow-x: scroll;
+  overflow-x: scroll;
   //	white-space: nowrap;
-  }
-  .cpv-ip-tbl{
-    width: 1850px;
-  }
+}
+.cpv-ip-tbl {
+  width: 1850px;
+}
 .rlo-ip-table {
   thead:first-child {
     tr:first-child {
@@ -4636,6 +4642,29 @@ rlo-ui-card-field {
       line-height: 17px;
       color: #565656;
     }
+  }
+}
+#MT_TopupLoan {
+  margin-top: 19px;
+  float: right;
+  width: 165px !important;
+  margin-right: 10px;
+}
+
+.lyt-topup-loan-review {
+  .app-title {
+    font-size: 20px;
+    line-height: 27px;
+    color: #0079b8;
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  .TOP_UP_GROUP,
+  .OLD_LOAN_GROUP {
+    padding: 1.25em;
+  }
+  .Repayment {
+    margin-top: 36px !important;
   }
 }
 
@@ -5300,4 +5329,16 @@ rlo-ui-card-field {
       display: none;
     }
   }
+}
+
+.top-up-initiation-section {
+  background-color: #fafafa;
+  padding: 1.25em;
+}
+
+.topup-action-btn-conatiner {
+  float: right;
+  /* display: inline-block; */
+  padding-right: 1.25rem;
+  padding-left: 1.25rem;
 }

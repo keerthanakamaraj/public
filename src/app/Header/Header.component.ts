@@ -184,9 +184,9 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     // this.LD_USR_RCMD_AMT.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
     // this.LD_USR_RCMD_AMT.setReadOnly(true);
     let inputMap = new Map();
-    inputMap.clear();
+    inputMap.clear(); 
     inputMap.set('PathParam.ApplicationId', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'));
-    // inputMap.set('PathParam.ApplicationId', 7894);
+    // inputMap.set('PathParam.ApplicationId', 10390);//5730
     console.log('inputmaap', inputMap);
     this.services.http.fetchApi('/proposal/{ApplicationId}/header', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
@@ -249,7 +249,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
 
         this.LD_LOAN_AMT.setValue(this.LOAN_AMT);
         this.LD_APP_PRPSE.setValue(header.ApplicationPurpose != undefined ? header.ApplicationPurpose : 'NA');
-        if (header.hasOwnProperty("SchemeName") || header.SchemeName != null || header.SchemeName.length) {
+        if (header.hasOwnProperty("SchemeName") || header.SchemeName != null ) {
           if (header.SchemeName.length) {
             this.REAL_PROD_NAME.setValue(header.SchemeName);
           }
@@ -284,7 +284,22 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
             this.CC_CAMPTYPE.setValue("New Application");
           }
 
-          this.CC_CHANNEL.setValue(header.SourcingChannel);
+          // this.CC_CHANNEL.setValue(header.SourcingChannel);
+          if (header.SourcingChannel == 'Phon') {
+            this.CC_CHANNEL.setValue("Phone");
+          }
+          else if (header.SourcingChannel == 'Brok') {
+            this.CC_CHANNEL.setValue("Broker");
+          }
+          else if (header.SourcingChannel == 'Web') {
+            this.CC_CHANNEL.setValue("Web");
+          }
+          else if (header.SourcingChannel == 'Telem') {
+            this.CC_CHANNEL.setValue("Telemarketing");
+          }
+          else if (header.SourcingChannel == 'Winbck') {
+            this.CC_CHANNEL.setValue("Winback Application");
+          }
           this.channel = this.CC_CHANNEL.getFieldValue();
           // this.CC_CARD_ASSOCIATION.setValue('NA');
           this.CC_CUST_TYPE.setValue(header.CardCustName);
