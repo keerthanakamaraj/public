@@ -971,6 +971,7 @@ a.back {
 #DDE_WITHDRAW,
 #DDE_SUBMIT,
 #DDE_CANCEL,
+#Clear,
 #DDE_REFER {
   margin-left: 1.25em;
 }
@@ -5328,4 +5329,16 @@ rlo-ui-card-field {
       display: none;
     }
   }
+}
+
+.top-up-initiation-section {
+  background-color: #fafafa;
+  padding: 1.25em;
+}
+
+.topup-action-btn-conatiner {
+  float: right;
+  /* display: inline-block; */
+  padding-right: 1.25rem;
+  padding-left: 1.25rem;
 }
