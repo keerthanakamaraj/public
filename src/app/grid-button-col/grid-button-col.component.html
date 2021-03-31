@@ -13,3 +13,7 @@
 <ng-container *ngIf="Type=='4'">
     <div class="{{CustomClass}}">{{params.value}}</div>
 </ng-container>
+<!-- RWQ grid -->
+<ng-container *ngIf="Type=='5'">
+    <div class="{{CustomClass}}" (click)="onClick($event)">View Status</div>
+</ng-container> 

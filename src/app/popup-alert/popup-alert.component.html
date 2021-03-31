@@ -50,4 +50,16 @@
 
   </div>
 
+  
+    <!-- used in reject/withdraw queue-->
+    <div *ngIf="modalObject.sectionName == 'RejectWithdrawQueue'">
+      <div>
+        <div>
+          Decision : {{modalObject.data.lastStage}}
+        </div>
+        <div>
+          Remark : {{modalObject.data.reason}}
+        </div>
+      </div>
+    </div>
 </div>

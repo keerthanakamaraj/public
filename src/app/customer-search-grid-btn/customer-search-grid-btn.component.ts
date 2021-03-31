@@ -9,7 +9,8 @@ export class CustomerSearchGridBtnComponent implements OnInit {
 
   params;
   showCardDetailsModal: boolean = false;
-
+  Type;
+  myVar2 = false;
   constructor() {
   }
 
@@ -20,12 +21,17 @@ export class CustomerSearchGridBtnComponent implements OnInit {
     }
 
     console.log(params);
+    this.Type = this.params.Type != undefined ? this.params.Type : '1';
   }
 
   onClick(): void {
     this.params.colDef.cellRendererParams.onClick();
   }
-
+  public onChange(event) {
+    this.params.data[this.params.colDef.field] = event.currentTarget.checked;
+    console.log("checkbox value", this.params.data[this.params.colDef.field]);
+    this.params.colDef.cellRendererParams.onClick(this.params.data[this.params.colDef.field]);
+  }
   ngOnInit() {
   }
 

@@ -633,4 +633,29 @@ export class RlouiService {
     });
     return promise;
   }
+  
+  rejetwithdrawqueue(obj) {
+    let promise = new Promise<boolean>((resolve, reject) => {
+      let modalObj: IModalData = {
+        title: "Application record",
+        mainMessage: undefined,
+        modalSize: 'modal-width-sm',
+        buttons: [],
+        sectionName: 'RejectWithdrawQueue',
+        hideModalHeader: false,
+        data: obj
+      };
+      this.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.closeAllConfirmationModal();
+          }
+          resolve(response)
+        }
+        resolve(true);
+      });
+    });
+    return promise;
+  }
 }
