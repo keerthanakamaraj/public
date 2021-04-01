@@ -445,7 +445,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   }
 
   genderCheck() {
-    if ((this.CD_GENDER.getFieldValue() === 'M' && this.CD_TITLE.getFieldValue() !== 'MR') || (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue() !== 'MRS') && (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue() !== 'MS')) {
+    if ((this.CD_GENDER.getFieldValue() === 'M' && this.CD_TITLE.getFieldValue() !== 'MR') || (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue() !== 'MRS') && (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue() !== 'MS') && (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue().toUpperCase() !== 'MESSRS')) {
       this.CD_GENDER.setError('Please select gender according to title');
       return 1;
     }

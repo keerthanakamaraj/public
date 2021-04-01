@@ -1089,7 +1089,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     // this.Handler.CalculateNetInterestRate();
   }
   genderCheck() {
-    if ((this.CD_GENDER.getFieldValue() === 'M' && this.CD_TITLE.getFieldValue() !== 'MR') || (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue() !== 'MRS') && (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue() !== 'MS')) {
+    if ((this.CD_GENDER.getFieldValue() === 'M' && this.CD_TITLE.getFieldValue() !== 'MR') || (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue() !== 'MRS') && (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue() !== 'MS') && (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue().toUpperCase() !== 'MESSRS')) {
       // console.log("Please select gender according to tilte");
       this.CD_GENDER.setError('rlo.error.geneder.invalid');
       return 1
