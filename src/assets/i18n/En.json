@@ -243,6 +243,7 @@
     "rlo.error.addon.req-amt-lmt": "Value must be less than Primary Requested Amount.",
     "rlo.error.member.addon.req-amt-lmt": "Value must be less than Primary Approved Amount.",
     "rlo.error.vehicle.invalid-loan-amt": "total vehicle cost should be less than local currency equivalent.",
+    "rlo.error.reason": "Application Record",
 
     "rlo.error.exits.fd": "FD already added",
     "rlo.success.update.fd": "FD Details Updated Successfully",
@@ -2844,5 +2845,29 @@
     "CD_EMAIL_ID": "Email ID",
     "CD_COUNTRY_CODE": "Country Code",
     "CD_NAME_ON_CARD": "Name on Card"
-  }
+  },
+  "RWEQueue" : {
+          "FormTitle" : "Reject/ Withdraw/ Expired Queue",
+          "Initiate_Applications" : "Initiate",
+          "CLEAR" : "Clear",
+          "CANCEL_MAIN_BTN" : "CANCEL"
+        },
+        "RWEQueueGrid" : {
+          "GridTitle" : "RWEQueueGrid",
+          "RWE_SCHME_EXPIRED" : "Scheme Expired",
+          "RWE_SCHEME": "Product",
+          "RWE_PRODUCT": "Product",
+          "RWE_INITIATED_ON": "Initiated On",
+          "RWE_LOAN_AMOUNT": "Requested Credit Amount",
+          "RWE_PENDING_WITH": "Pending With",
+          "RWE_INITIATED_BY": "Initiated By",
+          "RWE_SUB_PRODUCT": "Sub Product",
+          "RWE_PROPOSAL_ID": "Proposal ID",
+          "RWE_ARN": "ARN",
+          "RWE_CAM_TYPE": "CAM Type",
+          "RWE_CAD_LOCATION": "Branch",
+          "RWE_CUSTOMER": "Customer",
+          "RWE_STAGE": "Stage",
+          "RWE_APPLICATION_TYPE" :" "
+          }
 }

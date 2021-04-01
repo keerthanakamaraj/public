@@ -59,5 +59,7 @@ export class GridButtonColComponent implements ICellRendererAngularComp {
       this.ngZone.run(() => { this.params.onDoubleClick(this.params.node.data); });
     }
   }
-
+  onCheckboxClick(event){
+    console.log("my chekbox",event.checked)
+  }
 }

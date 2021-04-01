@@ -1,1 +1,10 @@
-<div (click)="onClick()" [ngClass]="params.value === 'Y' && showCardDetailsModal ? 'anchor-link' : ''">{{params.value}}</div>
+<!-- <div (click)="onClick()" [ngClass]="params.value === 'Y' && showCardDetailsModal ? 'anchor-link' : ''">{{params.value}}</div> -->
+<ng-container *ngIf="Type=='1'">
+    <div (click)="onClick()" [ngClass]="params.value === 'Y' ? 'anchor-link' : ''">{{params.value}}</div>
+</ng-container>
+
+<ng-container *ngIf="Type=='2'">
+    <!-- <input type="checkbox" [checked]="myVar2" (click)="onChange()" /> -->
+    <!-- <input type="checkbox" (click)="onChange($event)"> -->
+    <input type="checkbox" [checked]="params.value" (change)="onChange($event)">
+</ng-container>

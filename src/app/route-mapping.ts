@@ -161,6 +161,10 @@ export var componentRoutes: Routes = [
 	{
 		path: 'TopUpReview',
 		loadChildren: 'src/app/top-up-loan-review/top-up-loan-review.module#TopUpLoanReviewModule'
-	}		
+	},
+	{
+		path: 'RWEQueue',
+		loadChildren: 'src/app/RWEQueue/RWEQueue.module#RWEQueueModule'
+	},		
 ];
 export class AppRoutingModule { }
