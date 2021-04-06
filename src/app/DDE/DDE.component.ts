@@ -1869,6 +1869,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     inputMap.clear();
     inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
     inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
+    inputMap.set('Body.SchemeCode', this.services.rloCommonData.globalApplicationDtls.SchemeCode);
     inputMap.set('Body.TaskId', this.taskId);
     inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
     inputMap.set('Body.UserId', this.userId);
