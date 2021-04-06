@@ -171,15 +171,23 @@ export class RWEQueueComponent extends FormComponent implements OnInit, AfterVie
         this.services.rloui.goBack();
     }
 
-    CLEAR_BTN_click(){
-        
+    CLEAR_BTN_click() {
+        let rowData = [];
+        this.RWE_GRID.readonlyGrid.agGrid.api.forEachNode(node => rowData.push(node.data));
+        // return rowData;
+        console.log("hfhgf", rowData);
+        rowData.forEach(element => {
+            element.RWE_APPLICATION_TYPE = false;
+        });
     }
 
     SUBMIT_BTN_click() {
         console.log(this.RWE_GRID.selectedApplicationList);
+        this.Initiate_Applications.setDisabled(true);
+
         // this.selectedApplicationID = this.RWE_GRID.selectedApplicationList;
         this.RWE_GRID.selectedApplicationList.forEach(element => {
-            this.selectedApplicationID.push(Number(element.RWE_PROPOSAL_ID)) 
+            this.selectedApplicationID.push(Number(element.RWE_PROPOSAL_ID))
         });
         let containsExpiredApp = false;
         this.RWE_GRID.selectedApplicationList.map((data) => {
@@ -192,20 +200,59 @@ export class RWEQueueComponent extends FormComponent implements OnInit, AfterVie
             this.services.alert.showAlert(2, '', 4000, "Selected list contains an expired application");
         } else {
             //api call
-            if(this.selectedApplicationID.length != 0)
-            {
-            let inputMap = new Map();
-            inputMap.set('Body.CaseIds',this.selectedApplicationID);
-            this.services.http.fetchApi('/retriggerRequestAPI', 'POST', inputMap, '/initiation').subscribe(
-                async (httpResponse: HttpResponse<any>) => {
-                    var res = httpResponse.body;
-                console.log("bkb", res);
-                });
+            if (this.selectedApplicationID.length != 0) {
+                let inputMap = new Map();
+                inputMap.set('Body.CaseIds', this.selectedApplicationID);
+                this.services.http.fetchApi('/retriggerRequestAPI', 'POST', inputMap, '/initiation').subscribe(
+                    async (httpResponse: HttpResponse<any>) => {
+                        var res = httpResponse.body;
+                        // if(res == 200){
+                        //     console.log("bkb", res);
+                        // }
+                        // else{
+                        //     this.services.alert.showAlert(2, '', 4000, "Something went wrong, Please try again letter"); 
+                        // }
+                        var successmessage = "Retrigger process initiated. It may take some time depending on the number of records selected for processing";
+                        //  var title = this.services.rloui.getAlertMessage('');
+                        var mainMessage = this.services.rloui.getAlertMessage('', successmessage);
+                        var button1 = this.services.rloui.getAlertMessage('', 'OK');
+                        Promise.all([mainMessage, button1]).then(values => {
+                            console.log(values);
+                            let modalObj = {
+                                title: "Alert",
+                                mainMessage: values[0],
+                                modalSize: "modal-width-sm",
+                                buttons: [
+                                    { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                                ]
+                            }
+
+                            this.services.rloui.confirmationModal(modalObj).then((response) => {
+                                console.log(response);
+                                if (response != null) {
+                                    if (response.id === 1) {
+                                        this.services.router.navigate(['home', 'LANDING']);
+                                    }
+                                }
+                            });
+                        });
+                    },
+                    async (httpError) => {
+                        const err = httpError['error'];
+                         this.services.alert.showAlert(2, '', 4000, "Something went wrong, Please try again letter"); 
+                         this.Initiate_Applications.setDisabled(false);
+
+                    });
             }
-            else{
-                this.services.alert.showAlert(2, '', 4000, "Please select application from list"); 
+            else {
+                this.services.alert.showAlert(2, '', 4000, "Please select application from list");
+                this.Initiate_Applications.setDisabled(false);
+
             }
         }
 
     }
+
+
+
 }

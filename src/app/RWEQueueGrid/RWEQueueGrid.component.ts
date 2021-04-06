@@ -730,7 +730,7 @@ export class RWEQueueGridComponent implements AfterViewInit {
                     lastStage = "NA";
                     Reason = res.REMARK;
                 }
-                else {
+                else if(appStageData == null){
                     lastStage = "NA";
                     Reason = "NA";
                 }
