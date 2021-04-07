@@ -954,3 +954,18 @@ app-check-box[fieldID=MT_SLIDER] .checkbox label span:before {
   text-align: center;
   /* margin-left: 927px !important; */
 }
+
+.btn-clear-outline {
+  box-sizing: border-box;
+  height: 36px !important;
+  width: 99px !important;
+  border: 1px solid #0079B8 !important;
+  border-radius: 4px !important;
+  font-family: "Open Sans";
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 17px;
+  text-align: center;
+  color: #0079b8;
+  background-color: #ffffff;
+}

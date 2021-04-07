@@ -133,7 +133,7 @@ export class ExistingLoanDetails implements IDeserializable {
             return Object.assign(this, input);
         }
         // input.Scheme = input.Scheme.length ? input.Scheme : 'NA';
-        input.LoanAccountNumber = input.LoanAccountNumber.length ? input.LoanAccountNumber : 'NA';
+        // input.LoanAccountNumber = input.LoanAccountNumber.length ? input.LoanAccountNumber : 'NA';
         input.LoanDisbursementDate = input.LoanDisbursementDate.length ? moment(input.LoanDisbursementDate, 'DD-MM-YYYY').format("DD-MMM-YYYY") : 'NA';
 
         return Object.assign(this, input);
@@ -167,7 +167,7 @@ export class ExistingLoanDetails implements IDeserializable {
             },
             {
                 title: "Loan Account Number",
-                subTitle: '0111005900779',
+                subTitle: this.LoanAccountNumber,
                 type: "basic",
                 modalSectionName: ""
             },
@@ -179,7 +179,7 @@ export class ExistingLoanDetails implements IDeserializable {
             },
             {
                 title: "Outstanding Loan Balance",
-                subTitle: 1168.95,
+                subTitle: this.OutstandingLoanBalance,
                 type: "basic",
                 modalSectionName: "",
                 formatToCurrency: true
@@ -230,6 +230,7 @@ export class TopUpLoanDetails implements IDeserializable {
     public RepaymentDate: any = "NA";
     public RequiredEMIAmt: any = "NA";
     public UDF1: any = "NA";
+    public TenureBasis : any = "NA";
     public fieldList: ICardListData[];
 
 
@@ -239,12 +240,14 @@ export class TopUpLoanDetails implements IDeserializable {
         if (input == undefined) {
             return Object.assign(this, input);
         }
+
         input.DisbursalDate = input.DisbursalDate.length ? moment(input.DisbursalDate, 'DD-MM-YYYY').format("DD-MMM-YYYY") : 'NA';
         input.RepaymentDate = input.RepaymentDate.length ? moment(input.RepaymentDate, 'DD-MM-YYYY').format("DD-MMM-YYYY") : 'NA';
         return Object.assign(this, input);
     }
 
     getCardData() {
+        console.log("Tenure Basis",this.TenureBasis);
         const moment = require('moment');
         this.fieldList = [
             {
@@ -276,7 +279,7 @@ export class TopUpLoanDetails implements IDeserializable {
             },
             {
                 title: "Tenure",
-                subTitle: this.LD_TENURE.length ? this.LD_TENURE : "NA",
+                subTitle: this.LD_TENURE + " " + this.TenureBasis.text,
                 type: "basic",
                 modalSectionName: "",
             },

@@ -256,6 +256,7 @@ LoanAccNo_blur(){
        this.SubProduct.setValue('Loan Against Shares');
        this.LoandistDate.setValue('15-09-2019');
        this.NetInterestRate.setValue(element.netInterestRate);
+       
       
       //  this.LoanRepaymentDate = element.loanMaturityDate;
        this.InterestRate.setValue('7');
@@ -445,12 +446,13 @@ async SUBMIT_MAIN_BTN_click(event) {
         // inputMap.set('Body.LoanDetails.Scheme', this.BAD_SCHEME.getFieldValue());
         // inputMap.set('Body.LoanDetails.Promotion', this.BAD_PROMOTION.getFieldValue());
         inputMap.set('Body.LoanDetails.Decision', 'Approve');
-        
+        inputMap.set('Body.LoanTopupDetails.UDF2', this.DisbursalAccount.getFieldValue());
         // inputMap.set('Body.LoanDetails.ReferrerName', this.RD_REFERRER_NAME.getFieldValue());
         // inputMap.set('Body.LoanDetails.ReferrerPhoneNo', this.RD_REFERRER_NO.getFieldValue());
         // inputMap.set('Body.LoanDetails.MarginRate', this.LD_MARGIN_RATE.getFieldValue());
 
         inputMap.set('Body.LoanDetails.NetInterestRate', this.NetInterestRate.getFieldValue());
+        inputMap.set('Body.LoanDetails.UDF3', this.LoanAccNo.getFieldValue());
         inputMap.set('Body.LoanTopupDetails.MarginRate', this.MarginRate.getFieldValue());
         inputMap.set('Body.LoanTopupDetails.ApplnPurpose', this.BAD_APP_PRPSE.getFieldValue());
         inputMap.set('Body.LoanTopupDetails.TopupNetInstRate', this.TopupNetInstRate.getFieldValue());
@@ -463,7 +465,7 @@ async SUBMIT_MAIN_BTN_click(event) {
         inputMap.set('Body.LoanTopupDetails.InterestRate', this.InterestRate.getFieldValue());
         inputMap.set('Body.LoanTopupDetails.RepaymentFreq', this.RepaymentFrequency.getFieldValue());
         inputMap.set('Body.LoanTopupDetails.TopupAmount', this.TopupAmount.getFieldValue());
-        inputMap.set('Body.LoanTopupDetails.UDF2', this.DisbursalAccount.getFieldValue());
+       
         inputMap.set('Body.LoanTopupDetails.RevisedAmount', this.RevisedAmount.getFieldValue());
         inputMap.set('Body.LoanTopupDetails.UDF1', this.TopupDisbursal.getFieldValue());
         // inputMap.set('Body.LoanTopupDetails.UDF3', this.LoanAccNo.getFieldValue());
@@ -881,6 +883,13 @@ fieldDependencies = {
         outDep: [
         ]
       },
+}
+
+resetLoanDetails(event){
+  this.Handler.resetLoanDetails();
+}
+resetTopupDetails(event){
+  this.Handler.resetTopupDetails();
 }
 
 }

@@ -131,22 +131,31 @@
                   (blur)="genericOnBlur('Tenure', $event)">
                 </app-text-box>
               </div>
-            </div>
-            <div class="d-flex topup-action-btn-conatiner">
-              <app-button #LoanRepaymentSchedule fieldName="{{ 'LoanTopupDetails.LoanRepaymentSchedule' | translate}}"
+              <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LoanRepaymentSchedule.isHidden()">
+                <app-button #LoanRepaymentSchedule fieldName="{{ 'LoanTopupDetails.LoanRepaymentSchedule' | translate}}"
+                  fieldID="LoanRepaymentSchedule" customClass="btn-loan" [formCode]="formCode" [type]="3"
+                  (buttonClick)="AMS_GENERATE_LOAN_BTN_click($event)">
+                </app-button>
+              </div>
+              <!-- <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="LoanRepaymentSchedule.isHidden()"> -->
+                <app-button #Clear fieldName="{{ 'LoanTopupDetails.Clear' | translate}}"
+                (buttonClick)="resetLoanDetails($event)" fieldID="Clear" [formCode]="formCode"
+                customClass="btn-clear-outline repayment-clear"></app-button> 
+              <!-- </div> -->
+              <!-- <app-button #LoanRepaymentSchedule fieldName="{{ 'LoanTopupDetails.LoanRepaymentSchedule' | translate}}"
                 fieldID="LoanRepaymentSchedule" [formCode]="formCode" customClass="btn btn-repayment"
                 (buttonClick)="AMS_GENERATE_LOAN_BTN_click($event)"></app-button>
-              <!-- <app-button #Clear fieldName="{{ 'LoanTopupDetails.Clear' | translate}}"
+               <app-button #Clear fieldName="{{ 'LoanTopupDetails.Clear' | translate}}"
                 (buttonClick)="Clear_click($event)" fieldID="Clear" [formCode]="formCode"
                 customClass="btn-warning-outline repayment-clear"></app-button> -->
 
-              <app-button #Clear fieldName="{{'LoanTopupDetails.Clear' | translate}}"
+              <!-- <app-button #Clear fieldName="{{'LoanTopupDetails.Clear' | translate}}"
                 (buttonClick)="Clear_click($event)" fieldID="Clear" [formCode]="formCode"
-                customClass="btn-warning-outline"></app-button>
+                customClass="btn-warning-outline repayment-clear"></app-button>  -->
             </div>
           </div>
           <div class="form-group pb10 TOP_UP_GROUP" style="padding-top: 1.25em">
-            <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="TopupDisbursal.isHidden()">
+            <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="TopupDisbursal.isHidden()">
               <div class="clr-brown fieldLegend">
                 <label class="clr-brown" [ngClass]="{'mandatory': TopupDisbursal.mandatory}">
                   {{ 'LoanTopupDetails.TopupDisbursal' | translate}}
@@ -156,6 +165,9 @@
                 domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
                 (blur)="genericOnBlur('AD_ADD_TYPE', $event)">
               </rlo-ui-radio>
+            </div>
+            <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+              <div style="width:100%; background:null;height:1px;"></div>
             </div>
             <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="TopupAmount.isHidden()">
               <div class="clr-brown fieldLegend">
@@ -276,38 +288,37 @@
               <app-amount #RequiredEMIAmt fieldID="RequiredEMIAmt" [formCode]="formCode"
                 (blur)="genericOnBlur('RequiredEMIAmt', $event)"></app-amount>
             </div>
-
-            <div class="w-100">
-              <div class="d-flex topup-action-btn-conatiner">
-                <app-button #TopupRepaymentSchedule
-                  fieldName="{{ 'LoanTopupDetails.TopupRepaymentSchedule' | translate}}"
-                  fieldID="TopupRepaymentSchedule" [formCode]="formCode" customClass="btn btn-repayment"
-                  (buttonClick)="AMS_GENERATE_BTN_click($event)"></app-button>
-
-                <app-button #Clear fieldName="{{ 'LoanTopupDetails.Clear' | translate}}"
-                  (buttonClick)="Clear_click($event)" fieldID="Clear" [formCode]="formCode"
-                  customClass="btn-warning-outline repayment-clear"></app-button>
-              </div>
+            
+            <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="TopupRepaymentSchedule.isHidden()">
+              <app-button #TopupRepaymentSchedule fieldName="{{ 'LoanTopupDetails.TopupRepaymentSchedule' | translate}}"
+                fieldID="TopupRepaymentSchedule" customClass="btn-loan" [formCode]="formCode" [type]="3"
+                (buttonClick)="AMS_GENERATE_BTN_click($event)">
+              </app-button>
             </div>
-          </div>
+            <!-- <app-button #TopupRepaymentSchedule fieldName="{{ 'LoanTopupDetails.TopupRepaymentSchedule' | translate}}"
+              fieldID="TopupRepaymentSchedule" [formCode]="formCode" customClass="btn btn-repayment"
+              (buttonClick)="AMS_GENERATE_BTN_click($event)"></app-button> -->
 
-
-          <div class="col-12  col-sm-12 col-md-12 group-default">
-            <div #BUTTON_SECTION id="BUTTON_SECTION" class="w-100">
-              <div class="form-group pb10 button-group">
-                <div class="w-100 text-center">
-
-                  <app-button #SUBMIT_MAIN_BTN fieldName="{{ 'NewInitiationDetails.SUBMIT_MAIN_BTN' | translate}}"
-                    fieldID="SUBMIT_MAIN_BTN" [formCode]="formCode" customClass="btn btn-primary"
-                    (buttonClick)="SUBMIT_MAIN_BTN_click($event)"></app-button>
-
-                  <app-button #CANCEL_MAIN_BTN fieldName="{{ 'NewInitiationDetails.CANCEL_MAIN_BTN' | translate}}"
-                    (buttonClick)="CANCEL_MAIN_BTN_click($event)" fieldID="CANCEL_MAIN_BTN" [formCode]="formCode"
-                    customClass="btn-warning-outline"></app-button>
+            <app-button #Clear fieldName="{{ 'LoanTopupDetails.Clear' | translate}}" (buttonClick)="resetTopupDetails($event)"
+              fieldID="Clear" [formCode]="formCode" customClass="btn-clear-outline repayment-clear"></app-button>
+              <div class="col-12  col-sm-12 col-md-12 group-default">
+                <div #BUTTON_SECTION id="BUTTON_SECTION" class="w-100">
+                  <div class="form-group pb10 button-group">
+                    <div class="w-100 text-center">
+                      
+                      <app-button #SUBMIT_MAIN_BTN fieldName="{{ 'NewInitiationDetails.SUBMIT_MAIN_BTN' | translate}}"
+                        fieldID="SUBMIT_MAIN_BTN" [formCode]="formCode" customClass="btn btn-primary"
+                        (buttonClick)="SUBMIT_MAIN_BTN_click($event)"></app-button>
+    
+                      <app-button #CANCEL_MAIN_BTN fieldName="{{ 'NewInitiationDetails.CANCEL_MAIN_BTN' | translate}}"
+                        (buttonClick)="CANCEL_MAIN_BTN_click($event)" fieldID="CANCEL_MAIN_BTN" [formCode]="formCode"
+                        customClass="btn-warning-outline"></app-button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+        
 
 
           <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
@@ -323,7 +334,7 @@
         <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
 
 
-      </div>
+    </div>
     </div>
   </div>
 </form>

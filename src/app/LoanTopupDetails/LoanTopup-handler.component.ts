@@ -168,6 +168,41 @@ export class LoanTopupHandlerComponent extends RLOUIHandlerComponent implements 
     return EMI.toFixed(2);
 
   }
+
+  resetLoanDetails(){
+    this.MainComponent.LoanAccNo.onReset();
+    this.MainComponent.CustName.onReset();
+    this.MainComponent.Product.onReset();
+    this.MainComponent.SubProduct.onReset();
+    this.MainComponent.LoanAmount.onReset();
+    this.MainComponent.LoandistDate.onReset();
+    this.MainComponent.OutstandingLoanBal.onReset();
+    this.MainComponent.NetInterestRate.onReset();
+    this.MainComponent.Tenure.onReset();
+    this.MainComponent.DisbursalAccount.onReset();
+    this.MainComponent.LoandistDate.onReset();
+    this.MainComponent.LoandistDate.onReset();
+
+  }
+
+  resetTopupDetails(){
+    this.MainComponent.TopupDisbursal.onReset();
+    this.MainComponent.TopupAmount.onReset();
+    this.MainComponent.RevisedAmount.onReset();
+    this.MainComponent.InterestRate.onReset();
+    this.MainComponent.MarginRate.onReset();
+    this.MainComponent.TopupNetInstRate.onReset();
+    this.MainComponent.LD_TENURE.onReset();
+    this.MainComponent.LD_TENURE_PERIOD.onReset();
+    this.MainComponent.BAD_APP_PRPSE.onReset();
+    this.MainComponent.DisbursalDate.onReset();
+    this.MainComponent.RepaymentFrequency.onReset();
+    this.MainComponent.RepaymentDate.onReset();
+    this.MainComponent.NoOfInstallments.onReset();
+    this.MainComponent.RequiredEMIAmt.onReset(); 
+   
+
+  }
 }
 
 
