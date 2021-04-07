@@ -34,7 +34,7 @@ export class RWEQueueGridComponent implements AfterViewInit {
 
     applicationId: any;
     fetchData: any;
-    NewCheckboxValue: any;
+    NewCheckboxValue: boolean = false;
     componentCode: string = 'RWEQueueGrid';
     openedFilterForm: string = '';
     hidden: boolean = false;
@@ -44,6 +44,7 @@ export class RWEQueueGridComponent implements AfterViewInit {
         gridCode: "RWEQueueGrid",
         paginationReq: true
     };
+
     columnDefs: any[] = [
         // {
         //     field: "RWE_APPLICATION_TYPE",
@@ -71,7 +72,7 @@ export class RWEQueueGridComponent implements AfterViewInit {
             cellStyle: { 'text-align': 'left' },
             cellRendererFramework: CustomerSearchGridBtnComponent,
             cellRendererParams: {
-                // gridCode: 'OccuptionDtlsGrid',
+                gridCode: 'OccuptionDtlsGrid',
                 columnId: 'RWE_APPLICATION_TYPE',
                 Type: '2',
                 // CustomClass: 'btn-edit',
@@ -316,6 +317,7 @@ export class RWEQueueGridComponent implements AfterViewInit {
     ];
     private unsubscribe$: Subject<any> = new Subject<any>();
     selectedApplicationList = [];//store the list of selected application from grid
+    gridParams: any;//testing
 
     ngAfterViewInit() {
         this.services.translate.onLangChange
@@ -376,6 +378,7 @@ export class RWEQueueGridComponent implements AfterViewInit {
     }
     async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
         let inputMap = new Map();
+        this.gridParams = params;
 
         let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
         if (sessionStorage.getItem('branch')) {
@@ -730,7 +733,7 @@ export class RWEQueueGridComponent implements AfterViewInit {
                     lastStage = "NA";
                     Reason = res.REMARK;
                 }
-                else if(appStageData == null){
+                else if (appStageData == null) {
                     lastStage = "NA";
                     Reason = "NA";
                 }
@@ -747,4 +750,7 @@ export class RWEQueueGridComponent implements AfterViewInit {
     }
 
 
+    customRefreshGrid(gridData) {
+        this.readonlyGrid.apiSuccessCallback(this.gridParams, gridData);
+    }
 }

@@ -179,6 +179,9 @@ export class RWEQueueComponent extends FormComponent implements OnInit, AfterVie
         rowData.forEach(element => {
             element.RWE_APPLICATION_TYPE = false;
         });
+
+        this.RWE_GRID.customRefreshGrid(rowData);
+        //this.RWE_GRID.refreshGrid();
     }
 
     SUBMIT_BTN_click() {
@@ -239,8 +242,8 @@ export class RWEQueueComponent extends FormComponent implements OnInit, AfterVie
                     },
                     async (httpError) => {
                         const err = httpError['error'];
-                         this.services.alert.showAlert(2, '', 4000, "Something went wrong, Please try again letter"); 
-                         this.Initiate_Applications.setDisabled(false);
+                        this.services.alert.showAlert(2, '', 4000, "Something went wrong, Please try again letter");
+                        this.Initiate_Applications.setDisabled(false);
 
                     });
             }
