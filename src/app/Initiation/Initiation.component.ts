@@ -1814,14 +1814,14 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       ],
       outDep: [
 
-        { paramKey: "MstSchemeDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE" },
-        { paramKey: "MstSchemeDetails.AllowCoBorrower", depFieldID: "allowCoBorrower" },
-        { paramKey: "MstSchemeDetails.MaxLoanVal", depFieldID: "MAX_LOAN_VAL" },
-        { paramKey: "MstSchemeDetails.MinLoanVal", depFieldID: "MIN_LOAN_VAL" },
-        { paramKey: "MstSchemeDetails.MaxTenure", depFieldID: "MAX_TENURE" },
-        { paramKey: "MstSchemeDetails.MinTenure", depFieldID: "MIN_TENURE" },
-        { paramKey: "MstSchemeDetails.MinNetRate", depFieldID: "MIN_INST_RATE" },
-        { paramKey: "MstSchemeDetails.MaxNetRate", depFieldID: "MAX_INST_RATE" }
+        { paramKey: "NewSchemeDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE" },
+        { paramKey: "NewSchemeDetails.AllowCoBorrower", depFieldID: "allowCoBorrower" },
+        { paramKey: "NewSchemeDetails.MaxLoanVal", depFieldID: "MAX_LOAN_VAL" },
+        { paramKey: "NewSchemeDetails.MinLoanVal", depFieldID: "MIN_LOAN_VAL" },
+        { paramKey: "NewSchemeDetails.MaxTenure", depFieldID: "MAX_TENURE" },
+        { paramKey: "NewSchemeDetails.MinTenure", depFieldID: "MIN_TENURE" },
+        { paramKey: "NewSchemeDetails.MinNetRate", depFieldID: "MIN_INST_RATE" },
+        { paramKey: "NewSchemeDetails.MaxNetRate", depFieldID: "MAX_INST_RATE" }
 
         // { paramKey: "MstSchemeDetails.MinLoanVal", depFieldID: "minLoanValHide"}
         
