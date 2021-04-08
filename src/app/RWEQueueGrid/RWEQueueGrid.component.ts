@@ -719,19 +719,20 @@ export class RWEQueueGridComponent implements AfterViewInit {
         this.services.http.fetchApi('/proposal/{ApplicationId}/getAppStage', 'GET', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
-                var appStageData = res;
+                var appStageData = res[res.length - 1];
+                
                 console.log("bkb", res);
                 if (appStageData.CURRENT_STAGE != undefined && appStageData.REMARK != undefined) {
-                    lastStage = res.CURRENT_STAGE;
-                    Reason = res.REMARK;
+                    lastStage = appStageData.CURRENT_STAGE;
+                    Reason = appStageData.REMARK;
                 }
                 else if (appStageData.CURRENT_STAGE != undefined && appStageData.REMARK == undefined) {
-                    lastStage = res.CURRENT_STAGE;
+                    lastStage = appStageData.CURRENT_STAGE;
                     Reason = "NA";
                 }
                 else if (appStageData.CURRENT_STAGE == undefined && appStageData.REMARK != undefined) {
                     lastStage = "NA";
-                    Reason = res.REMARK;
+                    Reason = appStageData.REMARK;
                 }
                 else if (appStageData == null) {
                     lastStage = "NA";
@@ -745,7 +746,7 @@ export class RWEQueueGridComponent implements AfterViewInit {
             }
             this.services.rloui.rejetwithdrawqueue(testResponse).then((response: any) => {
             });
-        }, 1000);
+        }, 5000);
 
     }
 

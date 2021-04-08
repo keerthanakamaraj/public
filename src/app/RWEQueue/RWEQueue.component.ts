@@ -200,7 +200,7 @@ export class RWEQueueComponent extends FormComponent implements OnInit, AfterVie
         });
 
         if (containsExpiredApp) {
-            this.services.alert.showAlert(2, '', 4000, "Selected list contains an expired application");
+            this.services.alert.showAlert(2, '', 4000, "Selected application cannot be re-processed as this Scheme has expired. Please initiate a New application!");
         } else {
             //api call
             if (this.selectedApplicationID.length != 0) {
