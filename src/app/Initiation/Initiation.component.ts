@@ -1392,6 +1392,11 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         inputMap.set('Body.LoanDetails.NetInterestRate', this.LD_NET_INTEREST_RATE.getFieldValue());
         inputMap.set('Body.BorrowerDetails', this.Handler.getBorrowerPostData());
 
+        inputMap.set('Body.LoanDetails.GrossIncome', this.LD_GROSS_INCOME.getFieldValue());
+        inputMap.set('Body.LoanDetails.TotalLiability', this.LD_EXST_LBLT_AMT.getFieldValue());
+        inputMap.set('Body.LoanDetails.OtherDeduction', this.LD_OTH_DEDUCTIONS.getFieldValue());
+        inputMap.set('Body.LoanDetails.LTVDBR', this.LD_LTV_DBR.getFieldValue());
+
         console.error("DEEP | inputMap", inputMap);
         console.log(inputMap.get("Body.LoanDetails.EMIAmoun"),
           inputMap.get("Body.LoanDetails.LoanAmount"),
