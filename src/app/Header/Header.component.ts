@@ -99,6 +99,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   scrollExceded: boolean = false;
 
   elementPosition: any;
+  hideHeader : Boolean = false;
 
   /* data binding variables  */
   ARN: string;
@@ -191,6 +192,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     this.services.http.fetchApi('/proposal/{ApplicationId}/header', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
+        this.hideHeader  = res.CamType = "TopUp" ? true : false;
 
         let header = res.Header;
 

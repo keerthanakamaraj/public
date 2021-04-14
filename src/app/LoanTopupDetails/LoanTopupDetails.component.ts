@@ -262,7 +262,7 @@ LoanAccNo_blur(){
        this.InterestRate.setValue('7');
         // this.LoanAccNo.setValue(element.loanAccountNumber);
         this.Tenure.setValue('12');
-        this.ProductCode = 'PERSEC';
+        this.ProductCode = 'INV015';
         this.SubProductCode = 'PERCAS';
        this.TenureCode = 'M';
        let date_R = this.LoandistDate.getFieldValue()

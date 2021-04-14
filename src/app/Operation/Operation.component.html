@@ -37,7 +37,7 @@
     <div *ngIf="!formOnLoadError">
       <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
         <div class="form-group pb10 row">
-          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HEADER.isHidden()">
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HEADER.isHidden() || hideHeader">
             <app-Header #HEADER fieldID="HEADER" [formCode]="formCode" (headerStateEvent)="headerState($event)"
               (productCategoryFound)="brodcastProdCategory($event)">
             </app-Header>
