@@ -56,7 +56,13 @@ export class ScoreCardComponent implements OnInit {
   refreshData() {
     switch (this.scoreData.type) {
       case "Final DBR":
-        //this.scoreData.score = 60;
+        console.log(this.borrowersBorrowerSeq);
+        this.services.rloCommonData.fetchIncomeSummaryData(this.borrowersBorrowerSeq).then((response: any) => {
+          console.log(response)
+          if (response != undefined) {
+            this.scoreData.score = Math.round(response);
+          }
+        });
         break;
 
       case "Policy Score":

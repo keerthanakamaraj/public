@@ -559,7 +559,7 @@ export class RloCommonData {
           this.validateAddressDetailSection(entry[1]),
           this.validateOccupationDetailsSection(entry[1]),
           this.validateRMVisitSection(entry[1])
-	  
+
         ).subscribe((data) => {
           console.error(data);
           isCustomerValid = data[0].isSectionValid;
@@ -1046,39 +1046,22 @@ export class RloCommonData {
 
       let inputMap = this.generateRetriggerRequestJson(applicationId, interfaceId);
 
-      // this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
-      //   async (httpResponse: HttpResponse<any>) => {
-      //     let res = httpResponse.body;
-      //     resolve(res);
-      //     this.retriggerScoreResult(res, apiName);
-      //   }, async (httpError) => {
-      //     resolve(null);
-      //     var err = httpError['error']
-      //     if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-      //     }
-      //     //this.alert.showAlert(2, 'rlo.error.load.form', -1);
-      //   }
-      // );
-
       this.http.fetchApi(apiName, 'POST', inputMap, '/initiation').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           let res = httpResponse.body['ouputdata'];
           if (res.OVERALLSCORE) {
             resolve(res);
           } else if (res.error) {
-            //this.alert.showAlert(2, 'rlo.error.bre-exception', -1);
+            resolve(undefined);
           } else {
-            //this.alert.showAlert(2, 'rlo.error.load.form', -1);
+            resolve(undefined);
           }
         },
         async (httpError) => {
-          var err = httpError['error']
-          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-          }
-          //this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+          console.log(httpError);
+          resolve(undefined);
         }
       );
-
     });
     return promise;
   }
@@ -1431,5 +1414,45 @@ export class RloCommonData {
       }
     }
     return commonObj;
+  }
+
+  fetchIncomeSummaryData(activeBorrowerSeq) {
+    const promise = new Promise((resolve, reject) => {
+      let inputMap = new Map();
+      inputMap.clear();
+      let IncomeId: any = activeBorrowerSeq
+      let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+      if (IncomeId) {
+        criteriaJson.FilterCriteria.push({
+          "columnName": "BorrowerSeq",
+          "columnType": "String",
+          "conditions": {
+            "searchType": "equals",
+            "searchText": IncomeId
+          }
+        });
+        inputMap.set('QueryParam.criteriaDetails.FilterCriteria', criteriaJson.FilterCriteria);
+      }
+      let score = 0;
+      this.http.fetchApi('/IncomeSummary', 'GET', inputMap, '/rlo-de').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          let res = httpResponse.body;
+          if (res != null) {
+            if (res.IncomeSummary.length) {
+              score = res.IncomeSummary[0].DBR;
+              resolve(score);
+            } else {
+              resolve(score);
+            }
+          } else {
+            resolve(score);
+          }
+        },
+        async (httpError) => {
+          resolve(score);
+        }
+      );
+    });
+    return promise;
   }
 }
