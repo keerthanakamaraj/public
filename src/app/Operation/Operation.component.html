@@ -15,7 +15,7 @@
   <div class="clearfix content">
     <div class="wgt-top-navigator row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
       <div class="col-sm-12 col-md-12">
-        <div class="FormTitle no-border">
+        <div class="FormTitle">
           <a class="back" (click)="goBack()">Back</a>
           <span>{{ 'Operation.FormTitle' | translate }}</span>
         </div>
@@ -37,7 +37,7 @@
     <div *ngIf="!formOnLoadError">
       <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
         <div class="form-group pb10 row">
-          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HEADER.isHidden()">
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HEADER.isHidden() || hideHeader">
             <app-Header #HEADER fieldID="HEADER" [formCode]="formCode" (headerStateEvent)="headerState($event)"
               (productCategoryFound)="brodcastProdCategory($event)">
             </app-Header>

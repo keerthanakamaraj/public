@@ -1309,10 +1309,17 @@ export class CustomerDetails implements IDeserializable {
         let assetAmt = 0;
         if (input.hasOwnProperty("UWAsset")) {
             let assetsList = input["UWAsset"];
-            assetsList.forEach(element => {
-                if (element.hasOwnProperty("EquivalentAmt"))
+            // assetsList.forEach(element => {
+            //     if (element.hasOwnProperty("EquivalentAmt"))
+            //         assetAmt += element.EquivalentAmt;
+            // });
+            for (let index = 0; index < assetsList.length; index++) {
+                const element = assetsList[index];
+                if (element.hasOwnProperty("EquivalentAmt")){
+                    if(element.EquivalentAmt != "")
                     assetAmt += element.EquivalentAmt;
-            });
+                }
+            }
         }
         this.FinancialSummary.TotalAssetValue = !assetAmt ? "NA" : assetAmt;
 
@@ -1473,42 +1480,42 @@ export class ApplicationDetails implements IDeserializable {
         //obj
         this.LoanDetails = new LoanDetails().deserialize(input.UWLoan);
 
-        if (input.UWLoan != undefined && input.UWLoan.DisbursalDate != undefined) {
+        if (input.UWLoan != undefined && input.UWLoan.DisbursalDate != undefined && input.UWLoan.DisbursalDate != "" ) {
             this.LoanDetails.DisbursalDate = input.UWLoan.DisbursalDate;
         }
         else {
             this.LoanDetails.DisbursalDate = "NA";
         }
 
-        if (input.UWLoan != undefined && input.UWLoan.TotalInstallmentAmount != undefined) {
+        if (input.UWLoan != undefined && input.UWLoan.TotalInstallmentAmount != undefined && input.UWLoan.TotalInstallmentAmount != "") {
             this.LoanDetails.TotalInstallmentAmount = input.UWLoan.TotalInstallmentAmount;
         }
         else {
             this.LoanDetails.TotalInstallmentAmount = "NA";
         }
 
-        if (input.UWLoan != undefined && input.UWLoan.RepaymentStartDate != undefined) {
+        if (input.UWLoan != undefined && input.UWLoan.RepaymentStartDate != undefined && input.UWLoan.RepaymentStartDate != "") {
             this.LoanDetails.RepaymentStartDate = input.UWLoan.RepaymentStartDate
         }
         else {
             this.LoanDetails.RepaymentStartDate = "NA";
         }
 
-        if (input.UWLoan != undefined && input.UWLoan.RepaymentFrequency != undefined) {
+        if (input.UWLoan != undefined && input.UWLoan.RepaymentFrequency != undefined && input.UWLoan.RepaymentFrequency != "") {
             this.LoanDetails.RepaymentFrequency = input.UWLoan.RepaymentFrequency
         }
         else {
             this.LoanDetails.RepaymentFrequency = "NA";
         }
 
-        if (input.UWLoan != undefined && input.UWLoan.AmortizationAmount != undefined) {
+        if (input.UWLoan != undefined && input.UWLoan.AmortizationAmount != undefined && input.UWLoan.AmortizationAmount != "") {
             this.LoanDetails.AmortizationAmount = input.UWLoan.AmortizationAmount
         }
         else {
             this.LoanDetails.AmortizationAmount = "NA";
         }
 
-        if (input.UWLoan != undefined && input.UWLoan.MargineMoney != undefined) {
+        if (input.UWLoan != undefined && input.UWLoan.MargineMoney != undefined && input.UWLoan.MargineMoney != "" ) {
             this.LoanDetails.MarginMoney = input.UWLoan.MargineMoney
         }
         else {

@@ -1089,7 +1089,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     // this.Handler.CalculateNetInterestRate();
   }
   genderCheck() {
-    if ((this.CD_GENDER.getFieldValue() === 'M' && this.CD_TITLE.getFieldValue() !== 'MR') || (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue() !== 'MRS') && (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue() !== 'MS')) {
+    if ((this.CD_GENDER.getFieldValue() === 'M' && this.CD_TITLE.getFieldValue() !== 'MR') || (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue() !== 'MRS') && (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue() !== 'MS') && (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue().toUpperCase() !== 'MESSRS')) {
       // console.log("Please select gender according to tilte");
       this.CD_GENDER.setError('rlo.error.geneder.invalid');
       return 1
@@ -1391,6 +1391,11 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         inputMap.set('Body.LoanDetails.MarginRate', this.LD_MARGIN_RATE.getFieldValue());
         inputMap.set('Body.LoanDetails.NetInterestRate', this.LD_NET_INTEREST_RATE.getFieldValue());
         inputMap.set('Body.BorrowerDetails', this.Handler.getBorrowerPostData());
+
+        inputMap.set('Body.LoanDetails.GrossIncome', this.LD_GROSS_INCOME.getFieldValue());
+        inputMap.set('Body.LoanDetails.TotalLiability', this.LD_EXST_LBLT_AMT.getFieldValue());
+        inputMap.set('Body.LoanDetails.OtherDeduction', this.LD_OTH_DEDUCTIONS.getFieldValue());
+        inputMap.set('Body.LoanDetails.LTVDBR', this.LD_LTV_DBR.getFieldValue());
 
         console.error("DEEP | inputMap", inputMap);
         console.log(inputMap.get("Body.LoanDetails.EMIAmoun"),
@@ -1814,14 +1819,14 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       ],
       outDep: [
 
-        { paramKey: "MstSchemeDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE" },
-        { paramKey: "MstSchemeDetails.AllowCoBorrower", depFieldID: "allowCoBorrower" },
-        { paramKey: "MstSchemeDetails.MaxLoanVal", depFieldID: "MAX_LOAN_VAL" },
-        { paramKey: "MstSchemeDetails.MinLoanVal", depFieldID: "MIN_LOAN_VAL" },
-        { paramKey: "MstSchemeDetails.MaxTenure", depFieldID: "MAX_TENURE" },
-        { paramKey: "MstSchemeDetails.MinTenure", depFieldID: "MIN_TENURE" },
-        { paramKey: "MstSchemeDetails.MinNetRate", depFieldID: "MIN_INST_RATE" },
-        { paramKey: "MstSchemeDetails.MaxNetRate", depFieldID: "MAX_INST_RATE" }
+        { paramKey: "NewSchemeDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE" },
+        { paramKey: "NewSchemeDetails.AllowCoBorrower", depFieldID: "allowCoBorrower" },
+        { paramKey: "NewSchemeDetails.MaxLoanVal", depFieldID: "MAX_LOAN_VAL" },
+        { paramKey: "NewSchemeDetails.MinLoanVal", depFieldID: "MIN_LOAN_VAL" },
+        { paramKey: "NewSchemeDetails.MaxTenure", depFieldID: "MAX_TENURE" },
+        { paramKey: "NewSchemeDetails.MinTenure", depFieldID: "MIN_TENURE" },
+        { paramKey: "NewSchemeDetails.MinNetRate", depFieldID: "MIN_INST_RATE" },
+        { paramKey: "NewSchemeDetails.MaxNetRate", depFieldID: "MAX_INST_RATE" }
 
         // { paramKey: "MstSchemeDetails.MinLoanVal", depFieldID: "minLoanValHide"}
         

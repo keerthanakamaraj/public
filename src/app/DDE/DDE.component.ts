@@ -1869,6 +1869,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     inputMap.clear();
     inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
     inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
+    inputMap.set('Body.SchemeCode', this.services.rloCommonData.globalApplicationDtls.SchemeCode);
     inputMap.set('Body.TaskId', this.taskId);
     inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
     inputMap.set('Body.UserId', this.userId);
@@ -2206,13 +2207,21 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   refreshScoreData() {
+    let customerList = this.services.rloCommonData.customerListForAddress;
+    let borrowerSeq;
+    customerList.forEach(data => {
+      if (data.customerType == 'B')
+        borrowerSeq = data.BorrowerSeq;
+    })
     forkJoin(
       this.services.rloCommonData.invokeInterface(this.ApplicationId, "policyScore"),
-      this.services.rloCommonData.invokeInterface(this.ApplicationId, "applicationScore")
+      this.services.rloCommonData.invokeInterface(this.ApplicationId, "applicationScore"),
+      this.services.rloCommonData.fetchIncomeSummaryData(borrowerSeq)
     ).subscribe((response) => {
       console.log(response);
       this.setPolicyScore(response[0]);
       this.setApplicationScore(response[1]);
+      this.setDbrScore(response[2]);
     });
   }
 
@@ -2229,8 +2238,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   setDbrScore(response: any) {
-    if (response.ouputdata != undefined && response.ouputdata.OVERALLSCORE != undefined) {
-      this.headerScoreCard[0].score = response.ouputdata.OVERALLSCORE;
+    if (response != undefined) {
+      this.headerScoreCard[0].score = Math.round(response)
     }
   }
 
@@ -2240,16 +2249,16 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       if (response != null) {
         response.ApplicationScoreDetails.forEach(element => {
           let selectedObj = this.headerScoreCard.find(x => x.id == element.ScoreId);
-          if (element.Score != undefined){
-            if(selectedObj.id == 'DBR'){
+          if (element.Score != undefined) {
+            if (selectedObj.id == 'DBR') {
               selectedObj.score = Math.round(element.Score);
             }
-            else{
+            else {
               selectedObj.score = Math.round(element.Score);
             }
           }
         });
-        
+
       }
       else {
         this.headerScoreCard.forEach(element => {

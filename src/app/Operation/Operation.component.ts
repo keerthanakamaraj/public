@@ -75,6 +75,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   userId: any;
   taskId: any;
   instanceId: any;
+  hideHeader :boolean = false;
   // customerDecision:string=undefined;
   // custStatusOptionList=[
   //   { id: 'Approve', text: 'Approve'},
@@ -103,6 +104,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   viewtask: boolean = true;
   letterArray = [];
   generateLetterFlag: boolean = false;
+  toCheckTopup: any;
   // letterArray: any = {
   //   "TemplateData": [
   //     {
@@ -233,8 +235,8 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     await this.CUST_GRID.gridDataLoad({
       'passCustGrid': this.ApplicationId,
     });
-    await this.Handler.onFormLoad({
-    });
+    // await this.Handler.onFormLoad({
+    // });
     if (!this.services.rloCommonData.makeDdeDisabled.previousPageOperation) {
       if (this.userId === undefined || this.userId === '') {
         this.claimTask(this.taskId);
@@ -375,6 +377,9 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   fetchLoanDetails() {
     let inputMap = new Map();
     inputMap.clear();
+    let urlName;
+    urlName =  this.toCheckTopup == "TopUp" ? '/LoanTopupDetails' : '/LoanDetails';
+   
     let applicationId: any = this.passApplicationId;
     // let applicationId = '2829';
     // let applicationId = '3025';
@@ -390,20 +395,32 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       });
 
     }
+   
     inputMap.set('QueryParam.criteriaDetails', criteriaJson)
-    this.services.http.fetchApi('/LoanDetails', 'GET', inputMap, '/rlo-de').subscribe(
+    this.services.http.fetchApi(urlName, 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         this.LoanArray = [];
 
         if (res !== null) {
-          this.LoanArray = res['LoanDetails'];
-
-          this.LoanArray.forEach(async LoanElement => {
-            this.DisbustAmt.setValue(LoanElement['SystemRecommendedAmount']);
-            // this.LOAN_DBR.setValue(loanDtls['InterestRate']);
-            this.EMI_Amt.setValue(LoanElement['EMIAmount']);
-          });
+          // this.LoanArray = res['LoanDetails'];
+          this.LoanArray = this.toCheckTopup == 'TopUp' ? res['LoanTopupDetails'] : res['LoanDetails'];
+          
+          if(this.toCheckTopup == 'TopUp'){
+            this.LoanArray.forEach(async LoanElement => {
+              this.DisbustAmt.setValue(LoanElement['RevisedAmount']);
+              // this.LOAN_DBR.setValue(loanDtls['InterestRate']);
+              this.EMI_Amt.setValue(LoanElement['RequiredEMIAmt']);
+            });
+          }
+          else{
+            this.LoanArray.forEach(async LoanElement => {
+              this.DisbustAmt.setValue(LoanElement['SystemRecommendedAmount']);
+              // this.LOAN_DBR.setValue(loanDtls['InterestRate']);
+              this.EMI_Amt.setValue(LoanElement['EMIAmount']);
+            });
+          }
+       
         }
       },
       async (httpError) => {
@@ -421,9 +438,9 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
           for (let i = 0; i <= res.ApplicationScoreDetails.length; i++) {
             resArray = res.ApplicationScoreDetails[i];
             console.log("loop", resArray)
-            if (resArray.ScoreId == 'DBR') {
-              this.LOAN_DBR.setValue(resArray.Score);
-            }
+            // if (resArray.ScoreId == 'DBR') {
+            //   this.LOAN_DBR.setValue(resArray.Score);
+            // }
           }
         }
         else {
@@ -792,6 +809,9 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     else if (this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC') {
       inputMap.set('Body.interfaceId', 'CORP_ADDON');
     }
+    else if (this.services.rloCommonData.globalApplicationDtls.CamType == 'TopUp') {
+      inputMap.set('Body.interfaceId', 'INT013');
+    }
     inputMap.set('Body.inputdata.downPayment.paymentToBank', '0');
     inputMap.set('Body.inputdata.downPayment.paymentToOthers', '0');
     inputMap.set('Body.inputdata.interestRateDetails.baseRate', '10');
@@ -1077,6 +1097,8 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
           var res = httpResponse.body;
 
           var applDtls = res['ApplicationDetails'];
+          this.toCheckTopup = applDtls.CAMType;
+          this.hideHeader  = this.toCheckTopup == "TopUp" ? true : false;
           if (applDtls) {
             // this.CustomerConfirmationStatus=applDtls.CustomerConfirmationStatus;
             // this.CustomerConfirmationRemarks=applDtls.CustomerConfirmationRemarks;

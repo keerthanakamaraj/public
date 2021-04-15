@@ -220,7 +220,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         });
     }
     genderCheck() {
-        if ((this.FD_GENDER.getFieldValue() == 'M' && this.FD_TITLE.getFieldValue() != 'MR') || (this.FD_GENDER.getFieldValue() == 'F' && this.FD_TITLE.getFieldValue() != 'MRS') && (this.FD_GENDER.getFieldValue() == 'F' && this.FD_TITLE.getFieldValue() != 'MS')) {
+        if ((this.FD_GENDER.getFieldValue() == 'M' && this.FD_TITLE.getFieldValue() != 'MR') || (this.FD_GENDER.getFieldValue() == 'F' && this.FD_TITLE.getFieldValue() != 'MRS') && (this.FD_GENDER.getFieldValue() == 'F' && this.FD_TITLE.getFieldValue() != 'MS') && (this.FD_GENDER.getFieldValue() === 'F' && this.FD_TITLE.getFieldValue().toUpperCase() !== 'MESSRS')) {
             //console.log("Please select gender according to tilte");
             this.FD_GENDER.setError('rlo.error.geneder.invalid');
             return 1;
@@ -228,8 +228,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     }
 
     relationshipCheck() {
-        if ((this.FD_GENDER.getFieldValue() == 'M'  && (this.FD_RELATIONSHIP.getFieldValue() == 'DR' || this.FD_RELATIONSHIP.getFieldValue() == 'MR')) || (this.FD_GENDER.getFieldValue() == 'F' && (this.FD_RELATIONSHIP.getFieldValue() == 'FR' || this.FD_RELATIONSHIP.getFieldValue() == 'BR' )))
-        {
+        if ((this.FD_GENDER.getFieldValue() == 'M' && (this.FD_RELATIONSHIP.getFieldValue() == 'DR' || this.FD_RELATIONSHIP.getFieldValue() == 'MR')) || (this.FD_GENDER.getFieldValue() == 'F' && (this.FD_RELATIONSHIP.getFieldValue() == 'FR' || this.FD_RELATIONSHIP.getFieldValue() == 'BR'))) {
             this.FD_RELATIONSHIP.setError('rlo.error.relationship.invalid');
             return 1;
         }
@@ -276,7 +275,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     async Save_click(event) {
         let ActiveCustomerDtls = {};
         ActiveCustomerDtls = this.services.rloCommonData.getCustomerDetails(this.activeBorrowerSeq);
-        
+
         let inputMap = new Map();
         var noOfError: number = await this.revalidate();
         // console.log("juhi ::", this.Cust_FullName);
@@ -333,7 +332,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                             else if (err['ErrorElementPath'] == 'BorrowerDetails.Email') {
                                 this.FD_EMAIL.setError(err['ErrorDescription']);
                             }
-                           
+
                             else if (err['ErrorElementPath'] == 'BorrowerDetails.Relationship') {
                                 this.FD_RELATIONSHIP.setError(err['ErrorDescription']);
                             }

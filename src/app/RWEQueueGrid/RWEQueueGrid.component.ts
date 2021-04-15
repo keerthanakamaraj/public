@@ -34,7 +34,7 @@ export class RWEQueueGridComponent implements AfterViewInit {
 
     applicationId: any;
     fetchData: any;
-    NewCheckboxValue: any;
+    NewCheckboxValue: boolean = false;
     componentCode: string = 'RWEQueueGrid';
     openedFilterForm: string = '';
     hidden: boolean = false;
@@ -44,6 +44,7 @@ export class RWEQueueGridComponent implements AfterViewInit {
         gridCode: "RWEQueueGrid",
         paginationReq: true
     };
+
     columnDefs: any[] = [
         // {
         //     field: "RWE_APPLICATION_TYPE",
@@ -71,7 +72,7 @@ export class RWEQueueGridComponent implements AfterViewInit {
             cellStyle: { 'text-align': 'left' },
             cellRendererFramework: CustomerSearchGridBtnComponent,
             cellRendererParams: {
-                // gridCode: 'OccuptionDtlsGrid',
+                gridCode: 'OccuptionDtlsGrid',
                 columnId: 'RWE_APPLICATION_TYPE',
                 Type: '2',
                 // CustomClass: 'btn-edit',
@@ -316,6 +317,7 @@ export class RWEQueueGridComponent implements AfterViewInit {
     ];
     private unsubscribe$: Subject<any> = new Subject<any>();
     selectedApplicationList = [];//store the list of selected application from grid
+    gridParams: any;//testing
 
     ngAfterViewInit() {
         this.services.translate.onLangChange
@@ -376,6 +378,7 @@ export class RWEQueueGridComponent implements AfterViewInit {
     }
     async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
         let inputMap = new Map();
+        this.gridParams = params;
 
         let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
         if (sessionStorage.getItem('branch')) {
@@ -716,21 +719,22 @@ export class RWEQueueGridComponent implements AfterViewInit {
         this.services.http.fetchApi('/proposal/{ApplicationId}/getAppStage', 'GET', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
-                var appStageData = res;
+                var appStageData = res[res.length - 1];
+                
                 console.log("bkb", res);
                 if (appStageData.CURRENT_STAGE != undefined && appStageData.REMARK != undefined) {
-                    lastStage = res.CURRENT_STAGE;
-                    Reason = res.REMARK;
+                    lastStage = appStageData.CURRENT_STAGE;
+                    Reason = appStageData.REMARK;
                 }
                 else if (appStageData.CURRENT_STAGE != undefined && appStageData.REMARK == undefined) {
-                    lastStage = res.CURRENT_STAGE;
+                    lastStage = appStageData.CURRENT_STAGE;
                     Reason = "NA";
                 }
                 else if (appStageData.CURRENT_STAGE == undefined && appStageData.REMARK != undefined) {
                     lastStage = "NA";
-                    Reason = res.REMARK;
+                    Reason = appStageData.REMARK;
                 }
-                else {
+                else if (appStageData == null) {
                     lastStage = "NA";
                     Reason = "NA";
                 }
@@ -742,9 +746,12 @@ export class RWEQueueGridComponent implements AfterViewInit {
             }
             this.services.rloui.rejetwithdrawqueue(testResponse).then((response: any) => {
             });
-        }, 1000);
+        }, 5000);
 
     }
 
 
+    customRefreshGrid(gridData) {
+        this.readonlyGrid.apiSuccessCallback(this.gridParams, gridData);
+    }
 }

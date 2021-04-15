@@ -304,10 +304,20 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             this.RepaymentOption.setValue(LoanElement['RepaymentOption']['id']);
             this.RepaymentAccNo.setValue(LoanElement['RepaymentAccNo']);
             this.hideLoanSeq.setValue(LoanElement['LoanDetailSeq']);
-
-            this.TotalLoanAmt.setValue(this.services.formatAmount(LoanElement['TotalLoanAmt'], null, null, null));
+            console.log("totalloan amt",LoanElement.LoanAmount );
+            if(LoanElement.TotalLoanAmt == ""){
+              this.TotalLoanAmt.setValue(this.services.formatAmount(LoanElement['LoanAmount'], null, null, null));
+            }
+            else{
+              this.TotalLoanAmt.setValue(this.services.formatAmount(LoanElement['TotalLoanAmt'], null, null, null));
+            }
             this.TotalFeeAdjWithDist.setValue(this.services.formatAmount(LoanElement['TotalFeeAdjWithDist'], null, null, null));
-            this.TotaDistlAmt.setValue(this.services.formatAmount(LoanElement['TotaDistlAmt'], null, null, null));;
+            if(LoanElement.TotaDistlAmt == ""){
+              this.TotaDistlAmt.setValue(this.services.formatAmount(LoanElement['LoanAmount'], null, null, null));
+            }
+            else{
+              this.TotaDistlAmt.setValue(this.services.formatAmount(LoanElement['TotaDistlAmt'], null, null, null));;
+            }
             this.TotalFeeCollUpfront.setValue(this.services.formatAmount(LoanElement['TotalFeeCollUpfront'], null, null, null));
             this.MarginMoney.setValue(this.services.formatAmount(LoanElement['MarginMoney'], null, null, null));
 
