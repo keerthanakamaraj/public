@@ -1,13 +1,13 @@
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "igcb-rlo-ui.fullname" . -}}
+{{- $fullName := include "igcb-quantum-ui.fullname" . -}}
 {{- $ingressPath := .Values.ingress.path -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    app: {{ template "igcb-rlo-ui.name" . }}
-    chart: {{ template "igcb-rlo-ui.chart" . }}
+    app: {{ template "igcb-quantum-ui.name" . }}
+    chart: {{ template "igcb-quantum-ui.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 {{- with .Values.ingress.annotations }}

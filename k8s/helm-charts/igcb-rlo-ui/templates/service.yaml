@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "igcb-rlo-ui.fullname" . }}
+  name: {{ template "igcb-quantum-ui.fullname" . }}
   labels:
-    app: {{ template "igcb-rlo-ui.name" . }}
-    chart: {{ template "igcb-rlo-ui.chart" . }}
+    app: {{ template "igcb-quantum-ui.name" . }}
+    chart: {{ template "igcb-quantum-ui.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
@@ -15,5 +15,5 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: {{ template "igcb-rlo-ui.name" . }}
+    app: {{ template "igcb-quantum-ui.name" . }}
     release: {{ .Release.Name }}

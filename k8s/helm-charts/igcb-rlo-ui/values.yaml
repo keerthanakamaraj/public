@@ -6,7 +6,7 @@
 replicaCount: 1
 
 image:
-  repository: intellectdevcloud/igcb-rlo-ui
+  repository: intellectdevcloud/igcb-quantum-ui
   tag: dev
   pullPolicy: always
 
