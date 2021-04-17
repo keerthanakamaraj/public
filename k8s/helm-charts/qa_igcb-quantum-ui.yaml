@@ -50,7 +50,7 @@ config:
 #service:
   #port: 80
   #targetPort: 80 
-  #name: rlo-ui
+  #name: quantum-ui
 
 service:
   type: ClusterIP
