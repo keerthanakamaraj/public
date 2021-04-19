@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: quantumuiconfig
+data:
+  environment.json: |-
+    {
+      "KONG_URL": "{{ .Values.config.kong.url }}",
+      "KONG_COMMON_API_KEY": "{{ .Values.config.kong.commonAPIKey }}",
+      "KONG_INIT_API_KEY": "{{ .Values.config.kong.initAPIKey }}",
+      "KONG_ENRICH_API_KEY": "{{ .Values.config.kong.enrichAPIKey }}",
+      "KONG_UNDERWRITE_API_KEY": "{{ .Values.config.kong.underwriteAPIKey }}",
+      "KONG_BRE_API_KEY": "{{ .Values.config.kong.breAPIKey }}",
+      "KONG_CLMS_API_KEY": "{{ .Values.config.kong.clmsAPIKey }}"
+    }

@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "igcb-quantum-ui.fullname" . }}
+  labels:
+    app: {{ template "igcb-quantum-ui.name" . }}
+    chart: {{ template "igcb-quantum-ui.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "igcb-quantum-ui.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "igcb-quantum-ui.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+            requests:
+              memory: "{{ .Values.resources.requests.memory }}"
+              cpu: "{{ .Values.resources.requests.cpu }}"
+            limits:
+              memory: "{{ .Values.resources.limits.memory }}"
+              cpu: "{{ .Values.resources.limits.cpu }}"
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          env:
+            - name: KONG_URL
+              value: "{{ .Values.config.kong.url }}"
+            - name: KONG_COMMON_API_KEY
+              value: "{{ .Values.config.kong.commonAPIKey }}"
+            - name: KONG_INIT_API_KEY
+              value: "{{ .Values.config.kong.initAPIKey }}"
+            - name: KONG_ENRICH_API_KEY
+              value: "{{ .Values.config.kong.enrichAPIKey }}"
+            - name: KONG_UNDERWRITE_API_KEY
+              value: "{{ .Values.config.kong.underwriteAPIKey }}"
+            - name: KONG_BRE_API_KEY
+              value: "{{ .Values.config.kong.breAPIKey }}"
+            - name: KONG_CLMS_API_KEY
+              value: "{{ .Values.config.kong.clmsAPIKey }}"
+          volumeMounts:
+          - name: environmentjson
+            mountPath: /usr/src/app/public/clo/assets/env
+      volumes:
+        - name: environmentjson
+          configMap:
+            name: quantumuiconfig
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      imagePullSecrets:
+        - name: {{ .Values.dockerRegSecret }}
